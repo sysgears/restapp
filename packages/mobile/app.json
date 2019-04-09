@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "REST App",
+    "description": "A React Native mobile app based on REST App",
+    "icon": "../../app.png",
+    "version": "1.0.0",
+    "slug": "restapp",
+    "sdkVersion": "32.0.0",
+    "ios": {
+      "bundleIdentifier": "com.sysgears.restapp"
+    },
+    "android": {
+      "package": "com.sysgears.restapp"
+    }
+  }
+}

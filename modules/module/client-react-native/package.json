@@ -1,0 +1,8 @@
+{
+  "name": "@restapp/module-client-react-native",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@restapp/module-common": "^0.1.0"
+  }
+}

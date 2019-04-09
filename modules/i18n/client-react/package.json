@@ -1,0 +1,9 @@
+{
+  "name": "@restapp/i18n-client-react",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@restapp/look-client-react": "^0.1.0",
+    "@restapp/look-client-react-native": "^0.1.0"
+  }
+}
