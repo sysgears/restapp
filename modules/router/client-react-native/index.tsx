@@ -1,5 +1,5 @@
 import React from 'react';
-import { createDrawerNavigator, NavigationContainer } from 'react-navigation';
+import { createAppContainer, createDrawerNavigator, NavigationContainer } from 'react-navigation';
 
 import ClientModule from '@restapp/module-client-react-native';
 import { DrawerComponent } from '@restapp/look-client-react-native';
@@ -7,7 +7,7 @@ import { DrawerComponent } from '@restapp/look-client-react-native';
 const ref: { navigator: NavigationContainer } = { navigator: null };
 
 const MainScreenNavigator = () => {
-  const Navigator = ref.navigator;
+  const Navigator = createAppContainer(ref.navigator);
   return <Navigator />;
 };
 
