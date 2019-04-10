@@ -1,4 +1,7 @@
-const addControllers = (app, modules) => {
+import ServerModule from '@restapp/module-server-ts';
+import { Express } from 'express';
+
+const addControllers = (app: Express, modules: ServerModule) => {
   modules.restApi.forEach(({ route, controller, method }) => {
     switch (method) {
       case 'GET':
