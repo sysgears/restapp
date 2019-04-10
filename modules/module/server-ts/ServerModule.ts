@@ -1,6 +1,12 @@
-import { Express } from 'express';
+import { Express, Request, Response } from 'express';
 import CommonModule, { CommonModuleShape } from '@restapp/module-common';
 
+enum RestMethod {
+  Get = 'GET',
+  Post = 'POST',
+  Put = 'PUT',
+  Delete = 'DELETE'
+}
 interface CreateContextFuncProps {
   req: Request;
   res: Response;
@@ -14,6 +20,7 @@ export interface ServerModuleShape extends CommonModuleShape {
   // Middleware
   beforeware?: Array<(app: Express, appContext: { [key: string]: any }) => void>;
   middleware?: Array<(app: Express, appContext: { [key: string]: any }) => void>;
+  restApi?: Array<{ route: string; method: RestMethod; controller: (req: Request, res: Response) => void }>;
   // Shared modules data
   data?: { [key: string]: any };
 }
