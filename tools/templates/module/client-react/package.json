@@ -1,5 +1,5 @@
 {
-  "name": "@gqlapp/$-module$-client-react",
-  "version": "1.0.0",
+  "name": "@restapp/$-module$-client-react",
+  "version": "0.1.0",
   "private": true
 }

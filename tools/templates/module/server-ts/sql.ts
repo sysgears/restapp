@@ -1,4 +1,4 @@
-import { knex } from '@gqlapp/database-server-ts';
+import { knex } from '@restapp/database-server-ts';
 
 export default class $Module$ {
   public $module$s() {
