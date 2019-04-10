@@ -23,20 +23,24 @@ class ClientModule extends BaseModule {
   }
 
   get navItems() {
-    return this.navItem.map((component: React.ReactElement<any>, idx: number, items: Array<React.ReactElement<any>>) =>
-      React.cloneElement(component, {
-        key: component.key || idx + items.length
-      })
-    );
+    return this.navItem
+      ? this.navItem.map((component: React.ReactElement<any>, idx: number, items: Array<React.ReactElement<any>>) =>
+          React.cloneElement(component, {
+            key: component.key || idx + items.length
+          })
+        )
+      : [];
   }
 
   get navItemsRight() {
-    return this.navItemRight.map(
-      (component: React.ReactElement<any>, idx: number, items: Array<React.ReactElement<any>>) =>
-        React.cloneElement(component, {
-          key: component.key || idx + items.length
-        })
-    );
+    return this.navItemRight
+      ? this.navItemRight.map(
+          (component: React.ReactElement<any>, idx: number, items: Array<React.ReactElement<any>>) =>
+            React.cloneElement(component, {
+              key: component.key || idx + items.length
+            })
+        )
+      : [];
   }
 
   get stylesInserts() {
