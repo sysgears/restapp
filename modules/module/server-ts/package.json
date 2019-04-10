@@ -1,0 +1,9 @@
+{
+  "name": "@restapp/module-server-ts",
+  "version": "0.1.0",
+  "prefab": "modules/module/server-ts",
+  "dependencies": {
+    "@restapp/module-common": "^0.1.0"
+  }
+}
+

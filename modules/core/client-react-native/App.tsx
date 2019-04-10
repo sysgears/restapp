@@ -1,0 +1,40 @@
+import React from 'react';
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+import url from 'url';
+
+import ClientModule from '@restapp/module-client-react-native';
+import log from '../../../packages/common/log';
+
+const { protocol, pathname, port } = url.parse(__API_URL__);
+
+interface MainProps {
+  children?: any;
+  exp: any;
+  modules: ClientModule;
+}
+
+export default class Main extends React.Component<MainProps> {
+  public render() {
+    const { hostname } = url.parse(__API_URL__);
+    const { modules } = this.props;
+
+    const apiUrl =
+      this.props.exp.manifest.bundleUrl && hostname === 'localhost'
+        ? `${protocol}//${url.parse(this.props.exp.manifest.bundleUrl).hostname}:${port}${pathname}`
+        : __API_URL__;
+
+    const store = createStore(
+      Object.keys(modules.reducers).length > 0
+        ? combineReducers({
+            ...modules.reducers
+          })
+        : state => state,
+      {} // initial state
+    );
+
+    log.info(`Connecting to REST backend at: ${apiUrl}`);
+
+    return modules.getWrappedRoot(<Provider store={store}>{modules.getDataRoot(modules.router)}</Provider>);
+  }
+}

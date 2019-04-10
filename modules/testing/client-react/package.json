@@ -1,0 +1,8 @@
+{
+  "name": "@restapp/testing-client-react",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@restapp/core-client-react": "^0.1.0"
+  }
+}
