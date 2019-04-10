@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 
+import { isApiExternal } from '@restapp/core-common';
 import ServerModule from '@restapp/module-server-ts';
 
 import websiteMiddleware from './middleware/website';
@@ -16,6 +17,10 @@ export const createServerApp = (modules: ServerModule) => {
 
   if (__DEV__) {
     app.get('/servdir', (req, res) => res.send(process.cwd() + path.sep));
+  }
+
+  if (!isApiExternal) {
+    app.get('/api', (req, res, next) => res.json({ message: 'REST API: Success' }));
   }
 
   app.use(websiteMiddleware(modules));
