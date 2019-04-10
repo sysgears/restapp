@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Container, Navbar, Nav, NavItem } from 'reactstrap';
+import { Container, Navbar, Nav } from 'reactstrap';
 
 import settings from '../../../../../settings';
 
@@ -18,16 +18,7 @@ const NavBar = () => (
         {ref.modules.navItems}
       </Nav>
 
-      <Nav className="justify-content-end">
-        {ref.modules.navItemsRight}
-        {__DEV__ && (
-          <NavItem>
-            <a href="/graphiql" className="nav-link">
-              GraphiQL
-            </a>
-          </NavItem>
-        )}
-      </Nav>
+      <Nav className="justify-content-end">{ref.modules.navItemsRight}</Nav>
     </Container>
   </Navbar>
 );

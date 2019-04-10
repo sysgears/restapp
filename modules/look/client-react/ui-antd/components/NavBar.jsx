@@ -49,11 +49,6 @@ class NavBar extends React.Component {
             style={{ lineHeight: '64px', float: 'right' }}
           >
             {ref.modules.navItemsRight}
-            {__DEV__ && (
-              <MenuItem>
-                <a href="/graphiql">GraphiQL</a>
-              </MenuItem>
-            )}
           </Menu>
         </Col>
       </Row>
