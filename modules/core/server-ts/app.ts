@@ -12,8 +12,12 @@ export const createServerApp = (modules: ServerModule) => {
   // Don't rate limit heroku
   app.enable('trust proxy');
 
-  modules.beforeware.forEach(applyBeforeware => applyBeforeware(app, modules.appContext));
-  modules.middleware.forEach(applyMiddleware => applyMiddleware(app, modules.appContext));
+  if (modules.beforeware) {
+    modules.beforeware.forEach(applyBeforeware => applyBeforeware(app, modules.appContext));
+  }
+  if (modules.middleware) {
+    modules.middleware.forEach(applyMiddleware => applyMiddleware(app, modules.appContext));
+  }
 
   if (__DEV__) {
     app.get('/servdir', (req, res) => res.send(process.cwd() + path.sep));
