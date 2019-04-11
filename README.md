@@ -219,7 +219,7 @@ You can contact us via [Skype] or email [info@sysgears.com](mailto:info@sysgears
 
 ## License
 
-Copyright &copy; 2016, 2017 [SysGears INC]. This source code is licensed under the [MIT] license.
+Copyright &copy; 2016-2019 [SysGears (Cyprus) Limited]. This source code is licensed under the [MIT] license.
 
 [our chat]: https://gitter.im/sysgears/restapp
 [mit]: LICENSE
@@ -253,7 +253,7 @@ Copyright &copy; 2016, 2017 [SysGears INC]. This source code is licensed under t
 [writing code]: https://github.com/sysgears/restapp/blob/master/docs/writingCode.md
 [rest app cli]: https://github.com/sysgears/restapp/blob/master/docs/tools/cli.md
 [available scripts]: https://github.com/sysgears/restapp/blob/master/docs/yarnScripts.md
-[sysgears inc]: http://sysgears.com
+[sysgears (cyprus) limited]: http://sysgears.com
 [gitter channel]: https://gitter.im/sysgears/restapp
 [github issues]: https://github.com/sysgears/restapp/issues
 [wiki]: https://github.com/sysgears/restapp/wiki
