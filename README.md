@@ -28,12 +28,9 @@ great possibilities for styling for your web and mobile applications.
   * [Project Structure](#project-structure)
   * [REST App Documentation](#rest-app-documentation)
   * [Support](#support)
-    - [Community Support](#community-support)
-    - [Commercial Support](#commercial-support)
-  - [Contributors](#contributors)
-  - [Backers](#backers)
-  - [Sponsors](#sponsors)
-  - [License](#license)
+    * [Community Support](#community-support)
+    * [Commercial Support](#commercial-support)
+  * [License](#license)
 
 ## Overview
 
@@ -200,12 +197,12 @@ Follow to the documentation concerning different aspects of how to run, configur
     * [Installing and Running REST App]
     * [Running the Mobile App with Expo]
     * [Running REST App in a Mobile Simulator]
+* [Running REST App with Docker]
 * [Deploying REST App to Production]
 * [Configuring REST App]
 * [Features and Modules]
 * [Writing Code]
 * [Available Scripts]
-* [Frequently Asked Questions]
 
 Tools
 
@@ -217,7 +214,6 @@ Tools
 
 * [GitHub issues] &ndash; submit issues and send feature requests
 * [Wiki] &ndash; read documentation for the usage scenarios of the starter kit; edit the documentation
-* [FAQ] &ndash; consult the Frequently Asked Questions section in Wiki
 
 ### Commercial Support
 
@@ -250,17 +246,17 @@ Copyright &copy; 2016, 2017 [SysGears INC]. This source code is licensed under t
 [sqlite installation guide]: http://www.sqlitetutorial.net/download-install-sqlite/
 [http://localhost:3000]: http://localhost:3000
 [http://localhost:8080]: http://localhost:8080
-[Getting started]: https://github.com/sysgears/restapp/blob/master/docs/gettingStarted.md
-[Installing and Running REST App]: https://github.com/sysgears/restapp/blob/master/docs/gettingStarted.md#installing-and-running-rest-app
-[Running the mobile app with expo]: https://github.com/sysgears/apollo-universal-starter-kit/blob/master/docs/gettingStarted.md#running-the-mobile-app-with-expo
-[Running REST App in a mobile simulator]: https://github.com/sysgears/restapp/blob/master/docs/gettingStarted.md#running-rest-app-in-a-mobile-simulator
-[Deploying REST App to production]: https://github.com/sysgears/restapp/blob/master/docs/deployment.md
-[Configuring REST App]: https://github.com/sysgears/restapp/blob/master/docs/configuration.md
-[Features and modules]: https://github.com/sysgears/restapp/blob/master/docs/featuresAndModules.md
-[Writing code]: https://github.com/sysgears/restapp/blob/master/docs/writingCode.md
-[REST App cli]: https://github.com/sysgears/restapp/blob/master/docs/tools/cli.md
-[Available scripts]: https://github.com/sysgears/restapp/blob/master/docs/yarnScripts.md
-[Frequently asked questions]: https://github.com/sysgears/restapp/blob/master/docs/faq.md
+[getting started]: https://github.com/sysgears/restapp/blob/master/docs/gettingStarted.md
+[installing and running rest app]: https://github.com/sysgears/restapp/blob/master/docs/gettingStarted.md#installing-and-running-rest-app
+[running the mobile app with expo]: https://github.com/sysgears/apollo-universal-starter-kit/blob/master/docs/gettingStarted.md#running-the-mobile-app-with-expo
+[running rest app in a mobile simulator]: https://github.com/sysgears/restapp/blob/master/docs/gettingStarted.md#running-rest-app-in-a-mobile-simulator
+[running rest app with docker]: https://github.com/sysgears/apollo-universal-starter-kit/blob/master/docs/docker.md
+[deploying rest app to production]: https://github.com/sysgears/restapp/blob/master/docs/deployment.md
+[configuring rest app]: https://github.com/sysgears/restapp/blob/master/docs/configuration.md
+[features and modules]: https://github.com/sysgears/restapp/blob/master/docs/featuresAndModules.md
+[writing code]: https://github.com/sysgears/restapp/blob/master/docs/writingCode.md
+[rest app cli]: https://github.com/sysgears/restapp/blob/master/docs/tools/cli.md
+[available scripts]: https://github.com/sysgears/restapp/blob/master/docs/yarnScripts.md
 [sysgears inc]: http://sysgears.com
 [github issues]: https://github.com/sysgears/restapp/issues
 [wiki]: https://github.com/sysgears/restapp/wiki
