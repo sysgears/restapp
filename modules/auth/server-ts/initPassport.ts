@@ -1,15 +1,5 @@
 import passport from 'passport';
 import { Strategy } from 'passport-local';
-import { Request, Response } from 'express';
-
-export const authenticationMiddleware = () => {
-  return (req: Request, res: Response, next: any) => {
-    if (req.isAuthenticated()) {
-      return next();
-    }
-    res.redirect('/');
-  };
-};
 
 const userDB = {
   username: 'test-user',
