@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+- '9'
+cache:
+  directories:
+  - "$HOME/.cache/yarn"
+  - ".cache"
+dist: trusty
+os:
+- linux
+script:
+- yarn test
+before_deploy: rm -rf node_modules
+deploy:
+  provider: heroku
+  api_key:
+    secure: scfWqw3nSwhYHYPV20q1aPM6aYBjNLnAuNLWKVPbKZNSa4Agbsx6eEf2u0SDKdpQa/wgSNpLvsuG20jKHGqm6Bnu6O1mMPL8LmcFneDE8mPo44gUnfyCKkKOlu2HWeswgqCU6KfNQM0b+X1kAoAveGf8ONQBM0oDzO6NwNHApiyC8jI3YwA86x+GW2IuEHTXsy8AaqpfYkzXkXphNFJ5t+eVVi7Ahuzsq0O0mOCJbN/ofSJugVJsus/OURXgN0IE0Qea3W1mLvRYh9dGKoB+XnAk79PMDh/p8zjalv55fbvg2KSxIM8JkjOuk1cr+xOsjzMZOsvxJmWLOKZ8HFerldza26JWISbmt5GAmtItNLH0K1y7p1v4Gv3hwKw0N+PLMGUge4N4bf3pAs6fCAr//Tkk0lflE/mU07TQsxYrsiVuHLD47w7Z+2rhd6gk31OlGuiErjnBRzDalQN+UQmtX40UkPnMb3zu4YjCKm311z7rdKPgnPl1RZcXL5KzwuPVovTLdPX3ypS1d2UPh5FlfB9Q6aGki+OJJVleYqt6zX371lDptEqAOgroINby86Gu5RaTpe+h9ukpNCquh8CY6MmVRwLzT51jJT4IUHQ+gLPRmJlVnG+ZstTZw6bAEBEDJOSh6e5zWNjz8qLxUzQ7WJsDMcVMbcnOMD1r4lK2NQI=
+  app: restappkit
+  on:
+    repo: sysgears/restapp
