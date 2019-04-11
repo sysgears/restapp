@@ -1,7 +1,10 @@
 # REST App
 
+[![Join the chat at https://gitter.im/sysgears/restapp](https://badges.gitter.im/sysgears/apollo-fullstack-starter-kit.svg)](https://gitter.im/sysgears/restapp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Twitter Follow](https://img.shields.io/twitter/follow/sysgears.svg?style=social)](https://twitter.com/sysgears)
+
+**Use [our chat] to get help or discuss general topics about REST App.**
 
 ## Description
 
@@ -203,6 +206,7 @@ Tools
 
 ### Community Support
 
+* [Gitter channel] &ndash; ask questions, find answers, and participate in general discussions
 * [GitHub issues] &ndash; submit issues and send feature requests
 * [Wiki] &ndash; read documentation for the usage scenarios of the starter kit; edit the documentation
 
@@ -217,6 +221,7 @@ You can contact us via [Skype] or email [info@sysgears.com](mailto:info@sysgears
 
 Copyright &copy; 2016, 2017 [SysGears INC]. This source code is licensed under the [MIT] license.
 
+[our chat]: https://gitter.im/sysgears/restapp
 [mit]: LICENSE
 [universal javascript]: https://medium.com/@mjackson/universal-javascript-4761051b7ae9
 [jwt]: https://jwt.io
@@ -249,6 +254,7 @@ Copyright &copy; 2016, 2017 [SysGears INC]. This source code is licensed under t
 [rest app cli]: https://github.com/sysgears/restapp/blob/master/docs/tools/cli.md
 [available scripts]: https://github.com/sysgears/restapp/blob/master/docs/yarnScripts.md
 [sysgears inc]: http://sysgears.com
+[gitter channel]: https://gitter.im/sysgears/restapp
 [github issues]: https://github.com/sysgears/restapp/issues
 [wiki]: https://github.com/sysgears/restapp/wiki
 [faq]: https://github.com/sysgears/restapp/wiki/Frequently-Asked-Questions
