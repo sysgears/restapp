@@ -6,7 +6,6 @@ import ServerModule from '@restapp/module-server-ts';
 
 import websiteMiddleware from './middleware/website';
 import errorMiddleware from './middleware/error';
-import addControllers from './api/addControllers';
 
 export const createServerApp = (modules: ServerModule) => {
   const app = express();
@@ -25,7 +24,9 @@ export const createServerApp = (modules: ServerModule) => {
   }
 
   if (!isApiExternal) {
-    addControllers(app, modules);
+    if (modules.middlewareApi) {
+      modules.middlewareApi.forEach(applyMiddleware => applyMiddleware(app, modules.appContext));
+    }
     app.get('/api', (req, res, next) => res.json({ message: 'REST API: Success' }));
   }
 
