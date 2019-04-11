@@ -4,12 +4,13 @@ In this section, you'll install REST App and run the project for web or mobile d
 
 Follow the links below to the installation sections you're interested in:
 
-1. [Installing and Running REST App](#installing-and-running-rest-app)
-2. [Running the Mobile App with Expo](#running-the-mobile-app-with-expo)
-3. [Running REST App in a Mobile Simulator](#running-rest-app-in-a-mobile-simulator)
-    * [Android Studio](#android-studio)
-    * [Genymotion](#genymotion)
-    * [Xcode](#xcode)
+- [Getting Started with REST App](#getting-started-with-rest-app)
+  - [Installing and Running REST App](#installing-and-running-rest-app)
+  - [Running the Mobile App with Expo](#running-the-mobile-app-with-expo)
+  - [Running REST App in a Mobile Simulator](#running-rest-app-in-a-mobile-simulator)
+    - [Android Studio](#android-studio)
+    - [Genymotion](#genymotion)
+    - [Xcode](#xcode)
 
 ## Installing and Running REST App
 
@@ -18,7 +19,7 @@ Follow the links below to the installation sections you're interested in:
 2. Clone the master branch of REST App.
 
 ```bash
-git clone -b master https://github.com/sysgears/restapp.git
+git clone https://github.com/sysgears/restapp.git
 cd restapp
 ```
 

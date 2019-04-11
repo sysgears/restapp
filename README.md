@@ -81,15 +81,6 @@ architecture_. Thanks to this approach, it's possible to remove any built-in mod
 without breaking the application. We recommend that you develop your custom modules with the same idea in mind when 
 using our app.
 
-REST App comes with the following modules:
-
-* **Authentication**. Authentication via social networks (Facebook, GitHub, LinkedIn, and Google using OAuth) and 
-password-based authentication; refreshing a forgotten password
-* **Authorization**. Permission-based authorization with various user roles
-* **Internationalization**. A complete internationalization solution for the client and server
-* **State Management**. The application state stored in the database and on the client using different approaches
-* **404 Not Found Page**. A minimalistic module for handling 404 requests
-
 To learn more about the features and modules available in REST App, follow to the dedicated section 
 [Features and Modules].
 
@@ -97,10 +88,10 @@ To learn more about the features and modules available in REST App, follow to th
 
 Verify if you use Node.js 6.x or higher (Node.js ^10 is recommended) before running the starter kit.
 
-1. Clone the master branch of REST Aapp.
+1. Clone the master branch of REST App.
 
 ```
-git clone -b master https://github.com/sysgears/restapp.git
+git clone https://github.com/sysgears/restapp.git
 cd restapp
 ```
 
@@ -122,7 +113,7 @@ yarn
 
 You can use NPM instead of Yarn to handle the dependencies and to run scripts. Throughout the REST App documentation, we'll always use Yarn.
 
-1. Seed sample data to the database. The command below will create new tables with sample data in SQLite:
+3. Seed sample data to the database. The command below will create new tables with sample data in SQLite:
 
 ```
 yarn seed

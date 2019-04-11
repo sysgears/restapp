@@ -5,7 +5,7 @@
 1. Clone the latest master branch of REST App and `cd` into the project folder:
 
 ```bash
-git clone -b master https://github.com/sysgears/restapp.git
+git clone https://github.com/sysgears/restapp.git
 cd restapp
 ```
 
