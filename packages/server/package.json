@@ -54,7 +54,7 @@
     "@restapp/core-common": "^0.1.0",
     "@restapp/database-server-ts": "^0.1.0",
     "@restapp/testing-server-ts": "^0.1.0",
-    "@restapp/welcome-server-ts": "^1.0.0",
+    "@restapp/welcome-server-ts": "^0.1.0",
     "@types/pdfmake": "^0.1.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",

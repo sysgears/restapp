@@ -100,7 +100,7 @@ function addDependency({ moduleName, modulePackageName, packageName, old }) {
 
   // Insert package and sort
   const dependenciesSorted = dependencies.split(',');
-  dependenciesSorted.push(`\n    "${computeModulePackageName(moduleName, modulePackageName, old)}": "^1.0.0"`);
+  dependenciesSorted.push(`\n    "${computeModulePackageName(moduleName, modulePackageName, old)}": "^0.1.0"`);
   dependenciesSorted.sort();
 
   // Add module to package list
