@@ -1,3 +1,4 @@
+import user from '@restapp/user-server-ts';
 import auth from '@restapp/auth-server-ts';
 import welcome from '@restapp/welcome-server-ts';
 import core from '@restapp/core-server-ts';
@@ -9,6 +10,6 @@ import '@restapp/debug-server-ts';
 
 import ServerModule from '@restapp/module-server-ts';
 
-const modules: ServerModule = new ServerModule(auth, welcome, cookies, i18n, validation, mailer, core);
+const modules: ServerModule = new ServerModule(user, auth, welcome, cookies, i18n, validation, mailer, core);
 
 export default modules;

@@ -7,7 +7,7 @@ interface CreateContextFuncProps {
   appContext: { [key: string]: any };
 }
 
-enum RestMethod {
+export enum RestMethod {
   POST = 'post',
   GET = 'get',
   PUT = 'put',

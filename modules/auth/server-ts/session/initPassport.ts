@@ -26,6 +26,7 @@ passport.deserializeUser((username, cb) => {
 
 const initPassport = () => {
   passport.use(
+    'login',
     new Strategy((username: string, password: string, done: any) => {
       if (username !== userDB.username || password !== userDB.password) {
         return done(null, false, { message: 'Incorrect username or password.' });

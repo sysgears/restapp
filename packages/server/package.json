@@ -55,6 +55,7 @@
     "@restapp/core-common": "^0.1.0",
     "@restapp/database-server-ts": "^0.1.0",
     "@restapp/testing-server-ts": "^0.1.0",
+    "@restapp/user-server-ts": "^0.1.0",
     "@restapp/welcome-server-ts": "^0.1.0",
     "@types/express-session": "^1.15.12",
     "@types/passport": "^1.0.0",
