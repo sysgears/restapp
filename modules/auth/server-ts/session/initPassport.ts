@@ -1,15 +1,15 @@
 import passport from 'passport';
 import { Strategy } from 'passport-local';
 
-const userDB = {
+const userDB: User = {
   username: 'test-user',
-  passWord: '123',
+  password: '123',
   id: 1
 };
 
 interface User {
   username: string;
-  passWord: string;
+  password: string;
   id: number;
 }
 
@@ -26,12 +26,10 @@ passport.deserializeUser((username, cb) => {
 
 const initPassport = () => {
   passport.use(
-    'login',
-    new Strategy((username, password, done) => {
-      if (userDB.username !== username || userDB.passWord !== password) {
-        return done(null, false);
+    new Strategy((username: string, password: string, done: any) => {
+      if (username !== userDB.username || password !== userDB.password) {
+        return done(null, false, { message: 'Incorrect username or password.' });
       }
-
       return done(null, userDB);
     })
   );
