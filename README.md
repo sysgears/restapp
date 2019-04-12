@@ -28,6 +28,7 @@ great possibilities for styling for your web and mobile applications.
     * [Why Use REST App](#why-use-rest-app)
     * [Concept](#concept)
     * [Architecture and Implemented Modules](#architecture-and-implemented-modules)
+  * [Demo](#demo)
   * [First Run of REST App](#first-run-of-rest-app)
   * [Project Structure](#project-structure)
   * [REST App Documentation](#rest-app-documentation)
@@ -42,11 +43,11 @@ great possibilities for styling for your web and mobile applications.
 
 #### I am a Developer
 
-* Better productivity thanks to live reload and (partial) hot code reload
-* A fractal modular application architecture that's easy to support and extend
+* Great productivity thanks to live reload and (partial) hot code reload
+* Fractal modular architecture that's easy to support and extend
 * The possibility to create modules in TypeScript _and_ JavaScript at the same time
 * No need to develop [typical features](#architecture-and-implemented-modules) for your applications
-* Zero project configuration thanks to [Zen]
+* Zero project configuration thanks to [Zen], a builder for JavaScript projects
 
 #### I am a Project Manager
 
@@ -60,23 +61,25 @@ great possibilities for styling for your web and mobile applications.
 
 Developing client-server-mobile projects in JavaScript never was a trivial task. Not only do you have to spend time
 installing the application dependencies and configuring them, but you're also constrained to implement many basic
-functionalities over and over again. And you never have time for building a starter codebase that you can reuse across
+functionalities over and over again. And you never have time to develop a starter codebase that you can reuse across
 all of your projects.
 
-To relieve you from the burden of configuring the project, building the application structure, and implementing typical
-features, we created REST App.
+To relieve you from the burden of configuring the project, developing the application structure, and implementing 
+typical features, we created REST App.
 
 REST App provides you with a client-server-mobile application that you can employ as a foundation
-for developing new web or mobile projects using popular tools from the JavaScript ecosystem. But it doesn't
-just creates a mix of top JS technologies. In fact, REST App is powered by several custom libraries and solutions to
-simplify managing project configurations, creating new modules, building REST API, and perform many other tasks.
+for developing new web or mobile projects using popular tools from the JavaScript ecosystem. But our app does so
+much more than just creating a mix of popular JS technologies &mdash; it's powered by a few **custom** libraries and 
+solutions to simplify managing project configurations, creating new modules, building REST API, and perform many 
+other tasks.
 
-One such solution that helps to build and configure REST App without any complications is [Zen], 
-a custom build tool that configures the project for all the platforms &ndash; web, server, and mobile. With Zen, we 
-drastically reduced the amount of errors caused by third-party libraries for building JavaScript projects.
+One such solution that helps to configure and build REST App-based projects is [Zen], a custom build 
+tool that configures the project for all the platforms &mdash; web, server, and mobile. With Zen, we drastically reduced 
+the amount of errors caused by third-party libraries used for building JavaScript projects.
 
-REST App also consists of many modules that you can augment and adapt to build your specific application, or use 
-as a reference when implementing basic features for your applications even if you build them using other technologies.
+REST App also consists of many modules that you can augment and adapt to develop your specific application. Also,
+you can use those prebuilt modules as a reference when implementing basic features for your applications even if you 
+create them using other technologies.
 
 ### Architecture and Implemented Modules
 
@@ -87,6 +90,11 @@ using our app.
 
 To learn more about the features and modules available in REST App, follow to the dedicated section 
 [Features and Modules].
+
+## Demo
+
+You can try out the latest version of REST App [deployed on Heroku]. If you want to see the mobile
+React Native application in action, check out [this demo on Expo.io].
 
 ## First Run of REST App
 
@@ -143,45 +151,36 @@ guide.
 The project structure presents generally accepted guidelines and patterns for building scalable web and mobile
 applications.
 
-The structure is _fractal_ meaning the functionality is grouped primarily by feature rather than by file type. But the
-current structure isn't prescriptive, and you can change it however you like.
+The structure is _fractal_ meaning the available functionality is grouped primarily by feature rather than by file type. 
+But the current structure isn't prescriptive, and you can change it however you like.
 
 ```
 restapp
 ├── config                      # Various application configurations
 ├── docs                        # Documentation
 ├── node_modules                # Global Node.js modules
-├── modules                     # Common project modules
-├── packages                    # Application source code
-│   ├── client                  # Front-end package
-|   |   ├── node_modules        # Client-related Node.js modules
-│   │   └── src
-│   │   |   ├── _tests_         # Client-related tests
-│   │   |   ├── modules         # Reexported modules for backward-compatibility purposes
-│   │   |   ├── testHelpers     # Test helper for front-end integration tests
-│   │   |   ├── modules.tsx     # Entry point for aggregating React front-end modules
-│   │   |   └── index.tsx       # Entry point to web front end with hot code reload
-|   |   ├── typings             # Types definitions for TypeScript
-│   |   └── .zenrc.js           # Build configuration for the React application
-│   ├── common                  # Yarn package with common code, a Redux store, and logging
-│   ├── mobile                  # Mobile front-end package
-|   |   ├── node_modules        # Mobile-related Node.js modules
-│   │   └── src
-│   │   |   ├── modules.tsx     # Entry point for aggregating React Native front-end modules
-│   │   |   └── index.ts        # Entry point to mobile front end with live code reload
-│   |   └── .zenrc.js           # Build configuration for React Native application
-│   └── server                  # Server package
-|       ├── node_modules        # Server-related Node.js modules
-│       ├── src
-│       │   ├── _tests_         # Server-related tests
-│       |   ├── modules         # Reexported modules for backward-compatibility purposes
-│       │   ├── sql             # Database connector and helpers, reexported for 
-│       │   ├── testHelpers     # Test helper for back-end integration tests
-│       │   ├── modules.ts      # Entry point for aggregating Node back-end modules
-│       │   └── index.ts        # Entry point to back-end with hot code reload
-|       ├── typings             # Types definitions for TypeScript
-│       └── .zenrc.js           # Build configuration for the server
+├── modules                     # All the prebuilt project modules
+├── packages                    # Available packages
+│   ├── client                  # React client
+│   ├── common                  # Common code
+│   ├── mobile                  # React Native mobile client
+│   └── server                  # Node.js and Express server
 └── tools                       # All build and CLI-related files
+```
+
+Inside `modules`, you'll find all the prebuilt modules that REST App comes with. Each module under 
+`modules` contains sub-directories with module implementations for different technologies. For example, if you look up 
+the module `modules/core`, you'll see the following sub-modules:
+
+```
+restapp
+├── modules                       # Available packages
+│   ├── core                      # The core module
+│       ├── client-react          # Core functionality for React app
+│       ├── client-react-native   # Core functionality for React Native app
+│       ├── common                # React Native mobile client
+│       └── server-ts             # Core functionality for Express server
+└── tools                         # All build and CLI-related files
 ```
 
 ## REST App Documentation
@@ -239,6 +238,8 @@ Copyright &copy; 2016-2019 [SysGears (Cyprus) Limited]. This source code is lice
 [nativebase]: https://nativebase.io
 [apollokit.org]: https://apollokit.org
 [zen]: https://github.com/sysgears/larix/tree/master/packages/zen
+[deployed on heroku]: https://restappkit.herokuapp.com
+[this demo on Expo.io]: https://expo.io/@sysgears/restapp
 [master]: https://github.com/sysgears/apollo-universal-starter-kit/tree/master
 [sqlite installation guide]: http://www.sqlitetutorial.net/download-install-sqlite/
 [http://localhost:3000]: http://localhost:3000
