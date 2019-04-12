@@ -4,7 +4,9 @@ import { Reducer } from 'redux';
 
 import CommonModule, { CommonModuleShape } from '@restapp/module-common';
 
-import { UniversalCookieRequest } from 'universal-cookie-express';
+interface UniversalCookieRequest {
+  universalCookies?: any;
+}
 
 export interface BaseModuleShape extends CommonModuleShape {
   reducer?: Array<{ [key: string]: Reducer }>;
