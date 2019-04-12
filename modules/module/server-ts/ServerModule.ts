@@ -7,6 +7,13 @@ interface CreateContextFuncProps {
   appContext: { [key: string]: any };
 }
 
+enum RestMethod {
+  POST = 'post',
+  GET = 'get',
+  PUT = 'put',
+  DELETE = 'delete'
+}
+
 export interface ServerModuleShape extends CommonModuleShape {
   createContextFunc?: Array<
     (props: CreateContextFuncProps, appContext?: { [key: string]: any }) => { [key: string]: any }
@@ -14,7 +21,11 @@ export interface ServerModuleShape extends CommonModuleShape {
   // Middleware
   beforeware?: Array<(app: Express, appContext: { [key: string]: any }) => void>;
   middleware?: Array<(app: Express, appContext: { [key: string]: any }) => void>;
-  middlewareApi?: Array<(app: Express, appContext: { [key: string]: any }) => void>;
+  apiRouteParams?: Array<{
+    method: RestMethod;
+    route: string;
+    middleware: Array<(req: Request, res: Response, next: any) => void>;
+  }>;
   // Shared modules data
   data?: { [key: string]: any };
 }
@@ -36,6 +47,14 @@ class ServerModule extends CommonModule {
       context = await createContextFunc({ req, res, appContext });
     }
     return context;
+  }
+
+  public get apiRoute() {
+    return this.apiRouteParams.map(({ method, route, middleware }) => {
+      return (app: Express) => {
+        app[method](`/api/${route}`, ...middleware);
+      };
+    });
   }
 }
 
