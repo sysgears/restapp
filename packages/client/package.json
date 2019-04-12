@@ -50,6 +50,7 @@
     "@restapp/validation-common-react": "^0.1.0",
     "@restapp/welcome-client-react": "^0.1.0",
     "@restapp/authentication-client-react": "^0.1.0",
+    "@restapp/user-client-react": "^0.1.0",
     "antd": "^3.10.0",
     "babel-polyfill": "^6.26.0",
     "bootstrap": "^4.1.1",

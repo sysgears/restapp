@@ -4,7 +4,9 @@ export interface ModuleShape {
   onAppCreate?: Array<(modules: Module, entryModule: NodeModule) => void>;
 }
 
-interface Module extends ModuleShape {}
+interface Module extends ModuleShape {
+  drawerItems: any;
+}
 
 class Module {
   constructor(...modules: ModuleShape[]) {

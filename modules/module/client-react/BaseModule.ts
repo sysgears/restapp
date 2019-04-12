@@ -4,10 +4,12 @@ import { Reducer } from 'redux';
 
 import CommonModule, { CommonModuleShape } from '@restapp/module-common';
 
+import { UniversalCookieRequest } from 'universal-cookie-express';
+
 export interface BaseModuleShape extends CommonModuleShape {
   reducer?: Array<{ [key: string]: Reducer }>;
   router?: React.ReactElement<any>;
-  rootComponentFactory?: Array<(req: Request) => React.ReactElement<any>>;
+  rootComponentFactory?: Array<(req: Request & UniversalCookieRequest) => React.ReactElement<any>>;
   dataRootComponent?: React.ComponentType[];
 }
 

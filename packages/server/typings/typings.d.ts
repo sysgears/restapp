@@ -12,6 +12,3 @@ declare namespace NodeJS {
 }
 
 declare var global: Global;
-
-// packages without types
-declare module 'universal-cookie-express';
