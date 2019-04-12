@@ -19,6 +19,10 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
+    yarn
+  displayName: 'Install dependencies'
+
+- script: |
     yarn test
   displayName: 'Test'
 
