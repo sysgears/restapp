@@ -24,8 +24,8 @@ export const createServerApp = (modules: ServerModule) => {
   }
 
   if (!isApiExternal) {
-    if (modules.middlewareApi) {
-      modules.middlewareApi.forEach(applyMiddleware => applyMiddleware(app, modules.appContext));
+    if (modules.apiRoutes) {
+      modules.apiRoutes.forEach(applyMiddleware => applyMiddleware(app));
     }
     app.get('/api', (req, res, next) => res.json({ message: 'REST API: Success' }));
   }

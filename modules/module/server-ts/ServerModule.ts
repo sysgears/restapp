@@ -49,7 +49,7 @@ class ServerModule extends CommonModule {
     return context;
   }
 
-  public get apiRoute() {
+  public get apiRoutes() {
     return this.apiRouteParams.map(({ method, route, middleware }) => {
       return (app: Express) => {
         app[method](`/api/${route}`, ...middleware);
