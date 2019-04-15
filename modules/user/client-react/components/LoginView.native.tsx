@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { StyleSheet, View, Text, Linking, Platform } from 'react-native';
 import { WebBrowser } from 'expo';
 import { translate } from '@restapp/i18n-client-react';
@@ -7,9 +6,13 @@ import { placeholderColor } from '@restapp/look-client-react-native/styles';
 import { setItem } from '@restapp/core-common/clientStorage';
 import authentication from '@restapp/authentication-client-react';
 
-import LoginForm from './LoginForm';
+import { LoginPropsNative } from '../containers/Login.native';
+import LoginForm from './LoginForm.native';
 
-class LoginView extends React.PureComponent {
+interface LoginViewProps extends LoginPropsNative {
+  onSubmit: () => any;
+}
+class LoginView extends React.PureComponent<LoginViewProps> {
   public componentDidMount() {
     Linking.addEventListener('url', this.handleOpenURL);
   }
@@ -27,13 +30,12 @@ class LoginView extends React.PureComponent {
     // Extract stringified user string out of the URL
     const [, data] = url.match(dataRegExp);
     const decodedData = JSON.parse(decodeURI(data));
-    const { client } = this.props;
 
     if (decodedData.tokens) {
       await setItem('accessToken', decodedData.tokens.accessToken);
       await setItem('refreshToken', decodedData.tokens.refreshToken);
 
-      await authentication.doLogin(client);
+      await authentication.doLogin();
     }
 
     if (Platform.OS === 'ios') {
@@ -98,14 +100,5 @@ const styles = StyleSheet.create({
     flex: 3
   }
 });
-
-LoginView.propTypes = {
-  login: PropTypes.func.isRequired,
-  t: PropTypes.func,
-  onSubmit: PropTypes.func,
-  client: PropTypes.object,
-  error: PropTypes.string,
-  navigation: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
-};
 
 export default translate('user')(LoginView);

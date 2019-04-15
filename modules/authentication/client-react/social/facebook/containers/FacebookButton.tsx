@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare } from '@fortawesome/fontawesome-free-brands';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Button } from '@restapp/look-client-react';
 
 import { SocialButton, SocialButtonComponent } from '../../../index';
@@ -14,7 +15,7 @@ const FacebookButton = ({ text }: SocialButtonComponent) => {
   return (
     <Button type="button" size="lg" onClick={facebookLogin} className="facebookBtn">
       <div className="iconContainer">
-        <FontAwesomeIcon icon={faFacebookSquare} className="facebookIcon" />
+        <FontAwesomeIcon icon={faFacebookSquare as IconProp} className="facebookIcon" />
         <div className="separator" />
       </div>
       <div className="btnText">
@@ -34,7 +35,7 @@ const FacebookLink = ({ text }: SocialButtonComponent) => {
 
 const FacebookIcon = () => (
   <div onClick={facebookLogin}>
-    <FontAwesomeIcon icon={faFacebookSquare} style={{ marginTop: 10, color: '#17427e', fontSize: 40 }} />
+    <FontAwesomeIcon icon={faFacebookSquare as IconProp} style={{ marginTop: 10, color: '#17427e', fontSize: 40 }} />
   </div>
 );
 

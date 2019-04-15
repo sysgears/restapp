@@ -1,6 +1,7 @@
 import React from 'react';
 import faGooglePlusSquare from '@fortawesome/fontawesome-free-brands/faGooglePlusSquare';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Button } from '@restapp/look-client-react';
 
 import { SocialButtonComponent, SocialButton } from '../../../index';
@@ -14,7 +15,7 @@ const GoogleButton = ({ text }: SocialButtonComponent) => {
   return (
     <Button type="button" size="lg" onClick={googleLogin} className="googleBtn">
       <div className="iconContainer">
-        <FontAwesomeIcon icon={faGooglePlusSquare} className="googleIcon" />
+        <FontAwesomeIcon icon={faGooglePlusSquare as IconProp} className="googleIcon" />
         <div className="separator" />
       </div>
       <div className="btnText">
@@ -34,7 +35,7 @@ const GoogleLink = ({ text }: SocialButtonComponent) => {
 
 const GoogleIcon = () => (
   <div onClick={googleLogin}>
-    <FontAwesomeIcon icon={faGooglePlusSquare} style={{ marginTop: 10, color: '#c43832', fontSize: 40 }} />
+    <FontAwesomeIcon icon={faGooglePlusSquare as IconProp} style={{ marginTop: 10, color: '#c43832', fontSize: 40 }} />
   </div>
 );
 

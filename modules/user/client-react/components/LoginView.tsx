@@ -1,13 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 
 import { LayoutCenter, PageLayout, Card, CardGroup, CardTitle, CardText, Button } from '@restapp/look-client-react';
+import { TranslateFunction } from '@restapp/i18n-client-react';
 
+import { OnSubmitProps } from '../containers/Login';
 import LoginForm from './LoginForm';
 import settings from '../../../../settings';
 
-const LoginView = ({ onSubmit, t, isRegistered, hideModal }) => {
+interface LoginViewProps {
+  onSubmit: (values: OnSubmitProps) => any;
+  t?: TranslateFunction;
+  isRegistered?: boolean;
+  hideModal: () => void;
+}
+
+const LoginView = ({ onSubmit, t, isRegistered, hideModal }: LoginViewProps) => {
   const renderMetaData = () => (
     <Helmet
       title={`${settings.app.name} - ${t('login.title')}`}
@@ -57,13 +65,6 @@ const LoginView = ({ onSubmit, t, isRegistered, hideModal }) => {
       </LayoutCenter>
     </PageLayout>
   );
-};
-
-LoginView.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  t: PropTypes.func,
-  isRegistered: PropTypes.bool,
-  hideModal: PropTypes.func
 };
 
 export default LoginView;

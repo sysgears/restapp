@@ -8,6 +8,7 @@ import ClientModule from '@restapp/module-client-react';
 import resources from './locales';
 import DataRootComponent from './containers/DataRootComponent';
 import Login from './containers/Login';
+import Register from './containers/Register';
 
 import { AuthRoute, IfLoggedIn, IfNotLoggedIn, withLoadedUser, withLogout, WithLogoutProps } from './containers/Auth';
 
@@ -22,7 +23,7 @@ export interface CurrentUser {
   email: string;
   fullName: string;
 }
-// TODO check how null redner in dom
+
 const ProfileName: React.FunctionComponent<WithLogoutProps> = withLoadedUser(({ currentUser }) => (
   <React.Fragment>{currentUser ? currentUser.fullName || currentUser.username : null}</React.Fragment>
 ));
@@ -48,19 +49,22 @@ const LogoutLink = withRouter(
 export * from './containers/Auth';
 // export { default as LOGIN } from './graphql/Login.graphql';
 
-const NavLinkUsersWithI18n = translate('user')(({ t }) => (
+const NavLinkUsersWithI18n = translate('user')(({ t }: any) => (
   <NavLink to="/users" className="nav-link" activeClassName="active">
     {t('navLink.users')}
   </NavLink>
 ));
-const NavLinkLoginWithI18n = translate('user')(({ t }) => (
+const NavLinkLoginWithI18n = translate('user')(({ t }: any) => (
   <NavLink to="/login" className="nav-link" activeClassName="active">
     {t('navLink.signIn')}
   </NavLink>
 ));
 
 export default new ClientModule({
-  route: [<AuthRoute exact path="/login" redirectOnLoggedIn redirect="/" component={Login} />],
+  route: [
+    <AuthRoute exact path="/login" redirectOnLoggedIn redirect="/" component={Login} />,
+    <AuthRoute exact path="/register" redirectOnLoggedIn redirect="/profile" component={Register} />
+  ],
   navItem: [
     <IfLoggedIn key="/users" role={UserRole.admin}>
       <MenuItem>

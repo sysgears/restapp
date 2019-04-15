@@ -1,19 +1,26 @@
 import * as React from 'react';
 import * as H from 'history';
-import { translate, TranslateFunction } from '@restapp/i18n-client-react';
+import { TranslateFunction, translate } from '@restapp/i18n-client-react';
 import { FormError } from '@restapp/forms-client-react';
-
 import authentication from '@restapp/authentication-client-react';
+import { compose } from 'redux';
 
 import LoginView from '../components/LoginView';
 
-interface Login {
-  login: (arg: any) => any;
-  t: TranslateFunction;
-  history: H.History;
+export interface LoginProps extends UserComponentProps {
+  login: (values: OnSubmitProps) => any;
 }
 
-const Login: React.FunctionComponent<Login> = props => {
+export interface UserComponentProps {
+  t: TranslateFunction;
+  history?: H.History;
+}
+export interface OnSubmitProps {
+  usernameOrEmail: string;
+  password: string;
+}
+
+const Login: React.FunctionComponent<LoginProps> = props => {
   const { t, login, history } = props;
   const {
     location: { search }
@@ -34,22 +41,18 @@ const Login: React.FunctionComponent<Login> = props => {
     history.push({ search: '' });
   };
 
-  const onSubmit = async values => {
+  const onSubmit = async (values: OnSubmitProps) => {
     try {
       await login(values);
     } catch (e) {
       throw new FormError(t('login.errorMsg'), e);
     }
 
-    await authentication.doLogin(client);
+    await authentication.doLogin();
     history.push('/profile');
   };
 
-  return (
-    <React.Fragment>
-      {isReady && <LoginView {...props} isRegistered={isRegistered} hideModal={hideModal} onSubmit={onSubmit} />}
-    </React.Fragment>
-  );
+  return isReady && <LoginView {...props} isRegistered={isRegistered} hideModal={hideModal} onSubmit={onSubmit} />;
 };
 
-export default Login;
+export default compose(translate('user'))(Login);

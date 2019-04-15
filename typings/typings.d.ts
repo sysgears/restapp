@@ -14,3 +14,6 @@ declare module 'mocha-steps' {
   const step: Mocha.TestFunction;
   const xstep: Mocha.TestFunction;
 }
+
+// packages without types
+declare module 'universal-cookie-express';

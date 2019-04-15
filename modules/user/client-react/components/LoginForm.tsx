@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withFormik } from 'formik';
 import { NavLink, Link } from 'react-router-dom';
 import { isFormError, FieldAdapter as Field } from '@restapp/forms-client-react';
@@ -8,6 +7,8 @@ import { required, minLength, validate } from '@restapp/validation-common-react'
 import { Form, RenderField, Alert, Button } from '@restapp/look-client-react';
 import { LinkedInButton, GoogleButton, GitHubButton, FacebookButton } from '@restapp/authentication-client-react';
 
+import { OnSubmitProps } from '../containers/Login';
+
 import settings from '../../../../settings';
 
 interface SocialButtons {
@@ -15,13 +16,17 @@ interface SocialButtons {
   t: TranslateFunction;
 }
 
-interface LoginForm {
-  handleSubmit: PropTypes.func;
-  onSubmit: PropTypes.func;
+interface LoginFormProps {
+  handleSubmit: (values: OnSubmitProps, {  }: any) => any;
+  onSubmit: () => any;
   submitting: boolean;
-  errors: PropTypes.object;
-  values: PropTypes.object;
+  errors: Errors;
+  values: OnSubmitProps;
   t: TranslateFunction;
+}
+
+interface Errors {
+  errorMsg: string;
 }
 
 const loginFormSchema = {
@@ -31,56 +36,37 @@ const loginFormSchema = {
 const { github, facebook, linkedin, google } = settings.auth.social;
 
 const renderSocialButtons = ({ buttonsLength, t }: SocialButtons) => {
-  return buttonsLength > 2 ? (
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', minWidth: 200 }}>
+  const type: string = buttonsLength > 2 ? 'icon' : 'button';
+  const containerStyle =
+    buttonsLength > 2 ? { display: 'flex', justifyContent: 'space-between', alignItems: 'center', minWidth: 200 } : {};
+
+  return (
+    <div style={containerStyle}>
       {facebook.enabled && (
         <div className="text-center">
-          <FacebookButton text={t('login.fbBtn')} type={'icon'} />
+          <FacebookButton text={t('login.fbBtn')} type={type} />
         </div>
       )}
       {google.enabled && (
         <div className="text-center">
-          <GoogleButton text={t('login.googleBtn')} type={'icon'} />
+          <GoogleButton text={t('login.googleBtn')} type={type} />
         </div>
       )}
       {github.enabled && (
         <div className="text-center">
-          <GitHubButton text={t('login.githubBtn')} type={'icon'} />
+          <GitHubButton text={t('login.githubBtn')} type={type} />
         </div>
       )}
       {linkedin.enabled && (
         <div className="text-center">
-          <LinkedInButton text={t('login.linkedinBtn')} type={'icon'} />
-        </div>
-      )}
-    </div>
-  ) : (
-    <div>
-      {facebook.enabled && (
-        <div className="text-center">
-          <FacebookButton text={t('login.fbBtn')} type={'button'} />
-        </div>
-      )}
-      {google.enabled && (
-        <div className="text-center">
-          <GoogleButton text={t('login.googleBtn')} type={'button'} />
-        </div>
-      )}
-      {github.enabled && (
-        <div className="text-center">
-          <GitHubButton text={t('login.githubBtn')} type={'button'} />
-        </div>
-      )}
-      {linkedin.enabled && (
-        <div className="text-center">
-          <LinkedInButton text={t('login.linkedinBtn')} type={'button'} />
+          <LinkedInButton text={t('login.linkedinBtn')} type={type} />
         </div>
       )}
     </div>
   );
 };
 
-const LoginForm = ({ handleSubmit, submitting, errors, values, t }: LoginForm) => {
+const LoginForm = ({ handleSubmit, submitting, errors, values, t }: LoginFormProps) => {
   const buttonsLength: number = [facebook.enabled, linkedin.enabled, google.enabled, github.enabled].filter(
     button => button
   ).length;
@@ -123,12 +109,12 @@ const LoginForm = ({ handleSubmit, submitting, errors, values, t }: LoginForm) =
   );
 };
 
-const LoginFormWithFormik = withFormik({
+const LoginFormWithFormik = withFormik<LoginFormProps, OnSubmitProps>({
   enableReinitialize: true,
   mapPropsToValues: () => ({ usernameOrEmail: '', password: '' }),
 
-  handleSubmit(values, { setErrors, props: { onSubmit } }) {
-    onSubmit(values).catch(e => {
+  handleSubmit(values, { setErrors, props: { onSubmit } }: any) {
+    onSubmit(values).catch((e: any) => {
       if (isFormError(e)) {
         setErrors(e.errors);
       } else {

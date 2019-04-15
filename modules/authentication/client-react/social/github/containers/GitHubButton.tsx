@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithubSquare } from '@fortawesome/fontawesome-free-brands';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Button } from '@restapp/look-client-react';
 
 import { SocialButton, SocialButtonComponent } from '../../../index';
@@ -14,7 +15,7 @@ const GitHubButton = ({ text }: SocialButtonComponent) => {
   return (
     <Button type="button" size="lg" onClick={githubLogin} className="githubBtn">
       <div className="iconContainer">
-        <FontAwesomeIcon icon={faGithubSquare} className="githubIcon" />
+        <FontAwesomeIcon icon={faGithubSquare as IconProp} className="githubIcon" />
         <div className="separator" />
       </div>
       <div className="btnText">
@@ -34,7 +35,7 @@ const GitHubLink = ({ text }: SocialButtonComponent) => {
 
 const GitHubIcon = () => (
   <div onClick={githubLogin}>
-    <FontAwesomeIcon icon={faGithubSquare} style={{ marginTop: 10, color: '#5f5e5e', fontSize: 40 }} />
+    <FontAwesomeIcon icon={faGithubSquare as IconProp} style={{ marginTop: 10, color: '#5f5e5e', fontSize: 40 }} />
   </div>
 );
 

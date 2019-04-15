@@ -1,6 +1,7 @@
 import React from 'react';
 import { faLinkedin } from '@fortawesome/fontawesome-free-brands';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Button } from '@restapp/look-client-react';
 
 import { SocialButtonComponent, SocialButton } from '../../../index';
@@ -14,7 +15,7 @@ const LinkedInButton = ({ text }: SocialButtonComponent) => {
   return (
     <Button type="button" size="lg" onClick={linkedInLogin} className="linkedInBtn">
       <div className="iconContainer">
-        <FontAwesomeIcon icon={faLinkedin} className="linkedInIcon" />
+        <FontAwesomeIcon icon={faLinkedin as IconProp} className="linkedInIcon" />
         <div className="separator" />
       </div>
       <div className="btnText">
@@ -34,7 +35,7 @@ const LinkedInLink = ({ text }: SocialButtonComponent) => {
 
 const LinkedInIcon = () => (
   <div onClick={linkedInLogin}>
-    <FontAwesomeIcon icon={faLinkedin} style={{ marginTop: 10, color: '#3B5998', fontSize: 40 }} />
+    <FontAwesomeIcon icon={faLinkedin as IconProp} style={{ marginTop: 10, color: '#3B5998', fontSize: 40 }} />
   </div>
 );
 

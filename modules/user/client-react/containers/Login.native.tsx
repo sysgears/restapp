@@ -1,36 +1,41 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { translate } from '@restapp/i18n-client-react';
+import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import { FormError } from '@restapp/forms-client-react';
-
+import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import authentication from '@restapp/authentication-client-react';
 
-import LoginView from '../components/LoginView';
+import LoginView from '../components/LoginView.native';
 
-const Login = props => {
-  const { t, login, client } = props;
+export interface OnSubmitProps {
+  usernameOrEmail: string;
+  password: string;
+}
+export interface UserComponentPropsNative {
+  error?: string;
+  navigation: NavigationScreenProp<NavigationRoute<Params>, Params>;
+  t: TranslateFunction;
+}
+interface Params {}
 
-  const onSubmit = async values => {
+export interface LoginPropsNative extends UserComponentPropsNative {
+  login: (values: OnSubmitProps) => Promise<void> | void;
+}
+
+const Login = (props: LoginPropsNative) => {
+  const { t, login } = props;
+
+  const onSubmit = async (values: OnSubmitProps) => {
     try {
       await login(values);
     } catch (e) {
       throw new FormError(t('login.errorMsg'), e);
     }
 
-    await authentication.doLogin(client);
-    // await client.writeQuery({ query: CURRENT_USER_QUERY, data: { currentUser: login.user } });
+    await authentication.doLogin();
   };
 
   return <LoginView {...props} onSubmit={onSubmit} />;
 };
 
-Login.propTypes = {
-  login: PropTypes.func,
-  t: PropTypes.func,
-  client: PropTypes.object
-};
-
-const LoginWithApollo = compose(translate('user'))(Login);
-
-export default LoginWithApollo;
+export default compose(translate('user'))(Login);

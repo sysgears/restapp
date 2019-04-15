@@ -1,16 +1,28 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, ViewStyle } from 'react-native';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { withFormik } from 'formik';
-import { isFormError, FieldAdapter as Field } from '@gqlapp/forms-client-react';
-import { translate } from '@gqlapp/i18n-client-react';
-import { RenderField, Button, primary, FormView } from '@gqlapp/look-client-react-native';
-import { placeholderColor, submit } from '@gqlapp/look-client-react-native/styles';
-import { required, minLength, validate } from '@gqlapp/validation-common-react';
-import { LinkedInButton, GoogleButton, GitHubButton, FacebookButton } from '@gqlapp/authentication-client-react';
+import { isFormError, FieldAdapter as Field } from '@restapp/forms-client-react';
+import { translate, TranslateFunction } from '@restapp/i18n-client-react';
+import { RenderField, Button, primary, FormView } from '@restapp/look-client-react-native';
+import { placeholderColor, submit } from '@restapp/look-client-react-native/styles';
+import { required, minLength, validate } from '@restapp/validation-common-react';
+import { LinkedInButton, GoogleButton, GitHubButton, FacebookButton } from '@restapp/authentication-client-react';
 
+import { UserComponentPropsNative, OnSubmitProps } from '../containers/Login.native';
 import settings from '../../../../settings';
+
+interface LoginFormProps extends UserComponentPropsNative {
+  handleSubmit: (values: OnSubmitProps, {  }: any) => any;
+  onSubmit: (values: OnSubmitProps) => any;
+  valid: boolean;
+  values: OnSubmitProps;
+}
+
+interface SocialButtons {
+  buttonsLength: number;
+  t: TranslateFunction;
+}
 
 const loginFormSchema = {
   usernameOrEmail: [required, minLength(3)],
@@ -18,25 +30,22 @@ const loginFormSchema = {
 };
 const { github, facebook, linkedin, google } = settings.auth.social;
 
-const renderSocialButtons = (buttonsLength, t) => {
-  return buttonsLength > 2 ? (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-      {facebook.enabled && <FacebookButton text={t('login.fbBtn')} type="icon" />}
-      {google.enabled && <GoogleButton text={t('login.googleBtn')} type="icon" />}
-      {github.enabled && <GitHubButton text={t('login.githubBtn')} type="icon" />}
-      {linkedin.enabled && <LinkedInButton text={t('login.linkedinBtn')} type="icon" />}
-    </View>
-  ) : buttonsLength > 0 ? (
-    <View>
-      {facebook.enabled && <FacebookButton text={t('login.fbBtn')} type="button" />}
-      {google.enabled && <GoogleButton text={t('login.googleBtn')} type="button" />}
-      {github.enabled && <GitHubButton text={t('login.githubBtn')} type="button" />}
-      {linkedin.enabled && <LinkedInButton text={t('login.linkedinBtn')} type="button" />}
+const renderSocialButtons = ({ buttonsLength, t }: SocialButtons) => {
+  const type: string = buttonsLength > 2 ? 'icon' : 'button';
+  const containerStyle: ViewStyle =
+    buttonsLength > 2 ? { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' } : null;
+
+  return buttonsLength > 0 ? (
+    <View style={containerStyle}>
+      {facebook.enabled && <FacebookButton text={t('login.fbBtn')} type={type} />}
+      {google.enabled && <GoogleButton text={t('login.googleBtn')} type={type} />}
+      {github.enabled && <GitHubButton text={t('login.githubBtn')} type={type} />}
+      {linkedin.enabled && <LinkedInButton text={t('login.linkedinBtn')} type={type} />}
     </View>
   ) : null;
 };
 
-const LoginForm = ({ handleSubmit, valid, values, navigation, t }) => {
+const LoginForm = ({ handleSubmit, valid, values, navigation, t }: LoginFormProps) => {
   const buttonsLength = [facebook.enabled, linkedin.enabled, google.enabled, github.enabled].filter(button => button)
     .length;
   return (
@@ -73,7 +82,7 @@ const LoginForm = ({ handleSubmit, valid, values, navigation, t }) => {
                 {t('login.form.btnSubmit')}
               </Button>
             </View>
-            {renderSocialButtons(buttonsLength, t)}
+            {renderSocialButtons({ buttonsLength, t })}
             <View style={styles.buttonsGroup}>
               <Text style={styles.signUpText} onPress={() => navigation.navigate('ForgotPassword')}>
                 {t('login.btn.forgotPass')}
@@ -91,15 +100,6 @@ const LoginForm = ({ handleSubmit, valid, values, navigation, t }) => {
       </View>
     </FormView>
   );
-};
-
-LoginForm.propTypes = {
-  handleSubmit: PropTypes.func,
-  onSubmit: PropTypes.func,
-  valid: PropTypes.bool,
-  values: PropTypes.object,
-  navigation: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-  t: PropTypes.func
 };
 
 const styles = StyleSheet.create({
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const LoginFormWithFormik = withFormik({
+const LoginFormWithFormik = withFormik<LoginFormProps, OnSubmitProps>({
   enableReinitialize: true,
   mapPropsToValues: () => ({ usernameOrEmail: '', password: '' }),
 

@@ -9,6 +9,7 @@ import DataRootComponent from './containers/DataRootComponent';
 import UserScreenNavigator from './containers/UserScreenNavigator.native';
 import Login from './containers/Login.native';
 import Logout from './containers/Logout.native';
+import Register from './containers/Register.native';
 
 interface NavigationOptionsProps {
   navigation: NavigationScreenProp<NavigationRoute<Params>, Params>;
@@ -26,10 +27,20 @@ class LoginScreen extends React.Component<NavigationOptionsProps> {
     return <Login navigation={this.props.navigation} />;
   }
 }
+class RegisterScreen extends React.Component<NavigationOptionsProps> {
+  public static navigationOptions = () => ({
+    headerTitle: <HeaderTitleWithI18n i18nKey="navLink.register" style="subTitle" />,
+    headerForceInset: {}
+  });
+  public render() {
+    return <Register navigation={this.props.navigation} />;
+  }
+}
 
 const AuthScreen = createStackNavigator(
   {
-    Login: { screen: LoginScreen }
+    Login: { screen: LoginScreen },
+    RegisterScreen: { screen: RegisterScreen }
   },
   {
     cardStyle: {
