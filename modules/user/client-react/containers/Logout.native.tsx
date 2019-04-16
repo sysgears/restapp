@@ -8,7 +8,7 @@ import { UserComponentPropsNative } from './Login.native';
 import { withLogout } from './Auth';
 
 interface LogoutViewProps extends UserComponentPropsNative {
-  logout: () => any;
+  logout: () => void;
 }
 
 const LogoutView = ({ logout, t }: LogoutViewProps) => {

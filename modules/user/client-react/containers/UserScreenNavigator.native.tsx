@@ -1,4 +1,4 @@
-import { createAppContainer, createDrawerNavigator, NavigationContainer } from 'react-navigation';
+import { createAppContainer, createDrawerNavigator } from 'react-navigation';
 import React from 'react';
 import { pickBy } from 'lodash';
 import { compose } from 'redux';

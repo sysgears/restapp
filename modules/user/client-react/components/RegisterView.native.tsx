@@ -7,9 +7,16 @@ import RegisterForm from '../components/RegisterForm';
 
 interface RegisterViewProps {
   t: TranslateFunction;
-  onSubmit: () => void;
+  onSubmit: (values: RegisterOnSubmitProps) => void;
   isRegistered: boolean;
   hideModal: () => void;
+}
+
+export interface RegisterOnSubmitProps {
+  username: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
 }
 
 class RegisterView extends React.PureComponent<RegisterViewProps> {

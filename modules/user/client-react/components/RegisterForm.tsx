@@ -1,11 +1,12 @@
 import React from 'react';
-import { withFormik } from 'formik';
+import { withFormik, FormikErrors } from 'formik';
 import { isFormError, FieldAdapter as Field } from '@restapp/forms-client-react';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 
 import { match, email, minLength, required, validate } from '@restapp/validation-common-react';
 import { Form, RenderField, Button, Alert } from '@restapp/look-client-react';
 
+import { RegisterOnSubmitProps } from './RegisterView';
 import settings from '../../../../settings';
 
 const registerFormSchema = {
@@ -16,18 +17,17 @@ const registerFormSchema = {
 };
 
 interface RegisterFormProps {
-  handleSubmit: () => any;
+  handleSubmit: (values: RegisterOnSubmitProps, props: HandleSubmitProps) => void;
+  onSubmit: (values: RegisterOnSubmitProps) => Promise<void> | any;
   submitting: boolean;
   errors: any;
   values: RegisterOnSubmitProps;
   t: TranslateFunction;
 }
 
-interface RegisterOnSubmitProps {
-  username: string;
-  email: string;
-  password: string;
-  passwordConfirmation: string;
+interface HandleSubmitProps {
+  setErrors: (errors: FormikErrors<RegisterOnSubmitProps>) => void;
+  props: RegisterOnSubmitProps;
 }
 
 const RegisterForm = ({ values, handleSubmit, submitting, errors, t }: RegisterFormProps) => {
@@ -68,7 +68,7 @@ const RegisterForm = ({ values, handleSubmit, submitting, errors, t }: RegisterF
 const RegisterFormWithFormik = withFormik<RegisterFormProps, RegisterOnSubmitProps>({
   mapPropsToValues: () => ({ username: '', email: '', password: '', passwordConfirmation: '' }),
   validate: values => validate(values, registerFormSchema),
-  async handleSubmit(values, { setErrors, props: { onSubmit } }: any) {
+  async handleSubmit(values, { setErrors, props: { onSubmit } }) {
     onSubmit(values).catch((e: any) => {
       if (isFormError(e)) {
         setErrors(e.errors);

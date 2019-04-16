@@ -9,8 +9,15 @@ import settings from '../../../../settings';
 
 interface RegisterViewProps {
   t: TranslateFunction;
-  onSubmit: () => void;
+  onSubmit: (values: RegisterOnSubmitProps) => void;
   isRegistered: boolean;
+}
+
+export interface RegisterOnSubmitProps {
+  username: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
 }
 
 const RegisterView = ({ t, onSubmit, isRegistered }: RegisterViewProps) => {

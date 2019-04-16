@@ -10,7 +10,11 @@ import { LoginPropsNative } from '../containers/Login.native';
 import LoginForm from './LoginForm.native';
 
 interface LoginViewProps extends LoginPropsNative {
-  onSubmit: () => any;
+  onSubmit: () => void;
+}
+
+interface LinkingEvent {
+  url: string;
 }
 class LoginView extends React.PureComponent<LoginViewProps> {
   public componentDidMount() {
@@ -21,7 +25,7 @@ class LoginView extends React.PureComponent<LoginViewProps> {
     Linking.removeEventListener('url', this.handleOpenURL);
   }
 
-  public handleOpenURL = async ({ url }) => {
+  public handleOpenURL = async ({ url }: LinkingEvent) => {
     const dataRegExp = /data=([^#]+)/;
     if (!url.match(dataRegExp)) {
       return;

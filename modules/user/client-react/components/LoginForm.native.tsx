@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ViewStyle } from 'react-native';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
-import { withFormik } from 'formik';
+import { withFormik, FormikErrors } from 'formik';
 import { isFormError, FieldAdapter as Field } from '@restapp/forms-client-react';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { RenderField, Button, primary, FormView } from '@restapp/look-client-react-native';
@@ -13,10 +13,15 @@ import { UserComponentPropsNative, OnSubmitProps } from '../containers/Login.nat
 import settings from '../../../../settings';
 
 interface LoginFormProps extends UserComponentPropsNative {
-  handleSubmit: (values: OnSubmitProps, {  }: any) => any;
-  onSubmit: (values: OnSubmitProps) => any;
+  handleSubmit: (values: OnSubmitProps, props: HandleSubmitProps) => void;
+  onSubmit: (values: OnSubmitProps) => Promise<void> | any;
   valid: boolean;
   values: OnSubmitProps;
+}
+
+interface HandleSubmitProps {
+  setErrors: (errors: FormikErrors<OnSubmitProps>) => void;
+  props: LoginFormProps;
 }
 
 interface SocialButtons {
@@ -33,7 +38,7 @@ const { github, facebook, linkedin, google } = settings.auth.social;
 const renderSocialButtons = ({ buttonsLength, t }: SocialButtons) => {
   const type: string = buttonsLength > 2 ? 'icon' : 'button';
   const containerStyle: ViewStyle =
-    buttonsLength > 2 ? { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' } : null;
+    buttonsLength > 2 ? { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' } : {};
 
   return buttonsLength > 0 ? (
     <View style={containerStyle}>
@@ -145,7 +150,7 @@ const LoginFormWithFormik = withFormik<LoginFormProps, OnSubmitProps>({
   mapPropsToValues: () => ({ usernameOrEmail: '', password: '' }),
 
   handleSubmit(values, { setErrors, props: { onSubmit } }) {
-    onSubmit(values).catch(e => {
+    onSubmit(values).catch((e: any) => {
       if (isFormError(e)) {
         setErrors(e.errors);
       } else {

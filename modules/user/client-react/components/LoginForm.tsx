@@ -1,5 +1,5 @@
 import React from 'react';
-import { withFormik } from 'formik';
+import { withFormik, FormikErrors } from 'formik';
 import { NavLink, Link } from 'react-router-dom';
 import { isFormError, FieldAdapter as Field } from '@restapp/forms-client-react';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
@@ -17,12 +17,17 @@ interface SocialButtons {
 }
 
 interface LoginFormProps {
-  handleSubmit: (values: OnSubmitProps, {  }: any) => any;
-  onSubmit: () => any;
+  handleSubmit: (values: OnSubmitProps, props: HandleSubmitProps) => void;
+  onSubmit: () => Promise<void> | any;
   submitting: boolean;
   errors: Errors;
   values: OnSubmitProps;
   t: TranslateFunction;
+}
+
+interface HandleSubmitProps {
+  setErrors: (errors: FormikErrors<OnSubmitProps>) => void;
+  props: LoginFormProps;
 }
 
 interface Errors {

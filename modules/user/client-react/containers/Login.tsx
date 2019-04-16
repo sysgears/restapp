@@ -8,7 +8,7 @@ import { compose } from 'redux';
 import LoginView from '../components/LoginView';
 
 export interface LoginProps extends UserComponentProps {
-  login: (values: OnSubmitProps) => any;
+  login: (values: OnSubmitProps) => void;
 }
 
 export interface UserComponentProps {

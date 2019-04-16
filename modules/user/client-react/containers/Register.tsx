@@ -8,7 +8,7 @@ import RegisterView from '../components/RegisterView';
 import settings from '../../../../settings';
 
 interface RegisterProps extends UserComponentProps {
-  register: (values: OnSubmitProps) => any;
+  register: (values: OnSubmitProps) => void;
 }
 
 const Register: React.FunctionComponent<RegisterProps> = props => {

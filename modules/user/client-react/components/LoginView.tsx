@@ -9,7 +9,7 @@ import LoginForm from './LoginForm';
 import settings from '../../../../settings';
 
 interface LoginViewProps {
-  onSubmit: (values: OnSubmitProps) => any;
+  onSubmit: (values: OnSubmitProps) => void;
   t?: TranslateFunction;
   isRegistered?: boolean;
   hideModal: () => void;
