@@ -1,25 +1,13 @@
 import { Express } from 'express';
 import { Strategy } from 'passport-local';
 import bodyParser from 'body-parser';
-import session from 'express-session';
 import passport from 'passport';
 
 import ServerModule from '@restapp/module-server-ts';
 
-const FileStore = require('session-file-store')(session);
-
 const beforeware = (app: Express) => {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
-  app.use(
-    session({
-      secret: 'secret',
-      store: __DEV__ ? new FileStore() : null,
-      cookie: { maxAge: 60000 },
-      resave: false,
-      saveUninitialized: false
-    })
-  );
   app.use(passport.initialize());
   app.use(passport.session());
 };
@@ -35,17 +23,6 @@ interface User {
   password: string;
   id: number;
 }
-
-passport.serializeUser((user: User, cb) => {
-  cb(null, user.username);
-});
-
-passport.deserializeUser((username, cb) => {
-  if (username === userDB.username) {
-    return cb(null, userDB);
-  }
-  return cb(null);
-});
 
 const onAppCreate = () => {
   passport.use(
