@@ -6,12 +6,15 @@ import passport from 'passport';
 
 import ServerModule from '@restapp/module-server-ts';
 
+const FileStore = require('session-file-store')(session);
+
 const beforeware = (app: Express) => {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
   app.use(
     session({
-      secret: 'passport-tutorial',
+      secret: 'secret',
+      store: __DEV__ ? new FileStore() : null,
       cookie: { maxAge: 60000 },
       resave: false,
       saveUninitialized: false

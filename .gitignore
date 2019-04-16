@@ -13,3 +13,4 @@ jsconfig.json
 public
 *.iml
 .npmrc
+packages/server/sessions

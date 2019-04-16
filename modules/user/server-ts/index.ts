@@ -4,7 +4,7 @@ import passport from 'passport';
 import ServerModule, { RestMethod } from '@restapp/module-server-ts';
 
 const successLogin = (req: Request, res: Response) => {
-  res.send('user is logged in');
+  res.send(req.user);
 };
 
 export default new ServerModule({
