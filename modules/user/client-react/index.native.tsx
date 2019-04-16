@@ -5,12 +5,17 @@ import { HeaderTitle, IconButton } from '@restapp/look-client-react-native';
 import ClientModule from '@restapp/module-client-react-native';
 
 import resources from './locales';
-import DataRootComponent from './containers/DataRootComponent';
+import DataRootComponent from './containers/DataRootComponent.native';
 import UserScreenNavigator from './containers/UserScreenNavigator.native';
 import Login from './containers/Login.native';
 import Logout from './containers/Logout.native';
 import Register from './containers/Register.native';
+export * from './containers/Auth.native';
 
+export enum UserRole {
+  admin = 'admin',
+  user = 'user'
+}
 interface NavigationOptionsProps {
   navigation: NavigationScreenProp<NavigationRoute<Params>, Params>;
 }
@@ -20,7 +25,10 @@ interface Params {}
 class LoginScreen extends React.Component<NavigationOptionsProps> {
   public static navigationOptions = ({ navigation }: NavigationOptionsProps) => ({
     headerTitle: <HeaderTitleWithI18n i18nKey="navLink.signIn" style="subTitle" />,
-    headerLeft: <IconButton iconName="menu" iconSize={32} iconColor="#0275d8" onPress={() => navigation.openDrawer()} />
+    headerLeft: (
+      <IconButton iconName="menu" iconSize={32} iconColor="#0275d8" onPress={() => navigation.openDrawer()} />
+    ),
+    headerForceInset: {}
   });
 
   public render() {
@@ -40,7 +48,7 @@ class RegisterScreen extends React.Component<NavigationOptionsProps> {
 const AuthScreen = createStackNavigator(
   {
     Login: { screen: LoginScreen },
-    RegisterScreen: { screen: RegisterScreen }
+    Register: { screen: RegisterScreen }
   },
   {
     cardStyle: {
@@ -53,8 +61,6 @@ const AuthScreen = createStackNavigator(
 );
 
 const HeaderTitleWithI18n = translate('user')(HeaderTitle);
-
-export * from './containers/Auth';
 
 const ref: { navigator: NavigationContainer } = { navigator: null };
 

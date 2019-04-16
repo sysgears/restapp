@@ -18,7 +18,7 @@ interface SocialButtons {
 
 interface LoginFormProps {
   handleSubmit: (values: OnSubmitProps, props: HandleSubmitProps) => void;
-  onSubmit: () => Promise<void> | any;
+  onSubmit: (values: OnSubmitProps) => Promise<void> | any;
   submitting: boolean;
   errors: Errors;
   values: OnSubmitProps;
@@ -118,7 +118,7 @@ const LoginFormWithFormik = withFormik<LoginFormProps, OnSubmitProps>({
   enableReinitialize: true,
   mapPropsToValues: () => ({ usernameOrEmail: '', password: '' }),
 
-  handleSubmit(values, { setErrors, props: { onSubmit } }: any) {
+  handleSubmit(values, { setErrors, props: { onSubmit } }) {
     onSubmit(values).catch((e: any) => {
       if (isFormError(e)) {
         setErrors(e.errors);

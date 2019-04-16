@@ -4,13 +4,18 @@ import { pickBy } from 'lodash';
 import { compose } from 'redux';
 import { DrawerComponent } from '@restapp/look-client-react-native';
 
+import { UserRole } from '../index.native';
 import { withUser } from './Auth';
 
 interface UserScreenNavigator {
-  currentUser: any;
+  currentUser: User;
   context: any;
   currentUserLoading: boolean;
   routeConfigs: any;
+}
+interface User {
+  id: number | string;
+  role: UserRole;
 }
 
 class UserScreenNavigator extends React.Component<UserScreenNavigator> {
@@ -42,14 +47,17 @@ class UserScreenNavigator extends React.Component<UserScreenNavigator> {
       return showOnLogin && (!role || (Array.isArray(role) ? role : [role]).includes(currentUser.role));
     };
 
-    const guestFilter = (value: any) => !value.userInfo || (value.userInfo && !value.userInfo.showOnLogin);
+    const guestFilter = (value: any) => {
+      const test = !value.userInfo || (value.userInfo && !value.userInfo.showOnLogin);
+      return test;
+    };
 
     return pickBy(routeConfigs, currentUser && !currentUserLoading ? userFilter : guestFilter);
   };
 
   public getInitialRoute = () => {
     const { currentUser } = this.props;
-    return currentUser ? 'Profile' : 'Counter';
+    return currentUser ? 'Profile' : 'Welcome';
   };
 
   public render() {
