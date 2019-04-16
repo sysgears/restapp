@@ -58,6 +58,7 @@
     "@restapp/user-server-ts": "^0.1.0",
     "@restapp/welcome-server-ts": "^0.1.0",
     "@types/express-session": "^1.15.12",
+    "@types/jsonwebtoken": "^8.3.2",
     "@types/passport": "^1.0.0",
     "@types/passport-local": "^1.0.33",
     "@types/pdfmake": "^0.1.3",
