@@ -1,9 +1,11 @@
 import * as React from 'react';
+import * as H from 'history';
 import { CookiesProvider } from 'react-cookie';
 import { NavLink, withRouter } from 'react-router-dom';
-import { translate } from '@restapp/i18n-client-react';
+import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { MenuItem } from '@restapp/look-client-react';
 import ClientModule from '@restapp/module-client-react';
+import { FormikErrors } from 'formik';
 
 import resources from './locales';
 import DataRootComponent from './containers/DataRootComponent';
@@ -22,6 +24,38 @@ export interface CurrentUser {
   isActive: boolean;
   email: string;
   fullName: string;
+}
+export interface LoginSubmitProps {
+  usernameOrEmail: string;
+  password: string;
+}
+
+export interface CommonProps {
+  t: TranslateFunction;
+  history?: H.History;
+}
+
+export interface RegisterSubmitProps {
+  username: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+}
+interface HandleSubmitProps<P> {
+  setErrors: (errors: FormikErrors<P>) => void;
+  props: P;
+}
+
+interface Errors {
+  errorMsg?: string;
+}
+export interface FormProps<V> {
+  handleSubmit: (values: V, props: HandleSubmitProps<V>) => void;
+  onSubmit: (values: V) => Promise<void> | void | any;
+  submitting: boolean;
+  errors: Errors;
+  values: V;
+  t: TranslateFunction;
 }
 
 const ProfileName: React.FunctionComponent<WithLogoutProps> = withLoadedUser(({ currentUser }) => (

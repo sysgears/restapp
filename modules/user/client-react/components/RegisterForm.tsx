@@ -1,12 +1,12 @@
 import React from 'react';
-import { withFormik, FormikErrors } from 'formik';
+import { withFormik } from 'formik';
 import { isFormError, FieldAdapter as Field } from '@restapp/forms-client-react';
-import { translate, TranslateFunction } from '@restapp/i18n-client-react';
+import { translate } from '@restapp/i18n-client-react';
 
 import { match, email, minLength, required, validate } from '@restapp/validation-common-react';
 import { Form, RenderField, Button, Alert } from '@restapp/look-client-react';
 
-import { RegisterOnSubmitProps } from './RegisterView';
+import { FormProps, RegisterSubmitProps } from '..';
 import settings from '../../../../settings';
 
 const registerFormSchema = {
@@ -16,21 +16,7 @@ const registerFormSchema = {
   passwordConfirmation: [match('password'), required, minLength(settings.auth.password.minLength)]
 };
 
-interface RegisterFormProps {
-  handleSubmit: (values: RegisterOnSubmitProps, props: HandleSubmitProps) => void;
-  onSubmit: (values: RegisterOnSubmitProps) => Promise<void> | any;
-  submitting: boolean;
-  errors: any;
-  values: RegisterOnSubmitProps;
-  t: TranslateFunction;
-}
-
-interface HandleSubmitProps {
-  setErrors: (errors: FormikErrors<RegisterOnSubmitProps>) => void;
-  props: RegisterOnSubmitProps;
-}
-
-const RegisterForm = ({ values, handleSubmit, submitting, errors, t }: RegisterFormProps) => {
+const RegisterForm = ({ values, handleSubmit, submitting, errors, t }: FormProps<RegisterSubmitProps>) => {
   return (
     <Form name="register" onSubmit={handleSubmit}>
       <Field
@@ -65,7 +51,7 @@ const RegisterForm = ({ values, handleSubmit, submitting, errors, t }: RegisterF
   );
 };
 
-const RegisterFormWithFormik = withFormik<RegisterFormProps, RegisterOnSubmitProps>({
+const RegisterFormWithFormik = withFormik<FormProps<RegisterSubmitProps>, RegisterSubmitProps>({
   mapPropsToValues: () => ({ username: '', email: '', password: '', passwordConfirmation: '' }),
   validate: values => validate(values, registerFormSchema),
   async handleSubmit(values, { setErrors, props: { onSubmit } }) {

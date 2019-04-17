@@ -1,5 +1,5 @@
 import React from 'react';
-import { withFormik, FormikErrors } from 'formik';
+import { withFormik } from 'formik';
 import { NavLink, Link } from 'react-router-dom';
 import { isFormError, FieldAdapter as Field } from '@restapp/forms-client-react';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
@@ -7,31 +7,13 @@ import { required, minLength, validate } from '@restapp/validation-common-react'
 import { Form, RenderField, Alert, Button } from '@restapp/look-client-react';
 import { LinkedInButton, GoogleButton, GitHubButton, FacebookButton } from '@restapp/authentication-client-react';
 
-import { OnSubmitProps } from '../containers/Login';
+import { FormProps, LoginSubmitProps } from '..';
 
 import settings from '../../../../settings';
 
 interface SocialButtons {
   buttonsLength: number;
   t: TranslateFunction;
-}
-
-interface LoginFormProps {
-  handleSubmit: (values: OnSubmitProps, props: HandleSubmitProps) => void;
-  onSubmit: (values: OnSubmitProps) => Promise<void> | any;
-  submitting: boolean;
-  errors: Errors;
-  values: OnSubmitProps;
-  t: TranslateFunction;
-}
-
-interface HandleSubmitProps {
-  setErrors: (errors: FormikErrors<OnSubmitProps>) => void;
-  props: LoginFormProps;
-}
-
-interface Errors {
-  errorMsg: string;
 }
 
 const loginFormSchema = {
@@ -71,7 +53,7 @@ const renderSocialButtons = ({ buttonsLength, t }: SocialButtons) => {
   );
 };
 
-const LoginForm = ({ handleSubmit, submitting, errors, values, t }: LoginFormProps) => {
+const LoginForm = ({ handleSubmit, submitting, errors, values, t }: FormProps<LoginSubmitProps>) => {
   const buttonsLength: number = [facebook.enabled, linkedin.enabled, google.enabled, github.enabled].filter(
     button => button
   ).length;
@@ -114,7 +96,7 @@ const LoginForm = ({ handleSubmit, submitting, errors, values, t }: LoginFormPro
   );
 };
 
-const LoginFormWithFormik = withFormik<LoginFormProps, OnSubmitProps>({
+const LoginFormWithFormik = withFormik<FormProps<LoginSubmitProps>, LoginSubmitProps>({
   enableReinitialize: true,
   mapPropsToValues: () => ({ usernameOrEmail: '', password: '' }),
 

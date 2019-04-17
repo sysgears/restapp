@@ -2,15 +2,16 @@ import React from 'react';
 import Helmet from 'react-helmet';
 
 import { LayoutCenter, PageLayout, Card, CardGroup, CardTitle, CardText, Button } from '@restapp/look-client-react';
-import { TranslateFunction } from '@restapp/i18n-client-react';
+import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 
-import { OnSubmitProps } from '../containers/Login';
 import LoginForm from './LoginForm';
+import { LoginSubmitProps } from '..';
+
 import settings from '../../../../settings';
 
 interface LoginViewProps {
-  onSubmit: (values: OnSubmitProps) => void;
-  t?: TranslateFunction;
+  onSubmit: (values: LoginSubmitProps) => void;
+  t: TranslateFunction;
   isRegistered?: boolean;
   hideModal: () => void;
 }
@@ -67,4 +68,4 @@ const LoginView = ({ onSubmit, t, isRegistered, hideModal }: LoginViewProps) => 
   );
 };
 
-export default LoginView;
+export default translate('user')(LoginView);

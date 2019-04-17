@@ -1,15 +1,14 @@
 import React from 'react';
-import { compose } from 'redux';
 import { translate } from '@restapp/i18n-client-react';
 import { FormError } from '@restapp/forms-client-react';
 import RegisterView from '../components/RegisterView';
 
-import { UserComponentPropsNative, OnSubmitProps } from './Login.native';
-
 import settings from '../../../../settings';
 
-interface RegisterProps extends UserComponentPropsNative {
-  register: (values: OnSubmitProps) => void;
+import { CommonProps, LoginSubmitProps } from '../index.native';
+
+interface RegisterProps extends CommonProps {
+  register: (values: LoginSubmitProps) => void;
 }
 
 interface RegisterState {
@@ -21,7 +20,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
     isRegistered: false
   };
 
-  public onSubmit = async (values: OnSubmitProps) => {
+  public onSubmit = async (values: LoginSubmitProps) => {
     const { t, register, navigation } = this.props;
 
     try {
@@ -52,4 +51,4 @@ class Register extends React.Component<RegisterProps, RegisterState> {
   }
 }
 
-export default compose(translate('user'))(Register);
+export default translate('user')(Register);

@@ -7,17 +7,12 @@ import RegisterForm from '../components/RegisterForm';
 
 import settings from '../../../../settings';
 
+import { RegisterSubmitProps } from '..';
+
 interface RegisterViewProps {
   t: TranslateFunction;
-  onSubmit: (values: RegisterOnSubmitProps) => void;
+  onSubmit: (values: RegisterSubmitProps) => void;
   isRegistered: boolean;
-}
-
-export interface RegisterOnSubmitProps {
-  username: string;
-  email: string;
-  password: string;
-  passwordConfirmation: string;
 }
 
 const RegisterView = ({ t, onSubmit, isRegistered }: RegisterViewProps) => {

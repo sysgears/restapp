@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { compose } from 'redux';
 import { translate } from '@restapp/i18n-client-react';
 import { FormError } from '@restapp/forms-client-react';
-import { UserComponentProps, OnSubmitProps } from './Login';
+
 import RegisterView from '../components/RegisterView';
 
+import { CommonProps, RegisterSubmitProps } from '..';
 import settings from '../../../../settings';
 
-interface RegisterProps extends UserComponentProps {
-  register: (values: OnSubmitProps) => void;
+interface RegisterProps extends CommonProps {
+  register: (values: RegisterSubmitProps) => void;
 }
 
 const Register: React.FunctionComponent<RegisterProps> = props => {
@@ -16,7 +16,7 @@ const Register: React.FunctionComponent<RegisterProps> = props => {
 
   const [isRegistered, setIsRegistered] = useState(false);
 
-  const onSubmit = async (values: OnSubmitProps) => {
+  const onSubmit = async (values: RegisterSubmitProps) => {
     try {
       await register(values);
       if (!settings.auth.password.requireEmailConfirmation) {
@@ -32,4 +32,4 @@ const Register: React.FunctionComponent<RegisterProps> = props => {
   return <RegisterView {...props} isRegistered={isRegistered} onSubmit={onSubmit} />;
 };
 
-export default compose(translate('user'))(Register);
+export default translate('user')(Register);

@@ -1,16 +1,17 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { withFormik, FormikErrors } from 'formik';
+import { withFormik } from 'formik';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { isFormError, FieldAdapter as Field } from '@restapp/forms-client-react';
-import { translate, TranslateFunction } from '@restapp/i18n-client-react';
+import { translate } from '@restapp/i18n-client-react';
 
 import { RenderField, Button, primary, FormView } from '@restapp/look-client-react-native';
 import { placeholderColor, submit } from '@restapp/look-client-react-native/styles';
 import { match, email, minLength, required, validate } from '@restapp/validation-common-react';
 
-import { RegisterOnSubmitProps } from './RegisterView.native';
 import settings from '../../../../settings';
+
+import { FormProps, RegisterSubmitProps } from '../index.native';
 
 const registerFormSchema = {
   username: [required, minLength(3)],
@@ -19,21 +20,7 @@ const registerFormSchema = {
   passwordConfirmation: [match('password'), required, minLength(settings.auth.password.minLength)]
 };
 
-interface RegisterFormProps {
-  handleSubmit: (values: RegisterOnSubmitProps, props: HandleSubmitProps) => void;
-  onSubmit: (values: RegisterOnSubmitProps) => Promise<void> | any;
-  submitting: boolean;
-  error: any;
-  values: RegisterOnSubmitProps;
-  t: TranslateFunction;
-}
-
-interface HandleSubmitProps {
-  setErrors: (errors: FormikErrors<RegisterOnSubmitProps>) => void;
-  props: RegisterOnSubmitProps;
-}
-
-const RegisterForm = ({ values, handleSubmit, t }: RegisterFormProps) => {
+const RegisterForm = ({ values, handleSubmit, t }: FormProps<RegisterSubmitProps>) => {
   return (
     <FormView contentContainerStyle={{ flexGrow: 1 }} style={styles.formView}>
       <View style={styles.formContainer}>
@@ -83,7 +70,7 @@ const RegisterForm = ({ values, handleSubmit, t }: RegisterFormProps) => {
   );
 };
 
-const RegisterFormWithFormik = withFormik<RegisterFormProps, RegisterOnSubmitProps>({
+const RegisterFormWithFormik = withFormik<FormProps<RegisterSubmitProps>, RegisterSubmitProps>({
   mapPropsToValues: () => ({ username: '', email: '', password: '', passwordConfirmation: '' }),
   validate: values => validate(values, registerFormSchema),
   async handleSubmit(values, { setErrors, props: { onSubmit } }) {

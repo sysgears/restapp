@@ -21,7 +21,7 @@ interface IfLoggedInComponent {
 }
 
 export interface WithLogoutProps extends WithUserProps {
-  logout?: () => any;
+  logout?: () => void;
   history?: History;
 }
 

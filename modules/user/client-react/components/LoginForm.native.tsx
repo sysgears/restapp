@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ViewStyle } from 'react-native';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
-import { withFormik, FormikErrors } from 'formik';
+import { withFormik } from 'formik';
 import { isFormError, FieldAdapter as Field } from '@restapp/forms-client-react';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { RenderField, Button, primary, FormView } from '@restapp/look-client-react-native';
@@ -9,24 +9,16 @@ import { placeholderColor, submit } from '@restapp/look-client-react-native/styl
 import { required, minLength, validate } from '@restapp/validation-common-react';
 import { LinkedInButton, GoogleButton, GitHubButton, FacebookButton } from '@restapp/authentication-client-react';
 
-import { UserComponentPropsNative, OnSubmitProps } from '../containers/Login.native';
+import { FormProps, LoginSubmitProps, NavigationOptionsProps } from '../index.native';
 import settings from '../../../../settings';
-
-interface LoginFormProps extends UserComponentPropsNative {
-  handleSubmit: (values: OnSubmitProps, props: HandleSubmitProps) => void;
-  onSubmit: (values: OnSubmitProps) => Promise<void> | any;
-  valid: boolean;
-  values: OnSubmitProps;
-}
-
-interface HandleSubmitProps {
-  setErrors: (errors: FormikErrors<OnSubmitProps>) => void;
-  props: LoginFormProps;
-}
 
 interface SocialButtons {
   buttonsLength: number;
   t: TranslateFunction;
+}
+
+interface LoginForm extends FormProps<LoginSubmitProps> {
+  valid: string;
 }
 
 const loginFormSchema = {
@@ -50,7 +42,7 @@ const renderSocialButtons = ({ buttonsLength, t }: SocialButtons) => {
   ) : null;
 };
 
-const LoginForm = ({ handleSubmit, valid, values, navigation, t }: LoginFormProps) => {
+const LoginForm = <P extends LoginForm & NavigationOptionsProps>({ handleSubmit, valid, values, navigation, t }: P) => {
   const buttonsLength = [facebook.enabled, linkedin.enabled, google.enabled, github.enabled].filter(button => button)
     .length;
   return (
@@ -145,7 +137,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const LoginFormWithFormik = withFormik<LoginFormProps, OnSubmitProps>({
+const LoginFormWithFormik = withFormik<LoginForm & NavigationOptionsProps, LoginSubmitProps>({
   enableReinitialize: true,
   mapPropsToValues: () => ({ usernameOrEmail: '', password: '' }),
 

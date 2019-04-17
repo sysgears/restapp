@@ -7,15 +7,15 @@ import { DrawerComponent } from '@restapp/look-client-react-native';
 import { UserRole } from '../index.native';
 import { withUser } from './Auth';
 
+interface User {
+  id: number | string;
+  role: UserRole;
+}
 interface UserScreenNavigator {
   currentUser: User;
   context: any;
   currentUserLoading: boolean;
   routeConfigs: any;
-}
-interface User {
-  id: number | string;
-  role: UserRole;
 }
 
 class UserScreenNavigator extends React.Component<UserScreenNavigator> {

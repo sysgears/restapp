@@ -6,11 +6,12 @@ import { placeholderColor } from '@restapp/look-client-react-native/styles';
 import { setItem } from '@restapp/core-common/clientStorage';
 import authentication from '@restapp/authentication-client-react';
 
-import { LoginPropsNative, OnSubmitProps } from '../containers/Login.native';
 import LoginForm from './LoginForm.native';
 
-interface LoginViewProps extends LoginPropsNative {
-  onSubmit: (values: OnSubmitProps) => void;
+import { CommonProps, LoginSubmitProps } from '../index.native';
+
+interface LoginViewProps extends CommonProps {
+  onSubmit: (values: LoginSubmitProps) => void;
 }
 
 interface LinkingEvent {

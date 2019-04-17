@@ -1,13 +1,13 @@
 import React from 'react';
-import { compose } from 'redux';
 import { View } from 'react-native';
 import { HeaderTitle } from '@restapp/look-client-react-native';
 import { translate } from '@restapp/i18n-client-react';
 
-import { UserComponentPropsNative } from './Login.native';
 import { withLogout } from './Auth';
 
-interface LogoutViewProps extends UserComponentPropsNative {
+import { CommonProps } from '../index.native';
+
+interface LogoutViewProps extends CommonProps {
   logout: () => void;
 }
 
@@ -29,7 +29,4 @@ const LogoutView = ({ logout, t }: LogoutViewProps) => {
   );
 };
 
-export default compose(
-  translate('user'),
-  withLogout
-)(LogoutView);
+export default translate('user')(withLogout(LogoutView));

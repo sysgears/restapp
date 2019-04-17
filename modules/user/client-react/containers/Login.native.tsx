@@ -1,31 +1,20 @@
 import React from 'react';
-import { compose } from 'redux';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import { FormError } from '@restapp/forms-client-react';
-import { translate, TranslateFunction } from '@restapp/i18n-client-react';
+import { translate } from '@restapp/i18n-client-react';
 import authentication from '@restapp/authentication-client-react';
 
 import LoginView from '../components/LoginView.native';
 
-export interface OnSubmitProps {
-  usernameOrEmail: string;
-  password: string;
-}
-export interface UserComponentPropsNative {
-  error?: string;
-  navigation: NavigationScreenProp<NavigationRoute<Params>, Params>;
-  t: TranslateFunction;
-}
-interface Params {}
+import { CommonProps, LoginSubmitProps } from '../index.native';
 
-export interface LoginPropsNative extends UserComponentPropsNative {
-  login: (values: OnSubmitProps) => Promise<void> | void;
+interface LoginProps extends CommonProps {
+  login: (values: LoginSubmitProps) => Promise<void> | void;
 }
 
-const Login = (props: LoginPropsNative) => {
+const Login = (props: LoginProps) => {
   const { t, login } = props;
 
-  const onSubmit = async (values: OnSubmitProps) => {
+  const onSubmit = async (values: LoginSubmitProps) => {
     try {
       await login(values);
     } catch (e) {
@@ -38,4 +27,4 @@ const Login = (props: LoginPropsNative) => {
   return <LoginView {...props} onSubmit={onSubmit} />;
 };
 
-export default compose(translate('user'))(Login);
+export default translate('user')(Login);

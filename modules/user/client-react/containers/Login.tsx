@@ -1,23 +1,15 @@
 import * as React from 'react';
-import * as H from 'history';
-import { TranslateFunction, translate } from '@restapp/i18n-client-react';
+
+import { translate } from '@restapp/i18n-client-react';
 import { FormError } from '@restapp/forms-client-react';
 import authentication from '@restapp/authentication-client-react';
-import { compose } from 'redux';
 
 import LoginView from '../components/LoginView';
 
-export interface LoginProps extends UserComponentProps {
-  login: (values: OnSubmitProps) => void;
-}
+import { CommonProps, LoginSubmitProps } from '..';
 
-export interface UserComponentProps {
-  t: TranslateFunction;
-  history?: H.History;
-}
-export interface OnSubmitProps {
-  usernameOrEmail: string;
-  password: string;
+interface LoginProps extends CommonProps {
+  login: (values: LoginSubmitProps) => void;
 }
 
 const Login: React.FunctionComponent<LoginProps> = props => {
@@ -41,7 +33,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
     history.push({ search: '' });
   };
 
-  const onSubmit = async (values: OnSubmitProps) => {
+  const onSubmit = async (values: LoginSubmitProps) => {
     try {
       await login(values);
     } catch (e) {
@@ -55,4 +47,4 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   return isReady && <LoginView {...props} isRegistered={isRegistered} hideModal={hideModal} onSubmit={onSubmit} />;
 };
 
-export default compose(translate('user'))(Login);
+export default translate('user')(Login);
