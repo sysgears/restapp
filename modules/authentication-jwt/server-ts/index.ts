@@ -5,7 +5,7 @@ import passport from 'passport';
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
 
 import ServerModule from '@restapp/module-server-ts';
-import settings from '../../../../settings';
+import settings from '../../../settings';
 
 const {
   auth: { secret }

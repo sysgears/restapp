@@ -1,5 +1,5 @@
 import user from '@restapp/user-server-ts';
-import auth from '@restapp/authentication-server-ts';
+import auth from '@restapp/authentication-session-server-ts';
 import welcome from '@restapp/welcome-server-ts';
 import core from '@restapp/core-server-ts';
 import i18n from '@restapp/i18n-server-ts';

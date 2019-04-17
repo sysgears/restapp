@@ -1,10 +1,10 @@
 export default {
   secret: process.env.NODE_ENV === 'test' ? 'secret for tests' : process.env.AUTH_SECRET,
   session: {
-    enabled: false
+    enabled: true
   },
   jwt: {
-    enabled: true,
+    enabled: false,
     tokenExpiresIn: '1m',
     refreshTokenExpiresIn: '7d'
   }
