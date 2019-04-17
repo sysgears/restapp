@@ -11,6 +11,7 @@ interface User {
   id: number | string;
   role: UserRole;
 }
+
 interface UserScreenNavigator {
   currentUser: User;
   context: any;

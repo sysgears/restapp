@@ -16,6 +16,7 @@ export enum UserRole {
   admin = 'admin',
   user = 'user'
 }
+
 export interface NavigationOptionsProps {
   navigation: NavigationScreenProp<NavigationRoute<Params>, Params>;
 }
@@ -26,6 +27,7 @@ export interface CommonProps extends NavigationOptionsProps {
   error?: string;
   t: TranslateFunction;
 }
+
 export interface LoginSubmitProps {
   usernameOrEmail: string;
   password: string;
@@ -46,6 +48,7 @@ interface HandleSubmitProps<P> {
 interface Errors {
   errorMsg?: string;
 }
+
 export interface FormProps<V> {
   handleSubmit: (values: V, props: HandleSubmitProps<V>) => void;
   onSubmit: (values: V) => Promise<void> | void | any;

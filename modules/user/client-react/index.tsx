@@ -18,6 +18,7 @@ export enum UserRole {
   admin = 'admin',
   user = 'user'
 }
+
 export interface CurrentUser {
   username: string;
   role: UserRole;
@@ -25,6 +26,7 @@ export interface CurrentUser {
   email: string;
   fullName: string;
 }
+
 export interface LoginSubmitProps {
   usernameOrEmail: string;
   password: string;
@@ -41,6 +43,7 @@ export interface RegisterSubmitProps {
   password: string;
   passwordConfirmation: string;
 }
+
 interface HandleSubmitProps<P> {
   setErrors: (errors: FormikErrors<P>) => void;
   props: P;
