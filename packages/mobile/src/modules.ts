@@ -8,6 +8,6 @@ import defaultRouter from '@restapp/router-client-react-native';
 
 import ClientModule from '@restapp/module-client-react-native';
 
-const modules = new ClientModule(authentication, user, welcome, validation, defaultRouter, i18n, core);
+const modules = new ClientModule(defaultRouter, validation, welcome, authentication, user, i18n, core);
 
 export default modules;

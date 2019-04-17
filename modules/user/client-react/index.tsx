@@ -91,7 +91,6 @@ export default new ClientModule({
       </MenuItem>
     </IfNotLoggedIn>
   ],
-  // resolver: [resolvers],
   localization: [{ ns: 'user', resources }],
   dataRootComponent: [DataRootComponent],
   // eslint-disable-next-line react/display-name

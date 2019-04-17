@@ -47,17 +47,13 @@ class UserScreenNavigator extends React.Component<UserScreenNavigator> {
       return showOnLogin && (!role || (Array.isArray(role) ? role : [role]).includes(currentUser.role));
     };
 
-    const guestFilter = (value: any) => {
-      const test = !value.userInfo || (value.userInfo && !value.userInfo.showOnLogin);
-      return test;
-    };
+    const guestFilter = (value: any) => !value.userInfo || (value.userInfo && !value.userInfo.showOnLogin);
 
     return pickBy(routeConfigs, currentUser && !currentUserLoading ? userFilter : guestFilter);
   };
-
   public getInitialRoute = () => {
     const { currentUser } = this.props;
-    return currentUser ? 'Profile' : 'Welcome';
+    return currentUser ? 'Profile' : 'Login';
   };
 
   public render() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { createAppContainer, createDrawerNavigator, NavigationContainer } from 'react-navigation';
+import { createDrawerNavigator, NavigationContainer, createAppContainer } from 'react-navigation';
 
 import ClientModule from '@restapp/module-client-react-native';
 import { DrawerComponent } from '@restapp/look-client-react-native';
