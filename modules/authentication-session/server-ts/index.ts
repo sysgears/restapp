@@ -1,4 +1,4 @@
-import { Express } from 'express';
+import { Express, Request, Response } from 'express';
 import { Strategy } from 'passport-local';
 import bodyParser from 'body-parser';
 import session from 'express-session';
@@ -26,6 +26,9 @@ const beforeware = (app: Express) => {
   app.use(passport.initialize());
   app.use(passport.session());
 };
+
+const accessMiddleware = (req: Request, res: Response, next: any) =>
+  req.isAuthenticated() ? next() : res.redirect('unauthorized');
 
 const userDB: User = {
   username: 'test-user',
@@ -64,6 +67,7 @@ const onAppCreate = () => {
 export default new ServerModule({
   beforeware: [beforeware],
   onAppCreate: [onAppCreate],
+  accessMiddleware,
   apiRouteParams: [
     {
       method: RestMethod.POST,

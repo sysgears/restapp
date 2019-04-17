@@ -17,6 +17,8 @@ const beforeware = (app: Express) => {
   app.use(passport.initialize());
 };
 
+const accessMiddleware = passport.authenticate('jwt', { session: false });
+
 const userDB: User = {
   username: 'test-user',
   password: '123',
@@ -46,12 +48,7 @@ const onAppCreate = () => {
         secretOrKey: secret
       },
       (jwtPayload: User, cb: any) => {
-        const { username, password } = jwtPayload;
-
-        if (username !== userDB.username || password !== userDB.password) {
-          return cb(null, false, { message: 'Incorrect username or password.' });
-        }
-        return cb(null, userDB);
+        return cb(null, jwtPayload);
       }
     )
   );
@@ -59,5 +56,6 @@ const onAppCreate = () => {
 
 export default new ServerModule({
   beforeware: [beforeware],
-  onAppCreate: [onAppCreate]
+  onAppCreate: [onAppCreate],
+  accessMiddleware
 });

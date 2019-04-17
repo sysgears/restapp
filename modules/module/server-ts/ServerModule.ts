@@ -14,17 +14,21 @@ export enum RestMethod {
   DELETE = 'delete'
 }
 
+type accessMiddleware = (req: Request, res: Response, next: any) => void;
+
 export interface ServerModuleShape extends CommonModuleShape {
   createContextFunc?: Array<
     (props: CreateContextFuncProps, appContext?: { [key: string]: any }) => { [key: string]: any }
   >;
   // Middleware
   beforeware?: Array<(app: Express, appContext: { [key: string]: any }) => void>;
+  accessMiddleware?: accessMiddleware;
   middleware?: Array<(app: Express, appContext: { [key: string]: any }) => void>;
   apiRouteParams?: Array<{
     method: RestMethod;
     route: string;
     middleware: Array<(req: Request, res: Response, next: any) => void>;
+    needAuth?: boolean;
   }>;
   // Shared modules data
   data?: { [key: string]: any };
@@ -50,9 +54,10 @@ class ServerModule extends CommonModule {
   }
 
   public get apiRoutes() {
-    return this.apiRouteParams.map(({ method, route, middleware }) => {
-      return (app: Express) => {
-        app[method](`/api/${route}`, ...middleware);
+    return this.apiRouteParams.map(({ method, route, middleware, needAuth }) => {
+      return (app: Express, authMiddleware: accessMiddleware) => {
+        const auth = needAuth ? authMiddleware : (req: any, res: any, next: any) => next();
+        app[method](`/api/${route}`, auth, ...middleware);
       };
     });
   }

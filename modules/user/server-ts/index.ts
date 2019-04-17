@@ -7,6 +7,12 @@ export default new ServerModule({
       method: RestMethod.POST,
       route: 'login',
       middleware: [login]
+    },
+    {
+      method: RestMethod.POST,
+      route: 'auth',
+      needAuth: true,
+      middleware: [(req, res) => res.send('user is logged in')]
     }
   ]
 });
