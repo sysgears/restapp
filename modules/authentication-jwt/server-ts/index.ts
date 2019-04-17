@@ -15,7 +15,6 @@ const beforeware = (app: Express) => {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
   app.use(passport.initialize());
-  app.use(passport.session());
 };
 
 const userDB: User = {
