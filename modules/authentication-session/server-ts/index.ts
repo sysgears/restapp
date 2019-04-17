@@ -6,6 +6,9 @@ import passport from 'passport';
 
 import ServerModule from '@restapp/module-server-ts';
 
+import { RestMethod } from '@restapp/module-server-ts';
+import { logout } from './controllers';
+
 const FileStore = require('session-file-store')(session);
 
 const beforeware = (app: Express) => {
@@ -60,5 +63,12 @@ const onAppCreate = () => {
 
 export default new ServerModule({
   beforeware: [beforeware],
-  onAppCreate: [onAppCreate]
+  onAppCreate: [onAppCreate],
+  apiRouteParams: [
+    {
+      method: RestMethod.POST,
+      route: 'logout',
+      middleware: [logout]
+    }
+  ]
 });
