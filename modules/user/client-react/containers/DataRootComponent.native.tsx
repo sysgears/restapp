@@ -1,7 +1,5 @@
 import * as React from 'react';
 
-import settings from '../../../../settings';
-
 interface DataRootComponent {
   children?: Element | any;
 }
@@ -12,7 +10,7 @@ interface DataRootComponentState {
 
 class DataRootComponent extends React.Component<DataRootComponent, DataRootComponentState> {
   public state = {
-    isReady: settings.auth.session.enabled
+    isReady: false
   };
 
   // TODO request to get current user

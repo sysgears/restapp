@@ -13,8 +13,8 @@ import {
   btnText
 } from '@restapp/look-client-react-native/styles';
 
-import { SocialButton, SocialButtonComponent } from '../../../index';
-import buildRedirectUrlForMobile from '../../../helpers';
+import { SocialButton, SocialButtonComponent } from '../..';
+import buildRedirectUrlForMobile from '../../helpers';
 
 const linkedInLogin = () => {
   const url = buildRedirectUrlForMobile('linkedin');

@@ -4,7 +4,7 @@ import { faFacebookSquare } from '@fortawesome/fontawesome-free-brands';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Button } from '@restapp/look-client-react';
 
-import { SocialButton, SocialButtonComponent } from '../../../index';
+import { SocialButton, SocialButtonComponent } from '../..';
 import './FacebookButton.css';
 
 const facebookLogin = () => {

@@ -13,11 +13,11 @@ import {
   btnText
 } from '@restapp/look-client-react-native/styles';
 
-import { SocialButton, SocialButtonComponent } from '../../../index';
-import buildRedirectUrlForMobile from '../../../helpers';
+import { SocialButtonComponent, SocialButton } from '../..';
+import buildRedirectUrlForMobile from '../../helpers';
 
-const githubLogin = () => {
-  const url = buildRedirectUrlForMobile('github');
+const googleLogin = () => {
+  const url = buildRedirectUrlForMobile('google');
   if (Platform.OS === 'ios') {
     WebBrowser.openBrowserAsync(url);
   } else {
@@ -25,11 +25,11 @@ const githubLogin = () => {
   }
 };
 
-const GitHubButton = ({ text }: SocialButtonComponent) => {
+const GoogleButton = ({ text }: SocialButtonComponent) => {
   return (
-    <TouchableOpacity style={styles.buttonContainer} onPress={githubLogin}>
+    <TouchableOpacity style={styles.buttonContainer} onPress={googleLogin}>
       <View style={styles.btnIconContainer}>
-        <FontAwesome name="github-square" size={30} style={{ color: '#fff', marginLeft: 10 }} />
+        <FontAwesome name="google-plus-square" size={30} style={{ color: '#fff', marginLeft: 10 }} />
         <View style={styles.separator} />
       </View>
       <View style={styles.btnTextContainer}>
@@ -39,30 +39,30 @@ const GitHubButton = ({ text }: SocialButtonComponent) => {
   );
 };
 
-const GitHubLink = ({ text }: SocialButtonComponent) => {
+const GoogleLink = ({ text }: SocialButtonComponent) => {
   return (
-    <TouchableOpacity onPress={githubLogin} style={styles.link}>
+    <TouchableOpacity onPress={googleLogin} style={styles.link}>
       <Text style={styles.linkText}>{text}</Text>
     </TouchableOpacity>
   );
 };
 
-const GitHubIcon = () => (
+const GoogleIcon = () => (
   <View style={styles.iconWrapper}>
-    <FontAwesome name="github-square" size={45} style={{ color: '#464646' }} onPress={githubLogin} />
+    <FontAwesome style={{ color: '#c43832' }} onPress={googleLogin} name="google-plus-square" size={45} />
   </View>
 );
 
-const GitHubComponent: React.FunctionComponent<SocialButton> = ({ type, text }) => {
+const GoogleComponent: React.FunctionComponent<SocialButton> = ({ type, text }) => {
   switch (type) {
     case 'button':
-      return <GitHubButton text={text} />;
+      return <GoogleButton text={text} />;
     case 'link':
-      return <GitHubLink text={text} />;
+      return <GoogleLink text={text} />;
     case 'icon':
-      return <GitHubIcon />;
+      return <GoogleIcon />;
     default:
-      return <GitHubButton text={text} />;
+      return <GoogleButton text={text} />;
   }
 };
 
@@ -73,12 +73,15 @@ const styles = StyleSheet.create({
   buttonContainer: {
     ...buttonContainer,
     marginTop: 15,
-    backgroundColor: '#464646'
+    backgroundColor: '#c43832'
   },
-  separator,
+  separator: {
+    ...separator,
+    backgroundColor: '#fff'
+  },
   btnIconContainer,
   btnTextContainer,
   btnText
 });
 
-export default GitHubComponent;
+export default GoogleComponent;

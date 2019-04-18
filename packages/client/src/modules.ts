@@ -1,5 +1,6 @@
 import welcome from '@restapp/welcome-client-react';
 import authentication from '@restapp/authentication-session-client-react';
+import authenticationSocials from '@restapp/authentication-socials-client-react';
 import user from '@restapp/user-client-react';
 import core from '@restapp/core-client-react';
 import look from '@restapp/look-client-react';
@@ -13,6 +14,7 @@ const pageNotFound = require('@restapp/page-not-found-client-react').default;
 
 const modules = new ClientModule(
   authentication,
+  authenticationSocials,
   user,
   welcome,
   look,

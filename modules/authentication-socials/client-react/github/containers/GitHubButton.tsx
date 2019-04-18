@@ -4,7 +4,7 @@ import { faGithubSquare } from '@fortawesome/fontawesome-free-brands';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Button } from '@restapp/look-client-react';
 
-import { SocialButton, SocialButtonComponent } from '../../../index';
+import { SocialButton, SocialButtonComponent } from '../..';
 import './GitHubButton.css';
 
 const githubLogin = () => {

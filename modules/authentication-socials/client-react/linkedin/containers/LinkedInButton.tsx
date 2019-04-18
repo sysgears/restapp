@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Button } from '@restapp/look-client-react';
 
-import { SocialButtonComponent, SocialButton } from '../../../index';
+import { SocialButtonComponent, SocialButton } from '../..';
 import './LinkedInButton.css';
 
 const linkedInLogin = () => {
