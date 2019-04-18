@@ -1,5 +1,5 @@
 import * as React from 'react';
-import authentication from '@restapp/authentication-client-react';
+import authentication from '@restapp/authentication-session-client-react';
 import { RouteProps } from 'react-router';
 import { History } from 'history';
 

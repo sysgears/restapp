@@ -4,7 +4,7 @@ import { WebBrowser } from 'expo';
 import { translate } from '@restapp/i18n-client-react';
 import { placeholderColor } from '@restapp/look-client-react-native/styles';
 import { setItem } from '@restapp/core-common/clientStorage';
-import authentication from '@restapp/authentication-client-react';
+import authentication from '@restapp/authentication-session-client-react';
 
 import LoginForm from './LoginForm.native';
 
