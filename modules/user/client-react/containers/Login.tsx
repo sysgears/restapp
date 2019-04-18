@@ -1,8 +1,7 @@
 import * as React from 'react';
 
 import { translate } from '@restapp/i18n-client-react';
-import { FormError } from '@restapp/forms-client-react';
-import authentication from '@restapp/authentication-client-react';
+import authentication from '@restapp/authentication-session-client-react';
 
 import LoginView from '../components/LoginView';
 
@@ -13,7 +12,7 @@ interface LoginProps extends CommonProps {
 }
 
 const Login: React.FunctionComponent<LoginProps> = props => {
-  const { t, login, history } = props;
+  const { history } = props;
   const {
     location: { search }
   } = history;
@@ -33,15 +32,8 @@ const Login: React.FunctionComponent<LoginProps> = props => {
     history.push({ search: '' });
   };
 
-  const onSubmit = async (values: LoginSubmitProps) => {
-    try {
-      await login(values);
-    } catch (e) {
-      throw new FormError(t('login.errorMsg'), e);
-    }
-
+  const onSubmit = async () => {
     await authentication.doLogin();
-    history.push('/profile');
   };
 
   return isReady && <LoginView {...props} isRegistered={isRegistered} hideModal={hideModal} onSubmit={onSubmit} />;

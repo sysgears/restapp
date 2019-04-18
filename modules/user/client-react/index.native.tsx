@@ -10,7 +10,6 @@ import UserScreenNavigator from './containers/UserScreenNavigator.native';
 import Login from './containers/Login.native';
 import Logout from './containers/Logout.native';
 import Register from './containers/Register.native';
-export * from './containers/Auth.native';
 
 export enum UserRole {
   admin = 'admin',
@@ -96,6 +95,8 @@ const AuthScreen = createStackNavigator(
   }
 );
 
+export * from './containers/Auth.native';
+
 const HeaderTitleWithI18n = translate('user')(HeaderTitle);
 
 const ref: { navigator: NavigationContainer } = { navigator: null };
@@ -134,5 +135,5 @@ export default new ClientModule({
   localization: [{ ns: 'user', resources }],
   router: <MainScreenNavigator />,
   dataRootComponent: [DataRootComponent],
-  onAppCreate: [modules => (ref.navigator = UserScreenNavigator(modules.drawerItems))]
+  onAppCreate: [(modules: ClientModule) => (ref.navigator = UserScreenNavigator(modules.drawerItems))]
 });

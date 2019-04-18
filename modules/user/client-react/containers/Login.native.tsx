@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormError } from '@restapp/forms-client-react';
 import { translate } from '@restapp/i18n-client-react';
-import authentication from '@restapp/authentication-client-react';
+import authentication from '@restapp/authentication-session-client-react';
 
 import LoginView from '../components/LoginView.native';
 
