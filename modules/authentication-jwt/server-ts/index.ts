@@ -54,6 +54,8 @@ const onAppCreate = () => {
   );
 };
 
+export { default as createTokens } from './createTokens';
+
 export default new ServerModule({
   beforeware: [beforeware],
   onAppCreate: [onAppCreate],

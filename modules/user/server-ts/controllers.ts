@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import passport from 'passport';
-import jsonwebtoken from 'jsonwebtoken';
+
+import { createTokens } from '@restapp/authentication-jwt-server-ts';
 
 import settings from '../../../settings';
 
 const {
-  auth: { session, jwt, secret }
+  auth: { session, jwt }
 } = settings;
 
 export const login = (req: Request, res: Response) => {
@@ -17,14 +18,14 @@ export const login = (req: Request, res: Response) => {
       });
     }
 
-    req.login(user, { session: session.enabled }, loginErr => {
+    req.login(user, { session: session.enabled }, async loginErr => {
       if (loginErr) {
         res.send(loginErr);
       }
 
-      const token = jwt.enabled ? jsonwebtoken.sign({ user }, secret, { expiresIn: jwt.tokenExpiresIn }) : null;
+      const [accessToken, refreshToken] = jwt.enabled ? await createTokens(user) : null;
 
-      return res.json({ user, token });
+      return res.json({ user, accessToken, refreshToken });
     });
   })(req, res);
 };
