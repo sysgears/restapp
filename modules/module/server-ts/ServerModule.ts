@@ -55,9 +55,10 @@ class ServerModule extends CommonModule {
 
   public get apiRoutes() {
     return this.apiRouteParams.map(({ method, route, middleware, isAuthRoute }) => {
-      return (app: Express, authMiddleware: accessMiddleware) => {
-        const auth = isAuthRoute ? authMiddleware : (req: any, res: any, next: any) => next();
-        app[method](`/api/${route}`, auth, ...middleware);
+      return (app: Express, modules: ServerModule) => {
+        isAuthRoute
+          ? app[method](`/api/${route}`, modules.accessMiddleware, ...middleware)
+          : app[method](`/api/${route}`, ...middleware);
       };
     });
   }

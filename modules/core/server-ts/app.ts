@@ -7,8 +7,6 @@ import ServerModule from '@restapp/module-server-ts';
 import websiteMiddleware from './middleware/website';
 import errorMiddleware from './middleware/error';
 
-import auth from '@restapp/authentication-jwt-server-ts';
-
 export const createServerApp = (modules: ServerModule) => {
   const app = express();
   // Don't rate limit heroku
@@ -27,7 +25,7 @@ export const createServerApp = (modules: ServerModule) => {
 
   if (!isApiExternal) {
     if (modules.apiRoutes) {
-      modules.apiRoutes.forEach(applyMiddleware => applyMiddleware(app, auth.accessMiddleware));
+      modules.apiRoutes.forEach(applyMiddleware => applyMiddleware(app, modules));
     }
     app.get('/api', (req, res, next) => res.json({ message: 'REST API: Success' }));
   }
