@@ -4,8 +4,9 @@ import bodyParser from 'body-parser';
 import passport from 'passport';
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
 
-import ServerModule from '@restapp/module-server-ts';
+import ServerModule, { RestMethod } from '@restapp/module-server-ts';
 import settings from '../../../settings';
+import { refreshTokens } from './controllers';
 
 const {
   auth: { secret }
@@ -59,5 +60,12 @@ export { default as createTokens } from './createTokens';
 export default new ServerModule({
   beforeware: [beforeware],
   onAppCreate: [onAppCreate],
+  apiRouteParams: [
+    {
+      method: RestMethod.POST,
+      route: 'refreshToken',
+      middleware: [refreshTokens]
+    }
+  ],
   accessMiddleware
 });
