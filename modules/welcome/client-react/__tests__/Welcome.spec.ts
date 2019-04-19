@@ -7,7 +7,7 @@ import { updateContent } from '../../../../packages/client/src/testHelpers/testU
 describe('Welcome UI works', () => {
   const renderer = new Renderer({});
   const app = renderer.mount();
-  renderer.history.push('/Welcome');
+  renderer.history.push('/');
   const content = updateContent(app.container);
 
   step('Welcome page renders on mount', () => {
