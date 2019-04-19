@@ -28,7 +28,7 @@ export interface ServerModuleShape extends CommonModuleShape {
     method: RestMethod;
     route: string;
     middleware: Array<(req: Request, res: Response, next: any) => void>;
-    needAuth?: boolean;
+    isAuthRoute?: boolean;
   }>;
   // Shared modules data
   data?: { [key: string]: any };
@@ -54,9 +54,9 @@ class ServerModule extends CommonModule {
   }
 
   public get apiRoutes() {
-    return this.apiRouteParams.map(({ method, route, middleware, needAuth }) => {
+    return this.apiRouteParams.map(({ method, route, middleware, isAuthRoute }) => {
       return (app: Express, authMiddleware: accessMiddleware) => {
-        const auth = needAuth ? authMiddleware : (req: any, res: any, next: any) => next();
+        const auth = isAuthRoute ? authMiddleware : (req: any, res: any, next: any) => next();
         app[method](`/api/${route}`, auth, ...middleware);
       };
     });
