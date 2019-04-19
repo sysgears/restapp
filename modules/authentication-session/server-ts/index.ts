@@ -28,7 +28,7 @@ const beforeware = (app: Express) => {
 };
 
 const accessMiddleware = (req: Request, res: Response, next: any) =>
-  req.isAuthenticated() ? next() : res.redirect('unauthorized');
+  req.isAuthenticated() ? next() : res.send('unauthorized');
 
 const userDB: User = {
   username: 'test-user',
