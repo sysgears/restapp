@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import AccessModule from './AccessModule';
+import ClientModule from '@restapp/module-client-react';
 
 interface PageReloaderProps {
   children?: React.ReactElement;
@@ -39,8 +39,8 @@ class PageReloader extends React.Component<PageReloaderProps> {
 
 const AuthPageReloader = ({ children }: AuthPageReloaderProps) => <PageReloader ref={ref}>{children}</PageReloader>;
 
-export default new AccessModule({
+export default new ClientModule({
   dataRootComponent: [AuthPageReloader],
-  login,
-  logout
+  login: [login],
+  logout: [logout]
 });

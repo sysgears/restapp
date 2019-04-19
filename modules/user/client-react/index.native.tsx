@@ -57,6 +57,11 @@ export interface FormProps<V> {
   t: TranslateFunction;
 }
 
+interface Authentication {
+  doLogin: () => void;
+  doLogout: () => void;
+}
+
 class LoginScreen extends React.Component<NavigationOptionsProps> {
   public static navigationOptions = ({ navigation }: NavigationOptionsProps) => ({
     headerTitle: <HeaderTitleWithI18n i18nKey="navLink.signIn" style="subTitle" />,
@@ -99,7 +104,10 @@ export * from './containers/Auth.native';
 
 const HeaderTitleWithI18n = translate('user')(HeaderTitle);
 
-const ref: { navigator: NavigationContainer } = { navigator: null };
+export const ref: { navigator: NavigationContainer; authentication: Authentication } = {
+  navigator: null,
+  authentication: null
+};
 
 const MainScreenNavigator = () => {
   const Navigator = ref.navigator;
@@ -135,5 +143,11 @@ export default new ClientModule({
   localization: [{ ns: 'user', resources }],
   router: <MainScreenNavigator />,
   dataRootComponent: [DataRootComponent],
-  onAppCreate: [(modules: ClientModule) => (ref.navigator = UserScreenNavigator(modules.drawerItems))]
+  onAppCreate: [
+    (modules: ClientModule) => {
+      ref.navigator = UserScreenNavigator(modules.drawerItems);
+      ref.authentication = UserScreenNavigator(modules.authentication);
+      return ref;
+    }
+  ]
 });
