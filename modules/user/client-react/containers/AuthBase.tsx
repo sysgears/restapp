@@ -74,7 +74,7 @@ const IfNotLoggedIn = withLoadedUser(IfNotLoggedInComponent);
 const withLogout = (Component: React.FunctionComponent<WithLogoutProps>) => ({ ...props }: WithLogoutProps) => {
   const newProps = {
     ...props,
-    logout: () => ref.authentication.doLogout
+    logout: () => ref.authentication.doLogout()
   };
   return <Component {...newProps} />;
 };
