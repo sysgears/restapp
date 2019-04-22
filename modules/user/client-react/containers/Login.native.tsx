@@ -20,7 +20,7 @@ const Login = (props: LoginProps) => {
       throw new FormError(t('login.errorMsg'), e);
     }
 
-    await ref.authentication.doLogin();
+    await ref.module.authentication.doLogin();
   };
 
   return <LoginView {...props} onSubmit={onSubmit} />;

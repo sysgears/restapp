@@ -2,7 +2,7 @@ import React from 'react';
 import { merge } from 'lodash';
 import { ReducersMapObject } from 'redux';
 
-import CommonModule, { CommonModuleShape } from '@restapp/module-common';
+import { AccessModule, AccessModuleShape } from '@restapp/module-common';
 
 interface UniversalCookieRequest {
   universalCookies?: any;
@@ -15,7 +15,7 @@ type RootComponentFactory = (req: Request & UniversalCookieRequest) => React.Rea
 /**
  * Common module interface for React and React Native feature modules.
  */
-export interface BaseModuleShape extends CommonModuleShape {
+export interface BaseModuleShape extends AccessModuleShape {
   // Redux reducers list.
   reducer?: ReducersMapObject[];
   // React element that does client-side routing, see `router` feature module.
@@ -32,7 +32,7 @@ interface BaseModule extends BaseModuleShape {}
  * Base module ancestor for React and React Native feature modules.
  */
 
-class BaseModule extends CommonModule {
+class BaseModule extends AccessModule {
   /**
    * Constructs base module representation, that folds all the feature modules
    * into a single module represented by this instance.

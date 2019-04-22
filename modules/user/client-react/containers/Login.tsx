@@ -32,7 +32,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   };
 
   const onSubmit = async () => {
-    await ref.authentication.doLogin();
+    await ref.module.authentication.doLogin();
   };
 
   return isReady && <LoginView {...props} isRegistered={isRegistered} hideModal={hideModal} onSubmit={onSubmit} />;

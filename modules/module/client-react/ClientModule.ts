@@ -15,8 +15,6 @@ export interface ClientModuleShape extends BaseModuleShape {
   stylesInsert?: string[];
   // URL list to 3rd party js scripts
   scriptsInsert?: string[];
-  login?: Array<() => Promise<void>>;
-  logout?: Array<() => Promise<void>>;
 }
 
 interface ClientModule extends ClientModuleShape {}
@@ -83,13 +81,6 @@ class ClientModule extends BaseModule {
    */
   get scriptsInserts() {
     return this.scriptsInsert || [];
-  }
-
-  get authentication() {
-    const doLogin = () => this.login && this.login.forEach(login => login());
-    const doLogout = () => this.logout && this.logout.forEach(logout => logout());
-
-    return { doLogin, doLogout };
   }
 }
 

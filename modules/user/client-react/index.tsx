@@ -61,12 +61,7 @@ export interface FormProps<V> {
   t: TranslateFunction;
 }
 
-interface Authentication {
-  doLogin: () => void;
-  doLogout: () => void;
-}
-
-export const ref: { authentication: Authentication } = { authentication: null };
+export const ref: { module: ClientModule } = { module: null };
 
 const ProfileName: React.FunctionComponent<WithLogoutProps> = withLoadedUser(({ currentUser }) => (
   <React.Fragment>{currentUser ? currentUser.fullName || currentUser.username : null}</React.Fragment>
@@ -91,7 +86,6 @@ const LogoutLink = withRouter(
 );
 
 export * from './containers/Auth';
-// export { default as LOGIN } from './graphql/Login.graphql';
 
 const NavLinkUsersWithI18n = translate('user')(({ t }: any) => (
   <NavLink to="/users" className="nav-link" activeClassName="active">
@@ -139,5 +133,5 @@ export default new ClientModule({
   dataRootComponent: [DataRootComponent],
   // eslint-disable-next-line react/display-name
   rootComponentFactory: [req => (req ? <CookiesProvider cookies={req.universalCookies} /> : <CookiesProvider />)],
-  onAppCreate: [(modules: ClientModule) => (ref.authentication = modules.authentication)]
+  onAppCreate: [(module: ClientModule) => (ref.module = module)]
 });
