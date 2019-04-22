@@ -1,5 +1,9 @@
 {
   "name": "@restapp/authentication-jwt-client-react",
   "version": "0.1.0",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@restapp/core-common": "^0.1.0",
+    "@restapp/module-client-react": "^0.1.0"
+  }
 }
