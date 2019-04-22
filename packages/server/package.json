@@ -58,6 +58,7 @@
     "@restapp/testing-server-ts": "^0.1.0",
     "@restapp/user-server-ts": "^0.1.0",
     "@restapp/welcome-server-ts": "^0.1.0",
+    "@types/bcryptjs": "^2.4.2",
     "@types/express-session": "^1.15.12",
     "@types/jsonwebtoken": "^8.3.2",
     "@types/passport": "^1.0.0",
