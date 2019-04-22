@@ -2,25 +2,29 @@ import axios from 'axios';
 import { getItem, setItem, removeItem } from '@restapp/core-common/clientStorage';
 import ClientModule from '@restapp/module-client-react';
 
+enum TokensEnum {
+  accessToken = 'accessToken',
+  refreshToken = 'refreshToken'
+}
+
 interface Tokens {
-  accessToken: string;
-  refreshToken: string;
+  [key: string]: TokensEnum;
 }
 
 const saveTokens = async ({ accessToken, refreshToken }: Tokens) => {
-  await setItem('accessToken', accessToken);
-  await setItem('refreshToken', refreshToken);
+  await setItem(TokensEnum.accessToken, accessToken);
+  await setItem(TokensEnum.refreshToken, refreshToken);
 };
 
 const removeTokens = async () => {
-  await removeItem('accessToken');
-  await removeItem('refreshToken');
+  await removeItem(TokensEnum.accessToken);
+  await removeItem(TokensEnum.refreshToken);
 };
 
 export const authReqInterceptor = axios.interceptors.request.use(async config => {
-  const accessToken = await getItem('accessToken');
+  const accessToken = await getItem(TokensEnum.accessToken);
 
-  if (['currentUser'].indexOf(config.url) > 0 && !(await getItem('refreshToken'))) {
+  if (['currentUser'].indexOf(config.url) > 0 && !(await getItem(TokensEnum.refreshToken))) {
     throw new axios.Cancel('Operation canceled');
   }
 
