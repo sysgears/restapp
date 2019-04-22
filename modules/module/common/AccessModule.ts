@@ -4,13 +4,21 @@ import CommonModule, { CommonModuleShape } from './CommonModule';
  * Access module which provides authentication functions
  */
 export interface AccessModuleShape extends CommonModuleShape {
+  /** login handlers from all authentication modules */
   login?: Array<() => Promise<void>>;
+  /** logout handlers from all authentication modules */
   logout?: Array<() => Promise<void>>;
 }
 
 interface AccessModule extends AccessModuleShape {}
 
 class AccessModule extends CommonModule {
+  /**
+   * Constructs access module representation, that folds all the feature modules
+   * into a single module represented by this instance.
+   *
+   * @param modules feature modules
+   */
   constructor(...modules: AccessModuleShape[]) {
     super(...modules);
   }
