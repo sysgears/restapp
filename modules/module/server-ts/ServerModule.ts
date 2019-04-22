@@ -1,5 +1,5 @@
+import { AccessModule, AccessModuleShape } from '.';
 import { Express, Request, Response } from 'express';
-import CommonModule, { CommonModuleShape } from '@restapp/module-common';
 
 interface CreateContextFuncProps {
   req: Request;
@@ -16,7 +16,7 @@ export enum RestMethod {
 
 type accessMiddleware = (req: Request, res: Response, next: any) => void;
 
-export interface ServerModuleShape extends CommonModuleShape {
+export interface ServerModuleShape extends AccessModuleShape {
   createContextFunc?: Array<
     (props: CreateContextFuncProps, appContext?: { [key: string]: any }) => { [key: string]: any }
   >;
@@ -36,7 +36,7 @@ export interface ServerModuleShape extends CommonModuleShape {
 
 interface ServerModule extends ServerModuleShape {}
 
-class ServerModule extends CommonModule {
+class ServerModule extends AccessModule {
   public modules?: ServerModule;
 
   constructor(...modules: ServerModuleShape[]) {

@@ -7,6 +7,7 @@ import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
 import ServerModule, { RestMethod } from '@restapp/module-server-ts';
 import settings from '../../../settings';
 import { refreshTokens } from './controllers';
+import createTokens from './createTokens';
 
 const {
   auth: { secret }
@@ -55,11 +56,10 @@ const onAppCreate = () => {
   );
 };
 
-export { default as createTokens } from './createTokens';
-
 export default new ServerModule({
   beforeware: [beforeware],
   onAppCreate: [onAppCreate],
+  grant: createTokens,
   apiRouteParams: [
     {
       method: RestMethod.POST,

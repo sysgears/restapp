@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import passport from 'passport';
 
-import { createTokens } from '@restapp/authentication-jwt-server-ts';
+import { ref } from '.';
 
 import settings from '../../../settings';
 
@@ -22,8 +22,7 @@ export const login = (req: Request, res: Response) => {
       if (loginErr) {
         res.send(loginErr);
       }
-
-      const [accessToken, refreshToken] = jwt.enabled ? await createTokens(user) : null;
+      const [accessToken, refreshToken] = jwt.enabled ? await ref.module.grant(user) : null;
 
       return res.json({ user, accessToken, refreshToken });
     });
