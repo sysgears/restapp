@@ -7,6 +7,16 @@ interface Tokens {
   refreshToken: string;
 }
 
+const saveTokens = async ({ accessToken, refreshToken }: Tokens) => {
+  await setItem('accessToken', accessToken);
+  await setItem('refreshToken', refreshToken);
+};
+
+const removeTokens = async () => {
+  await removeItem('accessToken');
+  await removeItem('refreshToken');
+};
+
 export const authReqInterceptor = axios.interceptors.request.use(async config => {
   const accessToken = await getItem('accessToken');
 
@@ -56,16 +66,6 @@ export const authResInterceptor = axios.interceptors.response.use(async res => {
   }
   return res;
 });
-
-const saveTokens = async ({ accessToken, refreshToken }: Tokens) => {
-  await setItem('accessToken', accessToken);
-  await setItem('refreshToken', refreshToken);
-};
-
-const removeTokens = async () => {
-  await removeItem('accessToken');
-  await removeItem('refreshToken');
-};
 
 export default new ClientModule({
   logout: [removeTokens]
