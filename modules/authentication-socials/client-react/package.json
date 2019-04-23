@@ -1,9 +1,0 @@
-{
-  "name": "@restapp/authentication-socials-client-react",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@restapp/module-client-react": "^0.1.0",
-    "@restapp/look-client-react-native": "^0.1.0"
-  }
-}

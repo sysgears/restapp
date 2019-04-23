@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { getItem, setItem, removeItem } from '@restapp/core-common/clientStorage';
-import ClientModule from '@restapp/module-client-react';
+import settings from '../../../../../settings';
+import AccessModule from '../AccessModule';
 
 enum TokensEnum {
   accessToken = 'accessToken',
@@ -71,6 +72,8 @@ export const authResInterceptor = axios.interceptors.response.use(async res => {
   return res;
 });
 
-export default new ClientModule({
-  logout: [removeTokens]
-});
+export default (settings.auth.jwt.enabled
+  ? new AccessModule({
+      logout: [removeTokens]
+    })
+  : undefined);

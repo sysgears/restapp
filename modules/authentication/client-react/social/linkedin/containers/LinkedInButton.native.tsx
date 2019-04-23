@@ -14,10 +14,10 @@ import {
 } from '@restapp/look-client-react-native/styles';
 
 import { SocialButton, SocialButtonComponent } from '../..';
-import buildRedirectUrlForMobile from '../../helpers';
+import buildRedirectUrlForMobile from '../../../helpers';
 
-const facebookLogin = () => {
-  const url = buildRedirectUrlForMobile('facebook');
+const linkedInLogin = () => {
+  const url = buildRedirectUrlForMobile('linkedin');
   if (Platform.OS === 'ios') {
     WebBrowser.openBrowserAsync(url);
   } else {
@@ -25,11 +25,11 @@ const facebookLogin = () => {
   }
 };
 
-const FacebookButton = ({ text }: SocialButtonComponent) => {
+const LinkedInButton = ({ text }: SocialButtonComponent) => {
   return (
-    <TouchableOpacity style={styles.buttonContainer} onPress={facebookLogin}>
+    <TouchableOpacity style={styles.buttonContainer} onPress={linkedInLogin}>
       <View style={styles.btnIconContainer}>
-        <FontAwesome name="facebook-square" size={30} style={{ color: '#fff', marginLeft: 10 }} />
+        <FontAwesome name="linkedin-square" size={30} style={{ color: '#fff', marginLeft: 10 }} />
         <View style={styles.separator} />
       </View>
       <View style={styles.btnTextContainer}>
@@ -39,30 +39,30 @@ const FacebookButton = ({ text }: SocialButtonComponent) => {
   );
 };
 
-const FacebookLink = ({ text }: SocialButtonComponent) => {
+const LinkedInLink = ({ text }: SocialButtonComponent) => {
   return (
-    <TouchableOpacity onPress={facebookLogin} style={styles.link}>
+    <TouchableOpacity onPress={linkedInLogin} style={styles.link}>
       <Text style={styles.linkText}>{text}</Text>
     </TouchableOpacity>
   );
 };
 
-const FacebookIcon = () => (
+const LinkedInIcon = () => (
   <View style={styles.iconWrapper}>
-    <FontAwesome name="facebook-square" size={45} style={{ color: '#3B5998' }} onPress={facebookLogin} />
+    <FontAwesome name="linkedin-square" size={45} style={{ color: '#3B5998' }} onPress={linkedInLogin} />
   </View>
 );
 
-const FacebookComponent: React.FunctionComponent<SocialButton> = ({ type, text }) => {
+const LinkedInComponent: React.FunctionComponent<SocialButton> = ({ type, text }) => {
   switch (type) {
     case 'button':
-      return <FacebookButton text={text} />;
+      return <LinkedInButton text={text} />;
     case 'link':
-      return <FacebookLink text={text} />;
+      return <LinkedInLink text={text} />;
     case 'icon':
-      return <FacebookIcon />;
+      return <LinkedInIcon />;
     default:
-      return <FacebookButton text={text} />;
+      return <LinkedInButton text={text} />;
   }
 };
 
@@ -70,11 +70,15 @@ const styles = StyleSheet.create({
   iconWrapper,
   linkText,
   link,
-  buttonContainer,
+  buttonContainer: {
+    ...buttonContainer,
+    marginTop: 15,
+    backgroundColor: '#0077b0'
+  },
   separator,
   btnIconContainer,
   btnTextContainer,
   btnText
 });
 
-export default FacebookComponent;
+export default LinkedInComponent;

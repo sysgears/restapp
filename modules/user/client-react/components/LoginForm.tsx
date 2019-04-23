@@ -5,14 +5,9 @@ import { isFormError, FieldAdapter as Field } from '@restapp/forms-client-react'
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { required, minLength, validate } from '@restapp/validation-common-react';
 import { Form, RenderField, Alert, Button } from '@restapp/look-client-react';
-import {
-  LinkedInButton,
-  GoogleButton,
-  GitHubButton,
-  FacebookButton,
-  socialsConfig
-} from '@restapp/authentication-socials-client-react';
+import { LinkedInButton, GoogleButton, GitHubButton, FacebookButton } from '@restapp/authentication-client-react';
 
+import settings from '../../../../settings';
 import { FormProps, LoginSubmitProps } from '..';
 
 interface SocialButtons {
@@ -24,7 +19,7 @@ const loginFormSchema = {
   usernameOrEmail: [required, minLength(3)],
   password: [required, minLength(8)]
 };
-const { github, facebook, linkedin, google } = socialsConfig;
+const { github, facebook, linkedin, google } = settings.auth.social;
 
 const renderSocialButtons = ({ buttonsLength, t }: SocialButtons) => {
   const type: string = buttonsLength > 2 ? 'icon' : 'button';

@@ -1,6 +1,8 @@
 import * as React from 'react';
 
-import ClientModule from '@restapp/module-client-react';
+import jwt from './jwt';
+import session from './session';
+import AccessModule from './AccessModule';
 
 interface PageReloaderProps {
   children?: React.ReactElement;
@@ -39,7 +41,7 @@ class PageReloader extends React.Component<PageReloaderProps> {
 
 const AuthPageReloader = ({ children }: AuthPageReloaderProps) => <PageReloader ref={ref}>{children}</PageReloader>;
 
-export default new ClientModule({
+export default new AccessModule(jwt, session, {
   dataRootComponent: [AuthPageReloader],
   login: [login],
   logout: [logout]

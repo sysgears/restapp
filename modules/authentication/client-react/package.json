@@ -1,0 +1,8 @@
+{
+  "name": "@restapp/authentication-client-react",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@restapp/core-common": "^0.1.0"
+  }
+}

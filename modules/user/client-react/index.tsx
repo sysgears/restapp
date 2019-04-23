@@ -61,8 +61,6 @@ export interface FormProps<V> {
   t: TranslateFunction;
 }
 
-export const ref: { module: ClientModule } = { module: null };
-
 const ProfileName: React.FunctionComponent<WithLogoutProps> = withLoadedUser(({ currentUser }) => (
   <React.Fragment>{currentUser ? currentUser.fullName || currentUser.username : null}</React.Fragment>
 ));
@@ -132,6 +130,5 @@ export default new ClientModule({
   localization: [{ ns: 'user', resources }],
   dataRootComponent: [DataRootComponent],
   // eslint-disable-next-line react/display-name
-  rootComponentFactory: [req => (req ? <CookiesProvider cookies={req.universalCookies} /> : <CookiesProvider />)],
-  onAppCreate: [(module: ClientModule) => (ref.module = module)]
+  rootComponentFactory: [req => (req ? <CookiesProvider cookies={req.universalCookies} /> : <CookiesProvider />)]
 });

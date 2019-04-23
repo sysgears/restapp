@@ -2,7 +2,9 @@ import * as React from 'react';
 import { RouteProps } from 'react-router';
 import { History } from 'history';
 
-import { CurrentUser, UserRole, ref } from '..';
+import authentication from '@restapp/authentication-client-react';
+
+import { CurrentUser, UserRole } from '..';
 
 export interface WithUserProps extends RouteProps {
   currentUser?: CurrentUser;
@@ -74,7 +76,7 @@ const IfNotLoggedIn = withLoadedUser(IfNotLoggedInComponent);
 const withLogout = (Component: React.FunctionComponent<WithLogoutProps>) => ({ ...props }: WithLogoutProps) => {
   const newProps = {
     ...props,
-    logout: () => ref.module.authentication.doLogout()
+    logout: () => authentication.doLogout()
   };
   return <Component {...newProps} />;
 };

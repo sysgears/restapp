@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormError } from '@restapp/forms-client-react';
 import { translate } from '@restapp/i18n-client-react';
+import authentication from '@restapp/authentication-client-react';
 
 import LoginView from '../components/LoginView.native';
 
@@ -20,7 +21,7 @@ const Login = (props: LoginProps) => {
       throw new FormError(t('login.errorMsg'), e);
     }
 
-    await ref.module.authentication.doLogin();
+    await authentication.doLogin();
   };
 
   return <LoginView {...props} onSubmit={onSubmit} />;

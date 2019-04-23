@@ -1,8 +1,0 @@
-{
-  "name": "@restapp/authentication-session-client-react",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@restapp/module-client-react": "^0.1.0"
-  }
-}

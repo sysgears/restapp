@@ -7,13 +7,7 @@ import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { RenderField, Button, primary, FormView } from '@restapp/look-client-react-native';
 import { placeholderColor, submit } from '@restapp/look-client-react-native/styles';
 import { required, minLength, validate } from '@restapp/validation-common-react';
-import {
-  LinkedInButton,
-  GoogleButton,
-  GitHubButton,
-  FacebookButton,
-  socialsConfig
-} from '@restapp/authentication-socials-client-react';
+import { LinkedInButton, GoogleButton, GitHubButton, FacebookButton } from '@restapp/authentication-client-react';
 
 import { FormProps, LoginSubmitProps, NavigationOptionsProps } from '../index.native';
 import settings from '../../../../settings';
@@ -31,7 +25,7 @@ const loginFormSchema = {
   usernameOrEmail: [required, minLength(3)],
   password: [required, minLength(settings.auth.password.minLength)]
 };
-const { github, facebook, linkedin, google } = socialsConfig;
+const { github, facebook, linkedin, google } = settings.auth.social;
 
 const renderSocialButtons = ({ buttonsLength, t }: SocialButtons) => {
   const type: string = buttonsLength > 2 ? 'icon' : 'button';

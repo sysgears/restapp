@@ -99,9 +99,8 @@ export * from './containers/Auth.native';
 
 const HeaderTitleWithI18n = translate('user')(HeaderTitle);
 
-export const ref: { navigator: NavigationContainer; module: ClientModule } = {
-  navigator: null,
-  module: null
+export const ref: { navigator: NavigationContainer } = {
+  navigator: null
 };
 
 const MainScreenNavigator = () => {
@@ -138,10 +137,5 @@ export default new ClientModule({
   localization: [{ ns: 'user', resources }],
   router: <MainScreenNavigator />,
   dataRootComponent: [DataRootComponent],
-  onAppCreate: [
-    (module: ClientModule) => {
-      ref.navigator = UserScreenNavigator(module.drawerItems);
-      ref.module = module;
-    }
-  ]
+  onAppCreate: [(module: ClientModule) => (ref.navigator = UserScreenNavigator(module.drawerItems))]
 });

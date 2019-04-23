@@ -1,10 +1,11 @@
 import * as React from 'react';
 
 import { translate } from '@restapp/i18n-client-react';
+import authentication from '@restapp/authentication-client-react';
 
 import LoginView from '../components/LoginView';
 
-import { CommonProps, LoginSubmitProps, ref } from '..';
+import { CommonProps, LoginSubmitProps } from '..';
 
 interface LoginProps extends CommonProps {
   login: (values: LoginSubmitProps) => void;
@@ -32,7 +33,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   };
 
   const onSubmit = async () => {
-    await ref.module.authentication.doLogin();
+    await authentication.doLogin();
   };
 
   return isReady && <LoginView {...props} isRegistered={isRegistered} hideModal={hideModal} onSubmit={onSubmit} />;
