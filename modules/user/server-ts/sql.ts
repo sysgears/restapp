@@ -181,7 +181,7 @@ class User {
       .first()).count;
   }
 
-  public editUserProfile({ id, profile }: { id: number; profile: Profile }, isExists: boolean) {
+  public editUserProfile({ id, profile }: { id: number; profile: Profile }, isExists?: boolean) {
     if (isExists) {
       return knex('user_profile')
         .update(decamelizeKeys(profile))

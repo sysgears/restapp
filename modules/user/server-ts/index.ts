@@ -1,5 +1,5 @@
 import ServerModule, { RestMethod } from '@restapp/module-server-ts';
-import { login } from './controllers';
+import { login, currentUser, createUser } from './controllers';
 
 export const ref: { module: ServerModule } = {
   module: null
@@ -14,10 +14,16 @@ export default new ServerModule({
       middleware: [login]
     },
     {
-      method: RestMethod.POST,
-      route: 'auth',
+      method: RestMethod.GET,
+      route: 'currentUser',
       isAuthRoute: true,
-      middleware: [(req, res) => res.send('user is logged in')]
+      middleware: [currentUser]
+    },
+    {
+      method: RestMethod.POST,
+      route: 'createUser',
+      isAuthRoute: true,
+      middleware: [createUser]
     }
   ]
 });

@@ -1,4 +1,4 @@
-import { AccessModule, AccessModuleShape } from '.';
+import AccessModule, { AccessModuleShape } from './AccessModule';
 import { Express, Request, Response } from 'express';
 
 interface CreateContextFuncProps {

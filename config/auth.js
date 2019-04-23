@@ -5,7 +5,13 @@ export default {
   },
   jwt: {
     enabled: true,
-    tokenExpiresIn: '1m',
+    tokenExpiresIn: '8h',
     refreshTokenExpiresIn: '7d'
+  },
+  password: {
+    requireEmailConfirmation: true,
+    sendPasswordChangesEmail: true,
+    minLength: 8,
+    enabled: true
   }
 };

@@ -49,8 +49,8 @@ const onAppCreate = () => {
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
         secretOrKey: secret
       },
-      (jwtPayload: User, cb: any) => {
-        return cb(null, jwtPayload);
+      (jwtPayload: any, cb: any) => {
+        return cb(null, jwtPayload.user);
       }
     )
   );
