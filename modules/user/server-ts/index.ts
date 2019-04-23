@@ -1,5 +1,5 @@
 import ServerModule, { RestMethod } from '@restapp/module-server-ts';
-import { login, currentUser, createUser, editUser } from './controllers';
+import { login, currentUser, createUser, editUser, deleteUser } from './controllers';
 
 export const ref: { module: ServerModule } = {
   module: null
@@ -30,6 +30,12 @@ export default new ServerModule({
       route: 'editUser',
       isAuthRoute: true,
       middleware: [editUser]
+    },
+    {
+      method: RestMethod.DELETE,
+      route: 'deleteUser',
+      isAuthRoute: true,
+      middleware: [deleteUser]
     }
   ]
 });

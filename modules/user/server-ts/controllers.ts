@@ -177,3 +177,25 @@ export const editUser = async ({ user, body }: Request, res: Response) => {
     throw e;
   }
 };
+
+export const deleteUser = async ({ user, body: { id } }: Request, res: Response) => {
+  const isAdmin = () => user.role === 'admin';
+  const isSelf = () => user.id === id;
+
+  const userData = await User.getUser(id);
+  if (!userData) {
+    res.send('user:userIsNotExisted');
+  }
+
+  if (isSelf()) {
+    res.send('user:userCannotDeleteYourself');
+  }
+
+  const isDeleted = !isSelf() && isAdmin() ? await User.deleteUser(id) : false;
+
+  if (isDeleted) {
+    res.json(userData);
+  } else {
+    res.send('user:userCouldNotDeleted');
+  }
+};
