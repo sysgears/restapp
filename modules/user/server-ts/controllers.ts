@@ -49,7 +49,6 @@ export const currentUser = async ({ user }: Request, res: Response) => {
 };
 
 export const createUser = async ({ body }: Request, res: Response) => {
-  // async (obj, { input }, { User, req: { universalCookies, t }, mailer, req }) => {
   const errors: any = {};
 
   const userExists = await User.getUserByUsername(body.username);
@@ -84,11 +83,13 @@ export const createUser = async ({ body }: Request, res: Response) => {
     await User.editUserProfile({ id: createdUserId, ...body }).transacting(trx);
     trx.commit();
   } catch (e) {
+    res.send(e);
     trx.rollback();
   }
 
   try {
     const user: any = await User.getUser(createdUserId);
+    res.json(user);
 
     if (mailer && password.requireEmailConfirmation && !emailExists) {
       // async email
@@ -108,14 +109,12 @@ export const createUser = async ({ body }: Request, res: Response) => {
         log.info(`Sent registration confirmation email to: ${user.email}`);
       });
     }
-    res.json(user);
   } catch (e) {
     res.json(e);
   }
 };
 
 export const editUser = async ({ user, body }: Request, res: Response) => {
-  // async (obj, { input }, { User, identity, req: { t }, mailer }) => {
   const isAdmin = () => user.role === 'admin';
   const isSelf = () => user.id === body.id;
 
