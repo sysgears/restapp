@@ -113,3 +113,67 @@ export const createUser = async ({ body }: Request, res: Response) => {
     res.json(e);
   }
 };
+
+export const editUser = async ({ user, body }: Request, res: Response) => {
+  // async (obj, { input }, { User, identity, req: { t }, mailer }) => {
+  const isAdmin = () => user.role === 'admin';
+  const isSelf = () => user.id === body.id;
+
+  const errors: any = {};
+
+  const userExists: any = await User.getUserByUsername(body.username);
+  if (userExists && userExists.id !== body.id) {
+    errors.username = 'user:usernameIsExisted';
+  }
+
+  const emailExists: any = await User.getUserByEmail(body.email);
+  if (emailExists && emailExists.id !== body.id) {
+    errors.email = 'user:emailIsExisted';
+  }
+
+  if (body.password && body.password.length < password.minLength) {
+    errors.password = 'user:passwordLength';
+  }
+
+  if (!isEmpty(errors)) {
+    res.status(422).json({
+      message: 'Failed to get events due to validation errors',
+      errors
+    });
+  }
+
+  const userInfo = !isSelf() && isAdmin() ? body : pick(body, ['id', 'username', 'email', 'password']);
+
+  const isProfileExists = await User.isUserProfileExists(body.id);
+  const passwordHash = await createPasswordHash(body.password);
+
+  const trx = await createTransaction();
+  try {
+    await User.editUser(userInfo, passwordHash).transacting(trx);
+    await User.editUserProfile(body, isProfileExists).transacting(trx);
+
+    if (mailer && body.password && password.sendPasswordChangesEmail) {
+      const url = `${__WEBSITE_URL__}/profile`;
+
+      mailer.sendMail({
+        from: `${settings.app.name} <${process.env.EMAIL_USER}>`,
+        to: body.email,
+        subject: 'Your Password Has Been Updated',
+        html: `<p>Your account password has been updated.</p>
+                     <p>To view or edit your account settings, please visit the “Profile” page at</p>
+                     <p><a href="${url}">${url}</a></p>`
+      });
+      log.info(`Sent password has been updated to: ${body.email}`);
+    }
+    trx.commit();
+  } catch (e) {
+    res.json(e);
+    trx.rollback();
+  }
+
+  try {
+    res.json(await User.getUser(body.id));
+  } catch (e) {
+    throw e;
+  }
+};
