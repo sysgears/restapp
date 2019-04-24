@@ -1,42 +1,20 @@
-import passport from 'passport';
 import { pick, isEmpty } from 'lodash';
 import bcrypt from 'bcryptjs';
 
 import { createTransaction } from '@restapp/database-server-ts';
 import { log } from '@restapp/core-common';
 import { mailer } from '@restapp/mailer-server-ts';
-import { access } from '@restapp/authentication-server-ts';
 
 import User from './sql';
 import settings from '../../../settings';
 
 const {
-  auth: { session, jwt, password, secret },
+  auth: { jwt, password, secret },
   app
 } = settings;
 
 const createPasswordHash = (pswd: string) => {
   return bcrypt.hash(pswd, 12);
-};
-
-export const login = (req: any, res: any) => {
-  passport.authenticate('local', { session: session.enabled }, (err, user, info) => {
-    if (err || !user) {
-      return res.status(400).json({
-        message: info ? info.message : 'Login failed',
-        user
-      });
-    }
-
-    req.login(user, { session: session.enabled }, async (loginErr: any) => {
-      if (loginErr) {
-        res.send(loginErr);
-      }
-      const [accessToken, refreshToken] = jwt.enabled ? await access.grantAccess(user, req, user.passwordHash) : null;
-
-      return res.json({ user, accessToken, refreshToken });
-    });
-  })(req, res);
 };
 
 export const currentUser = async ({ user }: any, res: any) => {

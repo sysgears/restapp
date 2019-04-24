@@ -1,13 +1,10 @@
 import ServerModule, { RestMethod } from '@restapp/module-server-ts';
-import { login, currentUser, createUser, editUser, deleteUser } from './controllers';
 
-export default new ServerModule({
+import { currentUser, createUser, editUser, deleteUser } from './controllers';
+import password from './password';
+
+export default new ServerModule(password, {
   apiRouteParams: [
-    {
-      method: RestMethod.POST,
-      route: 'login',
-      middleware: [login]
-    },
     {
       method: RestMethod.GET,
       route: 'currentUser',

@@ -147,7 +147,7 @@ class User {
     );
   }
 
-  public register({ username, email, role = 'user', isActive }: Profile, passwordHash: string) {
+  public register({ username, email, role = 'user', isActive }: Profile, passwordHash: string | false) {
     return knex('user').insert(decamelizeKeys({ username, email, role, passwordHash, isActive }));
   }
 
