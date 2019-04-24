@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Button, primary } from '@restapp/look-client-react-native';
 import { View, Text, StyleSheet } from 'react-native';
 import { TranslateFunction, translate } from '@restapp/i18n-client-react';

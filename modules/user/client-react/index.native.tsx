@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { createStackNavigator, NavigationContainer, NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import {
+  createStackNavigator,
+  NavigationContainer,
+  NavigationScreenProp,
+  NavigationRoute,
+  NavigationParams
+} from 'react-navigation';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { HeaderTitle, IconButton } from '@restapp/look-client-react-native';
 import ClientModule from '@restapp/module-client-react-native';
@@ -10,17 +16,35 @@ import UserScreenNavigator from './containers/UserScreenNavigator.native';
 import Login from './containers/Login.native';
 import Logout from './containers/Logout.native';
 import Register from './containers/Register.native';
+import Users from './containers/Users.native';
+import Profile from './containers/Profile.native';
+import UserEdit from './containers/UserEdit';
+import UserAdd from './containers/UserAdd';
 
 export enum UserRole {
   admin = 'admin',
   user = 'user'
 }
 
-export interface NavigationOptionsProps {
-  navigation: NavigationScreenProp<NavigationRoute<Params>, Params>;
+export interface UserProfile {
+  fullName?: string;
+  firstName?: string;
+  lastName?: string;
 }
 
-interface Params {}
+export interface User {
+  id?: number | string;
+  username: string;
+  role: UserRole;
+  isActive: boolean;
+  email: string;
+  profile?: UserProfile;
+  auth?: any;
+}
+
+export interface NavigationOptionsProps {
+  navigation: NavigationScreenProp<NavigationRoute<NavigationParams>, NavigationParams>;
+}
 
 export interface CommonProps extends NavigationOptionsProps {
   error?: string;
@@ -51,7 +75,7 @@ interface Errors {
 export interface FormProps<V> {
   handleSubmit: (values: V, props: HandleSubmitProps<V>) => void;
   onSubmit: (values: V) => Promise<void> | void | any;
-  submitting: boolean;
+  submitting?: boolean;
   errors: Errors;
   values: V;
   t: TranslateFunction;
@@ -95,6 +119,48 @@ const AuthScreen = createStackNavigator(
   }
 );
 
+class UsersListScreen extends React.Component<NavigationOptionsProps> {
+  public render() {
+    return <Users navigation={this.props.navigation} />;
+  }
+}
+
+class UserEditScreen extends React.Component<NavigationOptionsProps> {
+  public static navigationOptions = () => ({
+    title: 'Edit user'
+  });
+  public render() {
+    return <UserEdit navigation={this.props.navigation} />;
+  }
+}
+
+class ProfileScreen extends React.Component<NavigationOptionsProps> {
+  public static navigationOptions = () => ({
+    title: 'Profile'
+  });
+  public render() {
+    return <Profile navigation={this.props.navigation} />;
+  }
+}
+
+class ProfilerEditScreen extends React.Component<NavigationOptionsProps> {
+  public static navigationOptions = () => ({
+    title: 'Edit profile'
+  });
+  public render() {
+    return <UserEdit navigation={this.props.navigation} />;
+  }
+}
+
+class UserAddScreen extends React.Component<NavigationOptionsProps> {
+  public static navigationOptions = () => ({
+    title: 'Create user'
+  });
+  public render() {
+    return <UserAdd navigation={this.props.navigation} />;
+  }
+}
+
 export * from './containers/Auth.native';
 
 const HeaderTitleWithI18n = translate('user')(HeaderTitle);
@@ -111,6 +177,34 @@ const MainScreenNavigator = () => {
 export default new ClientModule({
   drawerItem: [
     {
+      Profile: {
+        screen: createStackNavigator({
+          Profile: {
+            screen: ProfileScreen,
+            navigationOptions: ({ navigation }: NavigationOptionsProps) => ({
+              headerTitle: <HeaderTitleWithI18n i18nKey="navLink.profile" style="subTitle" />,
+              headerLeft: (
+                <IconButton iconName="menu" iconSize={32} iconColor="#0275d8" onPress={() => navigation.openDrawer()} />
+              ),
+              headerForceInset: {}
+            })
+          },
+          ProfileEdit: {
+            screen: ProfilerEditScreen,
+            navigationOptions: () => ({
+              headerTitle: <HeaderTitleWithI18n i18nKey="navLink.editProfile" style="subTitle" />,
+              headerForceInset: {}
+            })
+          }
+        }),
+        userInfo: {
+          showOnLogin: true,
+          role: [UserRole.user, UserRole.admin]
+        },
+        navigationOptions: {
+          drawerLabel: <HeaderTitleWithI18n i18nKey="navLink.profile" />
+        }
+      },
       Login: {
         screen: AuthScreen,
         userInfo: {
@@ -120,7 +214,52 @@ export default new ClientModule({
           drawerLabel: <HeaderTitleWithI18n i18nKey="navLink.signIn" />
         }
       },
-
+      Users: {
+        screen: createStackNavigator({
+          Users: {
+            screen: UsersListScreen,
+            navigationOptions: ({ navigation }: NavigationOptionsProps) => ({
+              headerTitle: <HeaderTitleWithI18n i18nKey="navLink.users" style="subTitle" />,
+              headerLeft: (
+                <IconButton iconName="menu" iconSize={32} iconColor="#0275d8" onPress={() => navigation.openDrawer()} />
+              ),
+              headerRight: (
+                <IconButton
+                  iconName="filter"
+                  iconSize={32}
+                  iconColor="#0275d8"
+                  onPress={() => {
+                    const isOpenFilter = navigation.getParam('isOpenFilter');
+                    navigation.setParams({ isOpenFilter: !isOpenFilter });
+                  }}
+                />
+              ),
+              headerForceInset: {}
+            })
+          },
+          UserEdit: {
+            screen: UserEditScreen,
+            navigationOptions: () => ({
+              headerTitle: <HeaderTitleWithI18n i18nKey="navLink.editUser" style="subTitle" />,
+              headerForceInset: {}
+            })
+          },
+          UserAdd: {
+            screen: UserAddScreen,
+            navigationOptions: () => ({
+              headerTitle: <HeaderTitleWithI18n i18nKey="navLink.editUser" style="subTitle" />,
+              headerForceInset: {}
+            })
+          }
+        }),
+        userInfo: {
+          showOnLogin: true,
+          role: 'admin'
+        },
+        navigationOptions: {
+          drawerLabel: <HeaderTitleWithI18n i18nKey="navLink.users" />
+        }
+      },
       Logout: {
         screen: (): null => null,
         userInfo: {

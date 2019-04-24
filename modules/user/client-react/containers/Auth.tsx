@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Route, Redirect, RouteComponentProps } from 'react-router-dom';
 
 import { withLoadedUser } from './AuthBase';
-import { UserRole, CurrentUser } from '..';
+import { UserRole, User } from '..';
 import { WithUserProps } from './AuthBase';
 
 interface AuthRouteProps extends WithUserProps {
@@ -31,7 +31,7 @@ const AuthRoute: React.FunctionComponent<AuthRouteProps> = withLoadedUser(
   }
 );
 
-const isRoleMatch = (role: UserRole | UserRole[], currentUser: CurrentUser) => {
+const isRoleMatch = (role: UserRole | UserRole[], currentUser: User) => {
   if (!role) {
     return true;
   }

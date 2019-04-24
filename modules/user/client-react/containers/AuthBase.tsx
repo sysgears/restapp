@@ -4,10 +4,10 @@ import { History } from 'history';
 
 import authentication from '@restapp/authentication-client-react';
 
-import { CurrentUser, UserRole } from '..';
+import { User, UserRole } from '..';
 
 export interface WithUserProps extends RouteProps {
-  currentUser?: CurrentUser;
+  currentUser?: User;
   currentUserLoading?: boolean;
   refetchCurrentUser?: any;
   children?: Element | any;
@@ -15,7 +15,7 @@ export interface WithUserProps extends RouteProps {
 
 interface IfLoggedInComponent {
   role?: UserRole | UserRole[];
-  currentUser?: CurrentUser;
+  currentUser?: User;
   refetchCurrentUser?: any;
   elseComponent?: Element | any;
   children?: Element | any;
@@ -32,7 +32,7 @@ const withUser = <P extends WithUserProps>(Component: React.ComponentType<P>) =>
   return WithUser;
 };
 
-const hasRole = (role: UserRole | UserRole[], currentUser: CurrentUser) => {
+const hasRole = (role: UserRole | UserRole[], currentUser: User) => {
   return currentUser && (!role || (Array.isArray(role) ? role : [role]).indexOf(currentUser.role) >= 0) ? true : false;
 };
 

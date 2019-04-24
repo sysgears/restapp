@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { withFormik } from 'formik';
 import { NavLink, Link } from 'react-router-dom';
 import { isFormError, FieldAdapter as Field } from '@restapp/forms-client-react';

@@ -5,7 +5,7 @@ import authentication from '@restapp/authentication-client-react';
 
 import LoginView from '../components/LoginView.native';
 
-import { CommonProps, LoginSubmitProps, ref } from '../index.native';
+import { CommonProps, LoginSubmitProps } from '../index.native';
 
 interface LoginProps extends CommonProps {
   login: (values: LoginSubmitProps) => Promise<void> | void;

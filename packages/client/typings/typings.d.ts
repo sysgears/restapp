@@ -13,3 +13,5 @@ interface Window {
 declare module 'react-native-credit-card-input';
 declare module 'sourcemapped-stacktrace';
 declare module 'minilog';
+declare module 'reactstrap';
+

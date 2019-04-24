@@ -11,6 +11,10 @@ import resources from './locales';
 import DataRootComponent from './containers/DataRootComponent';
 import Login from './containers/Login';
 import Register from './containers/Register';
+import Users from './containers/Users';
+import UserEdit from './containers/UserEdit';
+import UserAdd from './containers/UserAdd';
+import Profile from './containers/Profile';
 
 import { AuthRoute, IfLoggedIn, IfNotLoggedIn, withLoadedUser, withLogout, WithLogoutProps } from './containers/Auth';
 
@@ -19,12 +23,20 @@ export enum UserRole {
   user = 'user'
 }
 
-export interface CurrentUser {
+export interface UserProfile {
+  fullName?: string;
+  firstName?: string;
+  lastName?: string;
+}
+
+export interface User {
+  id?: number | string;
   username: string;
   role: UserRole;
   isActive: boolean;
   email: string;
-  fullName: string;
+  profile?: UserProfile;
+  auth?: any;
 }
 
 export interface LoginSubmitProps {
@@ -55,14 +67,14 @@ interface Errors {
 export interface FormProps<V> {
   handleSubmit: (values: V, props: HandleSubmitProps<V>) => void;
   onSubmit: (values: V) => Promise<void> | void | any;
-  submitting: boolean;
+  submitting?: boolean;
   errors: Errors;
   values: V;
   t: TranslateFunction;
 }
 
 const ProfileName: React.FunctionComponent<WithLogoutProps> = withLoadedUser(({ currentUser }) => (
-  <React.Fragment>{currentUser ? currentUser.fullName || currentUser.username : null}</React.Fragment>
+  <React.Fragment>{currentUser ? currentUser.profile.fullName || currentUser.username : null}</React.Fragment>
 ));
 
 const LogoutLink = withRouter(
@@ -98,6 +110,10 @@ const NavLinkLoginWithI18n = translate('user')(({ t }: any) => (
 
 export default new ClientModule({
   route: [
+    <AuthRoute exact path="/profile" role={[UserRole.user, UserRole.admin]} redirect="/login" component={Profile} />,
+    <AuthRoute exact path="/users" redirect="/profile" role={UserRole.admin} component={Users} />,
+    <AuthRoute exact path="/users/new" role={[UserRole.admin]} component={UserAdd} />,
+    <AuthRoute path="/users/:id" redirect="/profile" role={[UserRole.user, UserRole.admin]} component={UserEdit} />,
     <AuthRoute exact path="/login" redirectOnLoggedIn redirect="/" component={Login} />,
     <AuthRoute exact path="/register" redirectOnLoggedIn redirect="/profile" component={Register} />
   ],
@@ -129,6 +145,5 @@ export default new ClientModule({
   ],
   localization: [{ ns: 'user', resources }],
   dataRootComponent: [DataRootComponent],
-  // eslint-disable-next-line react/display-name
   rootComponentFactory: [req => (req ? <CookiesProvider cookies={req.universalCookies} /> : <CookiesProvider />)]
 });

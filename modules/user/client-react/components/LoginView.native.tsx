@@ -1,13 +1,14 @@
-import React from 'react';
+import * as React from 'react';
 import { StyleSheet, View, Text, Linking, Platform } from 'react-native';
 import { WebBrowser } from 'expo';
 import { translate } from '@restapp/i18n-client-react';
 import { placeholderColor } from '@restapp/look-client-react-native/styles';
 import { setItem } from '@restapp/core-common/clientStorage';
+import authentication from '@restapp/authentication-client-react';
 
 import LoginForm from './LoginForm.native';
 
-import { CommonProps, LoginSubmitProps, ref } from '../index.native';
+import { CommonProps, LoginSubmitProps } from '../index.native';
 
 interface LoginViewProps extends CommonProps {
   onSubmit: (values: LoginSubmitProps) => void;
@@ -39,7 +40,7 @@ class LoginView extends React.PureComponent<LoginViewProps> {
       await setItem('accessToken', decodedData.tokens.accessToken);
       await setItem('refreshToken', decodedData.tokens.refreshToken);
 
-      await ref.authentication.doLogin();
+      await authentication.doLogin();
     }
 
     if (Platform.OS === 'ios') {
