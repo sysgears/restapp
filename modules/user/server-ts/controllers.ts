@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import passport from 'passport';
 import { pick, isEmpty } from 'lodash';
 import bcrypt from 'bcryptjs';
@@ -20,7 +19,7 @@ const createPasswordHash = (pswd: string) => {
   return bcrypt.hash(pswd, 12);
 };
 
-export const login = (req: Request, res: Response) => {
+export const login = (req: any, res: any) => {
   passport.authenticate('local', { session: session.enabled }, (err, user, info) => {
     if (err || !user) {
       return res.status(400).json({
@@ -29,7 +28,7 @@ export const login = (req: Request, res: Response) => {
       });
     }
 
-    req.login(user, { session: session.enabled }, async loginErr => {
+    req.login(user, { session: session.enabled }, async (loginErr: any) => {
       if (loginErr) {
         res.send(loginErr);
       }
@@ -40,7 +39,7 @@ export const login = (req: Request, res: Response) => {
   })(req, res);
 };
 
-export const currentUser = async ({ user }: Request, res: Response) => {
+export const currentUser = async ({ user }: any, res: any) => {
   if (user.id) {
     res.json(await User.getUser(user.id));
   } else {
@@ -48,21 +47,21 @@ export const currentUser = async ({ user }: Request, res: Response) => {
   }
 };
 
-export const createUser = async ({ body }: Request, res: Response) => {
+export const createUser = async ({ body, t }: any, res: any) => {
   const errors: any = {};
 
   const userExists = await User.getUserByUsername(body.username);
   if (userExists) {
-    errors.username = 'user:usernameIsExisted';
+    errors.username = t('user:usernameIsExisted');
   }
 
   const emailExists = await User.getUserByEmail(body.email);
   if (emailExists) {
-    errors.email = 'user:emailIsExisted';
+    errors.email = t('user:emailIsExisted');
   }
 
   if (body.password.length < password.minLength) {
-    errors.password = 'user:passwordLength';
+    errors.password = t('user:passwordLength');
   }
 
   if (!isEmpty(errors)) {
@@ -114,7 +113,7 @@ export const createUser = async ({ body }: Request, res: Response) => {
   }
 };
 
-export const editUser = async ({ user, body }: Request, res: Response) => {
+export const editUser = async ({ user, body, t }: any, res: any) => {
   const isAdmin = () => user.role === 'admin';
   const isSelf = () => user.id === body.id;
 
@@ -122,16 +121,16 @@ export const editUser = async ({ user, body }: Request, res: Response) => {
 
   const userExists: any = await User.getUserByUsername(body.username);
   if (userExists && userExists.id !== body.id) {
-    errors.username = 'user:usernameIsExisted';
+    errors.username = t('user:usernameIsExisted');
   }
 
   const emailExists: any = await User.getUserByEmail(body.email);
   if (emailExists && emailExists.id !== body.id) {
-    errors.email = 'user:emailIsExisted';
+    errors.email = t('user:emailIsExisted');
   }
 
   if (body.password && body.password.length < password.minLength) {
-    errors.password = 'user:passwordLength';
+    errors.password = t('user:passwordLength');
   }
 
   if (!isEmpty(errors)) {
@@ -177,17 +176,17 @@ export const editUser = async ({ user, body }: Request, res: Response) => {
   }
 };
 
-export const deleteUser = async ({ user, body: { id } }: Request, res: Response) => {
+export const deleteUser = async ({ user, body: { id }, t }: any, res: any) => {
   const isAdmin = () => user.role === 'admin';
   const isSelf = () => user.id === id;
 
   const userData = await User.getUser(id);
   if (!userData) {
-    res.send('user:userIsNotExisted');
+    res.send(t('user:userIsNotExisted'));
   }
 
   if (isSelf()) {
-    res.send('user:userCannotDeleteYourself');
+    res.send(t('user:userCannotDeleteYourself'));
   }
 
   const isDeleted = !isSelf() && isAdmin() ? await User.deleteUser(id) : false;
@@ -195,6 +194,6 @@ export const deleteUser = async ({ user, body: { id } }: Request, res: Response)
   if (isDeleted) {
     res.json(userData);
   } else {
-    res.send('user:userCouldNotDeleted');
+    res.send(t('user:userCouldNotDeleted'));
   }
 };

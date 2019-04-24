@@ -11,13 +11,14 @@ const userDB: any = {
 
 export const refreshTokens = async (req: any, res: any) => {
   const {
-    body: { refreshToken: inputRefreshToken }
+    body: { refreshToken: inputRefreshToken },
+    t
   } = req;
   const decodedToken = jwt.decode(inputRefreshToken) as { [key: string]: any };
   const isValidToken = decodedToken && decodedToken.id;
 
   if (!isValidToken) {
-    res.send('auth:invalidRefresh');
+    res.send(t('auth:invalidRefresh'));
   }
 
   const identity = userDB.id === decodedToken.id ? userDB : null;
