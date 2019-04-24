@@ -74,7 +74,7 @@ export interface FormProps<V> {
 }
 
 const ProfileName: React.FunctionComponent<WithLogoutProps> = withLoadedUser(({ currentUser }) => (
-  <React.Fragment>{currentUser ? currentUser.profile.fullName || currentUser.username : null}</React.Fragment>
+  <>{currentUser ? currentUser.profile.fullName || currentUser.username : null}</>
 ));
 
 const LogoutLink = withRouter(

@@ -50,7 +50,7 @@ const LoginView = ({ onSubmit, t, isRegistered, hideModal }: LoginViewProps) => 
         {isRegistered ? (
           renderConfirmationModal()
         ) : (
-          <React.Fragment>
+          <>
             <h1 className="text-center">{t('login.form.title')}</h1>
             <LoginForm onSubmit={onSubmit} />
             <hr />
@@ -61,7 +61,7 @@ const LoginView = ({ onSubmit, t, isRegistered, hideModal }: LoginViewProps) => 
                 <CardText>user@example.com:user1234</CardText>
               </CardGroup>
             </Card>
-          </React.Fragment>
+          </>
         )}
       </LayoutCenter>
     </PageLayout>
