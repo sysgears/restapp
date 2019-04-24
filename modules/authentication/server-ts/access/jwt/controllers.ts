@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
-import { Request, Response } from 'express';
 
-import settings from '../../../settings';
+import settings from '../../../../../settings';
 import createTokens from './createTokens';
 
 const userDB: any = {
@@ -10,19 +9,19 @@ const userDB: any = {
   id: 1
 };
 
-export const refreshTokens = async (req: Request, res: Response) => {
+export const refreshTokens = async (req: any, res: any) => {
   const {
     body: { refreshToken: inputRefreshToken }
   } = req;
-  const decodedToken = jwt.decode(inputRefreshToken);
+  const decodedToken = jwt.decode(inputRefreshToken) as { [key: string]: any };
   const isValidToken = decodedToken && decodedToken.id;
 
   if (!isValidToken) {
     res.send('auth:invalidRefresh');
   }
 
-  const user = userDB.id === decodedToken.id ? userDB : null;
-  const refreshSecret = settings.auth.secret + user.password;
+  const identity = userDB.id === decodedToken.id ? userDB : null;
+  const refreshSecret = settings.auth.secret + identity.password;
 
   try {
     jwt.verify(inputRefreshToken, refreshSecret);
@@ -30,7 +29,7 @@ export const refreshTokens = async (req: Request, res: Response) => {
     res.send(err);
   }
 
-  const [accessToken, refreshToken] = await createTokens(user);
+  const [accessToken, refreshToken] = await createTokens(identity, settings.auth.secret, refreshSecret, req.t);
 
   res.json({
     accessToken,

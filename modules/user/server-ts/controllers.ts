@@ -6,8 +6,8 @@ import bcrypt from 'bcryptjs';
 import { createTransaction } from '@restapp/database-server-ts';
 import { log } from '@restapp/core-common';
 import { mailer } from '@restapp/mailer-server-ts';
+import { access } from '@restapp/authentication-server-ts';
 
-import { ref } from '.';
 import User from './sql';
 import settings from '../../../settings';
 
@@ -33,7 +33,7 @@ export const login = (req: Request, res: Response) => {
       if (loginErr) {
         res.send(loginErr);
       }
-      const [accessToken, refreshToken] = jwt.enabled ? await ref.module.grant(user) : null;
+      const [accessToken, refreshToken] = jwt.enabled ? await access.grantAccess(user, req, user.passwordHash) : null;
 
       return res.json({ user, accessToken, refreshToken });
     });

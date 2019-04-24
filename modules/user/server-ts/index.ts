@@ -1,12 +1,7 @@
 import ServerModule, { RestMethod } from '@restapp/module-server-ts';
 import { login, currentUser, createUser, editUser, deleteUser } from './controllers';
 
-export const ref: { module: ServerModule } = {
-  module: null
-};
-
 export default new ServerModule({
-  onAppCreate: [(module: ServerModule) => (ref.module = module)],
   apiRouteParams: [
     {
       method: RestMethod.POST,

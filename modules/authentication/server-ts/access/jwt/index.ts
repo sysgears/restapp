@@ -4,8 +4,9 @@ import bodyParser from 'body-parser';
 import passport from 'passport';
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
 
-import ServerModule, { RestMethod } from '@restapp/module-server-ts';
-import settings from '../../../settings';
+import { RestMethod } from '@restapp/module-server-ts';
+import settings from '../../../../../settings';
+import AccessModule from '../AccessModule';
 import { refreshTokens } from './controllers';
 import createTokens from './createTokens';
 
@@ -33,6 +34,16 @@ interface User {
   id: number;
 }
 
+const grant = async (identity: any, req: any, passwordHash: string = '') => {
+  const refreshSecret = settings.auth.secret + passwordHash;
+  const [accessToken, refreshToken] = await createTokens(identity, settings.auth.secret, refreshSecret, req.t);
+
+  return {
+    accessToken,
+    refreshToken
+  };
+};
+
 const onAppCreate = () => {
   passport.use(
     new LocalStratery((username: string, password: string, done: any) => {
@@ -56,16 +67,18 @@ const onAppCreate = () => {
   );
 };
 
-export default new ServerModule({
-  beforeware: [beforeware],
-  onAppCreate: [onAppCreate],
-  grant: createTokens,
-  apiRouteParams: [
-    {
-      method: RestMethod.POST,
-      route: 'refreshToken',
-      middleware: [refreshTokens]
-    }
-  ],
-  accessMiddleware
-});
+export default (settings.auth.jwt.enabled
+  ? new AccessModule({
+      beforeware: [beforeware],
+      onAppCreate: [onAppCreate],
+      grant: [grant],
+      apiRouteParams: [
+        {
+          method: RestMethod.POST,
+          route: 'refreshToken',
+          middleware: [refreshTokens]
+        }
+      ],
+      accessMiddleware
+    })
+  : undefined);

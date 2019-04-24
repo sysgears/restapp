@@ -1,4 +1,4 @@
-import AccessModule, { AccessModuleShape } from './AccessModule';
+import CommonModule, { CommonModuleShape } from '@restapp/module-common';
 import { Express, Request, Response } from 'express';
 
 interface CreateContextFuncProps {
@@ -16,7 +16,7 @@ export enum RestMethod {
 
 type accessMiddleware = (req: Request, res: Response, next: any) => void;
 
-export interface ServerModuleShape extends AccessModuleShape {
+export interface ServerModuleShape extends CommonModuleShape {
   createContextFunc?: Array<
     (props: CreateContextFuncProps, appContext?: { [key: string]: any }) => { [key: string]: any }
   >;
@@ -31,12 +31,12 @@ export interface ServerModuleShape extends AccessModuleShape {
     isAuthRoute?: boolean;
   }>;
   // Shared modules data
-  data?: { [key: string]: any };
+  appContext?: { [key: string]: any };
 }
 
 interface ServerModule extends ServerModuleShape {}
 
-class ServerModule extends AccessModule {
+class ServerModule extends CommonModule {
   public modules?: ServerModule;
 
   constructor(...modules: ServerModuleShape[]) {

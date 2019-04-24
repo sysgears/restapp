@@ -4,9 +4,10 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import passport from 'passport';
 
-import ServerModule from '@restapp/module-server-ts';
-
 import { RestMethod } from '@restapp/module-server-ts';
+
+import settings from '../../../../../settings';
+import AccessModule from '../AccessModule';
 import { logout } from './controllers';
 
 const FileStore = require('session-file-store')(session);
@@ -64,15 +65,17 @@ const onAppCreate = () => {
   );
 };
 
-export default new ServerModule({
-  beforeware: [beforeware],
-  onAppCreate: [onAppCreate],
-  accessMiddleware,
-  apiRouteParams: [
-    {
-      method: RestMethod.POST,
-      route: 'logout',
-      middleware: [logout]
-    }
-  ]
-});
+export default (settings.auth.session.enabled
+  ? new AccessModule({
+      beforeware: [beforeware],
+      onAppCreate: [onAppCreate],
+      accessMiddleware,
+      apiRouteParams: [
+        {
+          method: RestMethod.POST,
+          route: 'logout',
+          middleware: [logout]
+        }
+      ]
+    })
+  : undefined);
