@@ -15,6 +15,7 @@ import Users from './containers/Users';
 import UserEdit from './containers/UserEdit';
 import UserAdd from './containers/UserAdd';
 import Profile from './containers/Profile';
+import ForgotPassword from './containers/ForgotPassword';
 
 import { AuthRoute, IfLoggedIn, IfNotLoggedIn, withLoadedUser, withLogout, WithLogoutProps } from './containers/Auth';
 
@@ -115,7 +116,8 @@ export default new ClientModule({
     <AuthRoute exact path="/users/new" role={[UserRole.admin]} component={UserAdd} />,
     <AuthRoute path="/users/:id" redirect="/profile" role={[UserRole.user, UserRole.admin]} component={UserEdit} />,
     <AuthRoute exact path="/login" redirectOnLoggedIn redirect="/" component={Login} />,
-    <AuthRoute exact path="/register" redirectOnLoggedIn redirect="/profile" component={Register} />
+    <AuthRoute exact path="/register" redirectOnLoggedIn redirect="/profile" component={Register} />,
+    <AuthRoute exact path="/forgot-password" redirectOnLoggedIn redirect="/profile" component={ForgotPassword} />
   ],
   navItem: [
     <IfLoggedIn key="/users" role={UserRole.admin}>

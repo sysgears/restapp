@@ -20,6 +20,7 @@ import Users from './containers/Users.native';
 import Profile from './containers/Profile.native';
 import UserEdit from './containers/UserEdit';
 import UserAdd from './containers/UserAdd';
+import ForgotPassword from './containers/ForgotPassword.native';
 
 export enum UserRole {
   admin = 'admin',
@@ -104,9 +105,20 @@ class RegisterScreen extends React.Component<NavigationOptionsProps> {
   }
 }
 
+class ForgotPasswordScreen extends React.Component<NavigationOptionsProps> {
+  public static navigationOptions = () => ({
+    headerTitle: <HeaderTitleWithI18n i18nKey="navLink.forgotPassword" style="subTitle" />,
+    headerForceInset: {}
+  });
+  public render() {
+    return <ForgotPassword navigation={this.props.navigation} />;
+  }
+}
+
 const AuthScreen = createStackNavigator(
   {
     Login: { screen: LoginScreen },
+    ForgotPassword: { screen: ForgotPasswordScreen },
     Register: { screen: RegisterScreen }
   },
   {
