@@ -54,13 +54,15 @@ passport.deserializeUser((username, cb) => {
   return cb(null);
 });
 
-const onAppCreate = () => {
+const onAppCreate = ({ appContext }: any) => {
   passport.use(
-    new Strategy((username: string, password: string, done: any) => {
-      if (username !== userDB.username || password !== userDB.password) {
-        return done(null, false, { message: 'Incorrect username or password.' });
+    new Strategy(async (username: string, password: string, done: any) => {
+      const { identity, message } = await appContext.validateLogin(username, password);
+
+      if (message) {
+        return done(null, false, { message });
       }
-      return done(null, userDB);
+      return done(null, identity);
     })
   );
 };

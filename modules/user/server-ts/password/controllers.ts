@@ -28,11 +28,9 @@ export const login = (req: any, res: any) => {
       if (loginErr) {
         res.send(loginErr);
       }
-      const { accessToken, refreshToken } = jwtSetting.enabled
-        ? await access.grantAccess(user, req, user.passwordHash)
-        : null;
+      const tokens = jwtSetting.enabled ? await access.grantAccess(user, req, user.passwordHash) : null;
 
-      return res.json({ user, accessToken, refreshToken });
+      return res.json({ user, tokens });
     });
   })(req, res);
 };
