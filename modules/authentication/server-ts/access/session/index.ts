@@ -54,7 +54,7 @@ passport.deserializeUser((username, cb) => {
   return cb(null);
 });
 
-const onAppCreate = ({ appContext }: any) => {
+const onAppCreate = ({ appContext }: AccessModule) => {
   passport.use(
     new Strategy(async (username: string, password: string, done: any) => {
       const { identity, message } = await appContext.validateLogin(username, password);
