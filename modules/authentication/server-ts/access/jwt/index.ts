@@ -44,7 +44,7 @@ const grant = async (identity: any, req: any, passwordHash: string = '') => {
   };
 };
 
-const onAppCreate = () => {
+const onAppCreate = ({ appContext }: any) => {
   passport.use(
     new LocalStratery((username: string, password: string, done: any) => {
       if (username !== userDB.username || password !== userDB.password) {
@@ -61,7 +61,7 @@ const onAppCreate = () => {
         secretOrKey: secret
       },
       (jwtPayload: any, cb: any) => {
-        return cb(null, jwtPayload.user);
+        return cb(null, jwtPayload.identity);
       }
     )
   );

@@ -3,17 +3,16 @@ import jwt from 'jsonwebtoken';
 import settings from '../../../../../settings';
 import createTokens from './createTokens';
 
-const userDB: any = {
-  username: 'test-user',
-  password: '123',
-  id: 1
-};
-
 export const refreshTokens = async (req: any, res: any) => {
   const {
     body: { refreshToken: inputRefreshToken },
     t
   } = req;
+  const {
+    locals: {
+      appContext: { getHash, getIdentity }
+    }
+  } = res;
   const decodedToken = jwt.decode(inputRefreshToken) as { [key: string]: any };
   const isValidToken = decodedToken && decodedToken.id;
 
@@ -21,8 +20,9 @@ export const refreshTokens = async (req: any, res: any) => {
     res.send(t('auth:invalidRefresh'));
   }
 
-  const identity = userDB.id === decodedToken.id ? userDB : null;
-  const refreshSecret = settings.auth.secret + identity.password;
+  const identity = await getIdentity(decodedToken.id);
+  const hash = getHash ? await getHash(decodedToken.id) : '';
+  const refreshSecret = settings.auth.secret + hash;
 
   try {
     jwt.verify(inputRefreshToken, refreshSecret);
