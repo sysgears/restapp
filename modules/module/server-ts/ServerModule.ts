@@ -30,8 +30,6 @@ export interface ServerModuleShape extends CommonModuleShape {
     middleware: Array<(req: Request, res: Response, next: any) => void>;
     isAuthRoute?: boolean;
   }>;
-  // Shared modules data
-  appContext?: { [key: string]: any };
 }
 
 interface ServerModule extends ServerModuleShape {}
