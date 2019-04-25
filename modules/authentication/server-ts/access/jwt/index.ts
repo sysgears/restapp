@@ -22,18 +22,6 @@ const beforeware = (app: Express) => {
 
 const accessMiddleware = passport.authenticate('jwt', { session: false });
 
-const userDB: User = {
-  username: 'test-user',
-  password: '123',
-  id: 1
-};
-
-interface User {
-  username: string;
-  password: string;
-  id: number;
-}
-
 const grant = async (identity: any, req: any, passwordHash: string = '') => {
   const refreshSecret = settings.auth.secret + passwordHash;
   const [accessToken, refreshToken] = await createTokens(identity, settings.auth.secret, refreshSecret, req.t);
@@ -46,11 +34,13 @@ const grant = async (identity: any, req: any, passwordHash: string = '') => {
 
 const onAppCreate = ({ appContext }: any) => {
   passport.use(
-    new LocalStratery((username: string, password: string, done: any) => {
-      if (username !== userDB.username || password !== userDB.password) {
-        return done(null, false, { message: 'Incorrect username or password.' });
+    new LocalStratery(async (username: string, password: string, done: any) => {
+      const { identity, message } = appContext.user.validateLogin(username, password);
+
+      if (message) {
+        return done(null, false, { message });
       }
-      return done(null, userDB);
+      return done(null, identity);
     })
   );
 
