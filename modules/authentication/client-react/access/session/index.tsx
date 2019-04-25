@@ -1,8 +1,9 @@
 import settings from '../../../../../settings';
 import AccessModule from '../AccessModule';
+import axios from 'axios';
 
 const logout = async () => {
-  // TODO request to server for logout
+  await axios.post(`${__API_URL__}/logout`);
 };
 
 export default (settings.auth.session.enabled
