@@ -35,9 +35,11 @@ const validateLogin = async (usernameOrEmail: string, pswd: string, t: any) => {
 };
 
 const appContext = {
-  getIdentity,
-  getHash,
-  validateLogin
+  user: {
+    getIdentity,
+    getHash,
+    validateLogin
+  }
 };
 
 export default new ServerModule(password, {

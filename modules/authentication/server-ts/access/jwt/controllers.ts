@@ -10,7 +10,9 @@ export const refreshTokens = async (req: any, res: any) => {
   } = req;
   const {
     locals: {
-      appContext: { getHash, getIdentity }
+      appContext: {
+        user: { getHash, getIdentity }
+      }
     }
   } = res;
   const decodedToken = jwt.decode(inputRefreshToken) as { [key: string]: any };

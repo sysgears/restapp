@@ -35,7 +35,7 @@ const grant = async (identity: any, req: any, passwordHash: string = '') => {
 const onAppCreate = ({ appContext }: AccessModule) => {
   passport.use(
     new LocalStratery(async (username: string, password: string, done: any) => {
-      const { identity, message } = await appContext.validateLogin(username, password);
+      const { identity, message } = await appContext.user.validateLogin(username, password);
 
       if (message) {
         return done(null, false, { message });
