@@ -4,7 +4,24 @@ import { has } from 'lodash';
 import bcrypt from 'bcryptjs';
 import { knex, returnId } from '@restapp/database-server-ts';
 
-// Actual query fetching and transformation in DB
+export interface UserFileds extends User, UserPassword, UserProfile {}
+
+export interface User {
+  id: number;
+  username: string;
+  role: string;
+  isActive: boolean;
+  email: string;
+}
+
+export interface UserPassword {
+  passwordHash: string;
+}
+
+export interface UserProfile {
+  firstName: string;
+  lastName: string;
+}
 
 interface OrderBy {
   column: string;
@@ -31,26 +48,24 @@ interface Profile {
   isActive: boolean;
 }
 
-class User {
+const userColumns = ['u.id', 'u.username', 'u.role', 'u.is_active', 'u.email', 'up.first_name', 'up.last_name'];
+const userColumnsWithSocial = [
+  ...userColumns,
+  'fa.fb_id',
+  'fa.display_name AS fbDisplayName',
+  'lna.ln_id',
+  'lna.display_name AS lnDisplayName',
+  'gha.gh_id',
+  'gha.display_name AS ghDisplayName',
+  'ga.google_id',
+  'ga.display_name AS googleDisplayName'
+];
+const userColumnsWithPassword = [...userColumns, 'u.password_hash'];
+
+class UserDAO {
   public async getUsers(orderBy: OrderBy, filter: Filter) {
     const queryBuilder = knex
-      .select(
-        'u.id as id',
-        'u.username as username',
-        'u.role',
-        'u.is_active',
-        'u.email as email',
-        'up.first_name as first_name',
-        'up.last_name as last_name',
-        'fa.fb_id',
-        'fa.display_name AS fbDisplayName',
-        'lna.ln_id',
-        'lna.display_name AS lnDisplayName',
-        'gha.gh_id',
-        'gha.display_name AS ghDisplayName',
-        'ga.google_id',
-        'ga.display_name AS googleDisplayName'
-      )
+      .select(...userColumnsWithSocial)
       .from('user AS u')
       .leftJoin('user_profile AS up', 'up.user_id', 'u.id')
       .leftJoin('auth_facebook AS fa', 'fa.user_id', 'u.id')
@@ -99,23 +114,7 @@ class User {
   public async getUser(id: number) {
     return camelizeKeys(
       await knex
-        .select(
-          'u.id',
-          'u.username',
-          'u.role',
-          'u.is_active',
-          'u.email',
-          'up.first_name',
-          'up.last_name',
-          'fa.fb_id',
-          'fa.display_name AS fbDisplayName',
-          'lna.ln_id',
-          'lna.display_name AS lnDisplayName',
-          'gha.gh_id',
-          'gha.display_name AS ghDisplayName',
-          'ga.google_id',
-          'ga.display_name AS googleDisplayName'
-        )
+        .select(...userColumnsWithSocial)
         .from('user AS u')
         .leftJoin('user_profile AS up', 'up.user_id', 'u.id')
         .leftJoin('auth_facebook AS fa', 'fa.user_id', 'u.id')
@@ -130,16 +129,7 @@ class User {
   public async getUserWithPassword(id: number) {
     return camelizeKeys(
       await knex
-        .select(
-          'u.id',
-          'u.username',
-          'u.password_hash',
-          'u.role',
-          'u.is_active',
-          'u.email',
-          'up.first_name',
-          'up.last_name'
-        )
+        .select(...userColumnsWithPassword)
         .from('user AS u')
         .where('u.id', '=', id)
         .leftJoin('user_profile AS up', 'up.user_id', 'u.id')
@@ -214,16 +204,7 @@ class User {
   public async getUserByEmail(email: string) {
     return camelizeKeys(
       await knex
-        .select(
-          'u.id',
-          'u.username',
-          'u.password_hash',
-          'u.role',
-          'u.is_active',
-          'u.email',
-          'up.first_name',
-          'up.last_name'
-        )
+        .select(...userColumnsWithPassword)
         .from('user AS u')
         .leftJoin('user_profile AS up', 'up.user_id', 'u.id')
         .where({ email })
@@ -234,17 +215,7 @@ class User {
   public async getUserByFbIdOrEmail(id: number, email: string) {
     return camelizeKeys(
       await knex
-        .select(
-          'u.id',
-          'u.username',
-          'u.role',
-          'u.is_active',
-          'fa.fb_id',
-          'u.email',
-          'u.password_hash',
-          'up.first_name',
-          'up.last_name'
-        )
+        .select(...userColumnsWithPassword, 'fa.fb_id')
         .from('user AS u')
         .leftJoin('auth_facebook AS fa', 'fa.user_id', 'u.id')
         .leftJoin('user_profile AS up', 'up.user_id', 'u.id')
@@ -257,17 +228,7 @@ class User {
   public async getUserByLnInIdOrEmail(id: number, email: string) {
     return camelizeKeys(
       await knex
-        .select(
-          'u.id',
-          'u.username',
-          'u.role',
-          'u.is_active',
-          'lna.ln_id',
-          'u.email',
-          'u.password_hash',
-          'up.first_name',
-          'up.last_name'
-        )
+        .select(...userColumnsWithPassword, 'lna.ln_id')
         .from('user AS u')
         .leftJoin('auth_linkedin AS lna', 'lna.user_id', 'u.id')
         .leftJoin('user_profile AS up', 'up.user_id', 'u.id')
@@ -280,17 +241,7 @@ class User {
   public async getUserByGHIdOrEmail(id: number, email: string) {
     return camelizeKeys(
       await knex
-        .select(
-          'u.id',
-          'u.username',
-          'u.role',
-          'u.is_active',
-          'gha.gh_id',
-          'u.email',
-          'u.password_hash',
-          'up.first_name',
-          'up.last_name'
-        )
+        .select(...userColumnsWithPassword, 'gha.gh_id')
         .from('user AS u')
         .leftJoin('auth_github AS gha', 'gha.user_id', 'u.id')
         .leftJoin('user_profile AS up', 'up.user_id', 'u.id')
@@ -303,17 +254,7 @@ class User {
   public async getUserByGoogleIdOrEmail(id: number, email: string) {
     return camelizeKeys(
       await knex
-        .select(
-          'u.id',
-          'u.username',
-          'u.role',
-          'u.is_active',
-          'ga.google_id',
-          'u.email',
-          'u.password_hash',
-          'up.first_name',
-          'up.last_name'
-        )
+        .select(...userColumnsWithPassword, 'ga.google_id')
         .from('user AS u')
         .leftJoin('auth_google AS ga', 'ga.user_id', 'u.id')
         .leftJoin('user_profile AS up', 'up.user_id', 'u.id')
@@ -326,7 +267,7 @@ class User {
   public async getUserByUsername(username: string) {
     return camelizeKeys(
       await knex
-        .select('u.id', 'u.username', 'u.role', 'u.is_active', 'u.email', 'up.first_name', 'up.last_name')
+        .select(...userColumns)
         .from('user AS u')
         .where('u.username', '=', username)
         .leftJoin('user_profile AS up', 'up.user_id', 'u.id')
@@ -337,16 +278,7 @@ class User {
   public async getUserByUsernameOrEmail(usernameOrEmail: string) {
     return camelizeKeys(
       await knex
-        .select(
-          'u.id',
-          'u.username',
-          'u.password_hash',
-          'u.role',
-          'u.is_active',
-          'u.email',
-          'up.first_name',
-          'up.last_name'
-        )
+        .select(...userColumnsWithPassword)
         .from('user AS u')
         .where('u.username', '=', usernameOrEmail)
         .orWhere('u.email', '=', usernameOrEmail)
@@ -355,6 +287,6 @@ class User {
     );
   }
 }
-const userDAO = new User();
+const userDAO = new UserDAO();
 
 export default userDAO;
