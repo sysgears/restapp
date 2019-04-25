@@ -2,7 +2,6 @@ import bcrypt from 'bcryptjs';
 import { pick, isEmpty } from 'lodash';
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
-// import { UserInputError } from 'apollo-server-errors';
 import { access } from '@restapp/authentication-server-ts';
 import { log } from '@restapp/core-common';
 import { mailer } from '@restapp/mailer-server-ts';
@@ -29,7 +28,7 @@ export const login = (req: any, res: any) => {
       if (loginErr) {
         res.send(loginErr);
       }
-      const [accessToken, refreshToken] = jwtSetting.enabled
+      const { accessToken, refreshToken } = jwtSetting.enabled
         ? await access.grantAccess(user, req, user.passwordHash)
         : null;
 
