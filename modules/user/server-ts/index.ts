@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 
 import ServerModule, { RestMethod } from '@restapp/module-server-ts';
 
-import { user, users, currentUser, createUser, editUser, deleteUser } from './controllers';
+import { user, users, currentUser, addUser, editUser, deleteUser } from './controllers';
 import password from './password';
 import User from './sql';
 import settings from '../../../settings';
@@ -67,9 +67,9 @@ export default new ServerModule(password, {
     },
     {
       method: RestMethod.POST,
-      route: 'createUser',
+      route: 'addUser',
       isAuthRoute: true,
-      middleware: [createUser]
+      middleware: [addUser]
     },
     {
       method: RestMethod.POST,

@@ -42,7 +42,7 @@ export const currentUser = async ({ user: identity }: any, res: any) => {
   }
 };
 
-export const createUser = async ({ body, user: identity, t }: any, res: any) => {
+export const addUser = async ({ body, user: identity, t }: any, res: any) => {
   if (identity.role !== 'admin') {
     return res.status(401).send(t('user:accessDenied'));
   }
