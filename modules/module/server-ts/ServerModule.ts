@@ -1,8 +1,8 @@
 import { Express } from 'express';
-import CommonModule, { CommonModuleShape } from '@restapp/module-common';
+import SSRModule, { SSRModuleShape } from './SSRModule';
 
 /**
- * Create GraphQL context function params
+ * Create context function params
  */
 interface CreateContextFuncProps {
   // HTTP request
@@ -28,12 +28,12 @@ type CreateContextFunc = (props: CreateContextFuncProps) => { [key: string]: any
  * @param app an instance of Express
  * @param appContext application context
  */
-type MiddlewareFunc = (app: Express, appContext: { [key: string]: any }) => void;
+export type MiddlewareFunc = (app: Express, appContext: { [key: string]: any }) => void;
 
 /**
  * Server feature modules interface
  */
-export interface ServerModuleShape extends CommonModuleShape {
+export interface ServerModuleShape extends SSRModuleShape {
   // A list of functions to create context
   createContextFunc?: CreateContextFunc[];
   // A list of functions to register high-priority middlewares (happens before registering normal priority ones)
@@ -44,7 +44,7 @@ export interface ServerModuleShape extends CommonModuleShape {
 
 interface ServerModule extends ServerModuleShape {}
 
-class ServerModule extends CommonModule {
+class ServerModule extends SSRModule {
   /**
    * Constructs backend Node feature module representation, that folds all the feature modules
    * into a single module represented by this instance.
