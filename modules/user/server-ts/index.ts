@@ -16,7 +16,7 @@ const getIdentity = (id: number) => {
 const getHash = async (id: number) => ((await User.getUserWithPassword(id)) as any).passwordHash || '';
 
 // TODO find a way to provide translate function
-const validateLogin = async (usernameOrEmail: string, pswd: string, t: any) => {
+const validateLogin = async (usernameOrEmail: string, pswd: string) => {
   // TODO add type of user
   const identity: any = await User.getUserByUsernameOrEmail(usernameOrEmail);
   if (!user) {
