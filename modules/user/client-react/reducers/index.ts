@@ -2,37 +2,47 @@ import { User } from '..';
 
 export enum ActionType {
   SET_CURRENT_USER = 'SET_CURRENT_USER',
-  CLEAR_CURRENT_USER = 'CLEAR_CURRENT_USER'
+  CLEAR_CURRENT_USER = 'CLEAR_CURRENT_USER',
+  SET_LOADING = 'SET_LOADING'
 }
 
 export interface UserModuleState {
   currentUser: User;
+  loading: boolean;
 }
 
-export type UserModuleAction<V = UserModuleState> = (props: UserModuleActionProps<V>) => void;
+export type UserModuleAction = (props: UserModuleActionProps) => void;
 
-export interface UserModuleActionProps<V> {
+export interface UserModuleActionProps {
   type: ActionType | ActionType[];
-  payload?: V;
+  payload?: any;
   promise?: () => Promise<any>;
   [key: string]: any;
 }
 
 const defaultState: UserModuleState = {
-  currentUser: null
+  currentUser: null,
+  loading: false
 };
 
-export default function(state = defaultState, action: UserModuleActionProps<UserModuleState>) {
+export default function(state = defaultState, action: UserModuleActionProps) {
   switch (action.type) {
+    case ActionType.SET_LOADING:
+      return {
+        ...state,
+        loading: action.payload
+      };
     case ActionType.CLEAR_CURRENT_USER:
       return {
         ...state,
-        currentUser: null
+        currentUser: null,
+        ...action.payload
       };
     case ActionType.SET_CURRENT_USER:
       return {
         ...state,
-        currentUser: action.payload
+        currentUser: action.payload.user,
+        ...action.payload
       };
 
     default:

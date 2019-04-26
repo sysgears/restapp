@@ -15,11 +15,13 @@ const rerenderApp = () => {
   ref.current.reloadPage();
 };
 
-const login = async () => {
+const login = async (clearStore: () => void) => {
+  await clearStore();
   rerenderApp();
 };
 
-const logout = async () => {
+const logout = async (clearStore: () => void) => {
+  await clearStore();
   rerenderApp();
 };
 

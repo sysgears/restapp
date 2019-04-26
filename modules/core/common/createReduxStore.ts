@@ -13,22 +13,23 @@ const requestMiddleware: Middleware = _state => next => action => {
   if (!promise) {
     return next(action);
   }
-  const [SUCCESS, FAIL] = type;
+  const [REQUEST, SUCCESS, FAIL] = type;
+
+  next({ type: REQUEST, ...rest });
 
   (async () => {
     try {
       const result = await promise();
-
       next({
         type: SUCCESS,
-        result,
+        payload: result,
         ...rest
       });
     } catch (error) {
       next({
         type: FAIL,
-        error,
-        ...resizeTo
+        payload: error,
+        ...rest
       });
     }
   })();

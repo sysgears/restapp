@@ -6,10 +6,11 @@ import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 
 import LoginForm from './LoginForm';
 import { LoginSubmitProps } from '..';
+import { LoginProps } from '../containers/Login';
 
 import settings from '../../../../settings';
 
-interface LoginViewProps {
+interface LoginViewProps extends LoginProps {
   onSubmit: (values: LoginSubmitProps) => void;
   t: TranslateFunction;
   isRegistered?: boolean;
