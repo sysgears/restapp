@@ -5,9 +5,9 @@ import ClientModule, { ClientModuleShape } from '@restapp/module-client-react';
  */
 export interface AccessModuleShape extends ClientModuleShape {
   // login handlers from all authentication modules
-  login?: Array<() => Promise<void>>;
+  login?: Array<(callback: () => void) => Promise<void>>;
   // logout handlers from all authentication modules
-  logout?: Array<() => Promise<void>>;
+  logout?: Array<(callback: () => void) => Promise<void>>;
 }
 
 interface AccessModule extends AccessModuleShape {}
@@ -28,9 +28,9 @@ class AccessModule extends ClientModule {
    *
    * @returns merge login methods
    */
-  public async doLogin() {
+  public async doLogin(callback: () => void) {
     for (const login of this.login) {
-      await login();
+      await login(callback);
     }
   }
 
@@ -39,9 +39,9 @@ class AccessModule extends ClientModule {
    *
    * @returns merge logout methods
    */
-  public async doLogout() {
+  public async doLogout(callback: () => void) {
     for (const logout of this.logout) {
-      await logout();
+      await logout(callback);
     }
   }
 }

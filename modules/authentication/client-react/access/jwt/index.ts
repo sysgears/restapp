@@ -25,18 +25,20 @@ const removeTokens = async () => {
 export const authReqInterceptor = axios.interceptors.request.use(async config => {
   const accessToken = await getItem(TokensEnum.accessToken);
 
-  if (['currentUser'].indexOf(config.url) > 0 && !(await getItem(TokensEnum.refreshToken))) {
+  if (config.url.includes('currentUser') && !(await getItem(TokensEnum.refreshToken))) {
     throw new axios.Cancel('Operation canceled');
   }
 
-  config.headers =
-    ['login', 'refreshTokens'].indexOf(config.url) < 0 && accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
+  const arrayExceptions = ['login', 'refreshTokens'];
+  const checkInclude = arrayExceptions.some(exception => config.url.includes(exception));
+
+  config.headers = !checkInclude && accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
 
   return config;
 });
 
 export const authResInterceptor = axios.interceptors.response.use(async res => {
-  if (['login'].indexOf(res.config.url) < 0) {
+  if (res.config.url.includes('login')) {
     if (!!res.data && res.data.login.tokens) {
       const {
         data: {

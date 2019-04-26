@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import jwt from './jwt';
 import session from './session';
 import AccessModule from './AccessModule';
@@ -21,7 +20,6 @@ const login = async () => {
 };
 
 const logout = async () => {
-  // TODO request to server for logout
   rerenderApp();
 };
 

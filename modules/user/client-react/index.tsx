@@ -18,6 +18,8 @@ import Profile from './containers/Profile';
 import ForgotPassword from './containers/ForgotPassword';
 import ResetPassword from './containers/ResetPassword';
 
+import reducers from './reducers';
+
 import { AuthRoute, IfLoggedIn, IfNotLoggedIn, withLoadedUser, withLogout, WithLogoutProps } from './containers/Auth';
 
 export enum UserRole {
@@ -148,6 +150,7 @@ export default new ClientModule({
     </IfNotLoggedIn>
   ],
   localization: [{ ns: 'user', resources }],
+  reducer: [{ user: reducers }],
   dataRootComponent: [DataRootComponent],
   rootComponentFactory: [req => (req ? <CookiesProvider cookies={req.universalCookies} /> : <CookiesProvider />)]
 });
