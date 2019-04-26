@@ -6,6 +6,7 @@ import { currentUser, createUser, editUser, deleteUser } from './controllers';
 import password from './password';
 import User from './sql';
 import settings from '../../../settings';
+import resources from './locales';
 
 const getIdentity = (id: number) => {
   return User.getUser(id);
@@ -44,6 +45,7 @@ const appContext = {
 
 export default new ServerModule(password, {
   appContext,
+  localization: [{ ns: 'user', resources }],
   apiRouteParams: [
     {
       method: RestMethod.GET,
