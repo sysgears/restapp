@@ -16,7 +16,9 @@
       "emailIsExisted": "E-mail already exists.",
       "passwordsIsNotMatch": "Passwords do not match.",
       "passwordLength": "Password must be {{length}} characters or more.",
-      "invalidToken": "Invalid token"
+      "invalidToken": "Invalid token",
+      "forgotPassword": "Instructions were send to your email",
+      "resestPassword": "Your password has been updated succesfully"
     }
   }
 }

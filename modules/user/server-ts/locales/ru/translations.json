@@ -15,7 +15,9 @@
       "emailIsExisted": "Данный e-mail уже используется.",
       "passwordsIsNotMatch": "Пароли не совпадают.",
       "passwordLength": "Длина пароля должна составлять {{length}} символов и больше.",
-      "invalidToken": "Не действительный токен"
+      "invalidToken": "Не действительный токен",
+      "forgotPassword": "Интсрукции были отправлены на ваш email",
+      "resestPassword": "Ваш пароль был успешно обновлен"
     }
   }
 }

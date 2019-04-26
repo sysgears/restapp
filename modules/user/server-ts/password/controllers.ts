@@ -10,7 +10,8 @@ import User from '../sql';
 import settings from '../../../../settings';
 
 const {
-  auth: { session, jwt: jwtSetting, password, secret }
+  auth: { session, jwt: jwtSetting, password, secret },
+  app
 } = settings;
 
 const createPasswordHash = (pswd: string) => bcrypt.hash(pswd, 12) || false;
@@ -70,17 +71,17 @@ export const register = async ({ body, t }: any, res: any) => {
   // TODO add type of user
   const user: any = await User.getUser(userId);
 
-  if (mailer && settings.auth.password.requireEmailConfirmation && !emailExists) {
+  if (mailer && password.requireEmailConfirmation && !emailExists) {
     // async email
-    jwt.sign({ identity: pick(user, 'id') }, settings.auth.secret, { expiresIn: '1d' }, (err, emailToken) => {
+    jwt.sign({ identity: pick(user, 'id') }, secret, { expiresIn: '1d' }, (err, emailToken) => {
       const encodedToken = Buffer.from(emailToken).toString('base64');
       const url = `${__WEBSITE_URL__}/confirmation/${encodedToken}`;
       mailer.sendMail({
-        from: `${settings.app.name} <${process.env.EMAIL_USER}>`,
+        from: `${app.name} <${process.env.EMAIL_USER}>`,
         to: user.email,
         subject: 'Confirm Email',
         html: `<p>Hi, ${user.username}!</p>
-              <p>Welcome to ${settings.app.name}. Please click the following link to confirm your email:</p>
+              <p>Welcome to ${app.name}. Please click the following link to confirm your email:</p>
               <p><a href="${url}">${url}</a></p>
               <p>Below are your login information</p>
               <p>Your email is: ${user.email}</p>`
@@ -92,42 +93,48 @@ export const register = async ({ body, t }: any, res: any) => {
   res.json(user);
 };
 
-export const forgotPassword = async ({ body }: any, res: any) => {
+export const forgotPassword = async ({ body, t }: any, res: any) => {
   try {
     const localAuth = pick(body, 'email');
     // TODO add type of user
-    const user: any = await User.getUserByEmail(localAuth.email);
+    const identity: any = await User.getUserByEmail(localAuth.email);
 
-    if (user && mailer) {
+    if (identity && mailer) {
       // async email
-      jwt.sign({ email: user.email, password: user.passwordHash }, secret, { expiresIn: '1d' }, (err, emailToken) => {
-        // encoded token since react router does not match dots in params
-        const encodedToken = Buffer.from(emailToken).toString('base64');
-        const url = `${__WEBSITE_URL__}/reset-password/${encodedToken}`;
-        mailer.sendMail({
-          from: `${settings.app.name} <${process.env.EMAIL_USER}>`,
-          to: user.email,
-          subject: 'Reset Password',
-          html: `Please click this link to reset your password: <a href="${url}">${url}</a>`
-        });
-        log.info(`Sent link to reset email to: ${user.email}`);
-      });
+      jwt.sign(
+        { email: identity.email, passwordHash: identity.passwordHash },
+        secret,
+        { expiresIn: '1d' },
+        (err, emailToken) => {
+          // encoded token since react router does not match dots in params
+          const encodedToken = Buffer.from(emailToken).toString('base64');
+          const url = `${__WEBSITE_URL__}/reset-password/${encodedToken}`;
+          mailer.sendMail({
+            from: `${app.name} <${process.env.EMAIL_USER}>`,
+            to: identity.email,
+            subject: 'Reset Password',
+            html: `Please click this link to reset your password: <a href="${url}">${url}</a>`
+          });
+          log.info(`Sent link to reset email to: ${identity.email}`);
+        }
+      );
+      res.send(t('user:auth.password.forgotPassword'));
     }
   } catch (e) {
     res.send(e);
   }
 };
 
-export const resetPassword = async ({ body, identity, t }: any, res: any) => {
+export const resetPassword = async ({ body, t }: any, res: any) => {
   const errors: any = {};
-
   const reset = pick(body, ['password', 'passwordConfirmation', 'token']);
+
   if (reset.password !== reset.passwordConfirmation) {
     errors.password = t('user:auth.password.passwordsIsNotMatch');
   }
 
-  if (reset.password.length < settings.auth.password.minLength) {
-    errors.password = t('user:auth.password.passwordLength', { length: settings.auth.password.minLength });
+  if (reset.password.length < password.minLength) {
+    errors.password = t('user:auth.password.passwordLength', { length: password.minLength });
   }
 
   if (!isEmpty(errors)) {
@@ -137,26 +144,30 @@ export const resetPassword = async ({ body, identity, t }: any, res: any) => {
     });
   }
 
-  const { email, pswd } = identity;
+  const token = Buffer.from(reset.token, 'base64').toString();
+  const { email, passwordHash }: any = jwt.verify(token, secret);
   // TODO add type of user
-  const user: any = await User.getUserByEmail(email);
-  if (user.passwordHash !== pswd) {
-    throw new Error(t('user:auth.password.invalidToken'));
-  }
-  if (user) {
-    await User.updatePassword(user.id, reset.password);
-    const url = `${__WEBSITE_URL__}/profile`;
+  const identity: any = await User.getUserByEmail(email);
 
-    if (mailer && settings.auth.password.sendPasswordChangesEmail) {
+  if (identity.passwordHash !== passwordHash) {
+    throw res.status(401).send(t('user:auth.password.invalidToken'));
+  }
+
+  if (identity) {
+    await User.updatePassword(identity.id, reset.password);
+    const url = `${__WEBSITE_URL__}/profile`;
+    res.send(t('user:auth.password.resestPassword'));
+
+    if (mailer && password.sendPasswordChangesEmail) {
       mailer.sendMail({
-        from: `${settings.app.name} <${process.env.EMAIL_USER}>`,
-        to: user.email,
+        from: `${app.name} <${process.env.EMAIL_USER}>`,
+        to: identity.email,
         subject: 'Your Password Has Been Updated',
         html: `<p>As you requested, your account password has been updated.</p>
                    <p>To view or edit your account settings, please visit the “Profile” page at</p>
                    <p><a href="${url}">${url}</a></p>`
       });
-      log.info(`Sent password has been updated to: ${user.email}`);
+      log.info(`Sent password has been updated to: ${identity.email}`);
     }
   }
 };

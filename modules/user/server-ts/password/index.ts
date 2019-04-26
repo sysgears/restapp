@@ -1,7 +1,7 @@
 import { AuthModule } from '@restapp/authentication-server-ts';
 import { RestMethod } from '@restapp/module-server-ts';
 
-import { login } from './controllers';
+import { login, register, forgotPassword, resetPassword } from './controllers';
 import settings from '../../../../settings';
 
 export default (settings.auth.password.enabled
@@ -11,6 +11,21 @@ export default (settings.auth.password.enabled
           method: RestMethod.POST,
           route: 'login',
           middleware: [login]
+        },
+        {
+          method: RestMethod.POST,
+          route: 'register',
+          middleware: [register]
+        },
+        {
+          method: RestMethod.POST,
+          route: 'forgotPassword',
+          middleware: [forgotPassword]
+        },
+        {
+          method: RestMethod.POST,
+          route: 'resetPassword',
+          middleware: [resetPassword]
         }
       ]
     })
