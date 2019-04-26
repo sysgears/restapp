@@ -31,30 +31,16 @@ const beforeware = (app: Express) => {
 const accessMiddleware = (req: Request, res: Response, next: any) =>
   req.isAuthenticated() ? next() : res.send('unauthorized');
 
-const userDB: User = {
-  username: 'test-user',
-  password: '123',
-  id: 1
-};
-
-interface User {
-  username: string;
-  password: string;
-  id: number;
-}
-
-passport.serializeUser((user: User, cb) => {
-  cb(null, user.username);
-});
-
-passport.deserializeUser((username, cb) => {
-  if (username === userDB.username) {
-    return cb(null, userDB);
-  }
-  return cb(null);
-});
-
 const onAppCreate = ({ appContext }: AccessModule) => {
+  passport.serializeUser((identity: any, cb) => {
+    cb(null, identity.id);
+  });
+
+  passport.deserializeUser(async (id, cb) => {
+    const identity = await appContext.user.getIdentity(id);
+    return cb(null, identity);
+  });
+
   passport.use(
     new Strategy(async (username: string, password: string, done: any) => {
       const { identity, message } = await appContext.user.validateLogin(username, password);
