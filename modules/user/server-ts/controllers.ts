@@ -17,9 +17,26 @@ const createPasswordHash = (pswd: string) => {
   return bcrypt.hash(pswd, 12);
 };
 
-export const currentUser = async ({ user }: any, res: any) => {
-  if (user.id) {
-    res.json(await User.getUser(user.id));
+export const user = async ({ body: { id }, user: identity, t }: any, res: any) => {
+  if (identity.id === id || identity.role === 'admin') {
+    try {
+      res.json({ user: await User.getUser(id) });
+    } catch (e) {
+      res.status(500).json({ errors: e });
+    }
+  } else {
+    res.status(401).send(t('user:accessDenied'));
+  }
+};
+export const users = async ({ body: { orderBy, filter }, user: identity, t }: any, res: any) => {
+  identity.role === 'admin'
+    ? res.json(await User.getUsers(orderBy, filter))
+    : res.status(500).send(t('user:accessDenied'));
+};
+
+export const currentUser = async ({ user: identity }: any, res: any) => {
+  if (identity.id) {
+    res.json(await User.getUser(identity.id));
   } else {
     res.send(null);
   }
@@ -65,25 +82,25 @@ export const createUser = async ({ body, t }: any, res: any) => {
   }
 
   try {
-    const user: any = await User.getUser(createdUserId);
+    const identity: any = await User.getUser(createdUserId);
     res.json(user);
 
     if (mailer && password.requireEmailConfirmation && !emailExists) {
       // async email
-      jwt.sign({ identity: pick(user, 'id') }, secret, { expiresIn: '1d' }, (err: any, emailToken: string) => {
+      jwt.sign({ identity: pick(identity, 'id') }, secret, { expiresIn: '1d' }, (err: any, emailToken: string) => {
         const encodedToken = Buffer.from(emailToken).toString('base64');
         const url = `${__WEBSITE_URL__}/confirmation/${encodedToken}`;
         mailer.sendMail({
           from: `${app.name} <${process.env.EMAIL_USER}>`,
-          to: user.email,
+          to: identity.email,
           subject: 'Your account has been created',
-          html: `<p>Hi, ${user.username}!</p>
+          html: `<p>Hi, ${identity.username}!</p>
                 <p>Welcome to ${app.name}. Please click the following link to confirm your email:</p>
                 <p><a href="${url}">${url}</a></p>
                 <p>Below are your login information</p>
-                <p>Your email is: ${user.email}</p>`
+                <p>Your email is: ${identity.email}</p>`
         });
-        log.info(`Sent registration confirmation email to: ${user.email}`);
+        log.info(`Sent registration confirmation email to: ${identity.email}`);
       });
     }
   } catch (e) {
@@ -91,9 +108,9 @@ export const createUser = async ({ body, t }: any, res: any) => {
   }
 };
 
-export const editUser = async ({ user, body, t }: any, res: any) => {
-  const isAdmin = () => user.role === 'admin';
-  const isSelf = () => user.id === body.id;
+export const editUser = async ({ user: identity, body, t }: any, res: any) => {
+  const isAdmin = () => identity.role === 'admin';
+  const isSelf = () => identity.id === body.id;
 
   const errors: any = {};
 
@@ -154,9 +171,9 @@ export const editUser = async ({ user, body, t }: any, res: any) => {
   }
 };
 
-export const deleteUser = async ({ user, body: { id }, t }: any, res: any) => {
-  const isAdmin = () => user.role === 'admin';
-  const isSelf = () => user.id === id;
+export const deleteUser = async ({ user: identity, body: { id }, t }: any, res: any) => {
+  const isAdmin = () => identity.role === 'admin';
+  const isSelf = () => identity.id === id;
 
   const userData = await User.getUser(id);
   if (!userData) {
