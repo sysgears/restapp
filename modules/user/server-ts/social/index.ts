@@ -1,10 +1,12 @@
 import { AuthModule } from '@restapp/authentication-server-ts';
 import facebook, { facebookData } from './facebook';
+import github, { githubData } from './github';
 
 const social = {
-  ...facebookData
+  ...facebookData,
+  ...githubData
 };
 
-export default new AuthModule(facebook, {
+export default new AuthModule(facebook, github, {
   appContext: { social }
 });
