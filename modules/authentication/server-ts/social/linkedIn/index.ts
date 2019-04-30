@@ -1,6 +1,6 @@
 import { Express } from 'express';
 import passport from 'passport';
-import { Strategy as LinkedInStrategy } from 'passport-linkedin-oauth2';
+import { Strategy as LinkedInStrategy } from '@sokratis/passport-linkedin-oauth2';
 import settings from '../../../../../settings';
 import AuthModule from '../AuthModule';
 

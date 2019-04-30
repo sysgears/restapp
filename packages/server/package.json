@@ -57,6 +57,7 @@
     "@restapp/testing-server-ts": "^0.1.0",
     "@restapp/user-server-ts": "^0.1.0",
     "@restapp/welcome-server-ts": "^0.1.0",
+    "@sokratis/passport-linkedin-oauth2": "^2.0.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "dotenv": "^5.0.1",

@@ -20,7 +20,7 @@ export async function onAuthenticationSuccess(req: any, res: any) {
   }
 }
 
-export const registerUser = async ({ id, username, displayName, emails: [{ value }] }: UserSocial) => {
+export const registerUser = async ({ username, displayName, emails: [{ value }] = [{ value: '' }] }: UserSocial) => {
   return User.register({
     username: username || displayName,
     email: value,
