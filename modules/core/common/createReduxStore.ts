@@ -14,7 +14,6 @@ const requestMiddleware: Middleware = _state => next => action => {
     return next(action);
   }
   const [REQUEST, SUCCESS, FAIL] = type;
-
   next({ type: REQUEST, ...rest });
 
   (async () => {

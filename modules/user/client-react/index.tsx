@@ -20,7 +20,7 @@ import ResetPassword from './containers/ResetPassword';
 
 import reducers from './reducers';
 
-import { AuthRoute, IfLoggedIn, IfNotLoggedIn, withLoadedUser, withLogout, WithLogoutProps } from './containers/Auth';
+import { AuthRoute, IfLoggedIn, IfNotLoggedIn, withLoadedUser, withLogout } from './containers/Auth';
 
 export enum UserRole {
   admin = 'admin',
@@ -77,7 +77,7 @@ export interface FormProps<V> {
   t: TranslateFunction;
 }
 
-const ProfileName: React.FunctionComponent<WithLogoutProps> = withLoadedUser(({ currentUser }) => (
+const ProfileName = withLoadedUser(({ currentUser }) => (
   <>{currentUser ? currentUser.profile.fullName || currentUser.username : null}</>
 ));
 

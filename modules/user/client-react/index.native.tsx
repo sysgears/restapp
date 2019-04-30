@@ -23,6 +23,8 @@ import UserAdd from './containers/UserAdd';
 import ForgotPassword from './containers/ForgotPassword.native';
 import ResetPassword from './containers/ResetPassword.native';
 
+import reducers from './reducers';
+
 export enum UserRole {
   admin = 'admin',
   user = 'user'
@@ -299,6 +301,7 @@ export default new ClientModule({
   ],
   localization: [{ ns: 'user', resources }],
   router: <MainScreenNavigator />,
+  reducer: [{ user: reducers }],
   dataRootComponent: [DataRootComponent],
   onAppCreate: [(module: ClientModule) => (ref.navigator = UserScreenNavigator(module.drawerItems))]
 });

@@ -30,18 +30,20 @@ export default function(state = defaultState, action: UserModuleActionProps) {
     case ActionType.SET_LOADING:
       return {
         ...state,
-        loading: action.payload
+        loading: true
       };
     case ActionType.CLEAR_CURRENT_USER:
       return {
         ...state,
         currentUser: null,
+        loading: false,
         ...action.payload
       };
     case ActionType.SET_CURRENT_USER:
       return {
         ...state,
-        currentUser: action.payload.user,
+        currentUser: null,
+        loading: false,
         ...action.payload
       };
 
