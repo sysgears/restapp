@@ -3,13 +3,9 @@ import { Link } from 'react-router-dom';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { Table, Button } from '@restapp/look-client-react';
 import { User } from '..';
+import { OrderBy } from '../reducers';
 
-interface OrderBy {
-  column: string;
-  order: string;
-}
-
-interface UsersViewProps {
+export interface UsersViewProps {
   loading: boolean;
   users?: User[];
   orderBy?: OrderBy;
