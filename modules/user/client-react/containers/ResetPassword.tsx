@@ -1,20 +1,31 @@
-import React from 'react';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { translate } from '@restapp/i18n-client-react';
-
 import { FormError } from '@restapp/forms-client-react';
 import ResetPasswordView from '../components/ResetPasswordView';
 
 import { CommonProps } from '..';
+import { RESET_PASSWORD } from '../actions';
+
+export interface SubmitProps {
+  password: string;
+  passwordConfirmation: string;
+}
+
+interface Token {
+  token: string;
+}
 
 interface ResetPasswordProps extends CommonProps {
-  resetPassword: (value: any) => void;
+  resetPassword: (value: SubmitProps & any) => void;
   match: any;
 }
 
 const ResetPassword: React.FunctionComponent<ResetPasswordProps> = props => {
   const { t, resetPassword, history, match } = props;
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: SubmitProps) => {
     try {
       await resetPassword({ ...values, token: match.params.token });
     } catch (e) {
@@ -26,4 +37,19 @@ const ResetPassword: React.FunctionComponent<ResetPasswordProps> = props => {
   return <ResetPasswordView {...props} onSubmit={onSubmit} />;
 };
 
-export default translate('user')(ResetPassword);
+const ResetPasswordWithConnect = compose(
+  translate('user'),
+
+  connect(
+    _state => ({}),
+    dispatch => ({
+      resetPassword: (values: SubmitProps & Token) =>
+        dispatch({
+          type: null,
+          request: () => RESET_PASSWORD(values)
+        })
+    })
+  )(ResetPassword)
+);
+
+export default ResetPasswordWithConnect;

@@ -3,7 +3,7 @@ import { RouteProps } from 'react-router';
 import { History } from 'history';
 import { connect } from 'react-redux';
 import authentication from '@restapp/authentication-client-react';
-import CURRENT_USER from '../actions/currentUser';
+import { CURRENT_USER } from '../actions';
 import { User, UserRole } from '..';
 import { ActionType } from '../reducers';
 export interface WithUserProps extends RouteProps {
@@ -25,12 +25,13 @@ interface IfLoggedInComponent {
 export interface WithLogoutProps extends WithUserProps {
   logout?: () => void;
   history?: History;
+  clearUser?: () => void;
 }
 
 const withUser = (Component: React.ComponentType<any>) => {
   const WithUser = ({ getCurrentUser, currentUser, ...rest }: WithUserProps) => {
     React.useEffect(() => {
-      if (!currentUser) {
+      if (currentUser) {
         getCurrentUser();
       }
     }, []);
@@ -45,7 +46,7 @@ const withUser = (Component: React.ComponentType<any>) => {
       getCurrentUser: () =>
         dispatch({
           type: [ActionType.SET_LOADING, ActionType.SET_CURRENT_USER, ActionType.CLEAR_CURRENT_USER],
-          promise: () => CURRENT_USER
+          request: () => CURRENT_USER()
         })
     })
   )(WithUser);
@@ -93,12 +94,25 @@ const IfNotLoggedInComponent: React.FunctionComponent<IfLoggedInComponent> = ({
 
 const IfNotLoggedIn: React.ComponentType<IfLoggedInComponent> = withLoadedUser(IfNotLoggedInComponent);
 
-const withLogout = (Component: React.FunctionComponent<WithLogoutProps>) => ({ ...props }: WithLogoutProps) => {
-  const newProps = {
-    ...props,
-    logout: () => authentication.doLogout()
+const withLogout: any = (Component: React.ComponentType<any>) => {
+  const WithLogout = ({ clearUser, ...props }: WithLogoutProps) => {
+    const newProps = {
+      ...props,
+      logout: () => authentication.doLogout(clearUser)
+    };
+    return <Component {...newProps} />;
   };
-  return <Component {...newProps} />;
+  return connect(
+    _state => ({}),
+    dispatch => {
+      return {
+        clearUser: () =>
+          dispatch({
+            type: ActionType.CLEAR_CURRENT_USER
+          })
+      };
+    }
+  )(WithLogout);
 };
 
 export { withUser, hasRole, withLoadedUser, IfLoggedIn, IfNotLoggedIn, withLogout };

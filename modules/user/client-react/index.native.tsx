@@ -52,7 +52,7 @@ export interface NavigationOptionsProps {
 
 export interface CommonProps extends NavigationOptionsProps {
   error?: string;
-  t: TranslateFunction;
+  t?: TranslateFunction;
 }
 
 export interface LoginSubmitProps {
@@ -82,7 +82,7 @@ export interface FormProps<V> {
   submitting?: boolean;
   errors: Errors;
   values: V;
-  t: TranslateFunction;
+  t?: TranslateFunction;
 }
 
 class LoginScreen extends React.Component<NavigationOptionsProps> {

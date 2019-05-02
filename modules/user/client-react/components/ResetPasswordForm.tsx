@@ -4,16 +4,11 @@ import { isFormError, FieldAdapter as Field } from '@restapp/forms-client-react'
 import { translate } from '@restapp/i18n-client-react';
 import { required, minLength, validate, match } from '@restapp/validation-common-react';
 import { Form, RenderField, Button, Alert } from '@restapp/look-client-react';
-
+import { SubmitProps } from '../containers/ResetPassword';
 import settings from '../../../../settings';
 import { CommonProps, FormProps } from '..';
 
 interface ResetPasswordFormProps extends CommonProps, FormProps<SubmitProps> {}
-
-interface SubmitProps {
-  password: string;
-  passwordConfirmation: string;
-}
 
 const resetPasswordFormSchema = {
   password: [required, minLength(settings.auth.password.minLength)],

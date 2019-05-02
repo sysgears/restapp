@@ -4,10 +4,8 @@ import { translate } from '@restapp/i18n-client-react';
 import { FormError } from '@restapp/forms-client-react';
 import ForgotPasswordView from '../components/ForgotPasswordView.native';
 import { CommonProps, User } from '../index.native';
-
-interface ForgotPasswordProps extends CommonProps {
-  forgotPassword: (values: User) => void;
-}
+import { FORGOT_PASSWORD } from '../actions';
+interface ForgotPasswordProps extends CommonProps {}
 
 class ForgotPassword extends React.Component<ForgotPasswordProps> {
   public state = {
@@ -15,11 +13,11 @@ class ForgotPassword extends React.Component<ForgotPasswordProps> {
   };
 
   public onSubmit = async (values: User) => {
-    const { forgotPassword, t } = this.props;
+    const { t } = this.props;
 
     this.setState({ sent: true });
     try {
-      await forgotPassword(values);
+      await FORGOT_PASSWORD(values);
     } catch (e) {
       throw new FormError(t('forgotPass.errorMsg'), e);
     }
@@ -28,7 +26,7 @@ class ForgotPassword extends React.Component<ForgotPasswordProps> {
   public render() {
     const { sent } = this.state;
 
-    return <ForgotPasswordView {...this.props} sent={sent} onSubmit={this.onSubmit} />;
+    return <ForgotPasswordView forgotPassword={FORGOT_PASSWORD} {...this.props} sent={sent} onSubmit={this.onSubmit} />;
   }
 }
 

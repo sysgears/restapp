@@ -1,14 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { translate } from '@restapp/i18n-client-react';
 import { FormError } from '@restapp/forms-client-react';
 import RegisterView from '../components/RegisterView';
 
 import settings from '../../../../settings';
-
-import { CommonProps, LoginSubmitProps } from '../index.native';
+import { REGISTER } from '../actions';
+import { CommonProps, RegisterSubmitProps } from '../index.native';
 
 interface RegisterProps extends CommonProps {
-  register: (values: LoginSubmitProps) => void;
+  register: (values: RegisterSubmitProps) => void;
 }
 
 interface RegisterState {
@@ -20,7 +22,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
     isRegistered: false
   };
 
-  public onSubmit = async (values: LoginSubmitProps) => {
+  public onSubmit = async (values: RegisterSubmitProps) => {
     const { t, register, navigation } = this.props;
 
     try {
@@ -51,4 +53,18 @@ class Register extends React.Component<RegisterProps, RegisterState> {
   }
 }
 
-export default translate('user')(Register);
+const withConnect = connect(
+  _state => ({}),
+  dispatch => ({
+    register: (value: RegisterSubmitProps) =>
+      dispatch({
+        type: null,
+        request: () => REGISTER(value)
+      })
+  })
+);
+
+export default compose(
+  translate('user'),
+  withConnect(Register)
+);

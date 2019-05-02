@@ -1,33 +1,42 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { pick } from 'lodash';
 import { translate } from '@restapp/i18n-client-react';
 import { FormError } from '@restapp/forms-client-react';
 import UserEditView from '../components/UserEditView';
 
-import settings from '../../../../settings';
 import UserFormatter from '../helpers/UserFormatter';
 import { User, CommonProps } from '..';
 import { CommonProps as RNCommonProps } from '../index.native';
+import { UserModuleState, ActionType } from '../reducers';
+import { USER, EDIT_USER } from '../actions';
 
 interface UserEditProps extends CommonProps, RNCommonProps {
   user: User;
   editUser: (value: User) => void;
   location: any;
+  match: any;
+  getUser?: (id: number) => void;
 }
 
-const UserEdit: React.FunctionComponent<UserEditProps> = props => {
-  const { user, editUser, t, history, navigation } = props;
-
-  const onSubmit = async (values: User) => {
+class UserEdit extends React.Component<UserEditProps> {
+  public componentDidMount() {
+    let id = 0;
+    if (this.props.match) {
+      id = this.props.match.params.id;
+    } else if (this.props.navigation) {
+      id = this.props.navigation.state.params.id;
+    }
+    this.props.getUser(Number(id));
+  }
+  public onSubmit = async (values: User) => {
+    const { user, editUser, t, navigation, history } = this.props;
     let userValues = pick(values, ['username', 'email', 'role', 'isActive', 'password']) as User;
 
     userValues.profile = pick(values.profile, ['firstName', 'lastName']);
 
     userValues = UserFormatter.trimExtraSpaces(userValues);
-
-    if (settings.auth.certificate.enabled) {
-      userValues.auth = { certificate: pick(values.auth.certificate, 'serial') };
-    }
 
     try {
       await editUser({ id: user.id, ...userValues });
@@ -44,7 +53,28 @@ const UserEdit: React.FunctionComponent<UserEditProps> = props => {
     }
   };
 
-  return <UserEditView onSubmit={onSubmit} {...props} />;
-};
+  public render() {
+    return <UserEditView onSubmit={this.onSubmit} {...this.props} />;
+  }
+}
 
-export default translate('user')(UserEdit);
+export default compose(
+  translate('user'),
+  connect(
+    ({ user }: UserModuleState) => ({
+      user
+    }),
+    dispatch => ({
+      getUser: (id: number) =>
+        dispatch({
+          type: [null, ActionType.SET_USER, null],
+          request: () => USER(id)
+        }),
+      editUser: (value: User) =>
+        dispatch({
+          type: null,
+          request: () => EDIT_USER(value)
+        })
+    })
+  )(UserEdit)
+);

@@ -3,12 +3,14 @@ import { User } from '..';
 export enum ActionType {
   SET_CURRENT_USER = 'SET_CURRENT_USER',
   CLEAR_CURRENT_USER = 'CLEAR_CURRENT_USER',
-  SET_LOADING = 'SET_LOADING'
+  SET_LOADING = 'SET_LOADING',
+  SET_USER = 'SET_USER'
 }
 
 export interface UserModuleState {
   currentUser: User;
   loading: boolean;
+  user: User;
 }
 
 export type UserModuleAction = (props: UserModuleActionProps) => void;
@@ -16,13 +18,14 @@ export type UserModuleAction = (props: UserModuleActionProps) => void;
 export interface UserModuleActionProps {
   type: ActionType | ActionType[];
   payload?: any;
-  promise?: () => Promise<any>;
+  request?: () => Promise<any>;
   [key: string]: any;
 }
 
 const defaultState: UserModuleState = {
   currentUser: null,
-  loading: false
+  loading: false,
+  user: null
 };
 
 export default function(state = defaultState, action: UserModuleActionProps) {
@@ -42,9 +45,14 @@ export default function(state = defaultState, action: UserModuleActionProps) {
     case ActionType.SET_CURRENT_USER:
       return {
         ...state,
-        currentUser: null,
-        loading: false,
-        ...action.payload
+        currentUser: action.payload,
+        loading: false
+      };
+
+    case ActionType.SET_USER:
+      return {
+        ...state,
+        user: action.payload
       };
 
     default:

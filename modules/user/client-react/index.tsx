@@ -20,7 +20,7 @@ import ResetPassword from './containers/ResetPassword';
 
 import reducers from './reducers';
 
-import { AuthRoute, IfLoggedIn, IfNotLoggedIn, withLoadedUser, withLogout } from './containers/Auth';
+import { AuthRoute, IfLoggedIn, IfNotLoggedIn, withLoadedUser, withLogout, WithLogoutProps } from './containers/Auth';
 
 export enum UserRole {
   admin = 'admin',
@@ -49,7 +49,7 @@ export interface LoginSubmitProps {
 }
 
 export interface CommonProps {
-  t: TranslateFunction;
+  t?: TranslateFunction;
   history?: H.History;
 }
 
@@ -74,7 +74,7 @@ export interface FormProps<V> {
   submitting?: boolean;
   errors: Errors;
   values: V;
-  t: TranslateFunction;
+  t?: TranslateFunction;
 }
 
 const ProfileName = withLoadedUser(({ currentUser }) => (
@@ -82,7 +82,7 @@ const ProfileName = withLoadedUser(({ currentUser }) => (
 ));
 
 const LogoutLink = withRouter(
-  withLogout(({ logout, history }) => (
+  withLogout(({ logout, history }: WithLogoutProps) => (
     <a
       href="javascript:void(0)"
       onClick={e => {

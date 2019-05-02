@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { pick } from 'lodash';
 import { translate } from '@restapp/i18n-client-react';
 import { FormError } from '@restapp/forms-client-react';
@@ -8,9 +10,10 @@ import settings from '../../../../settings';
 import UserFormatter from '../helpers/UserFormatter';
 import { CommonProps as RNCommonProps } from '../index.native';
 import { User, CommonProps } from '..';
+import { ADD_USER } from '../actions';
 
 interface UserAddProps extends CommonProps, RNCommonProps {
-  addUser: (values: User) => Promise<void>;
+  addUser: (values: User) => void;
 }
 
 const UserAdd: React.FunctionComponent<UserAddProps> = props => {
@@ -44,4 +47,16 @@ const UserAdd: React.FunctionComponent<UserAddProps> = props => {
   return <UserAddView onSubmit={onSubmit} {...props} />;
 };
 
-export default translate('user')(UserAdd);
+export default compose(
+  translate('user'),
+  connect(
+    _state => ({}),
+    dispatch => ({
+      addUser: (values: User) =>
+        dispatch({
+          type: null,
+          request: () => ADD_USER(values)
+        })
+    })
+  )(UserAdd)
+);
