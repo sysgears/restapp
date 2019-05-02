@@ -5,7 +5,7 @@ import ServerModule, { RestMethod } from '@restapp/module-server-ts';
 import { user, users, currentUser, addUser, editUser, deleteUser } from './controllers';
 import password from './password';
 import social from './social';
-import User, { UserShape } from './sql';
+import UserDAO, { UserShape } from './sql';
 import settings from '../../../settings';
 import resources from './locales';
 
@@ -16,14 +16,14 @@ export interface ValidationErrors {
 }
 
 const getIdentity = (id: number) => {
-  return User.getUser(id);
+  return UserDAO.getUser(id);
 };
 
-const getHash = async (id: number) => ((await User.getUserWithPassword(id)) as UserShape).passwordHash || '';
+const getHash = async (id: number) => ((await UserDAO.getUserWithPassword(id)) as UserShape).passwordHash || '';
 
 // TODO find a way to provide translate function
 const validateLogin = async (usernameOrEmail: string, pswd: string) => {
-  const identity = (await User.getUserByUsernameOrEmail(usernameOrEmail)) as UserShape;
+  const identity = (await UserDAO.getUserByUsernameOrEmail(usernameOrEmail)) as UserShape;
 
   if (!identity) {
     return { message: 'user:auth.password.validPasswordEmail' };

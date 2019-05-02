@@ -1,5 +1,5 @@
 import { access } from '@restapp/authentication-server-ts';
-import User from '../sql';
+import UserDAO, { UserShape } from '../sql';
 
 export interface UserSocial {
   id: number;
@@ -9,8 +9,7 @@ export interface UserSocial {
 }
 
 export async function onAuthenticationSuccess(req: any, res: any) {
-  // TODO add type of user
-  const user: any = await User.getUserWithPassword(req.user.id);
+  const user = (await UserDAO.getUserWithPassword(req.user.id)) as UserShape;
   const redirectUrl = req.query.state;
   const tokens = await access.grantAccess(user, req, user.passwordHash);
   if (redirectUrl) {
@@ -21,7 +20,7 @@ export async function onAuthenticationSuccess(req: any, res: any) {
 }
 
 export const registerUser = async ({ username, displayName, emails: [{ value }] = [{ value: '' }] }: UserSocial) => {
-  return User.register({
+  return UserDAO.register({
     username: username || displayName,
     email: value,
     isActive: true

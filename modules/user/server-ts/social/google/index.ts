@@ -1,7 +1,7 @@
 import { pick } from 'lodash';
 import { AuthModule } from '@restapp/authentication-server-ts';
 import { onAuthenticationSuccess, UserSocial } from '../shared';
-import User from '../../sql';
+import UserDAO from '../../sql';
 import settings from '../../../../../settings';
 import { UserShape } from '@restapp/authentication-server-ts/access';
 
@@ -13,14 +13,14 @@ interface UserSocialGoogle extends UserSocial {
 }
 
 const registerUser = async ({ emails: [{ value }] }: UserSocial) => {
-  return User.register({
+  return UserDAO.register({
     username: value,
     email: value,
     isActive: true
   });
 };
 
-const createGoogleOAuth = async (user: any) => User.createGoogleOAuth(user);
+const createGoogleOAuth = async (user: any) => UserDAO.createGoogleOAuth(user);
 
 async function verifyCallback(accessToken: string, refreshToken: string, profile: UserSocialGoogle, cb: any) {
   const {
@@ -30,14 +30,14 @@ async function verifyCallback(accessToken: string, refreshToken: string, profile
   } = profile;
 
   try {
-    let user = (await User.getUserByGoogleIdOrEmail(id, value)) as UserShape & { googleId: number };
+    let user = (await UserDAO.getUserByGoogleIdOrEmail(id, value)) as UserShape & { googleId: number };
 
     if (!user) {
       const [createdUserId] = await registerUser(profile);
 
       await createGoogleOAuth({ id, displayName, userId: createdUserId });
 
-      await User.editUserProfile({
+      await UserDAO.editUserProfile({
         id: createdUserId,
         profile: {
           firstName: profile.name.givenName,
@@ -45,7 +45,7 @@ async function verifyCallback(accessToken: string, refreshToken: string, profile
         }
       });
 
-      user = (await User.getUser(createdUserId)) as UserShape & { googleId: number };
+      user = (await UserDAO.getUser(createdUserId)) as UserShape & { googleId: number };
     } else if (!user.googleId) {
       await createGoogleOAuth({ id, displayName, userId: user.id });
     }

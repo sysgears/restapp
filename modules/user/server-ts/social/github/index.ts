@@ -1,11 +1,11 @@
 import { pick } from 'lodash';
 import { AuthModule } from '@restapp/authentication-server-ts';
 import { onAuthenticationSuccess, registerUser, UserSocial } from '../shared';
-import User, { UserShape } from '../../sql';
+import UserDAO, { UserShape } from '../../sql';
 
 import settings from '../../../../../settings';
 
-const createGithubAuth = async (user: any) => User.createGithubAuth(user);
+const createGithubAuth = async (user: any) => UserDAO.createGithubAuth(user);
 
 async function verifyCallback(accessToken: string, refreshToken: string, profile: UserSocial, cb: any) {
   const {
@@ -15,12 +15,12 @@ async function verifyCallback(accessToken: string, refreshToken: string, profile
   } = profile;
 
   try {
-    let user = (await User.getUserByGHIdOrEmail(id, value)) as UserShape & { ghId: number };
+    let user = (await UserDAO.getUserByGHIdOrEmail(id, value)) as UserShape & { ghId: number };
 
     if (!user) {
       const [createdUserId] = await registerUser(profile);
       await createGithubAuth({ id, displayName, userId: createdUserId });
-      user = (await User.getUser(createdUserId)) as UserShape & { ghId: number };
+      user = (await UserDAO.getUser(createdUserId)) as UserShape & { ghId: number };
     } else if (!user.ghId) {
       await createGithubAuth({ id, displayName, userId: user.id });
     }

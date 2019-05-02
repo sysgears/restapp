@@ -5,7 +5,7 @@ import { createTransaction } from '@restapp/database-server-ts';
 import { log } from '@restapp/core-common';
 import { mailer } from '@restapp/mailer-server-ts';
 
-import User, { UserShape } from './sql';
+import UserDAO, { UserShape } from './sql';
 import settings from '../../../settings';
 import { ValidationErrors } from '.';
 
@@ -21,7 +21,7 @@ const createPasswordHash = (pswd: string) => {
 export const user = async ({ body: { id }, user: identity, t }: any, res: any) => {
   if (identity.id === id || identity.role === 'admin') {
     try {
-      res.json({ user: await User.getUser(id) });
+      res.json({ user: await UserDAO.getUser(id) });
     } catch (e) {
       res.status(500).json({ errors: e });
     }
@@ -31,13 +31,13 @@ export const user = async ({ body: { id }, user: identity, t }: any, res: any) =
 };
 export const users = async ({ body: { orderBy, filter }, user: identity, t }: any, res: any) => {
   identity.role === 'admin'
-    ? res.json(await User.getUsers(orderBy, filter))
+    ? res.json(await UserDAO.getUsers(orderBy, filter))
     : res.status(401).send(t('user:accessDenied'));
 };
 
 export const currentUser = async ({ user: identity }: any, res: any) => {
   if (identity.id) {
-    res.json(await User.getUser(identity.id));
+    res.json(await UserDAO.getUser(identity.id));
   } else {
     res.send(null);
   }
@@ -49,12 +49,12 @@ export const addUser = async ({ body, user: identity, t }: any, res: any) => {
   }
   const errors: ValidationErrors = {};
 
-  const userExists = await User.getUserByUsername(body.username);
+  const userExists = await UserDAO.getUserByUsername(body.username);
   if (userExists) {
     errors.username = t('user:usernameIsExisted');
   }
 
-  const emailExists = await User.getUserByEmail(body.email);
+  const emailExists = await UserDAO.getUserByEmail(body.email);
   if (emailExists) {
     errors.email = t('user:emailIsExisted');
   }
@@ -77,8 +77,8 @@ export const addUser = async ({ body, user: identity, t }: any, res: any) => {
   try {
     const isActive = password.requireEmailConfirmation ? body.isActive || false : !password.requireEmailConfirmation;
 
-    [createdUserId] = await User.register({ ...body, isActive }, passwordHash).transacting(trx);
-    await User.editUserProfile({ id: createdUserId, ...body }).transacting(trx);
+    [createdUserId] = await UserDAO.register({ ...body, isActive }, passwordHash).transacting(trx);
+    await UserDAO.editUserProfile({ id: createdUserId, ...body }).transacting(trx);
     trx.commit();
   } catch (e) {
     res.send(e);
@@ -86,7 +86,7 @@ export const addUser = async ({ body, user: identity, t }: any, res: any) => {
   }
 
   try {
-    const createdUser = (await User.getUser(createdUserId)) as UserShape;
+    const createdUser = (await UserDAO.getUser(createdUserId)) as UserShape;
     res.json(user);
 
     if (mailer && password.requireEmailConfirmation && !emailExists) {
@@ -122,12 +122,12 @@ export const editUser = async ({ user: identity, body, t }: any, res: any) => {
 
   const errors: ValidationErrors = {};
 
-  const userExists = (await User.getUserByUsername(body.username)) as UserShape;
+  const userExists = (await UserDAO.getUserByUsername(body.username)) as UserShape;
   if (userExists && userExists.id !== body.id) {
     errors.username = t('user:usernameIsExisted');
   }
 
-  const emailExists = (await User.getUserByEmail(body.email)) as UserShape;
+  const emailExists = (await UserDAO.getUserByEmail(body.email)) as UserShape;
   if (emailExists && emailExists.id !== body.id) {
     errors.email = t('user:emailIsExisted');
   }
@@ -145,13 +145,13 @@ export const editUser = async ({ user: identity, body, t }: any, res: any) => {
 
   const userInfo = !isSelf() && isAdmin() ? body : pick(body, ['id', 'username', 'email', 'password']);
 
-  const isProfileExists = await User.isUserProfileExists(body.id);
+  const isProfileExists = await UserDAO.isUserProfileExists(body.id);
   const passwordHash = await createPasswordHash(body.password);
 
   const trx = await createTransaction();
   try {
-    await User.editUser(userInfo, passwordHash).transacting(trx);
-    await User.editUserProfile(body, isProfileExists).transacting(trx);
+    await UserDAO.editUser(userInfo, passwordHash).transacting(trx);
+    await UserDAO.editUserProfile(body, isProfileExists).transacting(trx);
 
     if (mailer && body.password && password.sendPasswordChangesEmail) {
       const url = `${__WEBSITE_URL__}/profile`;
@@ -173,7 +173,7 @@ export const editUser = async ({ user: identity, body, t }: any, res: any) => {
   }
 
   try {
-    res.json(await User.getUser(body.id));
+    res.json(await UserDAO.getUser(body.id));
   } catch (e) {
     throw e;
   }
@@ -183,7 +183,7 @@ export const deleteUser = async ({ user: identity, body: { id }, t }: any, res: 
   const isAdmin = () => identity.role === 'admin';
   const isSelf = () => identity.id === id;
 
-  const userData = await User.getUser(id);
+  const userData = await UserDAO.getUser(id);
   if (!userData) {
     res.send(t('user:userIsNotExisted'));
   }
@@ -192,7 +192,7 @@ export const deleteUser = async ({ user: identity, body: { id }, t }: any, res: 
     res.send(t('user:userCannotDeleteYourself'));
   }
 
-  const isDeleted = !isSelf() && isAdmin() ? await User.deleteUser(id) : false;
+  const isDeleted = !isSelf() && isAdmin() ? await UserDAO.deleteUser(id) : false;
 
   if (isDeleted) {
     res.json(userData);
