@@ -1,3 +1,4 @@
+import { UserShape } from './../sql';
 import bcrypt from 'bcryptjs';
 import { pick, isEmpty } from 'lodash';
 import jwt from 'jsonwebtoken';
@@ -44,8 +45,7 @@ export const register = async ({ body, t }: any, res: any) => {
     errors.username = t('user:auth.password.usernameIsExisted');
   }
 
-  // TODO add type of user
-  const emailExists: any = await User.getUserByEmail(body.email);
+  const emailExists = (await User.getUserByEmail(body.email)) as UserShape;
   if (emailExists) {
     errors.email = t('user:auth.password.emailIsExisted');
   }
@@ -69,8 +69,7 @@ export const register = async ({ body, t }: any, res: any) => {
     userId = emailExists.userId;
   }
 
-  // TODO add type of user
-  const user: any = await User.getUser(userId);
+  const user = (await User.getUser(userId)) as UserShape;
 
   if (mailer && password.requireEmailConfirmation && !emailExists) {
     // async email
@@ -97,8 +96,7 @@ export const register = async ({ body, t }: any, res: any) => {
 export const forgotPassword = async ({ body, t }: any, res: any) => {
   try {
     const localAuth = pick(body, 'email');
-    // TODO add type of user
-    const identity: any = await User.getUserByEmail(localAuth.email);
+    const identity = (await User.getUserByEmail(localAuth.email)) as UserShape;
 
     if (identity && mailer) {
       // async email
@@ -146,9 +144,8 @@ export const resetPassword = async ({ body, t }: any, res: any) => {
   }
 
   const token = Buffer.from(reset.token, 'base64').toString();
-  const { email, passwordHash }: any = jwt.verify(token, secret);
-  // TODO add type of user
-  const identity: any = await User.getUserByEmail(email);
+  const { email, passwordHash } = jwt.verify(token, secret) as UserShape;
+  const identity = (await User.getUserByEmail(email)) as UserShape;
 
   if (identity.passwordHash !== passwordHash) {
     throw res.status(401).send(t('user:auth.password.invalidToken'));

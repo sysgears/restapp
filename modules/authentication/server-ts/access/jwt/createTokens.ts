@@ -1,11 +1,13 @@
 import jwt from 'jsonwebtoken';
+
+import { UserShape } from './../index';
 import settings from '../../../../../settings';
 
 const {
   jwt: { tokenExpiresIn, refreshTokenExpiresIn }
 } = settings.auth;
 
-const createTokens = async (identity: any, secret: string, refreshSecret: string, t: any) => {
+const createTokens = async (identity: UserShape, secret: string, refreshSecret: string, t: any) => {
   if (!identity.id) {
     throw new Error(t('auth:identityWithoutId'));
   }

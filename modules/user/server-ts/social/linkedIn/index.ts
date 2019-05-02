@@ -1,3 +1,4 @@
+import { UserShape } from './../../sql';
 import { pick } from 'lodash';
 import { AuthModule } from '@restapp/authentication-server-ts';
 import { onAuthenticationSuccess, registerUser, UserSocial } from '../shared';
@@ -9,12 +10,12 @@ const createLinkedInAuth = async (user: any) => User.createLinkedInAuth(user);
 async function verifyCallback(accessToken: string, refreshToken: string, profile: UserSocial, cb: any) {
   const { id, displayName } = profile;
   try {
-    let user: any = await User.getUserByLnInIdOrEmail(id);
+    let user = (await User.getUserByLnInIdOrEmail(id)) as UserShape & { lnId: number };
 
     if (!user) {
       const [createdUserId] = await registerUser(profile);
       await createLinkedInAuth({ id, displayName, userId: createdUserId });
-      user = await User.getUser(createdUserId);
+      user = (await User.getUser(createdUserId)) as UserShape & { lnId: number };
     } else if (!user.lnId) {
       await createLinkedInAuth({ id, displayName, userId: user.id });
     }

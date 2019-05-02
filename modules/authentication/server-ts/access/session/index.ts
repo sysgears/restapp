@@ -32,7 +32,7 @@ const accessMiddleware = (req: Request, res: Response, next: any) =>
   req.isAuthenticated() ? next() : res.send('unauthorized');
 
 const onAppCreate = ({ appContext }: AccessModule) => {
-  passport.serializeUser((identity: any, cb) => {
+  passport.serializeUser((identity: { id: number }, cb) => {
     cb(null, identity.id);
   });
 

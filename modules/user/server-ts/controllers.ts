@@ -5,7 +5,7 @@ import { createTransaction } from '@restapp/database-server-ts';
 import { log } from '@restapp/core-common';
 import { mailer } from '@restapp/mailer-server-ts';
 
-import User from './sql';
+import User, { UserShape } from './sql';
 import settings from '../../../settings';
 import { ValidationErrors } from '.';
 
@@ -86,7 +86,7 @@ export const addUser = async ({ body, user: identity, t }: any, res: any) => {
   }
 
   try {
-    const createdUser: any = await User.getUser(createdUserId);
+    const createdUser = (await User.getUser(createdUserId)) as UserShape;
     res.json(user);
 
     if (mailer && password.requireEmailConfirmation && !emailExists) {
@@ -122,12 +122,12 @@ export const editUser = async ({ user: identity, body, t }: any, res: any) => {
 
   const errors: ValidationErrors = {};
 
-  const userExists: any = await User.getUserByUsername(body.username);
+  const userExists = (await User.getUserByUsername(body.username)) as UserShape;
   if (userExists && userExists.id !== body.id) {
     errors.username = t('user:usernameIsExisted');
   }
 
-  const emailExists: any = await User.getUserByEmail(body.email);
+  const emailExists = (await User.getUserByEmail(body.email)) as UserShape;
   if (emailExists && emailExists.id !== body.id) {
     errors.email = t('user:emailIsExisted');
   }

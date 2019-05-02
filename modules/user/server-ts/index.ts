@@ -5,7 +5,7 @@ import ServerModule, { RestMethod } from '@restapp/module-server-ts';
 import { user, users, currentUser, addUser, editUser, deleteUser } from './controllers';
 import password from './password';
 import social from './social';
-import User from './sql';
+import User, { UserShape } from './sql';
 import settings from '../../../settings';
 import resources from './locales';
 
@@ -19,14 +19,13 @@ const getIdentity = (id: number) => {
   return User.getUser(id);
 };
 
-// TODO add type of user
-const getHash = async (id: number) => ((await User.getUserWithPassword(id)) as any).passwordHash || '';
+const getHash = async (id: number) => ((await User.getUserWithPassword(id)) as UserShape).passwordHash || '';
 
 // TODO find a way to provide translate function
 const validateLogin = async (usernameOrEmail: string, pswd: string) => {
-  // TODO add type of user
-  const identity: any = await User.getUserByUsernameOrEmail(usernameOrEmail);
-  if (!user) {
+  const identity = (await User.getUserByUsernameOrEmail(usernameOrEmail)) as UserShape;
+
+  if (!identity) {
     return { message: 'user:auth.password.validPasswordEmail' };
   }
 

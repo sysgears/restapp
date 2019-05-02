@@ -1,7 +1,7 @@
 import { pick } from 'lodash';
 import { AuthModule } from '@restapp/authentication-server-ts';
 import { onAuthenticationSuccess, registerUser, UserSocial } from '../shared';
-import User from '../../sql';
+import User, { UserShape } from '../../sql';
 
 import settings from '../../../../../settings';
 
@@ -15,12 +15,12 @@ async function verifyCallback(accessToken: string, refreshToken: string, profile
   } = profile;
 
   try {
-    let user: any = await User.getUserByGHIdOrEmail(id, value);
+    let user = (await User.getUserByGHIdOrEmail(id, value)) as UserShape & { ghId: number };
 
     if (!user) {
       const [createdUserId] = await registerUser(profile);
       await createGithubAuth({ id, displayName, userId: createdUserId });
-      user = await User.getUser(createdUserId);
+      user = (await User.getUser(createdUserId)) as UserShape & { ghId: number };
     } else if (!user.ghId) {
       await createGithubAuth({ id, displayName, userId: user.id });
     }

@@ -4,23 +4,14 @@ import { has } from 'lodash';
 import bcrypt from 'bcryptjs';
 import { knex, returnId } from '@restapp/database-server-ts';
 
-export interface UserFileds extends User, UserPassword, UserProfile {}
-
-export interface User {
+export interface UserShape {
   id: number;
   username: string;
   role: string;
   isActive: boolean;
   email: string;
-}
-
-export interface UserPassword {
   passwordHash: string;
-}
-
-export interface UserProfile {
-  firstName: string;
-  lastName: string;
+  userId: number;
 }
 
 interface OrderBy {
@@ -40,11 +31,13 @@ interface SocialInterface {
   userId: number;
 }
 
-interface Profile {
-  id: number;
+export interface Profile {
+  firstName?: string;
+  lastName?: string;
+  id?: number;
   username: string;
   email: string;
-  role: string;
+  role?: string;
   isActive: boolean;
 }
 
@@ -137,7 +130,7 @@ class UserDAO {
     );
   }
 
-  public register({ username, email, role = 'user', isActive }: Profile, passwordHash: string | false) {
+  public register({ username, email, role = 'user', isActive }: Profile, passwordHash?: string | false) {
     return knex('user').insert(decamelizeKeys({ username, email, role, passwordHash, isActive }));
   }
 
@@ -171,7 +164,7 @@ class UserDAO {
       .first()).count;
   }
 
-  public editUserProfile({ id, profile }: { id: number; profile: Profile }, isExists?: boolean) {
+  public editUserProfile({ id, profile }: { id: number; profile: any }, isExists?: boolean) {
     if (isExists) {
       return knex('user_profile')
         .update(decamelizeKeys(profile))
@@ -225,7 +218,7 @@ class UserDAO {
     );
   }
 
-  public async getUserByLnInIdOrEmail(id: number, email: string) {
+  public async getUserByLnInIdOrEmail(id: number, email: string = '') {
     return camelizeKeys(
       await knex
         .select(...userColumnsWithPassword, 'lna.ln_id')

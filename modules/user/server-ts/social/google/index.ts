@@ -3,6 +3,7 @@ import { AuthModule } from '@restapp/authentication-server-ts';
 import { onAuthenticationSuccess, UserSocial } from '../shared';
 import User from '../../sql';
 import settings from '../../../../../settings';
+import { UserShape } from '@restapp/authentication-server-ts/access';
 
 interface UserSocialGoogle extends UserSocial {
   name: {
@@ -29,7 +30,7 @@ async function verifyCallback(accessToken: string, refreshToken: string, profile
   } = profile;
 
   try {
-    let user: any = await User.getUserByGoogleIdOrEmail(id, value);
+    let user = (await User.getUserByGoogleIdOrEmail(id, value)) as UserShape & { googleId: number };
 
     if (!user) {
       const [createdUserId] = await registerUser(profile);
@@ -44,7 +45,7 @@ async function verifyCallback(accessToken: string, refreshToken: string, profile
         }
       });
 
-      user = await User.getUser(createdUserId);
+      user = (await User.getUser(createdUserId)) as UserShape & { googleId: number };
     } else if (!user.googleId) {
       await createGoogleOAuth({ id, displayName, userId: user.id });
     }
