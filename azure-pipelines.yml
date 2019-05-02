@@ -9,6 +9,9 @@ trigger:
 pool:
   vmImage: 'Ubuntu-16.04'
 
+variables:
+  YARN_PRODUCTION: false  
+
 steps:
 - task: NodeTool@0
   inputs:
@@ -16,6 +19,10 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
+    yarn
+  displayName: 'Install dependencies'
+
+- script: |
+    yarn test
+  displayName: 'Test'
+
