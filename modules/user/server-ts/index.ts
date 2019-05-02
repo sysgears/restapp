@@ -24,7 +24,6 @@ const getIdentity = (id: number) => {
 
 const getHash = async (id: number) => ((await UserDAO.getUserWithPassword(id)) as UserShape).passwordHash || '';
 
-// TODO find a way to provide translate function
 const validateLogin = async (usernameOrEmail: string, pswd: string) => {
   const identity = (await UserDAO.getUserByUsernameOrEmail(usernameOrEmail)) as UserShape;
 
