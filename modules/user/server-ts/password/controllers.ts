@@ -8,6 +8,7 @@ import { mailer } from '@restapp/mailer-server-ts';
 
 import User from '../sql';
 import settings from '../../../../settings';
+import { ValidationErrors } from '../index';
 
 const {
   auth: { session, jwt: jwtSetting, password, secret },
@@ -37,7 +38,7 @@ export const login = (req: any, res: any) => {
 };
 
 export const register = async ({ body, t }: any, res: any) => {
-  const errors: any = {};
+  const errors: ValidationErrors = {};
   const userExists = await User.getUserByUsername(body.username);
   if (userExists) {
     errors.username = t('user:auth.password.usernameIsExisted');
@@ -126,7 +127,7 @@ export const forgotPassword = async ({ body, t }: any, res: any) => {
 };
 
 export const resetPassword = async ({ body, t }: any, res: any) => {
-  const errors: any = {};
+  const errors: ValidationErrors = {};
   const reset = pick(body, ['password', 'passwordConfirmation', 'token']);
 
   if (reset.password !== reset.passwordConfirmation) {

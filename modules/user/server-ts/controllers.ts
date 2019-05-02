@@ -7,6 +7,7 @@ import { mailer } from '@restapp/mailer-server-ts';
 
 import User from './sql';
 import settings from '../../../settings';
+import { ValidationErrors } from '.';
 
 const {
   auth: { jwt, password, secret },
@@ -46,7 +47,7 @@ export const addUser = async ({ body, user: identity, t }: any, res: any) => {
   if (identity.role !== 'admin') {
     return res.status(401).send(t('user:accessDenied'));
   }
-  const errors: any = {};
+  const errors: ValidationErrors = {};
 
   const userExists = await User.getUserByUsername(body.username);
   if (userExists) {
@@ -119,7 +120,7 @@ export const editUser = async ({ user: identity, body, t }: any, res: any) => {
     return res.status(401).send(t('user:accessDenied'));
   }
 
-  const errors: any = {};
+  const errors: ValidationErrors = {};
 
   const userExists: any = await User.getUserByUsername(body.username);
   if (userExists && userExists.id !== body.id) {

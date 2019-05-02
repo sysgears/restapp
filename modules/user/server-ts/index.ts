@@ -9,6 +9,12 @@ import User from './sql';
 import settings from '../../../settings';
 import resources from './locales';
 
+export interface ValidationErrors {
+  username?: string;
+  email?: string;
+  password?: string;
+}
+
 const getIdentity = (id: number) => {
   return User.getUser(id);
 };
