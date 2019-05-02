@@ -7,6 +7,7 @@ import { mailer } from '@restapp/mailer-server-ts';
 import UserDAO, { UserShape } from './sql';
 import settings from '../../../settings';
 import { ValidationErrors, createPasswordHash } from '.';
+import getEmailTemplate from './getEmailTemplate';
 
 const {
   auth: { jwt, password, secret },
@@ -93,11 +94,7 @@ export const addUser = async ({ body, user: identity, t }: any, res: any) => {
           from: `${app.name} <${process.env.EMAIL_USER}>`,
           to: createdUser.email,
           subject: 'Your account has been created',
-          html: `<p>Hi, ${createdUser.username}!</p>
-                <p>Welcome to ${app.name}. Please click the following link to confirm your email:</p>
-                <p><a href="${url}">${url}</a></p>
-                <p>Below are your login information</p>
-                <p>Your email is: ${createdUser.email}</p>`
+          html: getEmailTemplate('accountCreated', { user: createdUser, url })
         });
         log.info(`Sent registration confirmation email to: ${createdUser.email}`);
       });
@@ -155,9 +152,7 @@ export const editUser = async ({ user: identity, body, t }: any, res: any) => {
         from: `${settings.app.name} <${process.env.EMAIL_USER}>`,
         to: body.email,
         subject: 'Your Password Has Been Updated',
-        html: `<p>Your account password has been updated.</p>
-                     <p>To view or edit your account settings, please visit the “Profile” page at</p>
-                     <p><a href="${url}">${url}</a></p>`
+        html: getEmailTemplate('passwordUpdated', { url })
       });
       log.info(`Sent password has been updated to: ${body.email}`);
     }

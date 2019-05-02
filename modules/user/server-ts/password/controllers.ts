@@ -9,6 +9,7 @@ import { mailer } from '@restapp/mailer-server-ts';
 import UserDAO from '../sql';
 import settings from '../../../../settings';
 import { ValidationErrors, createPasswordHash } from '../index';
+import getEmailTemplate from '../getEmailTemplate';
 
 const {
   auth: { session, jwt: jwtSetting, password, secret },
@@ -77,11 +78,7 @@ export const register = async ({ body, t }: any, res: any) => {
         from: `${app.name} <${process.env.EMAIL_USER}>`,
         to: user.email,
         subject: 'Confirm Email',
-        html: `<p>Hi, ${user.username}!</p>
-              <p>Welcome to ${app.name}. Please click the following link to confirm your email:</p>
-              <p><a href="${url}">${url}</a></p>
-              <p>Below are your login information</p>
-              <p>Your email is: ${user.email}</p>`
+        html: getEmailTemplate('confirmEmail', { user, url })
       });
       log.info(`Sent registration confirmation email to: ${user.email}`);
     });
@@ -109,7 +106,7 @@ export const forgotPassword = async ({ body, t }: any, res: any) => {
             from: `${app.name} <${process.env.EMAIL_USER}>`,
             to: identity.email,
             subject: 'Reset Password',
-            html: `Please click this link to reset your password: <a href="${url}">${url}</a>`
+            html: getEmailTemplate('passwordReset', { url })
           });
           log.info(`Sent link to reset email to: ${identity.email}`);
         }
@@ -158,9 +155,7 @@ export const resetPassword = async ({ body, t }: any, res: any) => {
         from: `${app.name} <${process.env.EMAIL_USER}>`,
         to: identity.email,
         subject: 'Your Password Has Been Updated',
-        html: `<p>As you requested, your account password has been updated.</p>
-                   <p>To view or edit your account settings, please visit the “Profile” page at</p>
-                   <p><a href="${url}">${url}</a></p>`
+        html: getEmailTemplate('passwordUpdated', { url })
       });
       log.info(`Sent password has been updated to: ${identity.email}`);
     }
