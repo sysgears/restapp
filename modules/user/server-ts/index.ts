@@ -15,6 +15,8 @@ export interface ValidationErrors {
   password?: string;
 }
 
+export const createPasswordHash = (pswd: string) => bcrypt.hash(pswd, 12);
+
 const getIdentity = (id: number) => {
   return UserDAO.getUser(id);
 };

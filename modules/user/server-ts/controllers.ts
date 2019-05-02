@@ -1,5 +1,4 @@
 import { pick, isEmpty } from 'lodash';
-import bcrypt from 'bcryptjs';
 
 import { createTransaction } from '@restapp/database-server-ts';
 import { log } from '@restapp/core-common';
@@ -7,16 +6,12 @@ import { mailer } from '@restapp/mailer-server-ts';
 
 import UserDAO, { UserShape } from './sql';
 import settings from '../../../settings';
-import { ValidationErrors } from '.';
+import { ValidationErrors, createPasswordHash } from '.';
 
 const {
   auth: { jwt, password, secret },
   app
 } = settings;
-
-const createPasswordHash = (pswd: string) => {
-  return bcrypt.hash(pswd, 12);
-};
 
 export const user = async ({ body: { id }, user: identity, t }: any, res: any) => {
   if (identity.id === id || identity.role === 'admin') {

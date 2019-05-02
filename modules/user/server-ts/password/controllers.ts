@@ -1,5 +1,4 @@
 import { UserShape } from './../sql';
-import bcrypt from 'bcryptjs';
 import { pick, isEmpty } from 'lodash';
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
@@ -9,14 +8,12 @@ import { mailer } from '@restapp/mailer-server-ts';
 
 import UserDAO from '../sql';
 import settings from '../../../../settings';
-import { ValidationErrors } from '../index';
+import { ValidationErrors, createPasswordHash } from '../index';
 
 const {
   auth: { session, jwt: jwtSetting, password, secret },
   app
 } = settings;
-
-const createPasswordHash = (pswd: string) => bcrypt.hash(pswd, 12) || false;
 
 export const login = (req: any, res: any) => {
   passport.authenticate('local', { session: session.enabled }, (err, user, info) => {
