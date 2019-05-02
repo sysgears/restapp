@@ -27,7 +27,7 @@ export interface ServerModuleShape extends CommonModuleShape {
   apiRouteParams?: Array<{
     method: RestMethod;
     route: string;
-    middleware: Array<(req: Request, res: Response, next: any) => void>;
+    controller: Array<(req: Request, res: Response, next: any) => void>;
     isAuthRoute?: boolean;
   }>;
 }
@@ -52,11 +52,11 @@ class ServerModule extends CommonModule {
   }
 
   public get apiRoutes() {
-    return this.apiRouteParams.map(({ method, route, middleware, isAuthRoute }) => {
+    return this.apiRouteParams.map(({ method, route, controller, isAuthRoute }) => {
       return (app: Express, modules: ServerModule) => {
         isAuthRoute
-          ? app[method](`/api/${route}`, modules.accessMiddleware, ...middleware)
-          : app[method](`/api/${route}`, ...middleware);
+          ? app[method](`/api/${route}`, modules.accessMiddleware, ...controller)
+          : app[method](`/api/${route}`, ...controller);
       };
     });
   }

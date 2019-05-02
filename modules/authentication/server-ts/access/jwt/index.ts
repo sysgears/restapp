@@ -66,7 +66,7 @@ export default (settings.auth.jwt.enabled
         {
           method: RestMethod.POST,
           route: 'refreshToken',
-          middleware: [refreshTokens]
+          controller: [refreshTokens]
         }
       ],
       accessMiddleware
