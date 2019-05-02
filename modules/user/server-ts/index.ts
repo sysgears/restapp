@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import i18n from 'i18next';
 
 import ServerModule, { RestMethod } from '@restapp/module-server-ts';
 
@@ -28,16 +29,16 @@ const validateLogin = async (usernameOrEmail: string, pswd: string) => {
   const identity = (await UserDAO.getUserByUsernameOrEmail(usernameOrEmail)) as UserShape;
 
   if (!identity) {
-    return { message: 'user:auth.password.validPasswordEmail' };
+    return { message: i18n.t('user:auth.password.validPasswordEmail') };
   }
 
   if (settings.auth.password.requireEmailConfirmation && !identity.isActive) {
-    return { message: 'user:auth.password.emailConfirmation' };
+    return { message: i18n.t('user:auth.password.emailConfirmation') };
   }
 
   const valid = await bcrypt.compare(pswd, identity.passwordHash);
   if (!valid) {
-    return { message: 'user:auth.password.validPassword' };
+    return { message: i18n.t('user:auth.password.validPassword') };
   }
 
   return { identity };

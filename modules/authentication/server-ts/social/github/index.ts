@@ -21,7 +21,6 @@ const middleware = (app: Express, appContext: AppContext) => {
     passport.authenticate('github', { state: req.query.expoUrl })(req, res, next);
   });
 
-  // TODO: Should be fixed on th enext iteration
   app.get(
     '/auth/github/callback',
     passport.authenticate('github', { session: false, failureRedirect: '/login' }),
@@ -29,7 +28,6 @@ const middleware = (app: Express, appContext: AppContext) => {
   );
 };
 
-// TODO: Should be fixed on th enext iteration
 const onAppCreate = ({ appContext }: AuthModule) => {
   if (enabled && !__TEST__) {
     passport.use(
