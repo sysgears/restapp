@@ -10,22 +10,22 @@ export default (settings.auth.password.enabled
         {
           method: RestMethod.POST,
           route: 'login',
-          controller: [login]
+          controller: login
         },
         {
           method: RestMethod.POST,
           route: 'register',
-          controller: [register]
+          controller: register
         },
         {
           method: RestMethod.POST,
           route: 'forgotPassword',
-          controller: [forgotPassword]
+          controller: forgotPassword
         },
         {
           method: RestMethod.POST,
           route: 'resetPassword',
-          controller: [resetPassword]
+          controller: resetPassword
         }
       ]
     })

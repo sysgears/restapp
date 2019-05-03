@@ -61,7 +61,7 @@ export interface ServerModuleShape extends CommonModuleShape {
     method: RestMethod;
     route: string;
     middleware?: RequestHandler[];
-    controller: RequestHandler[];
+    controller: RequestHandler;
     isAuthRoute?: boolean;
   }>;
 }
@@ -96,7 +96,7 @@ class ServerModule extends CommonModule {
         if (!isEmpty(middleware)) {
           handlers.push(...middleware);
         }
-        handlers.push(...controller);
+        handlers.push(controller);
 
         app[method](`/api/${route}`, ...handlers);
       };

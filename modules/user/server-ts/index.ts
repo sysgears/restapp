@@ -57,37 +57,37 @@ export default new ServerModule(password, social, {
       method: RestMethod.GET,
       route: 'user',
       isAuthRoute: true,
-      controller: [user]
+      controller: user
     },
     {
       method: RestMethod.GET,
       route: 'users',
       isAuthRoute: true,
-      controller: [users]
+      controller: users
     },
     {
       method: RestMethod.GET,
       route: 'currentUser',
       isAuthRoute: true,
-      controller: [currentUser]
+      controller: currentUser
     },
     {
       method: RestMethod.POST,
       route: 'addUser',
       isAuthRoute: true,
-      controller: [addUser]
+      controller: addUser
     },
     {
       method: RestMethod.POST,
       route: 'editUser',
       isAuthRoute: true,
-      controller: [editUser]
+      controller: editUser
     },
     {
       method: RestMethod.DELETE,
       route: 'deleteUser',
       isAuthRoute: true,
-      controller: [deleteUser]
+      controller: deleteUser
     }
   ]
 });
