@@ -1,31 +1,24 @@
 import { Express } from 'express';
 import passport from 'passport';
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
-import settings from '../../../../../settings';
+
+import { RestMethod } from '@restapp/module-server-ts';
+
+import { auth, onAuthenticationSuccess } from './controllers';
 import AuthModule from '../AuthModule';
+import settings from '../../../../../settings';
 
-const { clientID, clientSecret, scope, callbackURL, enabled } = settings.auth.social.google;
-
-interface AppContext {
-  social: any;
-}
-
-const middleware = (app: Express, appContext: AppContext) => {
-  if (!enabled || __TEST__) {
-    return false;
+const {
+  auth: {
+    session,
+    social: {
+      google: { clientID, clientSecret, callbackURL, enabled }
+    }
   }
+} = settings;
 
+const beforeware = (app: Express) => {
   app.use(passport.initialize());
-
-  app.get('/auth/google', (req, res, next) => {
-    passport.authenticate('google', { scope, state: req.query.expoUrl })(req, res, next);
-  });
-
-  app.get(
-    '/auth/google/callback',
-    passport.authenticate('google', { session: false, failureRedirect: '/login' }),
-    appContext.social ? appContext.social.google.onAuthenticationSuccess : undefined
-  );
 };
 
 const onAppCreate = ({ appContext }: AuthModule) => {
@@ -39,7 +32,24 @@ const onAppCreate = ({ appContext }: AuthModule) => {
   }
 };
 
-export default new AuthModule({
-  middleware: [middleware],
-  onAppCreate: [onAppCreate]
-});
+export default (enabled && !__TEST__
+  ? new AuthModule({
+      beforeware: [beforeware],
+      onAppCreate: [onAppCreate],
+      apiRouteParams: [
+        {
+          method: RestMethod.GET,
+          route: 'auth/google',
+          controller: [auth]
+        },
+        {
+          method: RestMethod.GET,
+          route: 'auth/google/callback',
+          controller: [
+            passport.authenticate('google', { session: session.enabled, failureRedirect: '/login' }),
+            onAuthenticationSuccess
+          ]
+        }
+      ]
+    })
+  : undefined);
