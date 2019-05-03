@@ -65,20 +65,20 @@ const withOrderByUpdating = (Component: React.ComponentType<any>) => {
 };
 
 const withFilterUpdating = (Component: React.ComponentType<any>) => {
-  const WithFilterUpdating: React.ComponentType<any> = ({ orderBy, filter, orderByFunc }) => {
+  const WithFilterUpdating: React.ComponentType<any> = ({ orderBy, filter, changeFilter }) => {
     const onSearchTextChange = (searchText: string) => {
       const _filter: Filter = { searchText, ...filter };
-      return orderByFunc(orderBy, _filter);
+      return changeFilter(orderBy, _filter);
     };
 
     const onRoleChange = (role: UserRole) => {
       const _filter: Filter = { role, ...filter };
-      return orderByFunc(orderBy, _filter);
+      return changeFilter(orderBy, _filter);
     };
 
     const onIsActiveChange = (isActive: boolean) => {
       const _filter: Filter = { isActive, ...filter };
-      return orderByFunc(orderBy, _filter);
+      return changeFilter(orderBy, _filter);
     };
 
     return (
@@ -95,19 +95,7 @@ const withFilterUpdating = (Component: React.ComponentType<any>) => {
   return connect(
     _state => ({}),
     dispatch => ({
-      onSearchTextChange: (orderBy: OrderBy, filter: Filter) =>
-        dispatch({
-          type: [ActionType.SET_FILTER, ActionType.SET_USERS, null],
-          payload: filter,
-          request: () => USERS(orderBy, filter)
-        }),
-      onRoleChange: (orderBy: OrderBy, filter: Filter) =>
-        dispatch({
-          type: [ActionType.SET_FILTER, ActionType.SET_USERS, null],
-          payload: filter,
-          request: () => USERS(orderBy, filter)
-        }),
-      onIsActiveChange: (orderBy: OrderBy, filter: Filter) =>
+      changeFilter: (orderBy: OrderBy, filter: Filter) =>
         dispatch({
           type: [ActionType.SET_FILTER, ActionType.SET_USERS, null],
           payload: filter,
