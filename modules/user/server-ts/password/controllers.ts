@@ -6,7 +6,7 @@ import { access } from '@restapp/authentication-server-ts';
 import { log } from '@restapp/core-common';
 import { mailer } from '@restapp/mailer-server-ts';
 
-import UserDAO from '../sql';
+import userDAO from '../sql';
 import settings from '../../../../settings';
 import { ValidationErrors, createPasswordHash } from '../index';
 import { confirmEmail, passwordReset, passwordUpdated } from '../emailTemplates';
@@ -38,12 +38,12 @@ export const login = (req: any, res: any) => {
 
 export const register = async ({ body, t }: any, res: any) => {
   const errors: ValidationErrors = {};
-  const userExists = await UserDAO.getUserByUsername(body.username);
+  const userExists = await userDAO.getUserByUsername(body.username);
   if (userExists) {
     errors.username = t('user:auth.password.usernameIsExisted');
   }
 
-  const emailExists = (await UserDAO.getUserByEmail(body.email)) as UserShape;
+  const emailExists = (await userDAO.getUserByEmail(body.email)) as UserShape;
   if (emailExists) {
     errors.email = t('user:auth.password.emailIsExisted');
   }
@@ -59,15 +59,15 @@ export const register = async ({ body, t }: any, res: any) => {
   if (!emailExists) {
     const passwordHash = await createPasswordHash(body.password);
     const isActive = !password.requireEmailConfirmation;
-    [userId] = await UserDAO.register({ ...body, isActive }, passwordHash);
+    [userId] = await userDAO.register({ ...body, isActive }, passwordHash);
 
     // if user has previously logged with facebook auth
   } else {
-    await UserDAO.updatePassword(emailExists.userId, body.password);
+    await userDAO.updatePassword(emailExists.userId, body.password);
     userId = emailExists.userId;
   }
 
-  const user = (await UserDAO.getUser(userId)) as UserShape;
+  const user = (await userDAO.getUser(userId)) as UserShape;
 
   if (mailer && password.requireEmailConfirmation && !emailExists) {
     // async email
@@ -90,7 +90,7 @@ export const register = async ({ body, t }: any, res: any) => {
 export const forgotPassword = async ({ body, t }: any, res: any) => {
   try {
     const localAuth = pick(body, 'email');
-    const identity = (await UserDAO.getUserByEmail(localAuth.email)) as UserShape;
+    const identity = (await userDAO.getUserByEmail(localAuth.email)) as UserShape;
 
     if (identity && mailer) {
       // async email
@@ -139,14 +139,14 @@ export const resetPassword = async ({ body, t }: any, res: any) => {
 
   const token = Buffer.from(reset.token, 'base64').toString();
   const { email, passwordHash } = jwt.verify(token, secret) as UserShape;
-  const identity = (await UserDAO.getUserByEmail(email)) as UserShape;
+  const identity = (await userDAO.getUserByEmail(email)) as UserShape;
 
   if (identity.passwordHash !== passwordHash) {
     throw res.status(401).send(t('user:auth.password.invalidToken'));
   }
 
   if (identity) {
-    await UserDAO.updatePassword(identity.id, reset.password);
+    await userDAO.updatePassword(identity.id, reset.password);
     const url = `${__WEBSITE_URL__}/profile`;
     res.send(t('user:auth.password.resestPassword'));
 
