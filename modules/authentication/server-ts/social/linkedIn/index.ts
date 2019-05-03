@@ -1,45 +1,53 @@
 import { Express } from 'express';
 import passport from 'passport';
 import { Strategy as LinkedInStrategy } from '@sokratis/passport-linkedin-oauth2';
-import settings from '../../../../../settings';
+
+import { RestMethod } from '@restapp/module-server-ts';
+
+import { auth, onAuthenticationSuccess } from './controllers';
 import AuthModule from '../AuthModule';
+import settings from '../../../../../settings';
 
-const { clientID, clientSecret, callbackURL, enabled } = settings.auth.social.linkedin;
-
-interface AppContext {
-  social: any;
-}
-
-const middleware = (app: Express, appContext: AppContext) => {
-  if (!enabled || __TEST__) {
-    return false;
+const {
+  auth: {
+    session,
+    social: {
+      linkedin: { clientID, clientSecret, callbackURL, enabled, scope }
+    }
   }
+} = settings;
 
+const beforeware = (app: Express) => {
   app.use(passport.initialize());
-
-  app.get('/auth/linkedin', (req, res, next) => {
-    passport.authenticate('linkedin', { state: req.query.expoUrl })(req, res, next);
-  });
-
-  app.get(
-    '/auth/linkedin/callback',
-    passport.authenticate('linkedin', { session: false, failureRedirect: '/login' }),
-    appContext.social ? appContext.social.linkedin.onAuthenticationSuccess : undefined
-  );
 };
 
 const onAppCreate = ({ appContext }: AuthModule) => {
-  if (enabled && !__TEST__) {
-    passport.use(
-      new LinkedInStrategy(
-        { clientID, clientSecret, callbackURL },
-        appContext.social ? appContext.social.linkedin.verifyCallback : undefined
-      )
-    );
-  }
+  passport.use(
+    new LinkedInStrategy(
+      { clientID, clientSecret, callbackURL, scopeSeparator: scope },
+      appContext.social ? appContext.social.linkedin.verifyCallback : undefined
+    )
+  );
 };
 
-export default new AuthModule({
-  middleware: [middleware],
-  onAppCreate: [onAppCreate]
-});
+export default (enabled && !__TEST__
+  ? new AuthModule({
+      beforeware: [beforeware],
+      onAppCreate: [onAppCreate],
+      apiRouteParams: [
+        {
+          method: RestMethod.GET,
+          route: 'auth/linkedin',
+          controller: [auth]
+        },
+        {
+          method: RestMethod.GET,
+          route: 'auth/linkedin/callback',
+          controller: [
+            passport.authenticate('linkedin', { session: session.enabled, failureRedirect: '/login' }),
+            onAuthenticationSuccess
+          ]
+        }
+      ]
+    })
+  : undefined);
