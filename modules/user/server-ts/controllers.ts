@@ -7,7 +7,7 @@ import { mailer } from '@restapp/mailer-server-ts';
 import UserDAO, { UserShape } from './sql';
 import settings from '../../../settings';
 import { ValidationErrors, createPasswordHash } from '.';
-import getEmailTemplate from './getEmailTemplate';
+import { accountCreated, passwordUpdated } from './emailTemplates';
 
 const {
   auth: { jwt, password, secret },
@@ -94,7 +94,7 @@ export const addUser = async ({ body, user: identity, t }: any, res: any) => {
           from: `${app.name} <${process.env.EMAIL_USER}>`,
           to: createdUser.email,
           subject: 'Your account has been created',
-          html: getEmailTemplate('accountCreated', { user: createdUser, url })
+          html: accountCreated(url, createdUser)
         });
         log.info(`Sent registration confirmation email to: ${createdUser.email}`);
       });
@@ -152,7 +152,7 @@ export const editUser = async ({ user: identity, body, t }: any, res: any) => {
         from: `${settings.app.name} <${process.env.EMAIL_USER}>`,
         to: body.email,
         subject: 'Your Password Has Been Updated',
-        html: getEmailTemplate('passwordUpdated', { url })
+        html: passwordUpdated(url)
       });
       log.info(`Sent password has been updated to: ${body.email}`);
     }
