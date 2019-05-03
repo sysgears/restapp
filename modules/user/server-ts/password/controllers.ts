@@ -8,8 +8,8 @@ import { mailer } from '@restapp/mailer-server-ts';
 
 import userDAO from '../sql';
 import settings from '../../../../settings';
-import { ValidationErrors, createPasswordHash } from '../index';
-import { confirmEmail, passwordReset, passwordUpdated } from '../emailTemplates';
+import { ValidationErrors } from '../index';
+import { emailTemplate, createPasswordHash } from '../shared';
 
 const {
   auth: { session, jwt: jwtSetting, password, secret },
@@ -78,7 +78,7 @@ export const register = async ({ body, t }: any, res: any) => {
         from: `${app.name} <${process.env.EMAIL_USER}>`,
         to: user.email,
         subject: 'Confirm Email',
-        html: confirmEmail(url, user)
+        html: emailTemplate.confirmEmail(url, user)
       });
       log.info(`Sent registration confirmation email to: ${user.email}`);
     });
@@ -106,7 +106,7 @@ export const forgotPassword = async ({ body, t }: any, res: any) => {
             from: `${app.name} <${process.env.EMAIL_USER}>`,
             to: identity.email,
             subject: 'Reset Password',
-            html: passwordReset(url)
+            html: emailTemplate.passwordReset(url)
           });
           log.info(`Sent link to reset email to: ${identity.email}`);
         }
@@ -155,7 +155,7 @@ export const resetPassword = async ({ body, t }: any, res: any) => {
         from: `${app.name} <${process.env.EMAIL_USER}>`,
         to: identity.email,
         subject: 'Your Password Has Been Updated',
-        html: passwordUpdated(url)
+        html: emailTemplate.passwordUpdated(url)
       });
       log.info(`Sent password has been updated to: ${identity.email}`);
     }
