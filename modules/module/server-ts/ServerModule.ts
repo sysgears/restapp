@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import CommonModule, { CommonModuleShape } from '@restapp/module-common';
 import { Express, Request, Response } from 'express';
 
@@ -85,11 +86,19 @@ class ServerModule extends CommonModule {
   }
 
   public get apiRoutes() {
-    return this.apiRouteParams.map(({ method, route, controller, isAuthRoute }) => {
+    return this.apiRouteParams.map(({ method, route, controller, isAuthRoute, middleware }) => {
       return (app: Express, modules: ServerModule) => {
-        isAuthRoute
-          ? app[method](`/api/${route}`, modules.accessMiddleware, ...controller)
-          : app[method](`/api/${route}`, ...controller);
+        const handlers = [];
+
+        if (isAuthRoute) {
+          handlers.push(modules.accessMiddleware);
+        }
+        if (!isEmpty(middleware)) {
+          handlers.push(...middleware);
+        }
+        handlers.push(...controller);
+
+        app[method](`/api/${route}`, ...handlers);
       };
     });
   }
