@@ -15,7 +15,7 @@ const {
 } = settings;
 
 export const user = async ({ body: { id }, user: identity, t }: any, res: any) => {
-  if (identity.id === id || identity.role === 'admin') {
+  if (+identity.id === +id || identity.role === 'admin') {
     try {
       res.json({ user: await userDAO.getUser(id) });
     } catch (e) {
@@ -106,7 +106,7 @@ export const addUser = async ({ body, user: identity, t }: any, res: any) => {
 
 export const editUser = async ({ user: identity, body, t }: any, res: any) => {
   const isAdmin = () => identity.role === 'admin';
-  const isSelf = () => identity.id === body.id;
+  const isSelf = () => +identity.id === +body.id;
 
   if (!isSelf() && !isAdmin()) {
     return res.status(401).send(t('user:accessDenied'));
@@ -171,7 +171,7 @@ export const editUser = async ({ user: identity, body, t }: any, res: any) => {
 
 export const deleteUser = async ({ user: identity, body: { id }, t }: any, res: any) => {
   const isAdmin = () => identity.role === 'admin';
-  const isSelf = () => identity.id === id;
+  const isSelf = () => +identity.id === +id;
 
   const userData = await userDAO.getUser(id);
   if (!userData) {
