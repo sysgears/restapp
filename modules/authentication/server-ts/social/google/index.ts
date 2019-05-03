@@ -45,10 +45,8 @@ export default (enabled && !__TEST__
         {
           method: RestMethod.GET,
           route: 'auth/google/callback',
-          controller: [
-            passport.authenticate('google', { session: session.enabled, failureRedirect: '/login' }),
-            onAuthenticationSuccess
-          ]
+          middleware: [passport.authenticate('google', { session: session.enabled, failureRedirect: '/login' })],
+          controller: [onAuthenticationSuccess]
         }
       ]
     })

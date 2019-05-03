@@ -30,13 +30,13 @@ type CreateContextFunc = (props: CreateContextFuncProps) => { [key: string]: any
 type MiddlewareFunc = (app: Express, appContext: { [key: string]: any }) => void;
 
 /**
- * A function to verify authentication.
+ * A function with reuqest.
  *
  * @param req HTTP request
  * @param res HTTP response
- * @param next following middelware
+ * @param next following handler
  */
-type AccessMiddleware = (req: Request, res: Response, next: any) => void;
+type RequestHandler = (req: Request, res: Response, next: any) => void;
 
 export enum RestMethod {
   POST = 'post',
@@ -55,11 +55,12 @@ export interface ServerModuleShape extends CommonModuleShape {
   beforeware?: MiddlewareFunc[];
   // A list of functions to register normal-priority middlewares
   middleware?: MiddlewareFunc[];
-  accessMiddleware?: AccessMiddleware;
+  accessMiddleware?: RequestHandler;
   apiRouteParams?: Array<{
     method: RestMethod;
     route: string;
-    controller: Array<(req: Request, res: Response, next: any) => void>;
+    middleware?: RequestHandler[];
+    controller: RequestHandler[];
     isAuthRoute?: boolean;
   }>;
 }

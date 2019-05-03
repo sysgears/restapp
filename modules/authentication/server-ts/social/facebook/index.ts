@@ -43,10 +43,8 @@ export default (enabled && !__TEST__
         {
           method: RestMethod.GET,
           route: 'auth/facebook/callback',
-          controller: [
-            passport.authenticate('facebook', { session: session.enabled, failureRedirect: '/login' }),
-            onAuthenticationSuccess
-          ]
+          middleware: [passport.authenticate('facebook', { session: session.enabled, failureRedirect: '/login' })],
+          controller: [onAuthenticationSuccess]
         }
       ]
     })
