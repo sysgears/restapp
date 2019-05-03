@@ -1,6 +1,7 @@
 {
-  "getIdentify": "Не доступен 'getIdentity' метод. Пожалуйста добавьте метод в context.",
+  "getIdentify": "Не доступен 'getIdentity' метод. Пожалуйста, добавьте метод в context.",
   "invalidCsrf": "CSRF ошибка проверки токена",
   "identityWithoutId": "Identity дожен иметь 'id'",
-  "invalidRefresh": "Refresh token не прошел проверку"
+  "invalidRefresh": "Refresh token не прошел проверку",
+  "social": "Не доступно свойство social в context. Пожалуйста, добавьте свойство в context."
 }
