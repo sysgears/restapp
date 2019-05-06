@@ -5,26 +5,21 @@ import { translate } from '@restapp/i18n-client-react';
 import { FormError } from '@restapp/forms-client-react';
 import ResetPasswordView from '../components/ResetPasswordView.native';
 import { RESET_PASSWORD } from '../actions';
-import { CommonProps } from '../index.native';
-
-export interface SubmitProps {
-  password: string;
-  passwordConfirmation: string;
-}
+import { CommonProps, ResetPasswordSubmitProps } from '../index.native';
 
 interface Token {
   token: string;
 }
 
 interface ResetPasswordProps extends CommonProps {
-  resetPassword: (value: SubmitProps & any) => void;
+  resetPassword: (value: ResetPasswordSubmitProps & any) => void;
   match: any;
 }
 
 const ResetPassword: React.FunctionComponent<ResetPasswordProps> = props => {
   const { t, resetPassword, navigation, match } = props;
 
-  const onSubmit = async (values: SubmitProps) => {
+  const onSubmit = async (values: ResetPasswordSubmitProps) => {
     try {
       await resetPassword({ ...values, token: match.params.token });
     } catch (e) {
@@ -42,7 +37,7 @@ const ResetPasswordWithConnect = compose(
   connect(
     _state => ({}),
     dispatch => ({
-      resetPassword: (values: SubmitProps & Token) =>
+      resetPassword: (values: ResetPasswordSubmitProps & Token) =>
         dispatch({
           type: null,
           request: () => RESET_PASSWORD(values)
