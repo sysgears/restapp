@@ -5,12 +5,9 @@ import { Loading } from '@restapp/look-client-react-native';
 
 import UserForm from './UserForm';
 import { withLoadedUser } from '../containers/Auth';
-import { User } from '../index.native';
+import { User, ResetPasswordSubmitProps } from '../index.native';
 
-interface FormValues extends User {
-  password: string;
-  passwordConfirmation: string;
-}
+interface FormValues extends User, ResetPasswordSubmitProps {}
 
 interface UserEditViewProps {
   loading: boolean;

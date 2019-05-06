@@ -8,21 +8,17 @@ import { RenderField, Button, primary } from '@restapp/look-client-react-native'
 import { placeholderColor, submit } from '@restapp/look-client-react-native/styles';
 import { required, email, validate } from '@restapp/validation-common-react';
 import { translate } from '@restapp/i18n-client-react';
-import { CommonProps, FormProps } from '../index.native';
+import { CommonProps, FormProps, ForgotPasswordSubmitProps } from '../index.native';
 
-interface ForgotPasswordFormProps extends CommonProps, FormProps<SubmitProps> {
+interface ForgotPasswordFormProps extends CommonProps, FormProps<ForgotPasswordSubmitProps> {
   sent: boolean;
-}
-
-interface SubmitProps {
-  email: string;
 }
 
 const forgotPasswordFormSchema = {
   email: [required, email]
 };
 
-const ForgotPasswordForm: React.FunctionComponent<ForgotPasswordFormProps & FormikProps<SubmitProps>> = ({
+const ForgotPasswordForm: React.FunctionComponent<ForgotPasswordFormProps & FormikProps<ForgotPasswordSubmitProps>> = ({
   handleSubmit,
   values,
   sent,
@@ -65,7 +61,7 @@ const ForgotPasswordForm: React.FunctionComponent<ForgotPasswordFormProps & Form
   );
 };
 
-const ForgotPasswordFormWithFormik = withFormik<ForgotPasswordFormProps, SubmitProps>({
+const ForgotPasswordFormWithFormik = withFormik<ForgotPasswordFormProps, ForgotPasswordSubmitProps>({
   enableReinitialize: true,
   mapPropsToValues: () => ({ email: '' }),
   async handleSubmit(values, { setErrors, resetForm, props: { onSubmit } }) {

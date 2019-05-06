@@ -5,6 +5,7 @@ import { FormError } from '@restapp/forms-client-react';
 import ForgotPasswordView from '../components/ForgotPasswordView.native';
 import { CommonProps, User } from '../index.native';
 import { FORGOT_PASSWORD } from '../actions';
+
 interface ForgotPasswordProps extends CommonProps {}
 
 class ForgotPassword extends React.Component<ForgotPasswordProps> {
@@ -26,7 +27,7 @@ class ForgotPassword extends React.Component<ForgotPasswordProps> {
   public render() {
     const { sent } = this.state;
 
-    return <ForgotPasswordView forgotPassword={FORGOT_PASSWORD} {...this.props} sent={sent} onSubmit={this.onSubmit} />;
+    return <ForgotPasswordView {...this.props} sent={sent} onSubmit={this.onSubmit} />;
   }
 }
 

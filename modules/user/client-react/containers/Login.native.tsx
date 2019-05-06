@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import LoginView from '../components/LoginView.native';
 import { CommonProps, LoginSubmitProps } from '../index.native';
-import { UserModuleAction, ActionType } from '../reducers';
+import { ActionType } from '../reducers';
 import { LOGIN } from '../actions';
 
-interface LoginProps extends CommonProps {
-  login?: (values: LoginSubmitProps) => Promise<void> | void;
+export interface LoginProps extends CommonProps {
+  login: (values: LoginSubmitProps) => Promise<void> | any;
 }
 
 const Login = (props: LoginProps) => {
@@ -31,16 +31,12 @@ const Login = (props: LoginProps) => {
 
 const withConnect = connect(
   _state => ({}),
-  (dispatch: UserModuleAction) => {
+  dispatch => {
     return {
       login: (value: LoginSubmitProps) =>
         dispatch({
           type: [null, ActionType.SET_CURRENT_USER, ActionType.CLEAR_CURRENT_USER],
           request: () => LOGIN(value)
-        }),
-      clearUser: () =>
-        dispatch({
-          type: ActionType.CLEAR_CURRENT_USER
         })
     };
   }

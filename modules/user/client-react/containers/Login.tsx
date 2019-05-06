@@ -6,17 +6,16 @@ import { FormError } from '@restapp/forms-client-react';
 
 import LoginView from '../components/LoginView';
 import { CommonProps, LoginSubmitProps } from '..';
-import { UserModuleAction, ActionType } from '../reducers';
+import { ActionType } from '../reducers';
 
 import { LOGIN } from '../actions';
 
 export interface LoginProps extends CommonProps {
   login: (values: LoginSubmitProps) => void;
-  clearUser: () => void;
 }
 
 const Login: React.FunctionComponent<LoginProps> = props => {
-  const { t, history, login, clearUser } = props;
+  const { t, history, login } = props;
   const {
     location: { search }
   } = history;
@@ -42,7 +41,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
     } catch (e) {
       throw new FormError(t('login.errorMsg'), e);
     }
-    await authentication.doLogin(clearUser);
+    await authentication.doLogin();
   };
 
   return isReady && <LoginView {...props} isRegistered={isRegistered} hideModal={hideModal} onSubmit={onSubmit} />;
@@ -50,16 +49,12 @@ const Login: React.FunctionComponent<LoginProps> = props => {
 
 export default connect(
   _state => ({}),
-  (dispatch: UserModuleAction) => {
+  dispatch => {
     return {
       login: (value: LoginSubmitProps) =>
         dispatch({
           type: [null, ActionType.SET_CURRENT_USER, ActionType.CLEAR_CURRENT_USER],
           request: () => LOGIN(value)
-        }),
-      clearUser: () =>
-        dispatch({
-          type: ActionType.CLEAR_CURRENT_USER
         })
     };
   }

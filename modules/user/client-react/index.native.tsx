@@ -60,6 +60,15 @@ export interface LoginSubmitProps {
   password: string;
 }
 
+export interface ResetPasswordSubmitProps {
+  password: string;
+  passwordConfirmation: string;
+}
+
+export interface ForgotPasswordSubmitProps {
+  email: string;
+}
+
 export interface RegisterSubmitProps {
   username: string;
   email: string;
@@ -83,6 +92,17 @@ export interface FormProps<V> {
   errors: Errors;
   values: V;
   t?: TranslateFunction;
+}
+
+export interface OrderBy {
+  column: string;
+  order: string;
+}
+
+export interface Filter {
+  searchText: string;
+  role: string;
+  isActive: boolean;
 }
 
 class LoginScreen extends React.Component<NavigationOptionsProps> {

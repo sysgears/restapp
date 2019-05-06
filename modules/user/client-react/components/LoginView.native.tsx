@@ -41,7 +41,7 @@ class LoginView extends React.PureComponent<LoginViewProps> {
       await setItem('accessToken', decodedData.tokens.accessToken);
       await setItem('refreshToken', decodedData.tokens.refreshToken);
 
-      await authentication.doLogin(this.props.clearUser);
+      await authentication.doLogin();
     }
 
     if (Platform.OS === 'ios') {

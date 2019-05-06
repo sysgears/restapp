@@ -36,7 +36,7 @@ class UserEdit extends React.Component<UserEditProps> {
 
     userValues.profile = pick(values.profile, ['firstName', 'lastName']);
 
-    userValues = UserFormatter.trimExtraSpaces(userValues);
+    userValues = UserFormatter.trimExtraSpaces(userValues) as User;
 
     try {
       await editUser({ id: user.id, ...userValues });

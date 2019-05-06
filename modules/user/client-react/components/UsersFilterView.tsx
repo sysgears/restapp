@@ -2,7 +2,7 @@ import * as React from 'react';
 import { DebounceInput } from 'react-debounce-input';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { Form, FormItem, Select, Option, Label, Input } from '@restapp/look-client-react';
-import { Filter } from '../reducers';
+import { Filter } from '..';
 
 export interface UsersFilterViewProps {
   filter: Filter;

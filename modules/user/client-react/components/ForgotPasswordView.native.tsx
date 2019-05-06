@@ -2,21 +2,19 @@ import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import ForgotPasswordForm from './ForgotPasswordForm.native';
-
-import { User } from '../index.native';
+import { ForgotPasswordSubmitProps } from '../index.native';
 
 interface ForgotPasswordViewProps {
-  onSubmit: (values: any) => void;
-  forgotPassword: (values: User) => void;
+  onSubmit: (values: ForgotPasswordSubmitProps) => void;
   sent: boolean;
 }
 
 class ForgotPasswordView extends React.PureComponent<ForgotPasswordViewProps> {
   public render() {
-    const { onSubmit, sent, forgotPassword } = this.props;
+    const { onSubmit, sent } = this.props;
     return (
       <View style={styles.forgotPassContainer}>
-        <ForgotPasswordForm onSubmit={onSubmit({ forgotPassword })} sent={sent} />
+        <ForgotPasswordForm onSubmit={onSubmit} sent={sent} />
       </View>
     );
   }

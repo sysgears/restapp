@@ -9,21 +9,16 @@ import { RenderField, Button, primary } from '@restapp/look-client-react-native'
 import { placeholderColor, submit } from '@restapp/look-client-react-native/styles';
 import { required, minLength, validate, match } from '@restapp/validation-common-react';
 import settings from '../../../../settings';
-import { CommonProps, FormProps } from '../index.native';
+import { CommonProps, FormProps, ResetPasswordSubmitProps } from '../index.native';
 
-interface ResetPasswordFormProps extends CommonProps, FormProps<SubmitProps> {}
-
-interface SubmitProps {
-  password: string;
-  passwordConfirmation: string;
-}
+interface ResetPasswordFormProps extends CommonProps, FormProps<ResetPasswordSubmitProps> {}
 
 const resetPasswordFormSchema = {
   password: [required, minLength(settings.auth.password.minLength)],
   passwordConfirmation: [match('password'), required, minLength(settings.auth.password.minLength)]
 };
 
-const ResetPasswordForm: React.FunctionComponent<ResetPasswordFormProps & FormikProps<SubmitProps>> = ({
+const ResetPasswordForm: React.FunctionComponent<ResetPasswordFormProps & FormikProps<ResetPasswordSubmitProps>> = ({
   values,
   handleSubmit,
   t
@@ -58,7 +53,7 @@ const ResetPasswordForm: React.FunctionComponent<ResetPasswordFormProps & Formik
   );
 };
 
-const ResetPasswordFormWithFormik = withFormik<ResetPasswordFormProps, SubmitProps>({
+const ResetPasswordFormWithFormik = withFormik<ResetPasswordFormProps, ResetPasswordSubmitProps>({
   enableReinitialize: true,
   mapPropsToValues: () => ({ password: '', passwordConfirmation: '' }),
   async handleSubmit(values, { setErrors, resetForm, props: { onSubmit } }) {

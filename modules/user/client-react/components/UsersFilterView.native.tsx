@@ -15,7 +15,7 @@ import {
   Button
 } from '@restapp/look-client-react-native';
 import { itemAction, itemContainer, itemTitle } from '@restapp/look-client-react-native/styles';
-import { OrderBy } from '../reducers';
+import { OrderBy } from '../index.native';
 
 interface UsersFilterViewProps {
   searchText: string;

@@ -5,21 +5,17 @@ import { translate } from '@restapp/i18n-client-react';
 import { Form, RenderField, Button, Alert } from '@restapp/look-client-react';
 import { required, email, validate } from '@restapp/validation-common-react';
 
-import { CommonProps, FormProps } from '..';
+import { CommonProps, FormProps, ForgotPasswordSubmitProps } from '..';
 
-interface ForgotPasswordFormProps extends CommonProps, FormProps<SubmitProps> {
+interface ForgotPasswordFormProps extends CommonProps, FormProps<ForgotPasswordSubmitProps> {
   sent: boolean;
-}
-
-interface SubmitProps {
-  email: string;
 }
 
 const forgotPasswordFormSchema = {
   email: [required, email]
 };
 
-const ForgotPasswordForm: React.FunctionComponent<ForgotPasswordFormProps & FormikProps<SubmitProps>> = ({
+const ForgotPasswordForm: React.FunctionComponent<ForgotPasswordFormProps & FormikProps<ForgotPasswordSubmitProps>> = ({
   handleSubmit,
   errors,
   sent,
@@ -46,7 +42,7 @@ const ForgotPasswordForm: React.FunctionComponent<ForgotPasswordFormProps & Form
   );
 };
 
-const ForgotPasswordFormWithFormik = withFormik<ForgotPasswordFormProps, SubmitProps>({
+const ForgotPasswordFormWithFormik = withFormik<ForgotPasswordFormProps, ForgotPasswordSubmitProps>({
   enableReinitialize: true,
   mapPropsToValues: () => ({ email: '' }),
   async handleSubmit(values, { setErrors, resetForm, props: { onSubmit } }) {

@@ -6,12 +6,9 @@ import { PageLayout } from '@restapp/look-client-react';
 
 import UserForm from './UserForm';
 import settings from '../../../../settings';
-import { User } from '..';
+import { User, ResetPasswordSubmitProps } from '..';
 
-interface FormValues extends User {
-  password: string;
-  passwordConfirmation: string;
-}
+interface FormValues extends User, ResetPasswordSubmitProps {}
 
 interface UserEditViewProps {
   loading: boolean;

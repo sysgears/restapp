@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { Table, Button } from '@restapp/look-client-react';
 import { User } from '..';
-import { OrderBy } from '../reducers';
+import { OrderBy } from '..';
 
 export interface UsersViewProps {
   loading: boolean;

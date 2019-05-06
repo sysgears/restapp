@@ -56,9 +56,7 @@ export const authResInterceptor = axios.interceptors.response.use(async res => {
 
   if (res && res.status > 400 && res.status < 500) {
     try {
-      const { data } = await axios.post(`${__API_URL__}/refreshToken`, {
-        data: { refreshToken: await getItem('accessToken') }
-      });
+      const { data } = await axios.post(`${__API_URL__}/refreshToken`, { refreshToken: await getItem('refreshToken') });
       if (data && data.refreshTokens) {
         const { accessToken, refreshToken } = data.refreshTokens;
         await saveTokens({ accessToken, refreshToken });

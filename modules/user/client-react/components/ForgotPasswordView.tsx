@@ -4,12 +4,10 @@ import { LayoutCenter, PageLayout } from '@restapp/look-client-react';
 
 import ForgotPasswordForm from '../components/ForgotPasswordForm';
 import settings from '../../../../settings';
-
-import { CommonProps, User } from '..';
+import { CommonProps, ForgotPasswordSubmitProps } from '..';
 
 interface ForgotPasswordViewProps extends CommonProps {
-  onSubmit: (values: any) => void;
-  forgotPassword: (values: User) => void;
+  onSubmit: (values: ForgotPasswordSubmitProps) => void;
   sent: boolean;
 }
 

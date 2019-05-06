@@ -1,19 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { USERS, DELETE_USER } from '../actions';
-import { UserRole } from '..';
+import { UserRole, OrderBy, Filter } from '..';
 import { UserModuleState, ActionType } from '../reducers';
-
-interface OrderBy {
-  column: string;
-  order: string;
-}
-
-interface Filter {
-  searchText: string;
-  role: string;
-  isActive: boolean;
-}
 
 const withUsers = (Component: React.ComponentType<any>) =>
   connect(

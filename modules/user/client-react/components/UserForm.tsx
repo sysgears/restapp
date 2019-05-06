@@ -8,7 +8,7 @@ import { Form, RenderField, RenderSelect, RenderCheckBox, Option, Button, Alert 
 
 import settings from '../../../../settings';
 
-import { CommonProps, FormProps, User, UserRole } from '..';
+import { CommonProps, FormProps, User, UserRole, ResetPasswordSubmitProps } from '..';
 
 interface FormikFormProps extends FormProps<FormValues> {
   initialValues: FormValues;
@@ -28,10 +28,7 @@ interface UserFormProps extends CommonProps, FormikProps<FormValues> {
   initialValues: FormValues;
 }
 
-interface FormValues extends User {
-  password: string;
-  passwordConfirmation: string;
-}
+interface FormValues extends User, ResetPasswordSubmitProps {}
 
 const userFormSchema = {
   username: [required, minLength(3)],

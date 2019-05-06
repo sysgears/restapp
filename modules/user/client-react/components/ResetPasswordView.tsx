@@ -1,13 +1,12 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import { PageLayout } from '@restapp/look-client-react';
-import { SubmitProps } from '../containers/ResetPassword';
 import ResetPasswordForm from '../components/ResetPasswordForm';
-import { CommonProps } from '..';
+import { CommonProps, ResetPasswordSubmitProps } from '..';
 import settings from '../../../../settings';
 
 interface ResetPasswordViewProps extends CommonProps {
-  onSubmit: (values: SubmitProps) => void;
+  onSubmit: (values: ResetPasswordSubmitProps) => void;
 }
 
 const ResetPasswordView: React.FunctionComponent<ResetPasswordViewProps> = ({ t, onSubmit }) => {

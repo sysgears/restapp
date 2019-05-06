@@ -2,9 +2,10 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import ResetPasswordForm from '../components/ResetPasswordForm.native';
+import { ResetPasswordSubmitProps } from '../index.native';
 
 interface ResetPasswordViewProps {
-  onSubmit: (values: any) => void;
+  onSubmit: (values: ResetPasswordSubmitProps) => void;
 }
 
 const ResetPasswordView: React.FunctionComponent<ResetPasswordViewProps> = ({ onSubmit }) => (

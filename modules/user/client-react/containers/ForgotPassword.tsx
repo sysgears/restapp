@@ -3,7 +3,7 @@ import { translate } from '@restapp/i18n-client-react';
 import { FormError } from '@restapp/forms-client-react';
 import ForgotPasswordView from '../components/ForgotPasswordView';
 
-import { CommonProps, User } from '..';
+import { CommonProps, ForgotPasswordSubmitProps } from '..';
 
 import { FORGOT_PASSWORD } from '../actions';
 
@@ -14,7 +14,7 @@ const ForgotPassword: React.FunctionComponent<ForgotPasswordProps> = props => {
 
   const [sent, setSent] = useState(false);
 
-  const onSubmit = async (values: User) => {
+  const onSubmit = async (values: ForgotPasswordSubmitProps) => {
     setSent(true);
     try {
       await FORGOT_PASSWORD(values);
@@ -23,7 +23,7 @@ const ForgotPassword: React.FunctionComponent<ForgotPasswordProps> = props => {
     }
   };
 
-  return <ForgotPasswordView forgotPassword={FORGOT_PASSWORD} {...props} sent={sent} onSubmit={onSubmit} />;
+  return <ForgotPasswordView {...props} sent={sent} onSubmit={onSubmit} />;
 };
 
 export default translate('user')(ForgotPassword);

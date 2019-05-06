@@ -4,18 +4,17 @@ import { isFormError, FieldAdapter as Field } from '@restapp/forms-client-react'
 import { translate } from '@restapp/i18n-client-react';
 import { required, minLength, validate, match } from '@restapp/validation-common-react';
 import { Form, RenderField, Button, Alert } from '@restapp/look-client-react';
-import { SubmitProps } from '../containers/ResetPassword';
 import settings from '../../../../settings';
-import { CommonProps, FormProps } from '..';
+import { CommonProps, FormProps, ResetPasswordSubmitProps } from '..';
 
-interface ResetPasswordFormProps extends CommonProps, FormProps<SubmitProps> {}
+interface ResetPasswordFormProps extends CommonProps, FormProps<ResetPasswordSubmitProps> {}
 
 const resetPasswordFormSchema = {
   password: [required, minLength(settings.auth.password.minLength)],
   passwordConfirmation: [match('password'), required, minLength(settings.auth.password.minLength)]
 };
 
-const ResetPasswordForm: React.FunctionComponent<ResetPasswordFormProps & FormikProps<SubmitProps>> = ({
+const ResetPasswordForm: React.FunctionComponent<ResetPasswordFormProps & FormikProps<ResetPasswordSubmitProps>> = ({
   values,
   handleSubmit,
   errors,
@@ -43,7 +42,7 @@ const ResetPasswordForm: React.FunctionComponent<ResetPasswordFormProps & Formik
   </Form>
 );
 
-const ResetPasswordFormWithFormik = withFormik<ResetPasswordFormProps, SubmitProps>({
+const ResetPasswordFormWithFormik = withFormik<ResetPasswordFormProps, ResetPasswordSubmitProps>({
   enableReinitialize: true,
   mapPropsToValues: () => ({ password: '', passwordConfirmation: '' }),
   async handleSubmit(values, { setErrors, resetForm, props: { onSubmit } }) {

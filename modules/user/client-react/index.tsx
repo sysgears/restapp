@@ -47,10 +47,12 @@ export interface LoginSubmitProps {
   usernameOrEmail: string;
   password: string;
 }
-
-export interface CommonProps {
-  t?: TranslateFunction;
-  history?: H.History;
+export interface ResetPasswordSubmitProps {
+  password: string;
+  passwordConfirmation: string;
+}
+export interface ForgotPasswordSubmitProps {
+  email: string;
 }
 
 export interface RegisterSubmitProps {
@@ -58,6 +60,11 @@ export interface RegisterSubmitProps {
   email: string;
   password: string;
   passwordConfirmation: string;
+}
+
+export interface CommonProps {
+  t?: TranslateFunction;
+  history?: H.History;
 }
 
 interface HandleSubmitProps<P> {
@@ -75,6 +82,17 @@ export interface FormProps<V> {
   errors: Errors;
   values: V;
   t?: TranslateFunction;
+}
+
+export interface OrderBy {
+  column: string;
+  order: string;
+}
+
+export interface Filter {
+  searchText: string;
+  role: string;
+  isActive: boolean;
 }
 
 const ProfileName = withLoadedUser(({ currentUser }) => (

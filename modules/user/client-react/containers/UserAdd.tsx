@@ -24,7 +24,7 @@ const UserAdd: React.FunctionComponent<UserAddProps> = props => {
 
     userValues.profile = pick(values.profile, ['firstName', 'lastName']);
 
-    userValues = UserFormatter.trimExtraSpaces(userValues);
+    userValues = UserFormatter.trimExtraSpaces(userValues) as User;
 
     if (settings.auth.certificate.enabled) {
       userValues.auth = { certificate: pick(values.auth.certificate, 'serial') };

@@ -30,8 +30,6 @@ export interface UserModuleState {
   filter: Filter;
 }
 
-export type UserModuleAction = (props: UserModuleActionProps) => void;
-
 export interface UserModuleActionProps {
   type: ActionType | ActionType[];
   payload?: any;
@@ -65,7 +63,7 @@ export default function(state = defaultState, action: UserModuleActionProps) {
     case ActionType.SET_CURRENT_USER:
       return {
         ...state,
-        currentUser: action.payload.user,
+        currentUser: action.payload,
         loading: false
       };
 

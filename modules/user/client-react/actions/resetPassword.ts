@@ -1,8 +1,7 @@
 import axios from 'axios';
+import { ForgotPasswordSubmitProps } from '..';
 
-interface ResetPasswordProps {
-  password: string;
-  passwordConfirmation: string;
+interface ResetPasswordProps extends ForgotPasswordSubmitProps {
   token: string;
 }
 
