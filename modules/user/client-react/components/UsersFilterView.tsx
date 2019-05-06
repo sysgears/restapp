@@ -2,20 +2,14 @@ import * as React from 'react';
 import { DebounceInput } from 'react-debounce-input';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { Form, FormItem, Select, Option, Label, Input } from '@restapp/look-client-react';
-import { UserRole } from '..';
+import { Filter } from '../reducers';
 
-interface Filter {
-  searchText: string;
-  role: UserRole;
-  isActive: boolean;
-}
-
-interface UsersFilterViewProps {
+export interface UsersFilterViewProps {
   filter: Filter;
   onSearchTextChange: (value: string) => void;
   onRoleChange: (value: string) => void;
   onIsActiveChange: (isActive: boolean) => void;
-  t: TranslateFunction;
+  t?: TranslateFunction;
 }
 
 const UsersFilterView: React.FunctionComponent<UsersFilterViewProps> = ({

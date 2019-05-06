@@ -2,18 +2,14 @@ import * as React from 'react';
 import Helmet from 'react-helmet';
 import { compose } from 'redux';
 import { Link } from 'react-router-dom';
-import { translate, TranslateFunction } from '@restapp/i18n-client-react';
+import { translate } from '@restapp/i18n-client-react';
 import { Button, PageLayout } from '@restapp/look-client-react';
-
 import settings from '../../../../settings';
-import UsersFilterView from '../components/UsersFilterView';
-import UsersListView from '../components/UsersListView';
+import UsersFilterView, { UsersFilterViewProps } from '../components/UsersFilterView';
+import UsersListView, { UsersViewProps } from '../components/UsersListView';
 import { withFilterUpdating, withOrderByUpdating, withUsers, withUsersDeleting } from './UserOperations';
 
-interface UsersProps {
-  t: TranslateFunction;
-  filter: any;
-}
+interface UsersProps extends UsersViewProps, UsersFilterViewProps {}
 
 const Users = (props: UsersProps) => {
   const { t } = props;

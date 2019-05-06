@@ -9,20 +9,25 @@ export const getStoreReducer = (reducers: any) =>
   });
 
 const requestMiddleware: Middleware = _state => next => action => {
-  const { type, promise, ...rest } = action;
-  if (!promise) {
+  const { type, request, ...rest } = action;
+  if (!request) {
     return next(action);
   }
-  const [REQUEST, SUCCESS, FAIL] = type;
 
+  if (!type) {
+    request();
+    return next(action);
+  }
+
+  const [REQUEST, SUCCESS, FAIL] = type;
   next({ type: REQUEST, ...rest });
 
   (async () => {
     try {
-      const result = await promise();
+      const { data } = await request();
       next({
         type: SUCCESS,
-        payload: result,
+        payload: data,
         ...rest
       });
     } catch (error) {

@@ -1,16 +1,17 @@
 import * as React from 'react';
 import { RouteProps } from 'react-router';
 import { History } from 'history';
-
+import { connect } from 'react-redux';
 import authentication from '@restapp/authentication-client-react';
-
+import { CURRENT_USER } from '../actions';
 import { User, UserRole } from '..';
-
+import { ActionType } from '../reducers';
 export interface WithUserProps extends RouteProps {
   currentUser?: User;
   currentUserLoading?: boolean;
   refetchCurrentUser?: any;
   children?: Element | any;
+  getCurrentUser?: () => void;
 }
 
 interface IfLoggedInComponent {
@@ -24,21 +25,41 @@ interface IfLoggedInComponent {
 export interface WithLogoutProps extends WithUserProps {
   logout?: () => void;
   history?: History;
+  clearUser?: () => void;
 }
 
-const withUser = <P extends WithUserProps>(Component: React.ComponentType<P>) => {
-  const WithUser: React.FunctionComponent<P> = ({ ...props }) => <Component {...props as P} />;
-
-  return WithUser;
+const withUser = (Component: React.ComponentType<any>) => {
+  const WithUser = ({ getCurrentUser, currentUser, ...rest }: WithUserProps) => {
+    React.useEffect(() => {
+      if (currentUser) {
+        getCurrentUser();
+      }
+    }, []);
+    return <Component currentUser={currentUser} {...rest} />;
+  };
+  return connect(
+    ({ user: { loading, currentUser } }: any) => ({
+      currentUserLoading: loading,
+      currentUser
+    }),
+    dispatch => ({
+      getCurrentUser: () =>
+        dispatch({
+          type: [ActionType.SET_LOADING, ActionType.SET_CURRENT_USER, ActionType.CLEAR_CURRENT_USER],
+          request: () => CURRENT_USER()
+        })
+    })
+  )(WithUser);
 };
 
 const hasRole = (role: UserRole | UserRole[], currentUser: User) => {
   return currentUser && (!role || (Array.isArray(role) ? role : [role]).indexOf(currentUser.role) >= 0) ? true : false;
 };
 
-const withLoadedUser = <P extends WithUserProps>(Component: React.ComponentType<P>) => {
-  const WithLoadedUser: React.FunctionComponent<P> = ({ currentUserLoading, ...props }) =>
-    currentUserLoading ? null : <Component {...props as P} />;
+const withLoadedUser = (Component: React.ComponentType<any>) => {
+  const WithLoadedUser = ({ currentUserLoading, ...props }: WithUserProps) => {
+    return currentUserLoading ? null : <Component {...props} />;
+  };
 
   return withUser(WithLoadedUser);
 };
@@ -57,7 +78,7 @@ const IfLoggedInComponent: React.FunctionComponent<IfLoggedInComponent> = ({
       })
     : elseComponent || null;
 
-const IfLoggedIn = withLoadedUser(IfLoggedInComponent);
+const IfLoggedIn: React.ComponentType<IfLoggedInComponent> = withLoadedUser(IfLoggedInComponent);
 
 const IfNotLoggedInComponent: React.FunctionComponent<IfLoggedInComponent> = ({
   currentUser,
@@ -71,14 +92,27 @@ const IfNotLoggedInComponent: React.FunctionComponent<IfLoggedInComponent> = ({
       })
     : null;
 
-const IfNotLoggedIn = withLoadedUser(IfNotLoggedInComponent);
+const IfNotLoggedIn: React.ComponentType<IfLoggedInComponent> = withLoadedUser(IfNotLoggedInComponent);
 
-const withLogout = (Component: React.FunctionComponent<WithLogoutProps>) => ({ ...props }: WithLogoutProps) => {
-  const newProps = {
-    ...props,
-    logout: () => authentication.doLogout()
+const withLogout: any = (Component: React.ComponentType<any>) => {
+  const WithLogout = ({ clearUser, ...props }: WithLogoutProps) => {
+    const newProps = {
+      ...props,
+      logout: () => authentication.doLogout(clearUser)
+    };
+    return <Component {...newProps} />;
   };
-  return <Component {...newProps} />;
+  return connect(
+    _state => ({}),
+    dispatch => {
+      return {
+        clearUser: () =>
+          dispatch({
+            type: ActionType.CLEAR_CURRENT_USER
+          })
+      };
+    }
+  )(WithLogout);
 };
 
 export { withUser, hasRole, withLoadedUser, IfLoggedIn, IfNotLoggedIn, withLogout };

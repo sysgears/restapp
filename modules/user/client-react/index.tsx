@@ -49,7 +49,7 @@ export interface LoginSubmitProps {
 }
 
 export interface CommonProps {
-  t: TranslateFunction;
+  t?: TranslateFunction;
   history?: H.History;
 }
 
@@ -74,15 +74,15 @@ export interface FormProps<V> {
   submitting?: boolean;
   errors: Errors;
   values: V;
-  t: TranslateFunction;
+  t?: TranslateFunction;
 }
 
-const ProfileName: React.FunctionComponent<WithLogoutProps> = withLoadedUser(({ currentUser }) => (
+const ProfileName = withLoadedUser(({ currentUser }) => (
   <>{currentUser ? currentUser.profile.fullName || currentUser.username : null}</>
 ));
 
 const LogoutLink = withRouter(
-  withLogout(({ logout, history }) => (
+  withLogout(({ logout, history }: WithLogoutProps) => (
     <a
       href="javascript:void(0)"
       onClick={e => {

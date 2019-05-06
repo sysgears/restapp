@@ -6,8 +6,7 @@ interface DataRootComponent {
 
 const DataRootComponent: React.FunctionComponent<DataRootComponent> = props => {
   const [isReady, setIsReady] = React.useState(false);
-
-  // TODO request to get current user
+  // TODO requst for current user
   React.useEffect(() => {
     setIsReady(true);
   }, []);

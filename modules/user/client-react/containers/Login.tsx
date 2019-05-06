@@ -5,9 +5,9 @@ import authentication from '@restapp/authentication-client-react';
 import { FormError } from '@restapp/forms-client-react';
 
 import LoginView from '../components/LoginView';
-
 import { CommonProps, LoginSubmitProps } from '..';
 import { UserModuleAction, ActionType } from '../reducers';
+
 import { LOGIN } from '../actions';
 
 export interface LoginProps extends CommonProps {
@@ -55,7 +55,7 @@ export default connect(
       login: (value: LoginSubmitProps) =>
         dispatch({
           type: [null, ActionType.SET_CURRENT_USER, ActionType.CLEAR_CURRENT_USER],
-          promise: () => LOGIN(value)
+          request: () => LOGIN(value)
         }),
       clearUser: () =>
         dispatch({

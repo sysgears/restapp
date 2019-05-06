@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import * as React from 'react';
+import { connect } from 'react-redux';
 import { translate } from '@restapp/i18n-client-react';
 import { FormError } from '@restapp/forms-client-react';
 
 import RegisterView from '../components/RegisterView';
 
 import { CommonProps, RegisterSubmitProps } from '..';
+import { REGISTER } from '../actions';
 import settings from '../../../../settings';
 
 interface RegisterProps extends CommonProps {
@@ -14,7 +16,7 @@ interface RegisterProps extends CommonProps {
 const Register: React.FunctionComponent<RegisterProps> = props => {
   const { t, register, history } = props;
 
-  const [isRegistered, setIsRegistered] = useState(false);
+  const [isRegistered, setIsRegistered] = React.useState(false);
 
   const onSubmit = async (values: RegisterSubmitProps) => {
     try {
@@ -32,4 +34,13 @@ const Register: React.FunctionComponent<RegisterProps> = props => {
   return <RegisterView {...props} isRegistered={isRegistered} onSubmit={onSubmit} />;
 };
 
-export default translate('user')(Register);
+export default connect(
+  _state => ({}),
+  dispatch => ({
+    register: (value: RegisterSubmitProps) =>
+      dispatch({
+        type: null,
+        request: () => REGISTER(value)
+      })
+  })
+)(translate('user')(Register));
