@@ -40,13 +40,13 @@ export default (enabled && !__TEST__
         {
           method: RestMethod.GET,
           route: 'auth/google',
-          controller: [auth]
+          controller: auth
         },
         {
           method: RestMethod.GET,
           route: 'auth/google/callback',
           middleware: [passport.authenticate('google', { session: session.enabled, failureRedirect: '/login' })],
-          controller: [onAuthenticationSuccess]
+          controller: onAuthenticationSuccess
         }
       ]
     })

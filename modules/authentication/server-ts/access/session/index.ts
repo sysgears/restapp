@@ -62,7 +62,7 @@ export default (settings.auth.session.enabled
         {
           method: RestMethod.POST,
           route: 'logout',
-          controller: [logout]
+          controller: logout
         }
       ]
     })

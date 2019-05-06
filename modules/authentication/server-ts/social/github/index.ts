@@ -38,13 +38,13 @@ export default (enabled && !__TEST__
         {
           method: RestMethod.GET,
           route: 'auth/github',
-          controller: [auth]
+          controller: auth
         },
         {
           method: RestMethod.GET,
           route: 'auth/github/callback',
           middleware: [passport.authenticate('github', { session: session.enabled, failureRedirect: '/login' })],
-          controller: [onAuthenticationSuccess]
+          controller: onAuthenticationSuccess
         }
       ]
     })

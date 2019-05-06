@@ -38,13 +38,13 @@ export default (enabled && !__TEST__
         {
           method: RestMethod.GET,
           route: 'auth/linkedin',
-          controller: [auth]
+          controller: auth
         },
         {
           method: RestMethod.GET,
           route: 'auth/linkedin/callback',
           middleware: [passport.authenticate('linkedin', { session: session.enabled, failureRedirect: '/login' })],
-          controller: [onAuthenticationSuccess]
+          controller: onAuthenticationSuccess
         }
       ]
     })
