@@ -7,10 +7,11 @@ import { setItem } from '@restapp/core-common/clientStorage';
 import authentication from '@restapp/authentication-client-react';
 
 import LoginForm from './LoginForm.native';
+import { LoginProps } from '../containers/Login.native';
 
-import { CommonProps, LoginSubmitProps } from '../index.native';
+import { LoginSubmitProps } from '../index.native';
 
-interface LoginViewProps extends CommonProps {
+interface LoginViewProps extends LoginProps {
   onSubmit: (values: LoginSubmitProps) => void;
 }
 
@@ -40,7 +41,7 @@ class LoginView extends React.PureComponent<LoginViewProps> {
       await setItem('accessToken', decodedData.tokens.accessToken);
       await setItem('refreshToken', decodedData.tokens.refreshToken);
 
-      await authentication.doLogin();
+      await authentication.doLogin(this.props.clearUser);
     }
 
     if (Platform.OS === 'ios') {

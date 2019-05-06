@@ -41,7 +41,7 @@ export default function(state = defaultState, action: UserModuleActionProps) {
     case ActionType.SET_CURRENT_USER:
       return {
         ...state,
-        currentUser: action.payload.user,
+        currentUser: action.payload.login.user,
         ...action.payload
       };
 

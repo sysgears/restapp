@@ -36,13 +36,11 @@ const requestMiddleware: Middleware = _state => next => action => {
 };
 
 const createReduxStore = (reducers: Reducer, initialState: DeepPartial<any>, routerMiddleware?: Middleware): Store => {
-  const middleware = routerMiddleware
-    ? composeWithDevTools(applyMiddleware(routerMiddleware, requestMiddleware))
-    : composeWithDevTools(applyMiddleware(requestMiddleware));
+  const middleware = routerMiddleware ? [routerMiddleware, requestMiddleware] : [requestMiddleware];
   return createStore(
     getStoreReducer(reducers),
     initialState, // initial state,
-    middleware
+    composeWithDevTools(applyMiddleware(...middleware))
   );
 };
 
