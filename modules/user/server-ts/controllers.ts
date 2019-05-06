@@ -7,7 +7,8 @@ import { mailer } from '@restapp/mailer-server-ts';
 import userDAO, { UserShape } from './sql';
 import settings from '../../../settings';
 import { ValidationErrors } from '.';
-import { createPasswordHash, emailTemplate } from './shared';
+import { createPasswordHash } from './password';
+import emailTemplate from './emailTemplate';
 
 const {
   auth: { jwt, password, secret },

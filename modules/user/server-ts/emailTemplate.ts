@@ -1,11 +1,7 @@
-import bcrypt from 'bcryptjs';
-
 import { UserShape } from './sql';
 import settings from '../../../settings';
 
 const { app } = settings;
-
-export const createPasswordHash = (pswd: string) => bcrypt.hash(pswd, 12);
 
 const accountCreated = (url: string, user: UserShape) =>
   `<p>Hi, ${user.username}!</p>
@@ -28,7 +24,7 @@ const confirmEmail = (url: string, user: UserShape) =>
 
 const passwordReset = (url: string) => `Please click this link to reset your password: <a href="${url}">${url}</a>`;
 
-export const emailTemplate = {
+export default {
   accountCreated,
   passwordUpdated,
   confirmEmail,
