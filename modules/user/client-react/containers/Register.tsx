@@ -10,7 +10,7 @@ import { REGISTER } from '../actions';
 import settings from '../../../../settings';
 
 interface RegisterProps extends CommonProps {
-  register: (values: RegisterSubmitProps) => void;
+  register: (values: RegisterSubmitProps) => any;
 }
 
 const Register: React.FunctionComponent<RegisterProps> = props => {
@@ -19,15 +19,15 @@ const Register: React.FunctionComponent<RegisterProps> = props => {
   const [isRegistered, setIsRegistered] = React.useState(false);
 
   const onSubmit = async (values: RegisterSubmitProps) => {
-    try {
-      await register(values);
-      if (!settings.auth.password.requireEmailConfirmation) {
-        history.push('/');
-      } else {
-        setIsRegistered(true);
-      }
-    } catch (e) {
-      throw new FormError(t('reg.errorMsg'), e);
+    const { data } = await register(values);
+    if (data.error) {
+      throw new FormError(t('reg.errorMsg'), data.error);
+    }
+
+    if (!settings.auth.password.requireEmailConfirmation) {
+      history.push('/');
+    } else {
+      setIsRegistered(true);
     }
   };
 
