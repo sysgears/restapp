@@ -1,7 +1,5 @@
 import ServerModule from '@restapp/module-server-ts';
-import AuthModule from './social/AuthModule';
 import access from './access';
-import social from './social';
 
-export default new ServerModule(access, social);
-export { access, AuthModule };
+export default new ServerModule(access);
+export { access };
