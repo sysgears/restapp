@@ -1,6 +1,8 @@
 import { UserShape } from './../sql';
 import { pick, isEmpty } from 'lodash';
 import jwt from 'jsonwebtoken';
+import passport from 'passport';
+import { access } from '@restapp/authentication-server-ts';
 import { log } from '@restapp/core-common';
 import { mailer } from '@restapp/mailer-server-ts';
 
@@ -11,9 +13,29 @@ import emailTemplate from '../emailTemplate';
 import { createPasswordHash } from '.';
 
 const {
-  auth: { password, secret },
+  auth: { session, jwt: jwtSetting, password, secret },
   app
 } = settings;
+
+export const login = (req: any, res: any) => {
+  passport.authenticate('local', { session: session.enabled }, (err, user, info) => {
+    if (err || !user) {
+      return res.status(400).json({
+        message: info ? info.message : 'Login failed',
+        user
+      });
+    }
+
+    req.login(user, { session: session.enabled }, async (loginErr: any) => {
+      if (loginErr) {
+        res.send(loginErr);
+      }
+      const tokens = jwtSetting.enabled ? await access.grantAccess(user, req, user.passwordHash) : null;
+
+      return res.json({ user, tokens });
+    });
+  })(req, res);
+};
 
 export const register = async ({ body, t }: any, res: any) => {
   const errors: ValidationErrors = {};
