@@ -1,6 +1,5 @@
 import { Express } from 'express';
 import { Strategy as LocalStratery } from 'passport-local';
-import bodyParser from 'body-parser';
 import passport from 'passport';
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
 
@@ -15,8 +14,6 @@ const {
 } = settings;
 
 const beforeware = (app: Express) => {
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
   app.use(passport.initialize());
 };
 
@@ -34,7 +31,7 @@ const grant = async (identity: any, req: any, passwordHash: string = '') => {
 
 const onAppCreate = ({ appContext }: AccessModule) => {
   passport.use(
-    new LocalStratery(async (username: string, password: string, done: any) => {
+    new LocalStratery({ usernameField: 'usernameOrEmail' }, async (username: string, password: string, done: any) => {
       const { identity, message } = await appContext.user.validateLogin(username, password);
 
       if (message) {

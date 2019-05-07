@@ -1,6 +1,5 @@
 import { Express, Request, Response } from 'express';
 import { Strategy } from 'passport-local';
-import bodyParser from 'body-parser';
 import session from 'express-session';
 import passport from 'passport';
 
@@ -13,8 +12,6 @@ import { logout } from './controllers';
 const FileStore = require('session-file-store')(session);
 
 const beforeware = (app: Express) => {
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
   app.use(
     session({
       secret: 'secret',
@@ -42,7 +39,7 @@ const onAppCreate = ({ appContext }: AccessModule) => {
   });
 
   passport.use(
-    new Strategy(async (username: string, password: string, done: any) => {
+    new Strategy({ usernameField: 'usernameOrEmail' }, async (username: string, password: string, done: any) => {
       const { identity, message } = await appContext.user.validateLogin(username, password);
 
       if (message) {
