@@ -1,5 +1,6 @@
-import { Express } from 'express';
+import { isEmpty } from 'lodash';
 import CommonModule, { CommonModuleShape } from '@restapp/module-common';
+import { Express, Request, Response } from 'express';
 
 /**
  * Create GraphQL context function params
@@ -31,6 +32,22 @@ type CreateContextFunc = (props: CreateContextFuncProps) => { [key: string]: any
 type MiddlewareFunc = (app: Express, appContext: { [key: string]: any }) => void;
 
 /**
+ * A function with reuqest.
+ *
+ * @param req HTTP request
+ * @param res HTTP response
+ * @param next following handler
+ */
+type RequestHandler = (req: Request, res: Response, next: any) => void;
+
+export enum RestMethod {
+  POST = 'post',
+  GET = 'get',
+  PUT = 'put',
+  DELETE = 'delete'
+}
+
+/**
  * Server feature modules interface
  */
 export interface ServerModuleShape extends CommonModuleShape {
@@ -40,6 +57,14 @@ export interface ServerModuleShape extends CommonModuleShape {
   beforeware?: MiddlewareFunc[];
   // A list of functions to register normal-priority middlewares
   middleware?: MiddlewareFunc[];
+  accessMiddleware?: RequestHandler;
+  apiRouteParams?: Array<{
+    method: RestMethod;
+    route: string;
+    middleware?: RequestHandler[];
+    controller: RequestHandler;
+    isAuthRoute?: boolean;
+  }>;
 }
 
 interface ServerModule extends ServerModuleShape {}
@@ -71,6 +96,24 @@ class ServerModule extends CommonModule {
       context = await createContextFunc({ req, res, appContext });
     }
     return context;
+  }
+
+  public get apiRoutes() {
+    return this.apiRouteParams.map(({ method, route, controller, isAuthRoute, middleware }) => {
+      return (app: Express, modules: ServerModule) => {
+        const handlers = [];
+
+        if (isAuthRoute) {
+          handlers.push(modules.accessMiddleware);
+        }
+        if (!isEmpty(middleware)) {
+          handlers.push(...middleware);
+        }
+        handlers.push(controller);
+
+        app[method](`/api/${route}`, ...handlers);
+      };
+    });
   }
 }
 
