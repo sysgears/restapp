@@ -1,4 +1,5 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import path from 'path';
 
 import { isApiExternal } from '@restapp/core-common';
@@ -26,6 +27,9 @@ export const createServerApp = (modules: ServerModule) => {
 
   if (!isApiExternal) {
     app.use(contextMiddleware(modules));
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.json());
+
     if (modules.apiRoutes) {
       modules.apiRoutes.forEach(applyMiddleware => applyMiddleware(app, modules));
     }
