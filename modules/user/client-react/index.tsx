@@ -66,7 +66,7 @@ interface HandleSubmitProps<P> {
 }
 
 interface Errors {
-  errorMsg?: string;
+  message?: string;
 }
 export interface FormProps<V> {
   handleSubmit: (values: V, props: HandleSubmitProps<V>) => void;

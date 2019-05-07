@@ -22,8 +22,8 @@ const Register: React.FunctionComponent<RegisterProps> = props => {
   const onSubmit = async (values: RegisterSubmitProps) => {
     const data = await register(values);
 
-    if (data.error) {
-      throw new FormError(t('reg.errorMsg'), data.error.errors);
+    if (data.errors) {
+      throw new FormError(t('reg.errorMsg'), data);
     }
 
     if (!settings.auth.password.requireEmailConfirmation) {
