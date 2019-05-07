@@ -9,35 +9,36 @@ export const getStoreReducer = (reducers: any) =>
   });
 
 const requestMiddleware: Middleware = _state => next => action => {
-  const { type, request, ...rest } = action;
-  if (!request) {
+  const { types, callAPI, ...rest } = action;
+
+  if (!types) {
     return next(action);
   }
 
-  if (!type) {
-    request();
-    return next(action);
-  }
+  const [REQUEST, SUCCESS, FAIL] = types;
 
-  const [REQUEST, SUCCESS, FAIL] = type;
   next({ type: REQUEST, ...rest });
 
-  (async () => {
+  const handleCallApi = async () => {
     try {
-      const { data } = await request();
+      const { data } = await callAPI();
       next({
         type: SUCCESS,
         payload: data,
         ...rest
       });
+      return data;
     } catch (error) {
       next({
         type: FAIL,
         payload: error,
         ...rest
       });
+      return error;
     }
-  })();
+  };
+
+  return handleCallApi();
 };
 
 const createReduxStore = (reducers: Reducer, initialState: DeepPartial<any>, routerMiddleware?: Middleware): Store => {

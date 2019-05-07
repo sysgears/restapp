@@ -3,12 +3,14 @@ import { User } from '..';
 export enum ActionType {
   SET_CURRENT_USER = 'SET_CURRENT_USER',
   CLEAR_CURRENT_USER = 'CLEAR_CURRENT_USER',
-  SET_LOADING = 'SET_LOADING'
+  SET_LOADING = 'SET_LOADING',
+  REGISTER = 'REGISTER'
 }
 
 export interface UserModuleState {
   currentUser: User;
   loading: boolean;
+  register: any;
 }
 
 export interface UserModuleActionProps {
@@ -20,11 +22,18 @@ export interface UserModuleActionProps {
 
 const defaultState: UserModuleState = {
   currentUser: null,
-  loading: false
+  loading: false,
+  register: null
 };
 
 export default function(state = defaultState, action: UserModuleActionProps) {
   switch (action.type) {
+    case ActionType.REGISTER:
+      return {
+        ...state,
+        register: action.payload
+      };
+
     case ActionType.SET_LOADING:
       return {
         ...state,

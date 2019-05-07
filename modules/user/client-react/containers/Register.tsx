@@ -11,6 +11,7 @@ import settings from '../../../../settings';
 
 interface RegisterProps extends CommonProps {
   register: (values: RegisterSubmitProps) => any;
+  data: any;
 }
 
 const Register: React.FunctionComponent<RegisterProps> = props => {
@@ -19,9 +20,10 @@ const Register: React.FunctionComponent<RegisterProps> = props => {
   const [isRegistered, setIsRegistered] = React.useState(false);
 
   const onSubmit = async (values: RegisterSubmitProps) => {
-    const { data } = await register(values);
+    const data = await register(values);
+
     if (data.error) {
-      throw new FormError(t('reg.errorMsg'), data.error);
+      throw new FormError(t('reg.errorMsg'), data.error.errors);
     }
 
     if (!settings.auth.password.requireEmailConfirmation) {
@@ -35,12 +37,6 @@ const Register: React.FunctionComponent<RegisterProps> = props => {
 };
 
 export default connect(
-  _state => ({}),
-  dispatch => ({
-    register: (value: RegisterSubmitProps) =>
-      dispatch({
-        type: null,
-        request: () => REGISTER(value)
-      })
-  })
+  null,
+  { register: REGISTER }
 )(translate('user')(Register));

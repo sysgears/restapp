@@ -1,6 +1,10 @@
 import axios from 'axios';
 import { RegisterSubmitProps } from '..';
+import { ActionType } from '../reducers';
 
-const REGISTER = async (value: RegisterSubmitProps) => axios.post(`${__API_URL__}/register`, { ...value });
-
-export default REGISTER;
+export default function REGISTER(value: RegisterSubmitProps) {
+  return {
+    types: [null, ActionType.REGISTER, null],
+    callAPI: async () => axios.post(`${__API_URL__}/register`, { ...value })
+  };
+}

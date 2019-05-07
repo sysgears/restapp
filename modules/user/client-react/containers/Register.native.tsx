@@ -25,10 +25,12 @@ class Register extends React.Component<RegisterProps, RegisterState> {
   public onSubmit = async (values: RegisterSubmitProps) => {
     const { t, register, navigation } = this.props;
 
-    const { data } = await register(values);
+    const data = await register(values);
+
     if (data.error) {
       throw new FormError(t('reg.errorMsg'), data.error);
     }
+
     if (!settings.auth.password.requireEmailConfirmation) {
       navigation.goBack();
     } else {
@@ -53,14 +55,8 @@ class Register extends React.Component<RegisterProps, RegisterState> {
 }
 
 const withConnect = connect(
-  _state => ({}),
-  dispatch => ({
-    register: (value: RegisterSubmitProps) =>
-      dispatch({
-        type: null,
-        request: () => REGISTER(value)
-      })
-  })
+  null,
+  { register: REGISTER }
 );
 
 export default compose(
