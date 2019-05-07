@@ -10,7 +10,7 @@ import { REGISTER } from '../actions';
 import { CommonProps, RegisterSubmitProps } from '../index.native';
 
 interface RegisterProps extends CommonProps {
-  register: (values: RegisterSubmitProps) => void;
+  register: (values: RegisterSubmitProps) => any;
 }
 
 interface RegisterState {
@@ -25,15 +25,14 @@ class Register extends React.Component<RegisterProps, RegisterState> {
   public onSubmit = async (values: RegisterSubmitProps) => {
     const { t, register, navigation } = this.props;
 
-    try {
-      await register(values);
-      if (!settings.auth.password.requireEmailConfirmation) {
-        navigation.goBack();
-      } else {
-        this.setState({ isRegistered: true });
-      }
-    } catch (e) {
-      throw new FormError(t('reg.errorMsg'), e);
+    const { data } = await register(values);
+    if (data.error) {
+      throw new FormError(t('reg.errorMsg'), data.error);
+    }
+    if (!settings.auth.password.requireEmailConfirmation) {
+      navigation.goBack();
+    } else {
+      this.setState({ isRegistered: true });
     }
   };
 

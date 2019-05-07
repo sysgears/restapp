@@ -7,7 +7,7 @@ import {
   NavigationParams
 } from 'react-navigation';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
-import { HeaderTitle, IconButton } from '@restapp/look-client-react-native';
+import { HeaderTitle } from '@restapp/look-client-react-native';
 import ClientModule from '@restapp/module-client-react-native';
 import { FormikErrors } from 'formik';
 import resources from './locales';
