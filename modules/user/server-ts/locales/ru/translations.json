@@ -10,6 +10,7 @@
     "password": {
       "validPasswordEmail": "Пожалуйста, введите Ваш username или e-mail.",
       "emailConfirmation": "Пожалуйста, подтвердите Ваш e-mail",
+      "registrationFailed": "Регистрация не была успешной из-за ошибок валидации.",
       "validPassword": "Пожалуйста, введите действительный пароль.",
       "usernameIsExisted": "Данное имя пользователя уже используется",
       "emailIsExisted": "Данный e-mail уже используется.",

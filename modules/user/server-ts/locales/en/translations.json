@@ -10,6 +10,7 @@
     "password": {
       "validPasswordEmail": "Please enter a valid username or e-mail.",
       "emailConfirmation": "Please confirm your e-mail first.",
+      "registrationFailed": "Registration failed due to validation errors",
       "validPassword": "Please enter a valid password.",
       "usernameIsExisted": "Username already exists",
       "emailIsExisted": "E-mail already exists.",
