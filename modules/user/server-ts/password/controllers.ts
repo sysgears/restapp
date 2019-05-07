@@ -28,7 +28,7 @@ export const register = async ({ body, t }: any, res: any) => {
   }
 
   if (!isEmpty(errors)) {
-    return res.send({
+    return res.status(422).send({
       error: {
         message: 'Failed reset password',
         errors
