@@ -28,13 +28,13 @@ const requestMiddleware: Middleware = _state => next => action => {
         ...rest
       });
       return data;
-    } catch (error) {
+    } catch ({ response: { data } }) {
       next({
         type: FAIL,
-        payload: error,
+        payload: data,
         ...rest
       });
-      return error;
+      return data;
     }
   };
 

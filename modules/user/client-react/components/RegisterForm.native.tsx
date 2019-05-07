@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { withFormik } from 'formik';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
-import { isFormError, FieldAdapter as Field } from '@restapp/forms-client-react';
+import { FieldAdapter as Field } from '@restapp/forms-client-react';
 import { translate } from '@restapp/i18n-client-react';
 
 import { RenderField, Button, primary, FormView } from '@restapp/look-client-react-native';
@@ -75,7 +75,7 @@ const RegisterFormWithFormik = withFormik<FormProps<RegisterSubmitProps>, Regist
   validate: values => validate(values, registerFormSchema),
   async handleSubmit(values, { setErrors, props: { onSubmit } }) {
     onSubmit(values).catch((e: any) => {
-      if (isFormError(e)) {
+      if (e) {
         setErrors(e.errors);
       } else {
         throw e;

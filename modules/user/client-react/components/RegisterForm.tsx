@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { withFormik } from 'formik';
-import { isFormError, FieldAdapter as Field } from '@restapp/forms-client-react';
+import { FieldAdapter as Field } from '@restapp/forms-client-react';
 import { translate } from '@restapp/i18n-client-react';
 
 import { match, email, minLength, required, validate } from '@restapp/validation-common-react';
@@ -42,7 +42,7 @@ const RegisterForm = ({ values, handleSubmit, submitting, errors, t }: FormProps
         value={values.passwordConfirmation}
       />
       <div className="text-center">
-        {errors && errors.errorMsg && <Alert color="error">{errors.errorMsg}</Alert>}
+        {errors && errors.message && <Alert color="error">{errors.message}</Alert>}
         <Button color="primary" type="submit" disabled={submitting}>
           {t('reg.form.btnSubmit')}
         </Button>
@@ -56,7 +56,7 @@ const RegisterFormWithFormik = withFormik<FormProps<RegisterSubmitProps>, Regist
   validate: values => validate(values, registerFormSchema),
   async handleSubmit(values, { setErrors, props: { onSubmit } }) {
     onSubmit(values).catch((e: any) => {
-      if (isFormError(e)) {
+      if (e) {
         setErrors(e.errors);
       } else {
         throw e;
