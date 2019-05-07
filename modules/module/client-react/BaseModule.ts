@@ -4,10 +4,14 @@ import { ReducersMapObject } from 'redux';
 
 import CommonModule, { CommonModuleShape } from '@restapp/module-common';
 
+interface UniversalCookieRequest {
+  universalCookies?: any;
+}
+
 /**
  * A function that creates React Element that wraps root element of a React tree
  */
-type RootComponentFactory = (req: Request) => React.ReactElement<any>;
+type RootComponentFactory = (req: Request & UniversalCookieRequest) => React.ReactElement<any>;
 
 /**
  * Common module interface for React and React Native feature modules.

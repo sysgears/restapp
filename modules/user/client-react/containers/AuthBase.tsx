@@ -2,9 +2,7 @@ import * as React from 'react';
 import { RouteProps } from 'react-router';
 import { History } from 'history';
 import { connect } from 'react-redux';
-import { CURRENT_USER } from '../actions';
 import { User, UserRole } from '..';
-import { ActionType } from '../reducers';
 
 export interface WithUserProps extends RouteProps {
   currentUser?: User;
@@ -50,17 +48,9 @@ const withLoadedUser = (Component: React.ComponentType<any>) => {
   return withUser(WithLoadedUser);
 };
 
-const IfNotLoggedInComponent: React.FunctionComponent<IfLoggedInComponent> = ({
-  currentUser,
-  children,
-  refetchCurrentUser,
-  ...restProps
-}) =>
-  !currentUser
-    ? React.cloneElement(children, {
-        ...restProps
-      })
-    : null;
+const IfNotLoggedInComponent: React.FunctionComponent<IfLoggedInComponent> = ({ currentUser, children }) => {
+  return !currentUser ? React.cloneElement(children, {}) : null;
+};
 
 const IfNotLoggedIn: React.ComponentType<IfLoggedInComponent> = withLoadedUser(IfNotLoggedInComponent);
 
