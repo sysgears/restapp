@@ -112,6 +112,7 @@
     "@types/humps": "^1.1.2",
     "@types/i18next": "^8.4.4",
     "@types/i18next-express-middleware": "^0.0.33",
+    "@types/jsonwebtoken": "^8.3.2",
     "@types/knex": "^0.14.20",
     "@types/mkdirp": "^0.5.2",
     "@types/nodemailer": "^4.6.2",
