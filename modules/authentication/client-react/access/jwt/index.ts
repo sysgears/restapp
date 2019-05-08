@@ -65,12 +65,10 @@ axios.interceptors.request.use(async config => {
 
 axios.interceptors.response.use(async (res: any) => {
   if (res.config.url.includes('login')) {
-    if (!!res.data && res.data.login.tokens) {
+    if (!!res.data && res.data.tokens) {
       const {
         data: {
-          login: {
-            tokens: { accessToken, refreshToken }
-          }
+          tokens: { accessToken, refreshToken }
         }
       } = res;
       await saveTokens({ accessToken, refreshToken });

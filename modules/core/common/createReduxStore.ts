@@ -26,10 +26,10 @@ const requestMiddleware: (
       const result = await callAPI(httpClient);
       next({
         type: SUCCESS,
-        payload: result,
+        payload: result.data,
         ...rest
       });
-      return result;
+      return result.data;
     } catch (e) {
       const {
         response: { data }

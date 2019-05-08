@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import authentication from '@restapp/authentication-client-react';
 import { User, UserRole } from '..';
 import { ActionType } from '../reducers';
+import { CURRENT_USER } from '../actions';
+
 export interface WithUserProps extends RouteProps {
   currentUser?: User;
   currentUserLoading?: boolean;
@@ -28,13 +30,16 @@ export interface WithLogoutProps extends WithUserProps {
 }
 
 const withUser = (Component: React.ComponentType<any>) => {
-  const WithUser = ({ currentUser, ...rest }: WithUserProps) => {
+  const WithUser = ({ currentUser, getCurrentUser, ...rest }: WithUserProps) => {
     return <Component currentUser={currentUser} {...rest} />;
   };
-  return connect(({ user: { loading, currentUser } }: any) => ({
-    currentUserLoading: loading,
-    currentUser
-  }))(WithUser);
+  return connect(
+    ({ user: { loading, currentUser } }: any) => ({
+      currentUserLoading: loading,
+      currentUser
+    }),
+    { getCurrentUser: CURRENT_USER }
+  )(WithUser);
 };
 
 const hasRole = (role: UserRole | UserRole[], currentUser: User) => {
@@ -64,7 +69,7 @@ const IfNotLoggedInComponent: React.FunctionComponent<IfLoggedInComponent> = ({ 
 
 const IfNotLoggedIn: React.ComponentType<IfLoggedInComponent> = withLoadedUser(IfNotLoggedInComponent);
 
-const withLogout: any = (Component: React.ComponentType<any>) => {
+const withLogout = (Component: React.ComponentType<any>) => {
   const WithLogout = ({ clearUser, ...props }: WithLogoutProps) => {
     const newProps = {
       ...props,
