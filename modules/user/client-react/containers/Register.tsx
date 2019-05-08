@@ -11,7 +11,6 @@ import settings from '../../../../settings';
 
 interface RegisterProps extends CommonProps {
   register: (values: RegisterSubmitProps) => any;
-  data: any;
 }
 
 const Register: React.FunctionComponent<RegisterProps> = props => {

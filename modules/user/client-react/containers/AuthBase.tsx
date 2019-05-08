@@ -2,8 +2,9 @@ import * as React from 'react';
 import { RouteProps } from 'react-router';
 import { History } from 'history';
 import { connect } from 'react-redux';
+import authentication from '@restapp/authentication-client-react';
 import { User, UserRole } from '..';
-
+import { ActionType } from '../reducers';
 export interface WithUserProps extends RouteProps {
   currentUser?: User;
   currentUserLoading?: boolean;
@@ -48,10 +49,40 @@ const withLoadedUser = (Component: React.ComponentType<any>) => {
   return withUser(WithLoadedUser);
 };
 
+const IfLoggedInComponent: React.FunctionComponent<IfLoggedInComponent> = ({
+  currentUser,
+  role,
+  children,
+  elseComponent
+}) => (hasRole(role, currentUser) ? React.cloneElement(children, {}) : elseComponent || null);
+
+const IfLoggedIn: React.ComponentType<IfLoggedInComponent> = withLoadedUser(IfLoggedInComponent);
+
 const IfNotLoggedInComponent: React.FunctionComponent<IfLoggedInComponent> = ({ currentUser, children }) => {
   return !currentUser ? React.cloneElement(children, {}) : null;
 };
 
 const IfNotLoggedIn: React.ComponentType<IfLoggedInComponent> = withLoadedUser(IfNotLoggedInComponent);
 
-export { withUser, hasRole, withLoadedUser, IfNotLoggedIn };
+const withLogout: any = (Component: React.ComponentType<any>) => {
+  const WithLogout = ({ clearUser, ...props }: WithLogoutProps) => {
+    const newProps = {
+      ...props,
+      logout: () => authentication.doLogout(clearUser)
+    };
+    return <Component {...newProps} />;
+  };
+  return connect(
+    null,
+    dispatch => {
+      return {
+        clearUser: () =>
+          dispatch({
+            type: ActionType.CLEAR_CURRENT_USER
+          })
+      };
+    }
+  )(WithLogout);
+};
+
+export { withUser, hasRole, withLoadedUser, IfLoggedIn, IfNotLoggedIn, withLogout };

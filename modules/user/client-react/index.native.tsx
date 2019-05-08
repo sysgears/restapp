@@ -7,12 +7,14 @@ import {
   NavigationParams
 } from 'react-navigation';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
-import { HeaderTitle } from '@restapp/look-client-react-native';
+import { HeaderTitle, IconButton } from '@restapp/look-client-react-native';
 import ClientModule from '@restapp/module-client-react-native';
 import { FormikErrors } from 'formik';
 import resources from './locales';
 import DataRootComponent from './containers/DataRootComponent.native';
 import UserScreenNavigator from './containers/UserScreenNavigator.native';
+import Login from './containers/Login.native';
+import Logout from './containers/Logout.native';
 import Register from './containers/Register.native';
 
 import reducers from './reducers';
@@ -97,6 +99,19 @@ export interface Filter {
   isActive: boolean;
 }
 
+class LoginScreen extends React.Component<NavigationOptionsProps> {
+  public static navigationOptions = ({ navigation }: NavigationOptionsProps) => ({
+    headerTitle: <HeaderTitleWithI18n i18nKey="navLink.signIn" style="subTitle" />,
+    headerLeft: (
+      <IconButton iconName="menu" iconSize={32} iconColor="#0275d8" onPress={() => navigation.openDrawer()} />
+    ),
+    headerForceInset: {}
+  });
+
+  public render() {
+    return <Login navigation={this.props.navigation} />;
+  }
+}
 class RegisterScreen extends React.Component<NavigationOptionsProps> {
   public static navigationOptions = () => ({
     headerTitle: <HeaderTitleWithI18n i18nKey="navLink.register" style="subTitle" />,
@@ -109,6 +124,7 @@ class RegisterScreen extends React.Component<NavigationOptionsProps> {
 
 const AuthScreen = createStackNavigator(
   {
+    Login: { screen: LoginScreen },
     Register: { screen: RegisterScreen }
   },
   {
@@ -143,7 +159,18 @@ export default new ClientModule({
           showOnLogin: false
         },
         navigationOptions: {
-          drawerLabel: <HeaderTitleWithI18n i18nKey="navLink.signUp" />
+          drawerLabel: <HeaderTitleWithI18n i18nKey="navLink.signIn" />
+        }
+      },
+      Logout: {
+        screen: (): null => null,
+        userInfo: {
+          showOnLogin: true
+        },
+        navigationOptions: ({ navigation }: NavigationOptionsProps) => {
+          return {
+            drawerLabel: <Logout navigation={navigation} />
+          };
         }
       }
     }

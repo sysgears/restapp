@@ -23,13 +23,13 @@ const requestMiddleware: (
 
   const handleCallApi = async () => {
     try {
-      const { data } = await callAPI(httpClient);
+      const result = await callAPI(httpClient);
       next({
         type: SUCCESS,
-        payload: data,
+        payload: result,
         ...rest
       });
-      return data;
+      return result;
     } catch (e) {
       const {
         response: { data }

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as H from 'history';
 import { CookiesProvider } from 'react-cookie';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { MenuItem } from '@restapp/look-client-react';
 import ClientModule from '@restapp/module-client-react';
@@ -10,10 +10,10 @@ import { FormikErrors } from 'formik';
 import resources from './locales';
 import DataRootComponent from './containers/DataRootComponent';
 import Register from './containers/Register';
-
+import Login from './containers/Login';
 import reducers from './reducers';
 
-import { AuthRoute, IfNotLoggedIn } from './containers/Auth';
+import { AuthRoute, IfLoggedIn, IfNotLoggedIn, withLogout, WithLogoutProps } from './containers/Auth';
 
 export enum UserRole {
   admin = 'admin',
@@ -88,18 +88,44 @@ export interface Filter {
   isActive: boolean;
 }
 
+const LogoutLink = withRouter(
+  withLogout(({ logout, history }: WithLogoutProps) => (
+    <a
+      href="javascript:void(0)"
+      onClick={e => {
+        e.preventDefault();
+        (async () => {
+          await logout();
+          history.push('/');
+        })();
+      }}
+      className="nav-link"
+    >
+      Logout
+    </a>
+  ))
+);
+
 export * from './containers/Auth';
 
 const NavLinkLoginWithI18n = translate('user')(({ t }: any) => (
-  <NavLink to="/register" className="nav-link" activeClassName="active">
-    {t('navLink.signUp')}
+  <NavLink to="/login" className="nav-link" activeClassName="active">
+    {t('navLink.signIn')}
   </NavLink>
 ));
 
 export default new ClientModule({
-  route: [<AuthRoute exact path="/register" component={Register} />],
+  route: [
+    <AuthRoute exact path="/register" redirectOnLoggedIn redirect="/profile" component={Register} />,
+    <AuthRoute exact path="/login" redirectOnLoggedIn redirect="/" component={Login} />
+  ],
   navItemRight: [
-    <IfNotLoggedIn key="/register">
+    <IfLoggedIn key="/logout">
+      <MenuItem>
+        <LogoutLink />
+      </MenuItem>
+    </IfLoggedIn>,
+    <IfNotLoggedIn key="/login">
       <MenuItem>
         <NavLinkLoginWithI18n />
       </MenuItem>

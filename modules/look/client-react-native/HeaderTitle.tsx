@@ -1,19 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Text, StyleSheet, Platform } from 'react-native';
+import { TranslateFunction } from '@restapp/i18n-client-react';
 
-const HeaderTitle = ({ t, i18nKey, style, children, ...props }) => (
+interface HeaderTitleProps {
+  t?: TranslateFunction;
+  style?: any;
+  i18nKey?: string;
+  children?: React.ReactNode | any;
+  onPress?: () => any;
+}
+
+const HeaderTitle = ({ t, i18nKey, style, children, ...props }: HeaderTitleProps) => (
   <Text {...props} style={typeof style === 'string' ? styles[style] : style || styles.menuTitle}>
     {t ? t(i18nKey || 'navLink') : children}
   </Text>
 );
-
-HeaderTitle.propTypes = {
-  t: PropTypes.func,
-  children: PropTypes.node,
-  i18nKey: PropTypes.string,
-  style: PropTypes.any
-};
 
 const styles = StyleSheet.create({
   menuTitle: {
