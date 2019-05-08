@@ -8,7 +8,9 @@ export const getStoreReducer = (reducers: any) =>
     ...reducers
   });
 
-const requestMiddleware: Middleware = _state => next => action => {
+const requestMiddleware: (
+  httpClient?: (request: () => Promise<any>) => void
+) => Middleware = httpClient => _state => next => action => {
   const { types, callAPI, ...rest } = action;
 
   if (!types) {
@@ -21,14 +23,17 @@ const requestMiddleware: Middleware = _state => next => action => {
 
   const handleCallApi = async () => {
     try {
-      const { data } = await callAPI();
+      const { data } = await callAPI(httpClient);
       next({
         type: SUCCESS,
         payload: data,
         ...rest
       });
       return data;
-    } catch ({ response: { data } }) {
+    } catch (e) {
+      const {
+        response: { data }
+      } = e;
       next({
         type: FAIL,
         payload: data,
@@ -41,8 +46,15 @@ const requestMiddleware: Middleware = _state => next => action => {
   return handleCallApi();
 };
 
-const createReduxStore = (reducers: Reducer, initialState: DeepPartial<any>, routerMiddleware?: Middleware): Store => {
-  const middleware = routerMiddleware ? [routerMiddleware, requestMiddleware] : [requestMiddleware];
+const createReduxStore = (
+  reducers: Reducer,
+  initialState: DeepPartial<any>,
+  routerMiddleware?: Middleware,
+  httpClient?: (request: () => Promise<any>) => void
+): Store => {
+  const middleware = routerMiddleware
+    ? [routerMiddleware, requestMiddleware(httpClient)]
+    : [requestMiddleware(httpClient)];
   return createStore(
     getStoreReducer(reducers),
     initialState, // initial state,

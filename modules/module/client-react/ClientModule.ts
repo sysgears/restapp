@@ -15,6 +15,8 @@ export interface ClientModuleShape extends BaseModuleShape {
   stylesInsert?: string[];
   // URL list to 3rd party js scripts
   scriptsInsert?: string[];
+  // Http client is provided by modules
+  httpClient?: (request: () => Promise<any>) => void;
 }
 
 interface ClientModule extends ClientModuleShape {}
@@ -81,6 +83,13 @@ class ClientModule extends BaseModule {
    */
   get scriptsInserts() {
     return this.scriptsInsert || [];
+  }
+
+  /**
+   * @returns Http client is provided by modules
+   */
+  get httpClients() {
+    return this.httpClient;
   }
 }
 

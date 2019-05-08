@@ -22,6 +22,32 @@ const removeTokens = async () => {
   await removeItem(TokensEnum.refreshToken);
 };
 
+const client = async (request: () => Promise<any>) => {
+  try {
+    const result = await request();
+    return result;
+  } catch (e) {
+    if (e.response && e.response.status === 401) {
+      try {
+        const { data } = await axios.post(`${__API_URL__}/refreshToken`, {
+          refreshToken: await getItem('refreshToken')
+        });
+        if (data && data.refreshTokens) {
+          const { accessToken, refreshToken } = data.refreshTokens;
+          await saveTokens({ accessToken, refreshToken });
+        } else {
+          await removeTokens();
+        }
+      } catch (e) {
+        await removeTokens();
+        throw e;
+      }
+      await request();
+    }
+    return e.response;
+  }
+};
+
 axios.interceptors.request.use(async config => {
   const accessToken = await getItem(TokensEnum.accessToken);
 
@@ -37,50 +63,27 @@ axios.interceptors.request.use(async config => {
   return config;
 });
 
-axios.interceptors.response.use(
-  async (res: any) => {
-    if (res.config.url.includes('login')) {
-      if (!!res.data && res.data.login.tokens) {
-        const {
-          data: {
-            login: {
-              tokens: { accessToken, refreshToken }
-            }
+axios.interceptors.response.use(async (res: any) => {
+  if (res.config.url.includes('login')) {
+    if (!!res.data && res.data.login.tokens) {
+      const {
+        data: {
+          login: {
+            tokens: { accessToken, refreshToken }
           }
-        } = res;
-        await saveTokens({ accessToken, refreshToken });
-      } else {
-        await removeTokens();
-      }
-      return res;
-    }
-
-    if (res && res.status > 400 && res.status < 500) {
-      try {
-        const { data } = await axios.post(`${__API_URL__}/refreshToken`, {
-          refreshToken: await getItem('refreshToken')
-        });
-        if (data && data.refreshTokens) {
-          const { accessToken, refreshToken } = data.refreshTokens;
-          await saveTokens({ accessToken, refreshToken });
-        } else {
-          await removeTokens();
         }
-      } catch (e) {
-        await removeTokens();
-        throw e;
-      }
-      await res.request();
+      } = res;
+      await saveTokens({ accessToken, refreshToken });
+    } else {
+      await removeTokens();
     }
     return res;
-  },
-  err => {
-    return Promise.reject(err);
   }
-);
+});
 
 export default (settings.auth.jwt.enabled
   ? new AccessModule({
-      logout: [removeTokens]
+      logout: [removeTokens],
+      httpClient: client
     })
   : undefined);
