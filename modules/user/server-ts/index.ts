@@ -1,8 +1,9 @@
 import bcrypt from 'bcryptjs';
 import i18n from 'i18next';
 
-import ServerModule from '@restapp/module-server-ts';
+import ServerModule, { RestMethod } from '@restapp/module-server-ts';
 
+import { currentUser } from './controllers';
 import password from './password';
 import UserDAO, { UserShape } from './sql';
 import settings from '../../../settings';
@@ -49,5 +50,13 @@ const appContext = {
 
 export default new ServerModule(password, {
   appContext,
-  localization: [{ ns: 'user', resources }]
+  localization: [{ ns: 'user', resources }],
+  apiRouteParams: [
+    {
+      method: RestMethod.GET,
+      route: 'currentUser',
+      isAuthRoute: true,
+      controller: currentUser
+    }
+  ]
 });
