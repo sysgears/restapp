@@ -17,7 +17,7 @@ const {
   app
 } = settings;
 
-export const login = (req: any, res: any) => {
+export const login = (req: any, res: any, next: any) => {
   passport.authenticate('local', { session: session.enabled }, (err, user, info) => {
     if (err || !user) {
       return res.status(400).json({
@@ -34,7 +34,7 @@ export const login = (req: any, res: any) => {
 
       return res.json({ user, tokens });
     });
-  })(req, res);
+  })(req, res, next);
 };
 
 export const register = async ({ body, t }: any, res: any) => {
