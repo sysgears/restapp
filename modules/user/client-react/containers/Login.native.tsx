@@ -3,7 +3,6 @@ import { FormError } from '@restapp/forms-client-react';
 import { translate } from '@restapp/i18n-client-react';
 import authentication from '@restapp/authentication-client-react';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
 import LoginView from '../components/LoginView.native';
 import { CommonProps, LoginSubmitProps } from '../index.native';
 import { LOGIN } from '../actions';
@@ -12,28 +11,25 @@ export interface LoginProps extends CommonProps {
   login: (values: LoginSubmitProps) => Promise<void> | any;
 }
 
-const Login = (props: LoginProps) => {
-  const { t, login } = props;
+class Login extends React.Component<LoginProps> {
+  public onSubmit = async (values: LoginSubmitProps) => {
+    const { t, login } = this.props;
+    const data = await login(values);
 
-  const onSubmit = async (values: LoginSubmitProps) => {
-    try {
-      await login(values);
-    } catch (e) {
-      throw new FormError(t('login.errorMsg'), e);
+    if (data && data.errors) {
+      throw new FormError(t('reg.errorMsg'), data);
     }
 
     await authentication.doLogin();
   };
-
-  return <LoginView {...props} onSubmit={onSubmit} />;
-};
+  public render() {
+    return <LoginView {...this.props} onSubmit={this.onSubmit} />;
+  }
+}
 
 const withConnect = connect(
   null,
   { login: LOGIN }
 );
 
-export default compose(
-  translate('user'),
-  withConnect(Login)
-);
+export default translate('user')(withConnect(Login));

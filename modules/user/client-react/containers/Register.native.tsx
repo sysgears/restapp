@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
 import { translate } from '@restapp/i18n-client-react';
 import { FormError } from '@restapp/forms-client-react';
 import RegisterView from '../components/RegisterView.native';
@@ -27,8 +26,8 @@ class Register extends React.Component<RegisterProps, RegisterState> {
 
     const data = await register(values);
 
-    if (data.error) {
-      throw new FormError(t('reg.errorMsg'), data.error);
+    if (data.errors) {
+      throw new FormError(t('reg.errorMsg'), data);
     }
 
     if (!settings.auth.password.requireEmailConfirmation) {
@@ -59,7 +58,4 @@ const withConnect = connect(
   { register: REGISTER }
 );
 
-export default compose(
-  translate('user'),
-  withConnect(Register)
-);
+export default translate('user')(withConnect(Register));
