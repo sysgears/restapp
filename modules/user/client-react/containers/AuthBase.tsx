@@ -4,8 +4,7 @@ import { History } from 'history';
 import { connect } from 'react-redux';
 import authentication from '@restapp/authentication-client-react';
 import { User, UserRole } from '..';
-import { ActionType } from '../reducers';
-import { CURRENT_USER } from '../actions';
+import CLEAR_USER from '../actions/clearUser';
 
 export interface WithUserProps extends RouteProps {
   currentUser?: User;
@@ -30,16 +29,13 @@ export interface WithLogoutProps extends WithUserProps {
 }
 
 const withUser = (Component: React.ComponentType<any>) => {
-  const WithUser = ({ currentUser, getCurrentUser, ...rest }: WithUserProps) => {
+  const WithUser = ({ currentUser, ...rest }: WithUserProps) => {
     return <Component currentUser={currentUser} {...rest} />;
   };
-  return connect(
-    ({ user: { loading, currentUser } }: any) => ({
-      currentUserLoading: loading,
-      currentUser
-    }),
-    { getCurrentUser: CURRENT_USER }
-  )(WithUser);
+  return connect(({ user: { loading, currentUser } }: any) => ({
+    currentUserLoading: loading,
+    currentUser
+  }))(WithUser);
 };
 
 const hasRole = (role: UserRole | UserRole[], currentUser: User) => {
@@ -77,16 +73,10 @@ const withLogout = (Component: React.ComponentType<any>) => {
     };
     return <Component {...newProps} />;
   };
+
   return connect(
     null,
-    dispatch => {
-      return {
-        clearUser: () =>
-          dispatch({
-            type: ActionType.CLEAR_CURRENT_USER
-          })
-      };
-    }
+    { clearUser: CLEAR_USER }
   )(WithLogout);
 };
 

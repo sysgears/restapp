@@ -8,9 +8,7 @@ export const getStoreReducer = (reducers: any) =>
     ...reducers
   });
 
-const requestMiddleware: (
-  httpClient?: (request: () => Promise<any>) => void
-) => Middleware = httpClient => _state => next => action => {
+const requestMiddleware: (httpClient?: any) => Middleware = httpClient => _state => next => action => {
   const { types, callAPI, ...rest } = action;
 
   if (!types) {
@@ -24,16 +22,15 @@ const requestMiddleware: (
   const handleCallApi = async () => {
     try {
       const result = await callAPI(httpClient);
+      const data = result && result.data;
       next({
         type: SUCCESS,
-        payload: result.data,
+        payload: data,
         ...rest
       });
-      return result.data;
+      return data;
     } catch (e) {
-      const {
-        response: { data }
-      } = e;
+      const data = e.response && e.response.data;
       next({
         type: FAIL,
         payload: data,
