@@ -21,8 +21,9 @@ export const login = (req: any, res: any, next: any) => {
   passport.authenticate('local', { session: session.enabled }, (err, user, info) => {
     if (err || !user) {
       return res.status(400).json({
-        message: info ? info.message : 'Login failed',
-        user
+        errors: {
+          message: info ? info.message : 'Login failed'
+        }
       });
     }
 
