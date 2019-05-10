@@ -1,10 +1,10 @@
 import React from 'react';
-import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import url from 'url';
 
 import ClientModule from '@restapp/module-client-react-native';
 import log from '../../../packages/common/log';
+import createReduxStore from '../../../packages/common/createReduxStore';
 
 const { protocol, pathname, port } = url.parse(__API_URL__);
 
@@ -24,13 +24,15 @@ export default class Main extends React.Component<MainProps> {
         ? `${protocol}//${url.parse(this.props.exp.manifest.bundleUrl).hostname}:${port}${pathname}`
         : __API_URL__;
 
-    const store = createStore(
+    const store = createReduxStore(
       Object.keys(modules.reducers).length > 0
-        ? combineReducers({
+        ? {
             ...modules.reducers
-          })
+          }
         : state => state,
-      {} // initial state
+      {}, // initial state
+      null,
+      modules.httpClients
     );
 
     log.info(`Connecting to REST backend at: ${apiUrl}`);

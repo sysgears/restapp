@@ -4,7 +4,8 @@ import { History } from 'history';
 import { connect } from 'react-redux';
 import authentication from '@restapp/authentication-client-react';
 import { User, UserRole } from '..';
-import { ActionType } from '../reducers';
+import CLEAR_USER from '../actions/clearUser';
+
 export interface WithUserProps extends RouteProps {
   currentUser?: User;
   currentUserLoading?: boolean;
@@ -64,7 +65,7 @@ const IfNotLoggedInComponent: React.FunctionComponent<IfLoggedInComponent> = ({ 
 
 const IfNotLoggedIn: React.ComponentType<IfLoggedInComponent> = withLoadedUser(IfNotLoggedInComponent);
 
-const withLogout: any = (Component: React.ComponentType<any>) => {
+const withLogout = (Component: React.ComponentType<any>) => {
   const WithLogout = ({ clearUser, ...props }: WithLogoutProps) => {
     const newProps = {
       ...props,
@@ -72,16 +73,10 @@ const withLogout: any = (Component: React.ComponentType<any>) => {
     };
     return <Component {...newProps} />;
   };
+
   return connect(
     null,
-    dispatch => {
-      return {
-        clearUser: () =>
-          dispatch({
-            type: ActionType.CLEAR_CURRENT_USER
-          })
-      };
-    }
+    { clearUser: CLEAR_USER }
   )(WithLogout);
 };
 

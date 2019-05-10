@@ -88,23 +88,21 @@ export interface Filter {
   isActive: boolean;
 }
 
-const LogoutLink = withRouter(
-  withLogout(({ logout, history }: WithLogoutProps) => (
-    <a
-      href="javascript:void(0)"
-      onClick={e => {
-        e.preventDefault();
-        (async () => {
-          await logout();
-          history.push('/');
-        })();
-      }}
-      className="nav-link"
-    >
-      Logout
-    </a>
-  ))
-);
+const LogoutLink = withRouter(withLogout(({ logout, history }: WithLogoutProps) => (
+  <a
+    href="javascript:void(0)"
+    onClick={e => {
+      e.preventDefault();
+      (async () => {
+        await logout();
+        history.push('/');
+      })();
+    }}
+    className="nav-link"
+  >
+    Logout
+  </a>
+)) as any);
 
 export * from './containers/Auth';
 

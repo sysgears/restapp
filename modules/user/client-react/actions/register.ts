@@ -5,7 +5,7 @@ import { ActionType } from '../reducers';
 export default function REGISTER(value: RegisterSubmitProps) {
   return {
     types: [null, ActionType.REGISTER, null],
-    callAPI: (client: (request: () => Promise<any>) => void) =>
+    callAPI: (client: (request: () => Promise<any>) => any) =>
       client
         ? client(() => axios.post(`${__API_URL__}/register`, { ...value }))
         : axios.post(`${__API_URL__}/register`, { ...value })

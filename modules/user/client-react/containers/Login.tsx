@@ -37,7 +37,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   const onSubmit = async (values: LoginSubmitProps) => {
     const data = await login(values);
 
-    if (data.errors) {
+    if (data && data.errors) {
       throw new FormError(t('reg.errorMsg'), data);
     }
     await authentication.doLogin();

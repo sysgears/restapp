@@ -32,8 +32,8 @@ const client = async (request: () => Promise<any>) => {
         const { data } = await axios.post(`${__API_URL__}/refreshToken`, {
           refreshToken: await getItem('refreshToken')
         });
-        if (data && data.refreshTokens) {
-          const { accessToken, refreshToken } = data.refreshTokens;
+        if (data) {
+          const { accessToken, refreshToken } = data;
           await saveTokens({ accessToken, refreshToken });
         } else {
           await removeTokens();
@@ -51,34 +51,27 @@ const client = async (request: () => Promise<any>) => {
 axios.interceptors.request.use(async config => {
   const accessToken = await getItem(TokensEnum.accessToken);
 
-  if (config.url.includes('currentUser') && !(await getItem(TokensEnum.refreshToken))) {
-    throw new axios.Cancel('Operation canceled');
-  }
-
   const arrayExceptions = ['login', 'refreshTokens'];
   const checkInclude = arrayExceptions.some(exception => config.url.includes(exception));
 
   config.headers = !checkInclude && accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
-
   return config;
 });
 
 axios.interceptors.response.use(async (res: any) => {
   if (res.config.url.includes('login')) {
-    if (!!res.data && res.data.login.tokens) {
+    if (!!res.data && res.data.tokens) {
       const {
         data: {
-          login: {
-            tokens: { accessToken, refreshToken }
-          }
+          tokens: { accessToken, refreshToken }
         }
       } = res;
       await saveTokens({ accessToken, refreshToken });
     } else {
       await removeTokens();
     }
-    return res;
   }
+  return res;
 });
 
 export default (settings.auth.jwt.enabled

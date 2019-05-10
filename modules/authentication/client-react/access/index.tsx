@@ -15,8 +15,7 @@ const rerenderApp = () => {
   ref.current.reloadPage();
 };
 
-const login = async (clearStore: () => void) => {
-  await clearStore();
+const login = async (_clearStore?: () => void) => {
   rerenderApp();
 };
 

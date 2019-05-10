@@ -143,7 +143,7 @@ const LoginFormWithFormik = withFormik<LoginForm & NavigationOptionsProps, Login
 
   handleSubmit(values, { setErrors, props: { onSubmit } }) {
     onSubmit(values).catch((e: any) => {
-      if (e) {
+      if (e && e.errors) {
         setErrors(e.errors);
       } else {
         throw e;

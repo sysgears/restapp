@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { DrawerComponent } from '@restapp/look-client-react-native';
 
 import { UserRole } from '../index.native';
-import { withUser } from './Auth';
+import { withUser } from './Auth.native';
 
 interface User {
   id: number | string;
@@ -54,7 +54,7 @@ class UserScreenNavigator extends React.Component<UserScreenNavigator> {
   };
   public getInitialRoute = () => {
     const { currentUser } = this.props;
-    return currentUser ? 'Profile' : 'Login';
+    return currentUser ? 'Welcome' : 'Login';
   };
 
   public render() {
@@ -76,13 +76,15 @@ class UserScreenNavigator extends React.Component<UserScreenNavigator> {
 const drawerNavigator: any = (routeConfigs: any) => {
   const withRoutes = (Component: React.ComponentType<any>) => {
     const ownProps = { routeConfigs };
-    const WithRoutesComponent = ({ ...props }) => <Component {...props} {...ownProps} />;
+    const WithRoutesComponent = ({ ...props }) => {
+      return <Component {...props} {...ownProps} />;
+    };
     return WithRoutesComponent;
   };
 
   return compose(
-    withUser,
-    withRoutes
+    withRoutes,
+    withUser
   )(UserScreenNavigator);
 };
 
