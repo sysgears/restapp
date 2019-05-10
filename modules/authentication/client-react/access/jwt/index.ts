@@ -44,7 +44,7 @@ const client = async (request: () => Promise<any>) => {
       }
       await request();
     }
-    return e.response;
+    throw e;
   }
 };
 
