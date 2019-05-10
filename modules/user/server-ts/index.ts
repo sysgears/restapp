@@ -3,7 +3,7 @@ import i18n from 'i18next';
 
 import ServerModule, { RestMethod } from '@restapp/module-server-ts';
 
-import { currentUser } from './controllers';
+import { user, users, currentUser, addUser, editUser, deleteUser } from './controllers';
 import password from './password';
 import UserDAO, { UserShape } from './sql';
 import settings from '../../../settings';
@@ -54,9 +54,39 @@ export default new ServerModule(password, {
   apiRouteParams: [
     {
       method: RestMethod.GET,
+      route: 'user',
+      isAuthRoute: true,
+      controller: user
+    },
+    {
+      method: RestMethod.GET,
+      route: 'users',
+      isAuthRoute: true,
+      controller: users
+    },
+    {
+      method: RestMethod.GET,
       route: 'currentUser',
       isAuthRoute: true,
       controller: currentUser
+    },
+    {
+      method: RestMethod.POST,
+      route: 'addUser',
+      isAuthRoute: true,
+      controller: addUser
+    },
+    {
+      method: RestMethod.POST,
+      route: 'editUser',
+      isAuthRoute: true,
+      controller: editUser
+    },
+    {
+      method: RestMethod.DELETE,
+      route: 'deleteUser',
+      isAuthRoute: true,
+      controller: deleteUser
     }
   ]
 });
