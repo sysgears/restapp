@@ -1,5 +1,6 @@
 import React from 'react';
 import BaseModule, { BaseModuleShape } from './BaseModule';
+import { Middleware } from 'redux';
 
 /**
  * React client feature modules interface.
@@ -16,7 +17,7 @@ export interface ClientModuleShape extends BaseModuleShape {
   // URL list to 3rd party js scripts
   scriptsInsert?: string[];
   // Http client is provided by modules
-  httpClient?: (request: () => Promise<any>) => void;
+  requestMiddleware?: Middleware;
 }
 
 interface ClientModule extends ClientModuleShape {}
@@ -88,8 +89,8 @@ class ClientModule extends BaseModule {
   /**
    * @returns Http client is provided by modules
    */
-  get httpClients() {
-    return this.httpClient;
+  get requestMiddlewares() {
+    return this.requestMiddleware;
   }
 }
 

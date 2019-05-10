@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getItem, setItem, removeItem } from '@restapp/core-common/clientStorage';
+import { Middleware } from 'redux';
 import settings from '../../../../../settings';
 import AccessModule from '../AccessModule';
 
@@ -22,6 +23,44 @@ const removeTokens = async () => {
   await removeItem(TokensEnum.refreshToken);
 };
 
+const requestMiddleware: Middleware = ({ dispatch }) => next => action => {
+  const { types, callAPI, payload, ...rest } = action;
+
+  if (!types) {
+    return next(action);
+  }
+
+  const [REQUEST, SUCCESS, FAIL] = types;
+
+  next({ type: REQUEST, payload, ...rest });
+
+  const handleCallApi = async () => {
+    try {
+      const result = await client(callAPI);
+      const data = result && result.data;
+      next({
+        type: SUCCESS,
+        payload: data,
+        ...rest
+      });
+      return data;
+    } catch (e) {
+      if (e.response.status === 401) {
+        dispatch(action);
+      }
+      const data = e.response && e.response.data;
+      next({
+        type: FAIL,
+        payload: data,
+        ...rest
+      });
+      return data;
+    }
+  };
+
+  return handleCallApi();
+};
+
 const client = async (request: () => Promise<any>) => {
   try {
     const result = await request();
@@ -42,7 +81,6 @@ const client = async (request: () => Promise<any>) => {
         await removeTokens();
         throw e;
       }
-      await request();
     }
     throw e;
   }
@@ -67,6 +105,7 @@ axios.interceptors.response.use(async (res: any) => {
         }
       } = res;
       await saveTokens({ accessToken, refreshToken });
+      return res.data.user;
     } else {
       await removeTokens();
     }
@@ -77,6 +116,6 @@ axios.interceptors.response.use(async (res: any) => {
 export default (settings.auth.jwt.enabled
   ? new AccessModule({
       logout: [removeTokens],
-      httpClient: client
+      requestMiddleware
     })
   : undefined);

@@ -25,7 +25,7 @@ export const onAppCreate = (modules: ClientModule, entryModule: NodeModule) => {
     ref.store = entryModule.hot.data.store;
     ref.store.replaceReducer(getStoreReducer(ref.modules.reducers));
   } else {
-    ref.store = createReduxStore(ref.modules.reducers, {}, routerMiddleware(history), ref.modules.httpClients);
+    ref.store = createReduxStore(ref.modules.reducers, {}, routerMiddleware(history), ref.modules.requestMiddlewares);
   }
 };
 

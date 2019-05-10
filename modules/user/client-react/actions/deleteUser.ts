@@ -1,10 +1,9 @@
 import axios from 'axios';
-import { LoginSubmitProps } from '..';
 import { ActionType } from '../reducers';
 
-export default function LOGIN(value: LoginSubmitProps) {
+export default function DELETE_USER(id: number) {
   return {
     types: [null, ActionType.SET_CURRENT_USER, ActionType.CLEAR_CURRENT_USER],
-    callAPI: () => axios.post(`${__API_URL__}/login`, { ...value })
+    callAPI: () => axios.delete(`${__API_URL__}/deleteUser`, { data: id })
   };
 }
