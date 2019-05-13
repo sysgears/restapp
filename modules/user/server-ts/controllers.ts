@@ -19,7 +19,7 @@ const {
 export const user = async ({ params: { id }, user: identity, t }: any, res: any) => {
   if (+identity.id === +id || identity.role === 'admin') {
     try {
-      res.json({ user: await userDAO.getUser(id) });
+      res.json(await userDAO.getUser(id));
     } catch (e) {
       res.status(500).json({ errors: e });
     }
