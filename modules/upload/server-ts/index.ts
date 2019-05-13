@@ -4,7 +4,7 @@ import express, { Express } from 'express';
 import ServerModule, { RestMethod } from '@restapp/module-server-ts';
 
 import settings from '../../../settings';
-import { uploadFiles } from './controllers';
+import { uploadFiles, files } from './controllers';
 
 const middleware = (app: Express) => {
   app.use('/public', express.static('public'));
@@ -21,6 +21,11 @@ export default new ServerModule({
       method: RestMethod.POST,
       route: 'uploadFiles',
       controller: uploadFiles
+    },
+    {
+      method: RestMethod.GET,
+      route: 'files',
+      controller: files
     }
   ],
   middleware: [middleware]

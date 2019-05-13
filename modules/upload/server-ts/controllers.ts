@@ -25,3 +25,7 @@ export const uploadFiles = async ({ files: { fileInput } }: any, res: any) => {
     });
   }
 };
+
+export const files = async (req: any, res: any) => {
+  res.json(await uploadDAO.files());
+};
