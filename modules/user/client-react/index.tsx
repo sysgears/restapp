@@ -9,11 +9,15 @@ import { FormikErrors } from 'formik';
 
 import resources from './locales';
 import DataRootComponent from './containers/DataRootComponent';
-import Register from './containers/Register';
 import Login from './containers/Login';
+import Register from './containers/Register';
+import Users from './containers/Users';
+import UserEdit from './containers/UserEdit';
+import UserAdd from './containers/UserAdd';
+import Profile from './containers/Profile';
 import reducers from './reducers';
 
-import { AuthRoute, IfLoggedIn, IfNotLoggedIn, withLogout, WithLogoutProps } from './containers/Auth';
+import { AuthRoute, IfLoggedIn, IfNotLoggedIn, withLoadedUser, withLogout, WithLogoutProps } from './containers/Auth';
 
 export enum UserRole {
   admin = 'admin',
@@ -88,6 +92,10 @@ export interface Filter {
   isActive: boolean;
 }
 
+const ProfileName = withLoadedUser(({ currentUser }) => (
+  <>{currentUser ? currentUser.fullName || currentUser.username : null}</>
+));
+
 const LogoutLink = withRouter(withLogout(({ logout, history }: WithLogoutProps) => (
   <a
     href="javascript:void(0)"
@@ -106,6 +114,12 @@ const LogoutLink = withRouter(withLogout(({ logout, history }: WithLogoutProps) 
 
 export * from './containers/Auth';
 
+const NavLinkUsersWithI18n = translate('user')(({ t }: any) => (
+  <NavLink to="/users" className="nav-link" activeClassName="active">
+    {t('navLink.users')}
+  </NavLink>
+));
+
 const NavLinkLoginWithI18n = translate('user')(({ t }: any) => (
   <NavLink to="/login" className="nav-link" activeClassName="active">
     {t('navLink.signIn')}
@@ -114,10 +128,28 @@ const NavLinkLoginWithI18n = translate('user')(({ t }: any) => (
 
 export default new ClientModule({
   route: [
-    <AuthRoute exact path="/register" redirectOnLoggedIn redirect="/profile" component={Register} />,
-    <AuthRoute exact path="/login" redirectOnLoggedIn redirect="/" component={Login} />
+    <AuthRoute exact path="/profile" role={[UserRole.user, UserRole.admin]} redirect="/login" component={Profile} />,
+    <AuthRoute exact path="/users" redirect="/profile" role={UserRole.admin} component={Users} />,
+    <AuthRoute exact path="/users/new" role={[UserRole.admin]} component={UserAdd} />,
+    <AuthRoute path="/users/:id" redirect="/profile" role={[UserRole.user, UserRole.admin]} component={UserEdit} />,
+    <AuthRoute exact path="/login" redirectOnLoggedIn redirect="/" component={Login} />,
+    <AuthRoute exact path="/register" redirectOnLoggedIn redirect="/profile" component={Register} />
+  ],
+  navItem: [
+    <IfLoggedIn key="/users" role={UserRole.admin}>
+      <MenuItem>
+        <NavLinkUsersWithI18n />
+      </MenuItem>
+    </IfLoggedIn>
   ],
   navItemRight: [
+    <IfLoggedIn key="/profile">
+      <MenuItem>
+        <NavLink to="/profile" className="nav-link" activeClassName="active">
+          <ProfileName />
+        </NavLink>
+      </MenuItem>
+    </IfLoggedIn>,
     <IfLoggedIn key="/logout">
       <MenuItem>
         <LogoutLink />

@@ -2,10 +2,10 @@ import axios from 'axios';
 import { ActionType } from '../reducers';
 import { OrderBy, Filter } from '..';
 
-export default function USERS(orderBY: OrderBy, filter: Filter, type = 'SET_LOADING') {
+export default function USERS(orderBy: OrderBy, filter: Filter, type = 'null') {
   return {
     types: [ActionType[type], ActionType.SET_USERS, null],
-    payload: { orderBY, filter },
-    callAPI: () => axios.get(`${__API_URL__}/users`, { params: { filter, orderBY } })
+    payload: { orderBy, filter },
+    callAPI: () => axios.post(`${__API_URL__}/users`, { filter, orderBy })
   };
 }

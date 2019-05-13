@@ -1,8 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FormGroup, Label } from 'reactstrap';
 
-const FormItem = ({ children, label, ...props }) => {
+interface FormItemProps {
+  children: React.ReactNode;
+  label?: string;
+}
+
+const FormItem = ({ children, label, ...props }: FormItemProps) => {
   return (
     <FormGroup {...props}>
       {label && (
@@ -14,11 +18,6 @@ const FormItem = ({ children, label, ...props }) => {
       {children}
     </FormGroup>
   );
-};
-
-FormItem.propTypes = {
-  children: PropTypes.node,
-  label: PropTypes.string
 };
 
 export default FormItem;
