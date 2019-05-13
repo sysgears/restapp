@@ -4,7 +4,7 @@ import { User } from '..';
 
 export default function ADD_USER(user: User) {
   return {
-    types: [null, ActionType.SET_CURRENT_USER, ActionType.CLEAR_CURRENT_USER],
+    types: [null, null, null] as ActionType[],
     callAPI: () => axios.post(`${__API_URL__}/addUser`, { ...user })
   };
 }

@@ -12,7 +12,7 @@ interface AuthRouteProps extends WithUserProps {
 }
 
 const AuthRoute: React.ComponentType<AuthRouteProps> = withLoadedUser(
-  ({ currentUser, role, redirect = '/register', redirectOnLoggedIn, component: Component, ...rest }) => {
+  ({ currentUser, role, redirect = '/login', redirectOnLoggedIn, component: Component, ...rest }) => {
     const RenderComponent: React.FunctionComponent<any> = props => {
       // The users is not logged in
       if (redirectOnLoggedIn && currentUser) {

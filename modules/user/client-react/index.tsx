@@ -24,20 +24,29 @@ export enum UserRole {
   user = 'user'
 }
 
-export interface UserProfile {
+interface Auth {
+  lnDisplayName: string;
+  lnId: string;
+  googleDisplayName: string;
+  googleId: string;
+  ghDisplayName: string;
+  ghId: string;
+  fbId: string;
+  fbDisplayName: string;
+}
+
+interface UserProfile {
   fullName?: string;
   firstName?: string;
   lastName?: string;
 }
 
-export interface User {
+export interface User extends UserProfile, Auth {
   id?: number | string;
   username: string;
   role: UserRole;
   isActive: boolean;
   email: string;
-  profile?: UserProfile;
-  auth?: any;
 }
 
 export interface LoginSubmitProps {

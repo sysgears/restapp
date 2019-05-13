@@ -52,11 +52,12 @@ const UserForm: React.FunctionComponent<UserFormProps> = ({
   handleSubmit,
   errors,
   setFieldValue,
+
   t,
   shouldDisplayRole,
   shouldDisplayActive
 }) => {
-  const { username, email, role, isActive, profile, password, passwordConfirmation } = values;
+  const { username, email, role, isActive, lastName, firstName, password, passwordConfirmation } = values;
 
   return (
     <Form name="user" onSubmit={handleSubmit}>
@@ -86,7 +87,7 @@ const UserForm: React.FunctionComponent<UserFormProps> = ({
           component={RenderCheckBox}
           type="checkbox"
           label={t('userEdit.form.field.active')}
-          checked={isActive}
+          checked={!!isActive}
         />
       )}
       <Field
@@ -94,16 +95,14 @@ const UserForm: React.FunctionComponent<UserFormProps> = ({
         component={RenderField}
         type="text"
         label={t('userEdit.form.field.firstName')}
-        value={profile.firstName}
-        onChange={(value: string) => setFieldValue('profile', { ...profile, firstName: value })}
+        value={firstName}
       />
       <Field
         name="lastName"
         component={RenderField}
         type="text"
         label={t('userEdit.form.field.lastName')}
-        value={profile.lastName}
-        onChange={(value: string) => setFieldValue('profile', { ...profile, lastName: value })}
+        value={lastName}
       />
       <Field
         name="password"
@@ -129,7 +128,7 @@ const UserForm: React.FunctionComponent<UserFormProps> = ({
 
 const UserFormWithFormik = withFormik<FormikFormProps, FormValues>({
   mapPropsToValues: values => {
-    const { username, email, role, isActive, profile } = values.initialValues;
+    const { username, email, role, isActive, firstName, lastName, ...rest } = values.initialValues;
     return {
       username,
       email,
@@ -137,13 +136,9 @@ const UserFormWithFormik = withFormik<FormikFormProps, FormValues>({
       isActive,
       password: '',
       passwordConfirmation: '',
-      profile: {
-        firstName: profile && profile.firstName,
-        lastName: profile && profile.lastName
-      },
-      auth: {
-        ...values.initialValues.auth
-      }
+      firstName,
+      lastName,
+      ...rest
     };
   },
   async handleSubmit(values, { setErrors, props: { onSubmit } }) {

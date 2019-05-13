@@ -54,10 +54,10 @@ const ProfileView: React.FunctionComponent<ProfileViewProps> = ({ currentUserLoa
               <CardTitle>{t('profile.card.group.role')}:</CardTitle>
               <CardText>{currentUser.role}</CardText>
             </CardGroup>
-            {currentUser.profile && currentUser.profile.fullName && (
+            {currentUser && currentUser.fullName && (
               <CardGroup>
                 <CardTitle>{t('profile.card.group.full')}:</CardTitle>
-                <CardText>{currentUser.profile.fullName}</CardText>
+                <CardText>{currentUser.fullName}</CardText>
               </CardGroup>
             )}
           </Card>
