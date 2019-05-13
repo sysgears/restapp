@@ -1,0 +1,27 @@
+import fileSystemStorage from './FileSystemStorage';
+import settings from '../../../settings';
+import uploadDAO from './sql';
+
+export const uploadFiles = async ({ files: { fileInput } }: any, res: any) => {
+  const filesArray = Array.isArray(fileInput) ? fileInput : [fileInput];
+  const {
+    locals: { t }
+  } = res;
+
+  try {
+    // load files to fs
+    const uploadedFiles = await Promise.all(
+      filesArray.map(async uploadFile => fileSystemStorage.save(uploadFile, settings.upload.uploadDir))
+    );
+
+    // save files data into DB
+    await uploadDAO.saveFiles(uploadedFiles);
+    res.send(true);
+  } catch (e) {
+    res.send(500).json({
+      errors: {
+        message: t('upload:fileNotLoaded')
+      }
+    });
+  }
+};
