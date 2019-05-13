@@ -4,7 +4,7 @@ export default {
     enabled: true
   },
   jwt: {
-    enabled: false,
+    enabled: true,
     tokenExpiresIn: '1m',
     refreshTokenExpiresIn: '7d'
   },
