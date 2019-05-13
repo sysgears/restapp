@@ -101,7 +101,7 @@ const LoginFormWithFormik = withFormik<FormProps<LoginSubmitProps>, LoginSubmitP
 
   handleSubmit(values, { setErrors, props: { onSubmit } }) {
     onSubmit(values).catch((e: any) => {
-      if (e) {
+      if (e && e.errors) {
         setErrors(e.errors);
       } else {
         throw e;

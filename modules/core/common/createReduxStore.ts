@@ -12,12 +12,13 @@ const createReduxStore = (
   reducers: Reducer,
   initialState: DeepPartial<any>,
   routerMiddleware?: Middleware,
-  requestMiddleware?: Middleware
+  reduxMiddlewares?: Middleware[]
 ): Store => {
   const middleware: () => Middleware[] = () => {
     const routerMiddlewares = routerMiddleware ? [routerMiddleware] : [];
-    const requestMiddlewares = requestMiddleware ? [requestMiddleware] : [];
-    return [...routerMiddlewares, ...requestMiddlewares];
+    const reduxMiddleware = reduxMiddlewares && reduxMiddlewares.length ? reduxMiddlewares : [];
+
+    return [...routerMiddlewares, ...reduxMiddleware];
   };
   return createStore(
     getStoreReducer(reducers),

@@ -24,7 +24,7 @@ const removeTokens = async () => {
 };
 
 const requestMiddleware: Middleware = ({ dispatch }) => next => action => {
-  const { types, callAPI, payload, ...rest } = action;
+  const { types, callAPI, ...rest } = action;
 
   if (!types) {
     return next(action);
@@ -32,7 +32,7 @@ const requestMiddleware: Middleware = ({ dispatch }) => next => action => {
 
   const [REQUEST, SUCCESS, FAIL] = types;
 
-  next({ type: REQUEST, payload, ...rest });
+  next({ type: REQUEST, ...rest });
 
   const handleCallApi = async () => {
     try {
@@ -40,19 +40,19 @@ const requestMiddleware: Middleware = ({ dispatch }) => next => action => {
       const data = result && result.data;
       next({
         type: SUCCESS,
-        payload: data,
-        ...rest
+        ...rest,
+        payload: data
       });
       return data;
     } catch (e) {
-      if (e.response.status === 401) {
-        dispatch(action);
+      if (e.response && e.response.status === 401) {
+        return dispatch(action);
       }
       const data = e.response && e.response.data;
       next({
         type: FAIL,
-        payload: data,
-        ...rest
+        ...rest,
+        payload: data
       });
       return data;
     }
@@ -63,8 +63,7 @@ const requestMiddleware: Middleware = ({ dispatch }) => next => action => {
 
 const client = async (request: () => Promise<any>) => {
   try {
-    const result = await request();
-    return result;
+    return await request();
   } catch (e) {
     if (e.response && e.response.status === 401) {
       try {
@@ -105,7 +104,8 @@ axios.interceptors.response.use(async (res: any) => {
         }
       } = res;
       await saveTokens({ accessToken, refreshToken });
-      return res.data.user;
+      res.data = res.data.user;
+      return res;
     } else {
       await removeTokens();
     }
@@ -116,6 +116,6 @@ axios.interceptors.response.use(async (res: any) => {
 export default (settings.auth.jwt.enabled
   ? new AccessModule({
       logout: [removeTokens],
-      requestMiddleware
+      reduxMiddleware: [requestMiddleware]
     })
   : undefined);

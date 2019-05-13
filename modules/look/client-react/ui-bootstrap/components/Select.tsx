@@ -1,17 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Input } from 'reactstrap';
 
-const Select = ({ children, ...props }) => {
+interface SelectProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  children?: React.ReactNode;
+}
+
+const Select = ({ children, ...props }: SelectProps) => {
   return (
     <Input {...props} type="select">
       {children}
     </Input>
   );
-};
-
-Select.propTypes = {
-  children: PropTypes.node
 };
 
 export default Select;

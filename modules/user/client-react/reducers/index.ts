@@ -1,13 +1,15 @@
 import { User, OrderBy, Filter } from '..';
 
 export enum ActionType {
+  null = 'null',
   SET_CURRENT_USER = 'SET_CURRENT_USER',
   CLEAR_CURRENT_USER = 'CLEAR_CURRENT_USER',
   SET_LOADING = 'SET_LOADING',
   SET_USER = 'SET_USER',
   SET_USERS = 'SET_USERS',
   SET_ORDER_BY = 'SET_ORDER_BY',
-  SET_FILTER = 'SET_FILTER'
+  SET_FILTER = 'SET_FILTER',
+  DELETE_USER = 'DELETE_USER'
 }
 
 export interface UserModuleState {
@@ -32,7 +34,7 @@ const defaultState: UserModuleState = {
   user: null,
   users: [],
   orderBy: { column: '', order: '' },
-  filter: { searchText: '', role: null, isActive: true }
+  filter: { searchText: '', role: '', isActive: true }
 };
 
 export default function(state = defaultState, action: UserModuleActionProps) {
@@ -80,6 +82,13 @@ export default function(state = defaultState, action: UserModuleActionProps) {
       return {
         ...state,
         orderBy: action.payload && action.payload.orderBy
+      };
+
+    case ActionType.DELETE_USER:
+      const users = state.users.filter(user => user.id !== action.payload.id);
+      return {
+        ...state,
+        users
       };
 
     default:
