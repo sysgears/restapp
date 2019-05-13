@@ -8,54 +8,21 @@ export const getStoreReducer = (reducers: any) =>
     ...reducers
   });
 
-const requestMiddleware: (httpClient?: any) => Middleware = httpClient => _state => next => action => {
-  const { types, callAPI, ...rest } = action;
-
-  if (!types) {
-    return next(action);
-  }
-
-  const [REQUEST, SUCCESS, FAIL] = types;
-
-  next({ type: REQUEST, ...rest });
-
-  const handleCallApi = async () => {
-    try {
-      const result = await callAPI(httpClient);
-      const data = result && result.data;
-      next({
-        type: SUCCESS,
-        payload: data,
-        ...rest
-      });
-      return data;
-    } catch (e) {
-      const data = e.response && e.response.data;
-      next({
-        type: FAIL,
-        payload: data,
-        ...rest
-      });
-      return data;
-    }
-  };
-
-  return handleCallApi();
-};
-
 const createReduxStore = (
   reducers: Reducer,
   initialState: DeepPartial<any>,
   routerMiddleware?: Middleware,
-  httpClient?: (request: () => Promise<any>) => void
+  requestMiddleware?: Middleware
 ): Store => {
-  const middleware = routerMiddleware
-    ? [routerMiddleware, requestMiddleware(httpClient)]
-    : [requestMiddleware(httpClient)];
+  const middleware: () => Middleware[] = () => {
+    const routerMiddlewares = routerMiddleware ? [routerMiddleware] : [];
+    const requestMiddlewares = requestMiddleware ? [requestMiddleware] : [];
+    return [...routerMiddlewares, ...requestMiddlewares];
+  };
   return createStore(
     getStoreReducer(reducers),
     initialState, // initial state,
-    composeWithDevTools(applyMiddleware(...middleware))
+    composeWithDevTools(applyMiddleware(...middleware()))
   );
 };
 

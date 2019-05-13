@@ -32,7 +32,7 @@ export default class Main extends React.Component<MainProps> {
         : state => state,
       {}, // initial state
       null,
-      modules.httpClients
+      modules.requestMiddlewares
     );
 
     log.info(`Connecting to REST backend at: ${apiUrl}`);
