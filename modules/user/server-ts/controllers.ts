@@ -1,4 +1,5 @@
 import { pick, isEmpty } from 'lodash';
+import jwt from 'jsonwebtoken';
 
 import { createTransaction } from '@restapp/database-server-ts';
 import { log } from '@restapp/core-common';
@@ -11,11 +12,11 @@ import { createPasswordHash } from './password';
 import emailTemplate from './emailTemplate';
 
 const {
-  auth: { jwt, password, secret },
+  auth: { password, secret },
   app
 } = settings;
 
-export const user = async ({ body: { id }, user: identity, t }: any, res: any) => {
+export const user = async ({ params: { id }, user: identity, t }: any, res: any) => {
   if (+identity.id === +id || identity.role === 'admin') {
     try {
       res.json({ user: await userDAO.getUser(id) });

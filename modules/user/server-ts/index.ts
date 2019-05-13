@@ -54,12 +54,12 @@ export default new ServerModule(password, {
   apiRouteParams: [
     {
       method: RestMethod.GET,
-      route: 'user',
+      route: 'user/:id',
       isAuthRoute: true,
       controller: user
     },
     {
-      method: RestMethod.GET,
+      method: RestMethod.POST,
       route: 'users',
       isAuthRoute: true,
       controller: users
