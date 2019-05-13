@@ -9,20 +9,21 @@ export interface UploadedFile {
   type: string;
 }
 
-export interface UploadFileStream {
-  stream: any;
-  filename: string;
+export interface UploadFileData {
+  data: Buffer;
+  name: string;
   mimetype: string;
+  size: number;
 }
 
 /**
  * Class FileSystemStorage provides saving, getting info, deleting the files in the file system.
  */
 export class FileSystemStorage {
-  public save(uploadFileStream: UploadFileStream, location: string, shouldGenerateId = true): Promise<UploadedFile> {
-    const { stream, filename, mimetype } = uploadFileStream;
+  public save(uploadFileData: UploadFileData, location: string, shouldGenerateId = true): Promise<UploadedFile> {
+    const { data, name, mimetype, size } = uploadFileData;
     const id = shouldGenerateId ? `${shortid.generate()}-` : '';
-    const sanitizedFilename = filename.replace(/[^a-z0-9_.\-]/gi, '_').toLowerCase();
+    const sanitizedFilename = name.replace(/[^a-z0-9_.\-]/gi, '_').toLowerCase();
     const path = `${location}/${id}${sanitizedFilename}`;
 
     // Check if UPLOAD_DIR exists, create one if not
@@ -30,23 +31,14 @@ export class FileSystemStorage {
       mkdirp.sync(location);
     }
 
-    return new Promise((resolve, reject) =>
-      stream
-        .on('error', async (error: Error) => {
-          if (stream.truncated) {
-            // Delete the truncated file
-            await this.delete(path);
-          }
-
-          reject(error);
-        })
-        .pipe(fs.createWriteStream(path))
-        .on('error', (error: Error) => reject(error))
-        .on('finish', async () => {
-          const { size } = await this.getInfo(path);
-          resolve({ path, size, name: filename, type: mimetype });
-        })
-    );
+    return new Promise((resolve, reject) => {
+      fs.writeFile(path, data, err => {
+        if (err) {
+          reject(err);
+        }
+        resolve({ path, size, name, type: mimetype });
+      });
+    });
   }
 
   public delete(filePath: string): Promise<void> {

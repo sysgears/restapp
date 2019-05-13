@@ -7,7 +7,7 @@ interface File {
   size: number;
 }
 
-export default class Upload {
+class UploadDAO {
   public files() {
     return knex('upload').select('*');
   }
@@ -19,7 +19,7 @@ export default class Upload {
       .first();
   }
 
-  public saveFiles(files: [File]) {
+  public saveFiles(files: File[]) {
     return knex('upload').insert(files);
   }
 
@@ -29,3 +29,7 @@ export default class Upload {
       .del();
   }
 }
+
+const uploadDAO = new UploadDAO();
+
+export default uploadDAO;
