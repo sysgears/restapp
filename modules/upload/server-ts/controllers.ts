@@ -18,9 +18,10 @@ export const uploadFiles = async ({ files: { fileInput } }: any, res: any) => {
     await uploadDAO.saveFiles(uploadedFiles);
     res.send(true);
   } catch (e) {
-    res.send(500).json({
+    res.status(500).json({
       errors: {
-        message: t('upload:fileNotLoaded')
+        message: t('upload:fileNotLoaded'),
+        error: e
       }
     });
   }
@@ -28,4 +29,32 @@ export const uploadFiles = async ({ files: { fileInput } }: any, res: any) => {
 
 export const files = async (req: any, res: any) => {
   res.json(await uploadDAO.files());
+};
+
+export const removeFile = async ({ body: { id } }: any, res: any) => {
+  const file = await uploadDAO.file(id);
+  const {
+    locals: { t }
+  } = res;
+
+  if (!file || !(await uploadDAO.deleteFile(id))) {
+    return res.status(422).json({
+      errors: {
+        message: t('upload:fileNotFound')
+      }
+    });
+  }
+
+  try {
+    await fileSystemStorage.delete(file.path);
+  } catch (e) {
+    return res.status(500).json({
+      errors: {
+        message: t('upload:fileNotFound'),
+        error: e
+      }
+    });
+  }
+
+  res.send(true);
 };
