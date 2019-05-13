@@ -1,5 +1,6 @@
 {
   "fileNotFound": "File was not found.",
   "fileNotLoaded": "Unable to load file(s).",
-  "fileNotDeleted": "Unable to delete a file."
+  "fileNotDeleted": "Unable to delete a file.",
+  "fileNotAttached": "File(s) is not attached to request."
 }

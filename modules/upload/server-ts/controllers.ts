@@ -2,11 +2,22 @@ import fileSystemStorage from './FileSystemStorage';
 import settings from '../../../settings';
 import uploadDAO from './sql';
 
-export const uploadFiles = async ({ files: { fileInput } }: any, res: any) => {
-  const filesArray = Array.isArray(fileInput) ? fileInput : [fileInput];
+export const uploadFiles = async ({ files }: any, res: any) => {
   const {
     locals: { t }
   } = res;
+
+  if (!files || !files.fileInput) {
+    return res.status(422).send({
+      errors: {
+        message: t('upload:fileNotAttached')
+      }
+    });
+  }
+
+  const { fileInput } = files;
+
+  const filesArray = Array.isArray(fileInput) ? fileInput : [fileInput];
 
   try {
     // load files to fs
@@ -27,7 +38,7 @@ export const uploadFiles = async ({ files: { fileInput } }: any, res: any) => {
   }
 };
 
-export const files = async (req: any, res: any) => {
+export const getFiles = async (req: any, res: any) => {
   res.json(await uploadDAO.files());
 };
 
