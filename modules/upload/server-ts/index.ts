@@ -1,7 +1,16 @@
+import fileUpload from 'express-fileupload';
+import express, { Express } from 'express';
 import ServerModule from '@restapp/module-server-ts';
 
-import Upload from './sql';
+const middleware = (app: Express) => {
+  app.use('/public', express.static('public'));
+  app.use(
+    fileUpload({
+      limits: { fileSize: 50 * 1024 * 1024 }
+    })
+  );
+};
 
 export default new ServerModule({
-  createContextFunc: [() => ({ Upload: new Upload() })]
+  middleware: [middleware]
 });
