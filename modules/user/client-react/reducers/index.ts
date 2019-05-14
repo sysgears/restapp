@@ -1,7 +1,6 @@
 import { User, OrderBy, Filter } from '..';
 
 export enum ActionType {
-  null = 'null',
   SET_CURRENT_USER = 'SET_CURRENT_USER',
   CLEAR_CURRENT_USER = 'CLEAR_CURRENT_USER',
   SET_LOADING = 'SET_LOADING',
@@ -49,12 +48,11 @@ export default function(state = defaultState, action: UserModuleActionProps) {
       return {
         ...state,
         currentUser: null,
-        loading: false,
-        ...action.payload
+        loading: false
       };
 
     case ActionType.SET_CURRENT_USER:
-      const currentUser = action.payload.errors ? null : (action.payload.user && action.payload) || action.payload;
+      const currentUser = action.payload && action.payload.errors ? null : action.payload.user || action.payload;
       return {
         ...state,
         currentUser,

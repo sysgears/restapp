@@ -29,9 +29,7 @@ export interface WithLogoutProps extends WithUserProps {
 }
 
 const withUser = (Component: React.ComponentType<any>) => {
-  const WithUser = ({ currentUser, ...rest }: WithUserProps) => {
-    return <Component currentUser={currentUser} {...rest} />;
-  };
+  const WithUser = ({ currentUser, ...rest }: WithUserProps) => <Component currentUser={currentUser} {...rest} />;
   return connect(({ user: { loading, currentUser } }: any) => ({
     currentUserLoading: loading,
     currentUser
