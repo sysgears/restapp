@@ -103,7 +103,7 @@ class ServerModule extends CommonModule {
       return (app: Express, modules: ServerModule) => {
         const handlers = [];
 
-        if (isAuthRoute) {
+        if (isAuthRoute && modules.accessMiddleware) {
           handlers.push(modules.accessMiddleware);
         }
         if (!isEmpty(middleware)) {
