@@ -37,9 +37,10 @@ class UserEdit extends React.Component<UserEditProps> {
 
     userValues = UserFormatter.trimExtraSpaces(userValues);
 
-    const data = await editUser({ id: user.id, ...userValues } as any);
-
-    if (data && data.errors) {
+    try {
+      await editUser({ id: user.id, ...userValues } as any);
+    } catch (e) {
+      const data = e.response && e.response.data;
       throw new FormError(t('userEdit.errorMsg'), data);
     }
 

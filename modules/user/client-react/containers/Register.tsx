@@ -19,9 +19,10 @@ const Register: React.FunctionComponent<RegisterProps> = props => {
   const [isRegistered, setIsRegistered] = React.useState(false);
 
   const onSubmit = async (values: RegisterSubmitProps) => {
-    const data = await register(values);
-
-    if (data.errors) {
+    try {
+      await await register(values);
+    } catch (e) {
+      const data = e.response && e.response.data;
       throw new FormError(t('reg.errorMsg'), data);
     }
 

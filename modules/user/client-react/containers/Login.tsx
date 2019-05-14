@@ -35,9 +35,10 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   };
 
   const onSubmit = async (values: LoginSubmitProps) => {
-    const data = await login(values);
-
-    if (data && data.errors) {
+    try {
+      await login(values);
+    } catch (e) {
+      const data = e.response && e.response.data;
       throw new FormError(t('reg.errorMsg'), data);
     }
 

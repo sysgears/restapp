@@ -22,9 +22,10 @@ const UserAdd: React.FunctionComponent<UserAddProps> = props => {
 
     userValues = UserFormatter.trimExtraSpaces(userValues);
 
-    const data = await addUser(userValues as User);
-
-    if (data && data.errors) {
+    try {
+      await addUser(userValues as User);
+    } catch (e) {
+      const data = e.response && e.response.data;
       throw new FormError(t('userAdd.errorMsg'), data);
     }
 
