@@ -90,3 +90,78 @@ export const register = async ({ body, t }: any, res: any) => {
 
   res.json(user);
 };
+
+export const forgotPassword = async ({ body, t }: any, res: any) => {
+  try {
+    const localAuth = pick(body, 'email');
+    const identity = (await userDAO.getUserByEmail(localAuth.email)) as UserShape;
+
+    if (identity && mailer) {
+      // async email
+      jwt.sign(
+        { email: identity.email, passwordHash: identity.passwordHash },
+        secret,
+        { expiresIn: '1d' },
+        (err, emailToken) => {
+          // encoded token since react router does not match dots in params
+          const encodedToken = Buffer.from(emailToken).toString('base64');
+          const url = `${__WEBSITE_URL__}/reset-password/${encodedToken}`;
+          mailer.sendMail({
+            from: `${app.name} <${process.env.EMAIL_USER}>`,
+            to: identity.email,
+            subject: 'Reset Password',
+            html: emailTemplate.passwordReset(url)
+          });
+          log.info(`Sent link to reset email to: ${identity.email}`);
+        }
+      );
+      res.send(t('user:auth.password.forgotPassword'));
+    }
+  } catch (e) {
+    res.send(e);
+  }
+};
+
+export const resetPassword = async ({ body, t }: any, res: any) => {
+  const errors: ValidationErrors = {};
+  const reset = pick(body, ['password', 'passwordConfirmation', 'token']);
+
+  if (reset.password !== reset.passwordConfirmation) {
+    errors.password = t('user:auth.password.passwordsIsNotMatch');
+  }
+
+  if (reset.password.length < password.minLength) {
+    errors.password = t('user:auth.password.passwordLength', { length: password.minLength });
+  }
+
+  if (!isEmpty(errors)) {
+    return res.status(422).send({
+      message: 'Failed reset password',
+      ...errors
+    });
+  }
+
+  const token = Buffer.from(reset.token, 'base64').toString();
+  const { email, passwordHash } = jwt.verify(token, secret) as UserShape;
+  const identity = (await userDAO.getUserByEmail(email)) as UserShape;
+
+  if (identity.passwordHash !== passwordHash) {
+    throw res.status(401).send(t('user:auth.password.invalidToken'));
+  }
+
+  if (identity) {
+    await userDAO.updatePassword(identity.id, reset.password);
+    const url = `${__WEBSITE_URL__}/profile`;
+    res.send(t('user:auth.password.resestPassword'));
+
+    if (mailer && password.sendPasswordChangesEmail) {
+      mailer.sendMail({
+        from: `${app.name} <${process.env.EMAIL_USER}>`,
+        to: identity.email,
+        subject: 'Your Password Has Been Updated',
+        html: emailTemplate.passwordUpdated(url)
+      });
+      log.info(`Sent password has been updated to: ${identity.email}`);
+    }
+  }
+};
