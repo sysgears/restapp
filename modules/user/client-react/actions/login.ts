@@ -5,6 +5,6 @@ import { ActionType } from '../reducers';
 export default function LOGIN(value: LoginSubmitProps) {
   return {
     types: [null, ActionType.SET_CURRENT_USER, ActionType.CLEAR_CURRENT_USER],
-    callAPI: () => axios.post(`${__API_URL__}/login`, { ...value })
+    APICall: () => axios.post(`${__API_URL__}/login`, { ...value })
   };
 }

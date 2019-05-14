@@ -41,7 +41,7 @@ const refreshAccessToken = async () => {
 };
 
 const reduxMiddleware: Middleware = ({ dispatch }) => next => action => {
-  const { types, callAPI, status, ...rest } = action;
+  const { types, status, ...rest } = action;
 
   (async () => {
     try {

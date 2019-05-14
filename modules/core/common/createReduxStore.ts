@@ -9,7 +9,7 @@ export const getStoreReducer = (reducers: any) =>
   });
 
 const requestMiddleware: Middleware = _state => next => action => {
-  const { types, callAPI, ...rest } = action;
+  const { types, APICall, ...rest } = action;
 
   if (!types) {
     return next(action);
@@ -19,9 +19,9 @@ const requestMiddleware: Middleware = _state => next => action => {
 
   next({ type: REQUEST, ...rest });
 
-  const handleCallApi = async () => {
+  const handleAPICall = async () => {
     try {
-      const result = await callAPI();
+      const result = await APICall();
       const data = result && result.data;
       if (data.errors) {
         throw { response: result };
@@ -46,7 +46,7 @@ const requestMiddleware: Middleware = _state => next => action => {
     }
   };
 
-  return handleCallApi();
+  return handleAPICall();
 };
 
 const createReduxStore = (

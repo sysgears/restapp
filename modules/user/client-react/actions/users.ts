@@ -6,6 +6,6 @@ export default function USERS(orderBy: OrderBy, filter: Filter, type?: ActionTyp
   return {
     types: [type ? ActionType[type] : null, ActionType.SET_USERS, null],
     payload: { orderBy, filter },
-    callAPI: () => axios.post(`${__API_URL__}/users`, { filter, orderBy })
+    APICall: () => axios.post(`${__API_URL__}/users`, { filter, orderBy })
   };
 }
