@@ -27,7 +27,13 @@ const beforeware = (app: Express) => {
 };
 
 const accessMiddleware = (req: Request, res: Response, next: any) =>
-  req.isAuthenticated() ? next() : res.send('unauthorized');
+  req.isAuthenticated()
+    ? next()
+    : res.send({
+        errors: {
+          message: 'unauthorized'
+        }
+      });
 
 const loginMiddleware = (req: any, res: any, next: any) => {
   passport.authenticate('local', { session: settings.auth.session.enabled }, (err, user, info) => {
