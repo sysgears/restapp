@@ -24,9 +24,10 @@ class Register extends React.Component<RegisterProps, RegisterState> {
   public onSubmit = async (values: RegisterSubmitProps) => {
     const { t, register, navigation } = this.props;
 
-    const data = await register(values);
-
-    if (data.errors) {
+    try {
+      await await register(values);
+    } catch (e) {
+      const data = e.response && e.response.data;
       throw new FormError(t('reg.errorMsg'), data);
     }
 

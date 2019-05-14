@@ -14,9 +14,11 @@ export interface LoginProps extends CommonProps {
 class Login extends React.Component<LoginProps> {
   public onSubmit = async (values: LoginSubmitProps) => {
     const { t, login } = this.props;
-    const data = await login(values);
 
-    if (data && data.errors) {
+    try {
+      await login(values);
+    } catch (e) {
+      const data = e.response && e.response.data;
       throw new FormError(t('reg.errorMsg'), data);
     }
 

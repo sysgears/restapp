@@ -54,7 +54,7 @@ const requestMiddleware: Middleware = ({ dispatch }) => next => action => {
         ...rest,
         payload: data
       });
-      return data;
+      throw e;
     }
   };
 
