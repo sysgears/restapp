@@ -29,15 +29,36 @@ const grant = async (identity: any, req: any, passwordHash: string = '') => {
   };
 };
 
+const loginMiddleware = (req: any, res: any, next: any) => {
+  passport.authenticate('local', { session: settings.auth.session.enabled }, (err, user, info) => {
+    if (err || !user) {
+      return res.status(400).json({
+        errors: {
+          message: info ? info.message : 'Login failed'
+        }
+      });
+    }
+
+    req.login(user, { session: settings.auth.session.enabled }, async (loginErr: any) => {
+      if (loginErr) {
+        res.send(loginErr);
+      }
+      const tokens = settings.auth.jwt.enabled ? await grant(user, req, user.passwordHash) : null;
+
+      return res.json({ user, tokens });
+    });
+  })(req, res, next);
+};
+
 const onAppCreate = ({ appContext }: AccessModule) => {
   passport.use(
     new LocalStratery({ usernameField: 'usernameOrEmail' }, async (username: string, password: string, done: any) => {
-      const { identity, message } = await appContext.user.validateLogin(username, password);
+      const { user, message } = await appContext.user.validateLogin(username, password);
 
       if (message) {
         return done(null, false, { message });
       }
-      return done(null, identity);
+      return done(null, user);
     })
   );
 
@@ -54,11 +75,18 @@ const onAppCreate = ({ appContext }: AccessModule) => {
   );
 };
 
+const jwtAppContext = {
+  auth: {
+    loginMiddleware
+  }
+};
+
 export default (settings.auth.jwt.enabled
   ? new AccessModule({
       beforeware: [beforeware],
       onAppCreate: [onAppCreate],
       grant: [grant],
+      appContext: jwtAppContext,
       apiRouteParams: [
         {
           method: RestMethod.POST,

@@ -37,7 +37,7 @@ const validateLogin = async (usernameOrEmail: string, pswd: string) => {
     return { message: i18n.t('user:auth.password.validPassword') };
   }
 
-  return { identity };
+  return { user: identity };
 };
 
 const appContext = {

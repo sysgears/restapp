@@ -1,8 +1,6 @@
 import { UserShape } from './../sql';
 import { pick, isEmpty } from 'lodash';
 import jwt from 'jsonwebtoken';
-import passport from 'passport';
-import { access } from '@restapp/authentication-server-ts';
 import { log } from '@restapp/core-common';
 import { mailer } from '@restapp/mailer-server-ts';
 
@@ -13,29 +11,19 @@ import emailTemplate from '../emailTemplate';
 import { createPasswordHash } from '.';
 
 const {
-  auth: { session, jwt: jwtSetting, password, secret },
+  auth: { passwordSettings, secret },
   app
 } = settings;
 
-export const login = (req: any, res: any, next: any) => {
-  passport.authenticate('local', { session: session.enabled }, (err, user, info) => {
-    if (err || !user) {
-      return res.status(400).json({
-        errors: {
-          message: info ? info.message : 'Login failed'
-        }
-      });
-    }
+export const login = async (req: any, res: any, next: any) => {
+  const {
+    locals: { appContext }
+  } = res;
+  const { usernameOrEmail, password } = req.body;
 
-    req.login(user, { session: session.enabled }, async (loginErr: any) => {
-      if (loginErr) {
-        res.send(loginErr);
-      }
-      const tokens = jwtSetting.enabled ? await access.grantAccess(user, req, user.passwordHash) : null;
-
-      return res.json({ user, tokens });
-    });
-  })(req, res, next);
+  appContext.auth && appContext.auth.loginMiddleware
+    ? res.locals.appContext.auth.loginMiddleware(req, res, next)
+    : res.json(await appContext.user.validateLogin(usernameOrEmail, password));
 };
 
 export const register = async ({ body, t }: any, res: any) => {
@@ -62,7 +50,7 @@ export const register = async ({ body, t }: any, res: any) => {
   let userId = 0;
   if (!emailExists) {
     const passwordHash = await createPasswordHash(body.password);
-    const isActive = !password.requireEmailConfirmation;
+    const isActive = !passwordSettings.requireEmailConfirmation;
     [userId] = await userDAO.register({ ...body, isActive }, passwordHash);
 
     // if user has previously logged with facebook auth
@@ -73,7 +61,7 @@ export const register = async ({ body, t }: any, res: any) => {
 
   const user = (await userDAO.getUser(userId)) as UserShape;
 
-  if (mailer && password.requireEmailConfirmation && !emailExists) {
+  if (mailer && passwordSettings.requireEmailConfirmation && !emailExists) {
     // async email
     jwt.sign({ identity: pick(user, 'id') }, secret, { expiresIn: '1d' }, (err, emailToken) => {
       const encodedToken = Buffer.from(emailToken).toString('base64');
@@ -130,8 +118,8 @@ export const resetPassword = async ({ body, t }: any, res: any) => {
     errors.password = t('user:auth.password.passwordsIsNotMatch');
   }
 
-  if (reset.password.length < password.minLength) {
-    errors.password = t('user:auth.password.passwordLength', { length: password.minLength });
+  if (reset.password.length < passwordSettings.minLength) {
+    errors.password = t('user:auth.password.passwordLength', { length: passwordSettings.minLength });
   }
 
   if (!isEmpty(errors)) {
@@ -154,7 +142,7 @@ export const resetPassword = async ({ body, t }: any, res: any) => {
     const url = `${__WEBSITE_URL__}/profile`;
     res.send(t('user:auth.password.resestPassword'));
 
-    if (mailer && password.sendPasswordChangesEmail) {
+    if (mailer && passwordSettings.sendPasswordChangesEmail) {
       mailer.sendMail({
         from: `${app.name} <${process.env.EMAIL_USER}>`,
         to: identity.email,
