@@ -29,9 +29,7 @@ class Login extends React.Component<LoginProps> {
   }
 }
 
-const withConnect = connect(
+export default connect(
   null,
   { login: LOGIN }
-);
-
-export default translate('user')(withConnect(Login));
+)(translate('user')(Login));

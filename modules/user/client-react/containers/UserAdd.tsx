@@ -40,9 +40,7 @@ const UserAdd: React.FunctionComponent<UserAddProps> = props => {
   return <UserAddView onSubmit={onSubmit} {...props} />;
 };
 
-export default translate('user')(
-  connect(
-    null,
-    { addUser: ADD_USER }
-  )(UserAdd)
-);
+export default connect(
+  null,
+  { addUser: ADD_USER }
+)(translate('user')(UserAdd));

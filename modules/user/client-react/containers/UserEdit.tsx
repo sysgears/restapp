@@ -58,11 +58,9 @@ class UserEdit extends React.Component<UserEditProps> {
   }
 }
 
-export default translate('user')(
-  connect(
-    ({ user: { user } }: any) => ({
-      user
-    }),
-    { getUser: USER, editUser: EDIT_USER }
-  )(UserEdit)
-);
+export default connect(
+  ({ user: { user } }: any) => ({
+    user
+  }),
+  { getUser: USER, editUser: EDIT_USER }
+)(translate('user')(UserEdit));

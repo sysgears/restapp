@@ -30,13 +30,9 @@ class DataRootComponent extends React.Component<DataRootComponent> {
   }
 }
 
-const mapState = ({ currentUser }: UserModuleState) => ({
-  currentUser
-});
-
-const withConnect = connect(
-  mapState,
+export default connect(
+  ({ currentUser }: UserModuleState) => ({
+    currentUser
+  }),
   { getCurrentUser: CURRENT_USER }
-);
-
-export default withConnect(DataRootComponent);
+)(DataRootComponent);

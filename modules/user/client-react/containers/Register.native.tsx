@@ -54,9 +54,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
   }
 }
 
-const withConnect = connect(
+export default connect(
   null,
   { register: REGISTER }
-);
-
-export default translate('user')(withConnect(Register));
+)(translate('user')(Register));
