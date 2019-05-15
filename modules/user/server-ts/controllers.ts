@@ -29,7 +29,7 @@ export const user = async ({ params: { id }, user: identity, t }: any, res: any)
 };
 
 export const users = async ({ body: { orderBy, filter }, user: identity, t }: any, res: any) => {
-  true // identity && identity.role === 'admin'
+  identity && identity.role === 'admin'
     ? res.json(await userDAO.getUsers(orderBy, filter))
     : res.status(401).send(t('user:accessDenied'));
 };
