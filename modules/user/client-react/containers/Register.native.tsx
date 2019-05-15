@@ -9,7 +9,7 @@ import { REGISTER } from '../actions';
 import { CommonProps, RegisterSubmitProps } from '../index.native';
 
 interface RegisterProps extends CommonProps {
-  register: (values: RegisterSubmitProps) => any;
+  register?: (values: RegisterSubmitProps) => any;
 }
 
 interface RegisterState {
@@ -54,7 +54,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
   }
 }
 
-export default connect(
+export default connect<{}, {}, RegisterProps>(
   null,
   { register: REGISTER }
 )(translate('user')(Register));

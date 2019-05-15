@@ -29,4 +29,4 @@ const LogoutView = ({ logout, t }: LogoutViewProps) => {
   );
 };
 
-export default withLogout(translate('user')(LogoutView));
+export default translate('user')(withLogout(LogoutView));

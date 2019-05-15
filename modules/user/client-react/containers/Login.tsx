@@ -10,7 +10,7 @@ import { CommonProps, LoginSubmitProps } from '..';
 import { LOGIN } from '../actions';
 
 export interface LoginProps extends CommonProps {
-  login: (values: LoginSubmitProps) => any;
+  login?: (values: LoginSubmitProps) => any;
 }
 
 const Login: React.FunctionComponent<LoginProps> = props => {
