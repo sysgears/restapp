@@ -19,7 +19,11 @@ export const refreshTokens = async (req: any, res: any) => {
   const isValidToken = decodedToken && decodedToken.id;
 
   if (!isValidToken) {
-    res.send(t('auth:invalidRefresh'));
+    return res.status(401).send({
+      errors: {
+        message: t('auth:invalidRefresh')
+      }
+    });
   }
 
   const identity = await getIdentity(decodedToken.id);
@@ -29,7 +33,7 @@ export const refreshTokens = async (req: any, res: any) => {
   try {
     jwt.verify(inputRefreshToken, refreshSecret);
   } catch (err) {
-    res.send(err);
+    return res.send(err);
   }
 
   const [accessToken, refreshToken] = await createTokens(identity, settings.auth.secret, refreshSecret, req.t);
