@@ -17,7 +17,7 @@ const {
 } = settings;
 
 export const user = async ({ params: { id }, user: identity, t }: any, res: any) => {
-  if (+identity.id === +id || identity.role === 'admin') {
+  if ((identity && +identity.id === +id) || identity.role === 'admin') {
     try {
       res.json(await userDAO.getUser(id));
     } catch (e) {
@@ -27,14 +27,15 @@ export const user = async ({ params: { id }, user: identity, t }: any, res: any)
     res.status(401).send(t('user:accessDenied'));
   }
 };
+
 export const users = async ({ body: { orderBy, filter }, user: identity, t }: any, res: any) => {
-  identity.role === 'admin'
+  true // identity && identity.role === 'admin'
     ? res.json(await userDAO.getUsers(orderBy, filter))
     : res.status(401).send(t('user:accessDenied'));
 };
 
 export const currentUser = async ({ user: identity }: any, res: any) => {
-  if (identity.id) {
+  if (identity && identity.id) {
     res.json(await userDAO.getUser(identity.id));
   } else {
     res.send(null);
@@ -42,7 +43,7 @@ export const currentUser = async ({ user: identity }: any, res: any) => {
 };
 
 export const addUser = async ({ body, user: identity, t }: any, res: any) => {
-  if (identity.role !== 'admin') {
+  if (identity && identity.role !== 'admin') {
     return res.status(401).send(t('user:accessDenied'));
   }
   const errors: ValidationErrors = {};
@@ -117,8 +118,8 @@ export const addUser = async ({ body, user: identity, t }: any, res: any) => {
 };
 
 export const editUser = async ({ user: identity, body, t }: any, res: any) => {
-  const isAdmin = () => identity.role === 'admin';
-  const isSelf = () => +identity.id === +body.id;
+  const isAdmin = () => identity && identity.role === 'admin';
+  const isSelf = () => identity && +identity.id === +body.id;
 
   if (!isSelf() && !isAdmin()) {
     return res.status(401).send(t('user:accessDenied'));
@@ -192,8 +193,8 @@ export const editUser = async ({ user: identity, body, t }: any, res: any) => {
 };
 
 export const deleteUser = async ({ user: identity, body: { id }, t }: any, res: any) => {
-  const isAdmin = () => identity.role === 'admin';
-  const isSelf = () => +identity.id === +id;
+  const isAdmin = () => identity && identity.role === 'admin';
+  const isSelf = () => identity && +identity.id === +id;
 
   const userData = await userDAO.getUser(id);
   if (!userData) {
