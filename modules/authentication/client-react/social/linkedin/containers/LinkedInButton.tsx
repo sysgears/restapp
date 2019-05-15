@@ -8,7 +8,7 @@ import { SocialButtonComponent, SocialButton } from '../..';
 import './LinkedInButton.css';
 
 const linkedInLogin = () => {
-  window.location.href = '/auth/linkedin';
+  window.location.href = '/api/auth/linkedin';
 };
 
 const LinkedInButton = ({ text }: SocialButtonComponent) => {

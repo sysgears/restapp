@@ -8,7 +8,7 @@ import { SocialButton, SocialButtonComponent } from '../..';
 import './GitHubButton.css';
 
 const githubLogin = () => {
-  window.location.href = '/auth/github';
+  window.location.href = '/api/auth/github';
 };
 
 const GitHubButton = ({ text }: SocialButtonComponent) => {

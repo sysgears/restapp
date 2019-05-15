@@ -8,7 +8,7 @@ import { SocialButtonComponent, SocialButton } from '../..';
 import './GoogleButton.css';
 
 const googleLogin = () => {
-  window.location.href = '/auth/google';
+  window.location.href = '/api/auth/google';
 };
 
 const GoogleButton = ({ text }: SocialButtonComponent) => {

@@ -5,6 +5,7 @@ import ServerModule, { RestMethod } from '@restapp/module-server-ts';
 
 import { user, users, currentUser, addUser, editUser, deleteUser } from './controllers';
 import password from './password';
+import social from './social';
 import UserDAO, { UserShape } from './sql';
 import settings from '../../../settings';
 import resources from './locales';
@@ -48,7 +49,7 @@ const appContext = {
   }
 };
 
-export default new ServerModule(password, {
+export default new ServerModule(password, social, {
   appContext,
   localization: [{ ns: 'user', resources }],
   apiRouteParams: [

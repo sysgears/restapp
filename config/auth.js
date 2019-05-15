@@ -16,32 +16,32 @@ export default {
   },
   social: {
     facebook: {
-      enabled: false,
+      enabled: true,
       clientID: process.env.FACEBOOK_CLIENTID,
       clientSecret: process.env.FACEBOOK_CLIENTSECRET,
-      callbackURL: '/auth/facebook/callback',
+      callbackURL: '/api/auth/facebook/callback',
       scope: ['email'],
       profileFields: ['id', 'emails', 'displayName']
     },
     github: {
-      enabled: false,
+      enabled: true,
       clientID: process.env.GITHUB_CLIENTID,
       clientSecret: process.env.GITHUB_CLIENTSECRET,
-      callbackURL: '/auth/github/callback',
+      callbackURL: '/api/auth/github/callback',
       scope: ['user:email']
     },
     linkedin: {
-      enabled: false,
+      enabled: true,
       clientID: process.env.LINKEDIN_CLIENTID,
       clientSecret: process.env.LINKEDIN_CLIENTSECRET,
-      callbackURL: '/auth/linkedin/callback',
-      scope: ['r_emailaddress', 'r_basicprofile']
+      callbackURL: '/api/auth/linkedin/callback',
+      scope: ['r_liteprofile']
     },
     google: {
-      enabled: false,
+      enabled: true,
       clientID: process.env.GOOGLE_CLIENTID,
       clientSecret: process.env.GOOGLE_CLIENTSECRET,
-      callbackURL: '/auth/google/callback',
+      callbackURL: '/api/auth/google/callback',
       scope: ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile']
     }
   }

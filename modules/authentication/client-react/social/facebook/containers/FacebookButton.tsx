@@ -8,7 +8,7 @@ import { SocialButton, SocialButtonComponent } from '../../..';
 import './FacebookButton.css';
 
 const facebookLogin = () => {
-  window.location.href = '/auth/facebook';
+  window.location.href = '/api/auth/facebook';
 };
 
 const FacebookButton = ({ text }: SocialButtonComponent) => {
