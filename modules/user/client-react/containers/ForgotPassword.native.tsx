@@ -7,7 +7,7 @@ import { CommonProps, User, ForgotPasswordSubmitProps } from '../index.native';
 import { FORGOT_PASSWORD } from '../actions';
 
 interface ForgotPasswordProps extends CommonProps {
-  forgotPassword: (values: ForgotPasswordSubmitProps) => any;
+  forgotPassword?: (values: ForgotPasswordSubmitProps) => any;
 }
 
 class ForgotPassword extends React.Component<ForgotPasswordProps> {
@@ -33,7 +33,7 @@ class ForgotPassword extends React.Component<ForgotPasswordProps> {
   }
 }
 
-export default connect(
+export default connect<{}, {}, ForgotPasswordProps>(
   null,
   { forgotPassword: FORGOT_PASSWORD }
 )(translate('user')(ForgotPassword));

@@ -11,8 +11,8 @@ interface Token {
 }
 
 interface ResetPasswordProps extends CommonProps {
-  resetPassword: (value: ResetPasswordSubmitProps & Token) => void;
-  match: any;
+  resetPassword?: (value: ResetPasswordSubmitProps & Token) => void;
+  match?: any;
 }
 
 const ResetPassword: React.FunctionComponent<ResetPasswordProps> = props => {
@@ -30,7 +30,7 @@ const ResetPassword: React.FunctionComponent<ResetPasswordProps> = props => {
   return <ResetPasswordView {...props} onSubmit={onSubmit} />;
 };
 
-export default connect(
+export default connect<{}, {}, ResetPasswordProps>(
   null,
   { resetPassword: RESET_PASSWORD }
 )(translate('user')(ResetPassword));
