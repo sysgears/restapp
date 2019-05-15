@@ -23,66 +23,42 @@ const removeTokens = async () => {
   await removeItem(TokensEnum.refreshToken);
 };
 
-const requestMiddleware: Middleware = ({ dispatch }) => next => action => {
-  const { types, callAPI, ...rest } = action;
-
-  if (!types) {
-    return next(action);
+const refreshAccessToken = async () => {
+  try {
+    const { data } = await axios.post(`${__API_URL__}/refreshToken`, {
+      refreshToken: await getItem('refreshToken')
+    });
+    if (data) {
+      const { accessToken, refreshToken } = data;
+      await saveTokens({ accessToken, refreshToken });
+    } else {
+      await removeTokens();
+    }
+  } catch (e) {
+    await removeTokens();
+    throw e;
   }
+};
 
-  const [REQUEST, SUCCESS, FAIL] = types;
+const reduxMiddleware: Middleware = ({ dispatch }) => next => action => {
+  const { types, status, ...rest } = action;
 
-  next({ type: REQUEST, ...rest });
-
-  const handleCallApi = async () => {
+  (async () => {
     try {
-      const result = await client(callAPI);
-      const data = result && result.data;
-      next({
-        type: SUCCESS,
-        ...rest,
-        payload: data
-      });
-      return data;
-    } catch (e) {
-      if (e.response && e.response.status === 401) {
-        return dispatch(action);
+      if (status === 401) {
+        await refreshAccessToken();
+        const newAction = { ...action, status: null };
+        return dispatch(newAction);
       }
-      const data = e.response && e.response.data;
+      return next(action);
+    } catch (e) {
       next({
-        type: FAIL,
-        ...rest,
-        payload: data
+        type: types.FAIL,
+        ...rest
       });
       throw e;
     }
-  };
-
-  return handleCallApi();
-};
-
-const client = async (request: () => Promise<any>) => {
-  try {
-    return await request();
-  } catch (e) {
-    if (e.response && e.response.status === 401) {
-      try {
-        const { data } = await axios.post(`${__API_URL__}/refreshToken`, {
-          refreshToken: await getItem('refreshToken')
-        });
-        if (data) {
-          const { accessToken, refreshToken } = data;
-          await saveTokens({ accessToken, refreshToken });
-        } else {
-          await removeTokens();
-        }
-      } catch (e) {
-        await removeTokens();
-        throw e;
-      }
-    }
-    throw e;
-  }
+  })();
 };
 
 axios.interceptors.request.use(async config => {
@@ -116,6 +92,6 @@ axios.interceptors.response.use(async (res: any) => {
 export default (settings.auth.jwt.enabled
   ? new AccessModule({
       logout: [removeTokens],
-      reduxMiddleware: [requestMiddleware]
+      reduxMiddleware: [reduxMiddleware]
     })
   : undefined);

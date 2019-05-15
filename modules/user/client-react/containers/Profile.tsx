@@ -6,7 +6,6 @@ import { User } from '..';
 interface ProfileProps {
   currentUser: User;
   currentUserLoading: boolean;
-  error: any;
 }
 
 const Profile: React.FunctionComponent<ProfileProps> = props => {

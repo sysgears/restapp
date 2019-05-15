@@ -16,6 +16,8 @@ import UserScreenNavigator from './containers/UserScreenNavigator.native';
 import Login from './containers/Login.native';
 import Logout from './containers/Logout.native';
 import Register from './containers/Register.native';
+import ForgotPassword from './containers/ForgotPassword.native';
+import ResetPassword from './containers/ResetPassword.native';
 
 import reducers from './reducers';
 
@@ -131,9 +133,31 @@ class RegisterScreen extends React.Component<NavigationOptionsProps> {
   }
 }
 
+class ForgotPasswordScreen extends React.Component<NavigationOptionsProps> {
+  public static navigationOptions = () => ({
+    headerTitle: <HeaderTitleWithI18n i18nKey="navLink.forgotPassword" style="subTitle" />,
+    headerForceInset: {}
+  });
+  public render() {
+    return <ForgotPassword navigation={this.props.navigation} />;
+  }
+}
+
+class ResetPasswordScreen extends React.Component<NavigationOptionsProps> {
+  public static navigationOptions = () => ({
+    headerTitle: <HeaderTitleWithI18n i18nKey="navLink.resetPassword" style="subTitle" />,
+    headerForceInset: {}
+  });
+  public render() {
+    return <ResetPassword navigation={this.props.navigation} />;
+  }
+}
+
 const AuthScreen = createStackNavigator(
   {
     Login: { screen: LoginScreen },
+    ForgotPassword: { screen: ForgotPasswordScreen },
+    ResetPassword: { screen: ResetPasswordScreen },
     Register: { screen: RegisterScreen }
   },
   {

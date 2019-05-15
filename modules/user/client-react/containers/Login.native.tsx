@@ -8,7 +8,7 @@ import { CommonProps, LoginSubmitProps } from '../index.native';
 import { LOGIN } from '../actions';
 
 export interface LoginProps extends CommonProps {
-  login: (values: LoginSubmitProps) => Promise<void> | any;
+  login?: (values: LoginSubmitProps) => Promise<void> | any;
 }
 
 class Login extends React.Component<LoginProps> {
@@ -29,9 +29,7 @@ class Login extends React.Component<LoginProps> {
   }
 }
 
-const withConnect = connect(
+export default connect<{}, {}, LoginProps>(
   null,
   { login: LOGIN }
-);
-
-export default translate('user')(withConnect(Login));
+)(translate('user')(Login));

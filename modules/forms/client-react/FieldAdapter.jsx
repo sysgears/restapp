@@ -46,7 +46,6 @@ class FieldAdapter extends Component {
   };
 
   onChangeText = value => {
-    console.log('TCL: FieldAdapter -> value', value);
     const { formik, onChangeText, onChange, name } = this.props;
     if (onChange && !onChangeText) {
       onChange(value);

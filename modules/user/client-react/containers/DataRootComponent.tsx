@@ -6,6 +6,7 @@ import Loading from '../components/Loading';
 import { UserModuleState } from '../reducers';
 import { CURRENT_USER } from '../actions';
 import { User } from '..';
+import setting from '../../../../settings';
 
 interface DataRootComponent {
   currentUser: User;
@@ -18,8 +19,10 @@ const DataRootComponent: React.FunctionComponent<DataRootComponent> = ({ current
 
   React.useEffect(() => {
     (async () => {
-      if (!ready && (await getItem('refreshToken')) && !currentUser) {
-        await getCurrentUser();
+      if (!ready && !currentUser && ((await getItem('refreshToken')) || setting.auth.session.enabled)) {
+        try {
+          await getCurrentUser();
+        } catch (e) {}
       }
       setReady(true);
     })();
@@ -27,13 +30,9 @@ const DataRootComponent: React.FunctionComponent<DataRootComponent> = ({ current
   return ready ? children : <Loading />;
 };
 
-const mapState = ({ currentUser }: UserModuleState) => ({
-  currentUser
-});
-
-const withConnect = connect(
-  mapState,
+export default connect(
+  ({ currentUser }: UserModuleState) => ({
+    currentUser
+  }),
   { getCurrentUser: CURRENT_USER }
-);
-
-export default withConnect(DataRootComponent);
+)(DataRootComponent);
