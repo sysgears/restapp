@@ -1,4 +1,4 @@
-import { Express } from 'express';
+import { Express, Request, Response } from 'express';
 import { Strategy as LocalStratery } from 'passport-local';
 import passport from 'passport';
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
@@ -17,7 +17,16 @@ const beforeware = (app: Express) => {
   app.use(passport.initialize());
 };
 
-const accessMiddleware = passport.authenticate('jwt', { session: false });
+const accessMiddleware = (req: Request, res: Response, next: any) => {
+  // passport.authenticate('jwt', { session: false });
+  return req.isAuthenticated()
+    ? next()
+    : res.send({
+        errors: {
+          message: 'unauthorized'
+        }
+      });
+};
 
 const grant = async (identity: any, req: any, passwordHash: string = '') => {
   const refreshSecret = settings.auth.secret + passwordHash;

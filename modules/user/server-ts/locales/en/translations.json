@@ -8,7 +8,7 @@
   "userCouldNotDeleted": "Could not delete user. Please try again later.",
   "auth": {
     "password": {
-      "validPasswordEmail": "Please enter a valid username or e-mail.",
+      "validPasswordEmail": "Please enter a valid username or password.",
       "emailConfirmation": "Please confirm your e-mail first.",
       "registrationFailed": "Registration failed due to validation errors",
       "validPassword": "Please enter a valid password.",

@@ -54,7 +54,7 @@ class UserScreenNavigator extends React.Component<UserScreenNavigator> {
   };
   public getInitialRoute = () => {
     const { currentUser } = this.props;
-    return currentUser ? 'Welcome' : 'Login';
+    return currentUser ? 'Profile' : 'Login';
   };
 
   public render() {

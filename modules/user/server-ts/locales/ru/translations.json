@@ -8,7 +8,7 @@
   "userCouldNotDeleted": "Невозможно удалить пользователя. Побробуйте повторить попытку позже.",
   "auth": {
     "password": {
-      "validPasswordEmail": "Пожалуйста, введите Ваш username или e-mail.",
+      "validPasswordEmail": "Пожалуйста, введите Ваш username или пароль.",
       "emailConfirmation": "Пожалуйста, подтвердите Ваш e-mail",
       "registrationFailed": "Регистрация не была успешной из-за ошибок валидации.",
       "validPassword": "Пожалуйста, введите действительный пароль.",

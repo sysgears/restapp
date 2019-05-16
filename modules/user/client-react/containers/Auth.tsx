@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { ComponentType, FunctionComponent } from 'react';
 import { Route, Redirect, RouteComponentProps } from 'react-router-dom';
 import { withLoadedUser } from './AuthBase';
 import { UserRole, User } from '..';
@@ -8,12 +8,15 @@ interface AuthRouteProps extends WithUserProps {
   role?: UserRole | UserRole[];
   redirect?: string;
   redirectOnLoggedIn?: boolean;
-  component?: React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any>;
+  component?: ComponentType<RouteComponentProps<any>> | ComponentType<any>;
 }
 
-const AuthRoute: React.ComponentType<AuthRouteProps> = withLoadedUser(
-  ({ currentUser, role, redirect = '/login', redirectOnLoggedIn, component: Component, ...rest }) => {
-    const RenderComponent: React.FunctionComponent<any> = props => {
+const AuthRoute: ComponentType<AuthRouteProps> = withLoadedUser(
+  ({ currentUser, role, redirect = '/login', redirectOnLoggedIn, component: Component, getCurrentUser, ...rest }) => {
+    const RenderComponent: FunctionComponent<any> = props => {
+      if (currentUser === undefined) {
+        getCurrentUser();
+      }
       // The users is not logged in
       if (redirectOnLoggedIn && currentUser) {
         return <Redirect to={{ pathname: redirect }} />;

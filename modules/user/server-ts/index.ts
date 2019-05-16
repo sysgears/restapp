@@ -25,7 +25,7 @@ const getHash = async (id: number) => ((await UserDAO.getUserWithPassword(id)) a
 const validateLogin = async (usernameOrEmail: string, pswd: string) => {
   const identity = (await UserDAO.getUserByUsernameOrEmail(usernameOrEmail)) as UserShape;
 
-  if (!identity) {
+  if (!identity || !identity.passwordHash) {
     return { message: i18n.t('user:auth.password.validPasswordEmail') };
   }
 

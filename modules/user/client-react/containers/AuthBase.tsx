@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import authentication from '@restapp/authentication-client-react';
 import { User, UserRole } from '..';
 import CLEAR_USER from '../actions/clearUser';
+import { CURRENT_USER } from '../actions';
 
 export interface WithUserProps extends RouteProps {
   currentUser?: User;
@@ -30,10 +31,13 @@ export interface WithLogoutProps extends WithUserProps {
 
 const withUser = (Component: React.ComponentType<any>) => {
   const WithUser = ({ currentUser, ...rest }: WithUserProps) => <Component currentUser={currentUser} {...rest} />;
-  return connect(({ currentUser: { loading, currentUser } }: any) => ({
-    currentUserLoading: loading,
-    currentUser
-  }))(WithUser);
+  return connect(
+    ({ currentUser: { loading, currentUser } }: any) => ({
+      currentUserLoading: loading,
+      currentUser
+    }),
+    { getCurrentUser: CURRENT_USER }
+  )(WithUser);
 };
 
 const hasRole = (role: UserRole | UserRole[], currentUser: User) => {

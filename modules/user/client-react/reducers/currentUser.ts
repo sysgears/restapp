@@ -13,7 +13,7 @@ export interface CurrentUserState {
 }
 
 const defaultState: CurrentUserState = {
-  currentUser: null,
+  currentUser: undefined,
   loading: false
 };
 
