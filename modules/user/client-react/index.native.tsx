@@ -19,7 +19,7 @@ import Register from './containers/Register.native';
 import ForgotPassword from './containers/ForgotPassword.native';
 import ResetPassword from './containers/ResetPassword.native';
 
-import reducers from './reducers';
+import { currentUserReducer, usersReducer } from './reducers';
 
 export enum UserRole {
   admin = 'admin',
@@ -210,7 +210,7 @@ export default new ClientModule({
   ],
   localization: [{ ns: 'user', resources }],
   router: <MainScreenNavigator />,
-  reducer: [{ user: reducers }],
+  reducer: [{ currentUser: currentUserReducer, users: usersReducer }],
   dataRootComponent: [DataRootComponent],
   onAppCreate: [(module: ClientModule) => (ref.navigator = UserScreenNavigator(module.drawerItems))]
 });

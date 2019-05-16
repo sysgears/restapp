@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { getItem } from '@restapp/core-common/clientStorage';
 
 import Loading from '../components/Loading.native';
-import { UserModuleState } from '../reducers';
 import { CURRENT_USER } from '../actions';
 import { User } from '..';
 
@@ -31,7 +30,7 @@ class DataRootComponent extends React.Component<DataRootComponent> {
 }
 
 export default connect(
-  ({ currentUser }: UserModuleState) => ({
+  ({ currentUser: { currentUser } }: any) => ({
     currentUser
   }),
   { getCurrentUser: CURRENT_USER }

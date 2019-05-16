@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { getItem } from '@restapp/core-common/clientStorage';
 
 import Loading from '../components/Loading';
-import { UserModuleState } from '../reducers';
 import { CURRENT_USER } from '../actions';
 import { User } from '..';
 import setting from '../../../../settings';
@@ -31,7 +30,7 @@ const DataRootComponent: React.FunctionComponent<DataRootComponent> = ({ current
 };
 
 export default connect(
-  ({ currentUser }: UserModuleState) => ({
+  ({ currentUser: { currentUser } }: any) => ({
     currentUser
   }),
   { getCurrentUser: CURRENT_USER }

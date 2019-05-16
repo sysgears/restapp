@@ -59,7 +59,7 @@ class UserEdit extends React.Component<UserEditProps> {
 }
 
 export default connect(
-  ({ user: { user } }: any) => ({
+  ({ users: { user } }: any) => ({
     user
   }),
   { getUser: USER, editUser: EDIT_USER }

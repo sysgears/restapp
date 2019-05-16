@@ -23,7 +23,7 @@ const withUsers = (Component: React.ComponentType<any>) => {
     }
   }
   return connect(
-    ({ user: { loading, users } }: any) => ({
+    ({ users: { loading, users } }: any) => ({
       loading,
       users
     }),
@@ -58,7 +58,7 @@ const withSortAndFilter = (Component: React.ComponentType<any>) => {
   };
 
   return connect(
-    ({ user: { orderBy, filter } }: any) => ({
+    ({ users: { orderBy, filter } }: any) => ({
       orderBy,
       filter
     }),

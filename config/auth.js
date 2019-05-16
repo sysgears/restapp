@@ -24,21 +24,21 @@ export default {
       profileFields: ['id', 'emails', 'displayName']
     },
     github: {
-      enabled: true,
+      enabled: false,
       clientID: process.env.GITHUB_CLIENTID,
       clientSecret: process.env.GITHUB_CLIENTSECRET,
       callbackURL: '/api/auth/github/callback',
       scope: ['user:email']
     },
     linkedin: {
-      enabled: true,
+      enabled: false,
       clientID: process.env.LINKEDIN_CLIENTID,
       clientSecret: process.env.LINKEDIN_CLIENTSECRET,
       callbackURL: '/api/auth/linkedin/callback',
       scope: ['r_liteprofile']
     },
     google: {
-      enabled: true,
+      enabled: false,
       clientID: process.env.GOOGLE_CLIENTID,
       clientSecret: process.env.GOOGLE_CLIENTSECRET,
       callbackURL: '/api/auth/google/callback',
