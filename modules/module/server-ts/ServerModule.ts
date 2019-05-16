@@ -57,7 +57,7 @@ export interface ServerModuleShape extends CommonModuleShape {
   beforeware?: MiddlewareFunc[];
   // A list of functions to register normal-priority middlewares
   middleware?: MiddlewareFunc[];
-  accessMiddleware?: RequestHandler;
+  accessMiddleware?: RequestHandler[];
   apiRouteParams?: Array<{
     method: RestMethod;
     route: string;
@@ -103,8 +103,8 @@ class ServerModule extends CommonModule {
       return (app: Express, modules: ServerModule) => {
         const handlers = [];
 
-        if (isAuthRoute && modules.accessMiddleware) {
-          handlers.push(modules.accessMiddleware);
+        if (isAuthRoute && modules.accessMiddleware && modules.accessMiddleware.length) {
+          handlers.push(...modules.accessMiddleware);
         }
         if (!isEmpty(middleware)) {
           handlers.push(...middleware);

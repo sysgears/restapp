@@ -17,8 +17,9 @@ const beforeware = (app: Express) => {
   app.use(passport.initialize());
 };
 
-const accessMiddleware = (req: Request, res: Response, next: any) => {
-  // passport.authenticate('jwt', { session: false });
+const accessMiddleware = passport.authenticate('jwt', { session: false });
+
+const checkAuthentication = (req: Request, res: Response, next: any) => {
   return req.isAuthenticated()
     ? next()
     : res.send({
@@ -103,6 +104,6 @@ export default (settings.auth.jwt.enabled
           controller: refreshTokens
         }
       ],
-      accessMiddleware
+      accessMiddleware: [accessMiddleware, checkAuthentication]
     })
   : undefined);

@@ -88,7 +88,7 @@ export default (settings.auth.session.enabled
   ? new AccessModule({
       beforeware: [beforeware],
       onAppCreate: [onAppCreate],
-      accessMiddleware,
+      accessMiddleware: [accessMiddleware],
       appContext: sessionAppContext,
       apiRouteParams: [
         {

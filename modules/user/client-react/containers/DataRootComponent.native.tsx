@@ -5,6 +5,7 @@ import { getItem } from '@restapp/core-common/clientStorage';
 import Loading from '../components/Loading.native';
 import { CURRENT_USER } from '../actions';
 import { User } from '..';
+import setting from '../../../../settings';
 
 interface DataRootComponent {
   currentUser: User;
@@ -18,7 +19,7 @@ class DataRootComponent extends React.Component<DataRootComponent> {
 
   public async componentDidMount() {
     const { currentUser, getCurrentUser } = this.props;
-    if (!this.state.ready && (await getItem('refreshToken')) && !currentUser) {
+    if (!this.state.ready && !currentUser && ((await getItem('refreshToken')) || setting.auth.session.enabled)) {
       await getCurrentUser();
     }
     this.setState({ ready: true });

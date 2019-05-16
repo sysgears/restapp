@@ -1,8 +1,9 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { translate } from '@restapp/i18n-client-react';
 import authentication from '@restapp/authentication-client-react';
 import { FormError } from '@restapp/forms-client-react';
+import { setItem } from '@restapp/core-common/clientStorage';
 
 import LoginView from '../components/LoginView';
 import { CommonProps, LoginSubmitProps } from '..';
@@ -22,12 +23,34 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   const [isRegistered, setIsRegistered] = React.useState(false);
   const [isReady, setIsReady] = React.useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if (search && search.includes('data')) {
+      checkAndSaveTokens();
+    }
+  }, []);
+
+  useEffect(() => {
     if (search.includes('email-verified')) {
       setIsRegistered(true);
     }
     setIsReady(true);
   }, []);
+
+  const checkAndSaveTokens = async () => {
+    const dataRegExp = /data=([^#]+)/;
+
+    const [, data] = search.match(dataRegExp);
+    const decodedData = JSON.parse(decodeURI(data));
+
+    if (decodedData.tokens) {
+      await setItem('accessToken', decodedData.tokens.accessToken);
+      await setItem('refreshToken', decodedData.tokens.refreshToken);
+
+      await authentication.doLogin();
+    }
+
+    history.push('profile');
+  };
 
   const hideModal = () => {
     setIsRegistered(false);

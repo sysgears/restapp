@@ -15,7 +15,11 @@ const AuthRoute: ComponentType<AuthRouteProps> = withLoadedUser(
   ({ currentUser, role, redirect = '/login', redirectOnLoggedIn, component: Component, getCurrentUser, ...rest }) => {
     const RenderComponent: FunctionComponent<any> = props => {
       if (currentUser === undefined) {
-        getCurrentUser();
+        (async () => {
+          try {
+            await getCurrentUser();
+          } catch (e) {}
+        })();
       }
       // The users is not logged in
       if (redirectOnLoggedIn && currentUser) {

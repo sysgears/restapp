@@ -15,7 +15,7 @@ export async function onAuthenticationSuccess(req: any, res: any) {
   if (redirectUrl) {
     res.redirect(redirectUrl + (tokens ? '?data=' + JSON.stringify({ tokens }) : ''));
   } else {
-    res.redirect('/profile');
+    res.redirect(`/login${tokens ? '?data=' + JSON.stringify({ tokens }) : ''}`);
   }
 }
 
