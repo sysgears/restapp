@@ -33,7 +33,7 @@ export const refreshTokens = async (req: any, res: any) => {
   try {
     jwt.verify(inputRefreshToken, refreshSecret);
   } catch (err) {
-    return res.send(err);
+    return res.status(401).send({ errors: err });
   }
 
   const [accessToken, refreshToken] = await createTokens(identity, settings.auth.secret, refreshSecret, req.t);

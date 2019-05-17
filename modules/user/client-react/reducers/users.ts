@@ -30,10 +30,17 @@ export default function(state = defaultState, action: UserModuleActionProps) {
         ...state,
         user: action.payload
       };
+
     case ActionType.SET_USERS:
       return {
         ...state,
         users: action.payload
+      };
+
+    case ActionType.CLEAR_USERS:
+      return {
+        ...state,
+        users: null
       };
 
     case ActionType.SET_FILTER:

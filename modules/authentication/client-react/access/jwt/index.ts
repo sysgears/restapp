@@ -42,13 +42,16 @@ const refreshAccessToken = async () => {
 
 const reduxMiddleware: Middleware = ({ dispatch }) => next => action => {
   const { types, status, ...rest } = action;
-
   (async () => {
     try {
       if (status === 401) {
-        await refreshAccessToken();
-        const newAction = { ...action, status: null };
-        return dispatch(newAction);
+        try {
+          await refreshAccessToken();
+          const newAction = { ...action, status: null };
+          return dispatch(newAction);
+        } catch (e) {
+          throw e;
+        }
       }
       return next(action);
     } catch (e) {

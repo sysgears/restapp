@@ -30,6 +30,7 @@ const accessMiddleware = (req: Request, res: Response, next: any) =>
   req.isAuthenticated()
     ? next()
     : res.send({
+        status: 401,
         errors: {
           message: 'unauthorized'
         }

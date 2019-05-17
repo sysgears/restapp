@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { ResetPasswordSubmitProps } from '..';
-import { ActionType } from '../reducers';
 
 interface ResetPasswordProps extends ResetPasswordSubmitProps {
   token: string;
@@ -8,7 +7,7 @@ interface ResetPasswordProps extends ResetPasswordSubmitProps {
 
 export default function RESET_PASSWORD(value: ResetPasswordProps) {
   return {
-    types: [null, null, null] as ActionType[],
+    types: {},
     APICall: () => axios.post(`${__API_URL__}/resetPassword`, { ...value })
   };
 }

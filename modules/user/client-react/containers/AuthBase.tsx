@@ -1,11 +1,14 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { RouteProps } from 'react-router';
 import { History } from 'history';
 import { connect } from 'react-redux';
 import authentication from '@restapp/authentication-client-react';
+import { getItem } from '@restapp/core-common/clientStorage';
 import { User, UserRole } from '..';
 import CLEAR_USER from '../actions/clearUser';
 import { CURRENT_USER } from '../actions';
+
+import setting from '../../../../settings';
 
 export interface WithUserProps extends RouteProps {
   currentUser?: User;
@@ -30,7 +33,19 @@ export interface WithLogoutProps extends WithUserProps {
 }
 
 const withUser = (Component: React.ComponentType<any>) => {
-  const WithUser = ({ currentUser, ...rest }: WithUserProps) => <Component currentUser={currentUser} {...rest} />;
+  const WithUser = ({ currentUser, getCurrentUser, currentUserLoading, ...rest }: WithUserProps) => {
+    useEffect(() => {
+      (async () => {
+        if (currentUser === undefined && ((await getItem('refreshToken')) || setting.auth.session.enabled)) {
+          try {
+            await getCurrentUser();
+          } catch (e) {}
+        }
+      })();
+    }, []);
+
+    return currentUserLoading ? null : <Component currentUser={currentUser} currentUserLoading {...rest} />;
+  };
   return connect(
     ({ currentUser: { loading, currentUser } }: any) => ({
       currentUserLoading: loading,
@@ -44,14 +59,6 @@ const hasRole = (role: UserRole | UserRole[], currentUser: User) => {
   return currentUser && (!role || (Array.isArray(role) ? role : [role]).indexOf(currentUser.role) >= 0) ? true : false;
 };
 
-const withLoadedUser = (Component: React.ComponentType<any>) => {
-  const WithLoadedUser = ({ currentUserLoading, ...props }: WithUserProps) => {
-    return currentUserLoading ? null : <Component {...props} />;
-  };
-
-  return withUser(WithLoadedUser);
-};
-
 const IfLoggedInComponent: React.FunctionComponent<IfLoggedInComponent> = ({
   currentUser,
   role,
@@ -59,13 +66,13 @@ const IfLoggedInComponent: React.FunctionComponent<IfLoggedInComponent> = ({
   elseComponent
 }) => (hasRole(role, currentUser) ? React.cloneElement(children, {}) : elseComponent || null);
 
-const IfLoggedIn: React.ComponentType<IfLoggedInComponent> = withLoadedUser(IfLoggedInComponent);
+const IfLoggedIn: React.ComponentType<IfLoggedInComponent> = withUser(IfLoggedInComponent);
 
 const IfNotLoggedInComponent: React.FunctionComponent<IfLoggedInComponent> = ({ currentUser, children }) => {
   return !currentUser ? React.cloneElement(children, {}) : null;
 };
 
-const IfNotLoggedIn: React.ComponentType<IfLoggedInComponent> = withLoadedUser(IfNotLoggedInComponent);
+const IfNotLoggedIn: React.ComponentType<IfLoggedInComponent> = withUser(IfNotLoggedInComponent);
 
 const withLogout = (Component: React.ComponentType<any>) => {
   const WithLogout = ({ clearUser, ...props }: WithLogoutProps) => {
@@ -82,4 +89,4 @@ const withLogout = (Component: React.ComponentType<any>) => {
   )(WithLogout);
 };
 
-export { withUser, hasRole, withLoadedUser, IfLoggedIn, IfNotLoggedIn, withLogout };
+export { withUser, hasRole, IfLoggedIn, IfNotLoggedIn, withLogout };

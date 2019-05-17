@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ProfileView from '../components/ProfileView';
 import { User } from '..';
-import { CURRENT_USER } from '../actions';
 
 interface ProfileProps {
   currentUser: User;
@@ -10,13 +9,10 @@ interface ProfileProps {
   getCurrentUser: () => void;
 }
 
-const Profile: React.FunctionComponent<ProfileProps> = ({ getCurrentUser, ...props }) => {
+const Profile: React.FunctionComponent<ProfileProps> = ({ ...props }) => {
   return <ProfileView {...props} />;
 };
 
-export default connect(
-  ({ currentUser: { currentUser } }: any) => ({
-    currentUser
-  }),
-  { getCurrentUser: CURRENT_USER }
-)(Profile);
+export default connect(({ currentUser: { currentUser } }: any) => ({
+  currentUser
+}))(Profile);

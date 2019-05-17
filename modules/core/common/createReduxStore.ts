@@ -15,7 +15,7 @@ const requestMiddleware: Middleware = _state => next => action => {
     return next(action);
   }
 
-  const [REQUEST, SUCCESS, FAIL] = types;
+  const { REQUEST, SUCCESS, FAIL } = types;
 
   next({ type: REQUEST, ...rest });
 
@@ -33,8 +33,8 @@ const requestMiddleware: Middleware = _state => next => action => {
       });
       return data;
     } catch (e) {
-      if (e.response && e.response.status === 401) {
-        return next({ ...action, status: e.response.status });
+      if (e.response && e.response.data && e.response.data.status === 401) {
+        return next({ ...action, status: e.response.data.status });
       }
       const data = e.response && e.response.data;
       next({

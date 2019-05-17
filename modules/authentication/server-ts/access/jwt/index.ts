@@ -1,4 +1,4 @@
-import { Express, Request, Response } from 'express';
+import { Express, Request, Response, NextFunction } from 'express';
 import { Strategy as LocalStratery } from 'passport-local';
 import passport from 'passport';
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
@@ -17,20 +17,31 @@ const beforeware = (app: Express) => {
   app.use(passport.initialize());
 };
 
-const accessMiddleware = passport.authenticate('jwt', { session: false });
+const accessMiddleware = (req: Request, res: Response, next: NextFunction) =>
+  passport.authenticate('jwt', { session: false }, (_err, user, info) => {
+    if (info) {
+      res.locals.error = info;
+      return next();
+    }
+    req.user = { ...user };
+    return next();
+  })(req, res, next);
 
-const checkAuthentication = (req: Request, res: Response, next: any) => {
-  return req.isAuthenticated()
-    ? next()
-    : res.send({
-        errors: {
-          message: 'unauthorized'
-        }
-      });
+const checkAuthentication = (req: Request, res: Response, next: NextFunction) => {
+  if (req.user) {
+    return next();
+  }
+  return res.send({
+    status: 401,
+    errors: {
+      message: res.locals.error ? res.locals.error.message : 'unauthorized'
+    }
+  });
 };
 
 const grant = async (identity: any, req: any, passwordHash: string = '') => {
-  const refreshSecret = settings.auth.secret + passwordHash;
+  const refreshSecret = settings.auth.secret + (passwordHash || '');
+
   const [accessToken, refreshToken] = await createTokens(identity, settings.auth.secret, refreshSecret, req.t);
 
   return {

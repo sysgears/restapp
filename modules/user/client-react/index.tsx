@@ -19,7 +19,7 @@ import ForgotPassword from './containers/ForgotPassword';
 import ResetPassword from './containers/ResetPassword';
 import { currentUserReducer, usersReducer } from './reducers';
 
-import { AuthRoute, IfLoggedIn, IfNotLoggedIn, withLoadedUser, withLogout, WithLogoutProps } from './containers/Auth';
+import { AuthRoute, IfLoggedIn, IfNotLoggedIn, withLogout, WithLogoutProps, withUser } from './containers/Auth';
 
 export enum UserRole {
   admin = 'admin',
@@ -103,7 +103,7 @@ export interface Filter {
   isActive: boolean;
 }
 
-const ProfileName = withLoadedUser(({ currentUser }) => (
+const ProfileName = withUser(({ currentUser }) => (
   <>{currentUser ? currentUser.fullName || currentUser.username : null}</>
 ));
 
