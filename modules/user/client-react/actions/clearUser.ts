@@ -1,7 +1,8 @@
+import { ActionFunction } from '.';
 import { ActionType } from '../reducers';
 
-export default function CLEAR_USER() {
-  return {
-    type: ActionType.CLEAR_CURRENT_USER
-  };
-}
+const CLEAR_USER: ActionFunction = () => ({
+  type: ActionType.CLEAR_CURRENT_USER
+});
+
+export default CLEAR_USER;
