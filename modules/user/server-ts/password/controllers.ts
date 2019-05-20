@@ -11,7 +11,7 @@ import emailTemplate from '../emailTemplate';
 import { createPasswordHash } from '.';
 
 const {
-  auth: { passwordSettings, secret },
+  auth: { password: passwordSettings, secret },
   app
 } = settings;
 

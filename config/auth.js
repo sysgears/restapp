@@ -16,7 +16,7 @@ export default {
   },
   social: {
     facebook: {
-      enabled: true,
+      enabled: false,
       clientID: process.env.FACEBOOK_CLIENTID,
       clientSecret: process.env.FACEBOOK_CLIENTSECRET,
       callbackURL: '/api/auth/facebook/callback',
