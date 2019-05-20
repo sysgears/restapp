@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { RouteProps } from 'react-router';
 import { History } from 'history';
 import { connect } from 'react-redux';
@@ -33,19 +33,21 @@ export interface WithLogoutProps extends WithUserProps {
 }
 
 const withUser = (Component: React.ComponentType<any>) => {
-  const WithUser = ({ currentUser, getCurrentUser, currentUserLoading, ...rest }: WithUserProps) => {
-    useEffect(() => {
-      (async () => {
-        if (currentUser === undefined && ((await getItem('refreshToken')) || setting.auth.session.enabled)) {
-          try {
-            await getCurrentUser();
-          } catch (e) {}
-        }
-      })();
-    }, []);
+  class WithUser extends React.Component<WithUserProps> {
+    public async componentDidMount() {
+      const { currentUser, getCurrentUser } = this.props;
+      if (currentUser === undefined && ((await getItem('refreshToken')) || setting.auth.session.enabled)) {
+        try {
+          await getCurrentUser();
+        } catch (e) {}
+      }
+    }
 
-    return currentUserLoading ? null : <Component currentUser={currentUser} currentUserLoading {...rest} />;
-  };
+    public render() {
+      const { currentUserLoading, currentUser, getCurrentUser, ...rest } = this.props;
+      return currentUserLoading ? null : <Component currentUser={currentUser} currentUserLoading {...rest} />;
+    }
+  }
   return connect(
     ({ currentUser: { loading, currentUser } }: any) => ({
       currentUserLoading: loading,

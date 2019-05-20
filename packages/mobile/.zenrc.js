@@ -24,7 +24,7 @@ const config = {
     webpackDll: true,
     defines: {
       __DEV__: process.env.NODE_ENV !== 'production',
-      __API_URL__: '"http://localhost:8080/api"',
+      __API_URL__: '"http://192.168.0.89:8080/api"',
       __WEBSITE_URL__: '"http://localhost:8080"'
     }
   }

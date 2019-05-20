@@ -38,8 +38,7 @@ class UserScreenNavigator extends React.Component<UserScreenNavigator> {
   }
 
   public navItemsFilter = () => {
-    const { currentUser, currentUserLoading, routeConfigs } = this.props;
-
+    const { currentUser, routeConfigs } = this.props;
     const userFilter = (value: any) => {
       if (!value.userInfo) {
         return true;
@@ -50,7 +49,7 @@ class UserScreenNavigator extends React.Component<UserScreenNavigator> {
 
     const guestFilter = (value: any) => !value.userInfo || (value.userInfo && !value.userInfo.showOnLogin);
 
-    return pickBy(routeConfigs, currentUser && !currentUserLoading ? userFilter : guestFilter);
+    return pickBy(routeConfigs, currentUser ? userFilter : guestFilter);
   };
   public getInitialRoute = () => {
     const { currentUser } = this.props;

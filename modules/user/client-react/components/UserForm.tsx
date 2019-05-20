@@ -51,8 +51,6 @@ const UserForm: React.FunctionComponent<UserFormProps> = ({
   values,
   handleSubmit,
   errors,
-  setFieldValue,
-
   t,
   shouldDisplayRole,
   shouldDisplayActive

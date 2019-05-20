@@ -11,7 +11,7 @@ import { User, CommonProps } from '..';
 import { ADD_USER } from '../actions';
 
 interface UserAddProps extends CommonProps, RNCommonProps {
-  addUser: (values: User) => any;
+  addUser?: (values: User) => any;
 }
 
 const UserAdd: React.FunctionComponent<UserAddProps> = props => {
@@ -40,7 +40,7 @@ const UserAdd: React.FunctionComponent<UserAddProps> = props => {
   return <UserAddView onSubmit={onSubmit} {...props} />;
 };
 
-export default connect(
+export default connect<{}, {}, UserAddProps>(
   null,
   { addUser: ADD_USER }
 )(translate('user')(UserAdd));

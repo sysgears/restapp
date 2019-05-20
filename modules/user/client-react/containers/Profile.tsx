@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ProfileView from '../components/ProfileView';
-import { User } from '..';
+import { User, CommonProps } from '..';
 
-interface ProfileProps {
-  currentUser: User;
-  currentUserLoading: boolean;
-  getCurrentUser: () => void;
+interface ProfileProps extends CommonProps {
+  currentUser?: User;
+  currentUserLoading?: boolean;
+  getCurrentUser?: () => void;
 }
 
 const Profile: React.FunctionComponent<ProfileProps> = ({ ...props }) => {

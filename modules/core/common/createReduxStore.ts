@@ -31,10 +31,11 @@ const requestMiddleware: Middleware = _state => next => action => {
         ...rest,
         payload: data
       });
+
       return data;
     } catch (e) {
       if (e.response && e.response.data && e.response.data.status === 401) {
-        return next({ ...action, status: e.response.data.status });
+        return next({ ...action, type: null, status: e.response.data.status });
       }
       const data = e.response && e.response.data;
       next({

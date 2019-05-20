@@ -5,7 +5,6 @@ import url from 'url';
 import ClientModule from '@restapp/module-client-react-native';
 import log from '../../../packages/common/log';
 import createReduxStore from '../../../packages/common/createReduxStore';
-
 const { protocol, pathname, port } = url.parse(__API_URL__);
 
 interface MainProps {
@@ -32,7 +31,7 @@ export default class Main extends React.Component<MainProps> {
         : state => state,
       {}, // initial state
       null,
-      modules.requestMiddlewares
+      modules.reduxMiddlewares
     );
 
     log.info(`Connecting to REST backend at: ${apiUrl}`);

@@ -3,17 +3,17 @@ import { connect } from 'react-redux';
 import { pick } from 'lodash';
 import { translate } from '@restapp/i18n-client-react';
 import { FormError } from '@restapp/forms-client-react';
-import UserEditView from '../components/UserEditView';
+import UserEditView from '../components/UserEditView.native';
 
 import UserFormatter from '../helpers/UserFormatter';
-import { User, CommonProps } from '..';
+import { CommonProps, User } from '../index.native';
 import { USER, EDIT_USER } from '../actions';
 
 interface UserEditProps extends CommonProps {
   user?: User;
+  currentUser?: User;
+  loading?: boolean;
   editUser?: (value: User) => any;
-  location?: any;
-  match?: any;
   getUser?: (id: number) => void;
 }
 
@@ -21,14 +21,14 @@ class UserEdit extends React.Component<UserEditProps> {
   public state = { ready: false };
   public async componentDidMount() {
     let id = 0;
-    if (this.props.match) {
-      id = this.props.match.params.id;
+    if (this.props.navigation) {
+      id = this.props.navigation.state.params.id;
     }
     await this.props.getUser(Number(id));
     this.setState({ ready: true });
   }
   public onSubmit = async (values: User) => {
-    const { user, editUser, t, history } = this.props;
+    const { user, editUser, t, navigation } = this.props;
 
     let userValues = pick(values, ['username', 'email', 'role', 'isActive', 'password', 'firstName', 'lastName']);
 
@@ -41,8 +41,8 @@ class UserEdit extends React.Component<UserEditProps> {
       throw new FormError(t('userEdit.errorMsg'), data);
     }
 
-    if (history) {
-      return history.goBack();
+    if (navigation) {
+      return navigation.goBack();
     }
   };
 
@@ -52,8 +52,10 @@ class UserEdit extends React.Component<UserEditProps> {
 }
 
 export default connect<{}, {}, UserEditProps>(
-  ({ users: { user } }: any) => ({
-    user
+  ({ users: { user }, currentUser: { currentUser, loading } }: any) => ({
+    user,
+    currentUser,
+    loading
   }),
   { getUser: USER, editUser: EDIT_USER }
 )(translate('user')(UserEdit));
