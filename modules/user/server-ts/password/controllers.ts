@@ -1,4 +1,4 @@
-import { UserShape } from './../sql';
+import { UserShape, UserShapePassword } from './../sql';
 import { pick, isEmpty } from 'lodash';
 import jwt from 'jsonwebtoken';
 import { log } from '@restapp/core-common';
@@ -82,7 +82,7 @@ export const register = async ({ body, t }: any, res: any) => {
 export const forgotPassword = async ({ body, t }: any, res: any) => {
   try {
     const localAuth = pick(body, 'email');
-    const identity = (await userDAO.getUserByEmail(localAuth.email)) as UserShape;
+    const identity = (await userDAO.getUserByEmail(localAuth.email)) as UserShape & UserShapePassword;
 
     if (identity && mailer) {
       // async email
@@ -130,8 +130,8 @@ export const resetPassword = async ({ body, t }: any, res: any) => {
   }
 
   const token = Buffer.from(reset.token, 'base64').toString();
-  const { email, passwordHash } = jwt.verify(token, secret) as UserShape;
-  const identity = (await userDAO.getUserByEmail(email)) as UserShape;
+  const { email, passwordHash } = jwt.verify(token, secret) as UserShape & UserShapePassword;
+  const identity = (await userDAO.getUserByEmail(email)) as UserShape & UserShapePassword;
 
   if (identity.passwordHash !== passwordHash) {
     throw res.status(401).send(t('user:auth.password.invalidToken'));

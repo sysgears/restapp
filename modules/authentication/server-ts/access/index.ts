@@ -5,12 +5,12 @@ import resources from '../locales';
 import AccessModule from './AccessModule';
 
 export interface UserShape {
-  id: number;
+  id?: number;
   username: string;
-  role: string;
-  isActive: boolean;
-  email: string;
-  passwordHash: string;
+  role?: string;
+  isActive?: boolean;
+  email?: string;
+  passwordHash?: string;
 }
 
 // Try to grant access via sessions first, and if that fails, then try using JWT

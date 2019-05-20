@@ -152,13 +152,11 @@ export const editUser = async ({ user: identity, body, t }: any, res: any) => {
 
   const userInfo = !isSelf() && isAdmin() ? body : pick(body, ['id', 'username', 'email', 'password']);
 
-  const isProfileExists = await userDAO.isUserProfileExists(body.id);
   const passwordHash = await createPasswordHash(body.password);
 
   const trx = await createTransaction();
   try {
     await userDAO.editUser(userInfo, passwordHash).transacting(trx);
-    await userDAO.editUserProfile(body, isProfileExists).transacting(trx);
 
     if (mailer && body.password && password.sendPasswordChangesEmail) {
       const url = `${__WEBSITE_URL__}/profile`;

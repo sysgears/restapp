@@ -1,5 +1,5 @@
 import { Express, Request, Response, NextFunction } from 'express';
-import { Strategy as LocalStratery } from 'passport-local';
+import { Strategy as LocalStrategy } from 'passport-local';
 import passport from 'passport';
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
 
@@ -73,7 +73,7 @@ const loginMiddleware = (req: any, res: any, next: any) => {
 
 const onAppCreate = ({ appContext }: AccessModule) => {
   passport.use(
-    new LocalStratery({ usernameField: 'usernameOrEmail' }, async (username: string, password: string, done: any) => {
+    new LocalStrategy({ usernameField: 'usernameOrEmail' }, async (username: string, password: string, done: any) => {
       const { user, message } = await appContext.user.validateLogin(username, password);
 
       if (message) {

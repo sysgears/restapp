@@ -5,13 +5,21 @@ import bcrypt from 'bcryptjs';
 import { knex, returnId } from '@restapp/database-server-ts';
 
 export interface UserShape {
-  id: number;
+  id?: number;
   username: string;
-  role: string;
-  isActive: boolean;
-  email: string;
-  passwordHash: string;
-  userId: number;
+  role?: string;
+  isActive?: boolean;
+  email?: string;
+  userId?: number;
+}
+
+export interface Profile {
+  firstName?: string;
+  lastName?: string;
+}
+
+export interface UserShapePassword {
+  passwordHash?: string;
 }
 
 interface OrderBy {
@@ -29,16 +37,6 @@ interface SocialInterface {
   id: number;
   displayName: string;
   userId: number;
-}
-
-export interface Profile {
-  firstName?: string;
-  lastName?: string;
-  id?: number;
-  username: string;
-  email: string;
-  role?: string;
-  isActive: boolean;
 }
 
 const userColumns = ['u.id', 'u.username', 'u.role', 'u.is_active', 'u.email', 'up.first_name', 'up.last_name'];
@@ -130,7 +128,7 @@ class UserDAO {
     );
   }
 
-  public register({ username, email, role = 'user', isActive }: Profile, passwordHash?: string | false) {
+  public register({ username, email, role = 'user', isActive }: UserShape, passwordHash?: string | false) {
     return knex('user').insert(decamelizeKeys({ username, email, role, passwordHash, isActive }));
   }
 
@@ -150,7 +148,7 @@ class UserDAO {
     return returnId(knex('auth_linkedin')).insert({ ln_id: id, display_name: displayName, user_id: userId });
   }
 
-  public editUser({ id, username, email, role, isActive }: Profile, passwordHash: string) {
+  public editUser({ id, username, email, role, isActive }: UserShape, passwordHash: string) {
     const localAuthInput = passwordHash ? { email, passwordHash } : { email };
     return knex('user')
       .update(decamelizeKeys({ username, role, isActive, ...localAuthInput }))
