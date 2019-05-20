@@ -9,7 +9,7 @@ export default {
     saveUninitialized: false
   },
   jwt: {
-    enabled: true,
+    enabled: false,
     tokenExpiresIn: '1m',
     refreshTokenExpiresIn: '7d'
   },
