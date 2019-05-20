@@ -17,7 +17,7 @@ const requestMiddleware: Middleware = _state => next => action => {
 
   const { REQUEST, SUCCESS, FAIL } = types;
 
-  next({ type: REQUEST, ...rest });
+  next({ type: REQUEST || null, ...rest });
 
   const handleAPICall = async () => {
     try {
@@ -27,7 +27,7 @@ const requestMiddleware: Middleware = _state => next => action => {
         throw { response: result };
       }
       next({
-        type: SUCCESS,
+        type: SUCCESS || null,
         ...rest,
         payload: data
       });
@@ -38,7 +38,7 @@ const requestMiddleware: Middleware = _state => next => action => {
       }
       const data = e.response && e.response.data;
       next({
-        type: FAIL,
+        type: FAIL || null,
         ...rest,
         payload: data
       });

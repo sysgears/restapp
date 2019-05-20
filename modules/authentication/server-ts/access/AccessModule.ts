@@ -5,7 +5,6 @@ import ServerModule, { ServerModuleShape } from '@restapp/module-server-ts';
 
 interface AccessModuleShape extends ServerModuleShape {
   grant?: Array<(identity: UserShape, req: Request, passwordHash: string) => { [key: string]: any } | void>;
-  // grant?: (user: any) => Promise<[string, string]>;
 }
 
 interface AccessModule extends AccessModuleShape {}
@@ -20,9 +19,12 @@ class AccessModule extends ServerModule {
   get grantAccess(): GrantAccessFunc {
     return async (identity: UserShape, req: Request, passwordHash: string) => {
       let result = {};
-      for (const grant of this.grant) {
-        result = merge(result, await grant(identity, req, passwordHash));
+      if (this.grant) {
+        for (const grant of this.grant) {
+          result = merge(result, await grant(identity, req, passwordHash));
+        }
       }
+
       return result;
     };
   }

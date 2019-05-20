@@ -62,6 +62,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
       await login(values);
     } catch (e) {
       const data = e.response && e.response.data;
+
       throw new FormError(t('reg.errorMsg'), data);
     }
 
