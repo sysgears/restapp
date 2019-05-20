@@ -5,21 +5,24 @@ import passport from 'passport';
 
 import { RestMethod } from '@restapp/module-server-ts';
 
-import { access } from '../../';
 import settings from '../../../../../settings';
 import AccessModule from '../AccessModule';
 import { logout } from './controllers';
 
 const FileStore = require('session-file-store')(session);
 
+const {
+  auth: { session: sessionSetting }
+} = settings;
+
 const beforeware = (app: Express) => {
   app.use(
     session({
-      secret: 'secret',
-      store: __DEV__ ? new FileStore() : null,
-      cookie: { maxAge: 60000 },
-      resave: false,
-      saveUninitialized: false
+      secret: sessionSetting.secret,
+      store: __DEV__ ? new FileStore() : sessionSetting.store,
+      cookie: sessionSetting.cookie,
+      resave: sessionSetting.resave,
+      saveUninitialized: sessionSetting.saveUninitialized
     })
   );
   app.use(passport.initialize());
@@ -37,7 +40,7 @@ const accessMiddleware = (req: Request, res: Response, next: any) =>
       });
 
 const loginMiddleware = (req: any, res: any, next: any) => {
-  passport.authenticate('local', { session: settings.auth.session.enabled }, (err, user, info) => {
+  passport.authenticate('local', { session: sessionSetting.enabled }, (err, user, info) => {
     if (err || !user) {
       return res.status(400).json({
         errors: {
@@ -46,13 +49,12 @@ const loginMiddleware = (req: any, res: any, next: any) => {
       });
     }
 
-    req.login(user, { session: settings.auth.session.enabled }, async (loginErr: any) => {
+    req.login(user, { session: sessionSetting.enabled }, async (loginErr: any) => {
       if (loginErr) {
         res.send(loginErr);
       }
-      const tokens = settings.auth.jwt.enabled ? await access.grantAccess(user, req, user.passwordHash) : null;
 
-      return res.json({ user, tokens });
+      return res.json({ user });
     });
   })(req, res, next);
 };
