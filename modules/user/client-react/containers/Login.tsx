@@ -24,7 +24,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   const [isReady, setIsReady] = React.useState(false);
 
   useEffect(() => {
-    if (search && search.includes('data')) {
+    if (search.includes('data')) {
       checkAndSaveTokens();
     }
   }, []);
@@ -67,6 +67,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
     }
 
     await authentication.doLogin();
+    history.push('/profile');
   };
 
   return isReady && <LoginView {...props} isRegistered={isRegistered} hideModal={hideModal} onSubmit={onSubmit} />;

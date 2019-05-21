@@ -10,7 +10,6 @@ export const getStoreReducer = (reducers: any) =>
 
 const requestMiddleware: Middleware = _state => next => action => {
   const { types, APICall, ...rest } = action;
-
   if (!types) {
     return next(action);
   }
@@ -27,8 +26,8 @@ const requestMiddleware: Middleware = _state => next => action => {
         throw { response: result };
       }
       next({
-        type: SUCCESS || null,
         ...rest,
+        type: SUCCESS || null,
         payload: data
       });
 
@@ -39,8 +38,8 @@ const requestMiddleware: Middleware = _state => next => action => {
       }
       const data = e.response && e.response.data;
       next({
-        type: FAIL || null,
         ...rest,
+        type: FAIL || null,
         payload: data
       });
       throw e;
