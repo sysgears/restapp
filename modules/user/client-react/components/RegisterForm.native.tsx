@@ -13,6 +13,10 @@ import settings from '../../../../settings';
 
 import { FormProps, RegisterSubmitProps } from '../index.native';
 
+interface RegisterProps extends FormProps<RegisterSubmitProps> {
+  valid: string;
+}
+
 const registerFormSchema = {
   username: [required, minLength(3)],
   email: [required, email],
@@ -20,7 +24,7 @@ const registerFormSchema = {
   passwordConfirmation: [match('password'), required, minLength(settings.auth.password.minLength)]
 };
 
-const RegisterForm = ({ values, handleSubmit, t }: FormProps<RegisterSubmitProps>) => {
+const RegisterForm = ({ values, handleSubmit, t, valid }: RegisterProps) => {
   return (
     <FormView contentContainerStyle={{ flexGrow: 1 }} style={styles.formView}>
       <View style={styles.formContainer}>
@@ -60,7 +64,7 @@ const RegisterForm = ({ values, handleSubmit, t }: FormProps<RegisterSubmitProps
           placeholderTextColor={placeholderColor}
         />
         <View style={styles.submit}>
-          <Button type={primary} onPress={handleSubmit}>
+          <Button type={primary} onPress={handleSubmit} disable={valid}>
             {t('reg.form.btnSubmit')}
           </Button>
         </View>
@@ -70,12 +74,12 @@ const RegisterForm = ({ values, handleSubmit, t }: FormProps<RegisterSubmitProps
   );
 };
 
-const RegisterFormWithFormik = withFormik<FormProps<RegisterSubmitProps>, RegisterSubmitProps>({
+const RegisterFormWithFormik = withFormik<RegisterProps, RegisterSubmitProps>({
   mapPropsToValues: () => ({ username: '', email: '', password: '', passwordConfirmation: '' }),
   validate: values => validate(values, registerFormSchema),
-  async handleSubmit(values, { setErrors, props: { onSubmit } }) {
+  handleSubmit(values, { setErrors, props: { onSubmit } }) {
     onSubmit(values).catch((e: any) => {
-      if (e) {
+      if (e && e.errors) {
         setErrors(e.errors);
       } else {
         throw e;

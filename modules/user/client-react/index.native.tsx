@@ -90,7 +90,7 @@ interface HandleSubmitProps<P> {
 }
 
 interface Errors {
-  errorMsg?: string;
+  message?: string;
 }
 
 export interface FormProps<V> {

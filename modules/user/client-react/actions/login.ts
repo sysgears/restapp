@@ -5,8 +5,7 @@ import { ActionType } from '../reducers';
 
 const LOGIN: ActionFunction<LoginSubmitProps> = value => ({
   types: {
-    SUCCESS: ActionType.SET_CURRENT_USER,
-    FAIL: ActionType.CLEAR_CURRENT_USER
+    SUCCESS: ActionType.SET_CURRENT_USER
   },
   APICall: () => axios.post(`${__API_URL__}/login`, { ...value })
 });

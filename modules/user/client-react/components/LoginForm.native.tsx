@@ -42,9 +42,10 @@ const renderSocialButtons = ({ buttonsLength, t }: SocialButtons) => {
   ) : null;
 };
 
-const LoginForm = <P extends LoginForm & NavigationOptionsProps>({ handleSubmit, valid, values, navigation, t }: P) => {
+const LoginForm = ({ handleSubmit, valid, values, errors, navigation, t }: LoginForm & NavigationOptionsProps) => {
   const buttonsLength = [facebook.enabled, linkedin.enabled, google.enabled, github.enabled].filter(button => button)
     .length;
+
   return (
     <FormView contentContainerStyle={{ flexGrow: 1 }} style={styles.formView}>
       <View style={styles.formContainer}>
@@ -74,6 +75,11 @@ const LoginForm = <P extends LoginForm & NavigationOptionsProps>({ handleSubmit,
                 value={values.password}
               />
             </View>
+            {errors && errors.message && (
+              <View style={styles.alert}>
+                <Text style={styles.alertText}>{errors.message}</Text>
+              </View>
+            )}
             <View style={styles.submit}>
               <Button type={primary} onPress={handleSubmit} disabled={valid}>
                 {t('login.form.btnSubmit')}
@@ -134,13 +140,21 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textDecorationLine: 'underline',
     textAlign: 'center'
+  },
+  alert: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'red',
+    marginTop: 10
+  },
+  alertText: {
+    padding: 10
   }
 });
 
 const LoginFormWithFormik = withFormik<LoginForm & NavigationOptionsProps, LoginSubmitProps>({
-  enableReinitialize: true,
   mapPropsToValues: () => ({ usernameOrEmail: '', password: '' }),
-
   handleSubmit(values, { setErrors, props: { onSubmit } }) {
     onSubmit(values).catch((e: any) => {
       if (e && e.errors) {
@@ -151,6 +165,7 @@ const LoginFormWithFormik = withFormik<LoginForm & NavigationOptionsProps, Login
     });
   },
   validate: values => validate(values, loginFormSchema),
+  enableReinitialize: true,
   displayName: 'LoginForm' // helps with React DevTools
 });
 

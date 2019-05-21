@@ -85,7 +85,7 @@ interface Errors {
 }
 export interface FormProps<V> {
   handleSubmit: (values: V, props: HandleSubmitProps<V>) => void;
-  onSubmit: (values: V) => Promise<void> | void | any;
+  onSubmit: (values: V) => Promise<any>;
   submitting?: boolean;
   errors: Errors;
   values: V;
