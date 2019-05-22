@@ -10,7 +10,6 @@ import settings from '../../../settings';
 import { ValidationErrors } from '.';
 import { createPasswordHash } from './password';
 import emailTemplate from './emailTemplate';
-import { InputItem } from '@restapp/look-client-react-native';
 
 const {
   auth: { password, secret },
