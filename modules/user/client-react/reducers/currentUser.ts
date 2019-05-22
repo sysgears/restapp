@@ -1,12 +1,6 @@
 import { User } from '..';
 import { UserModuleActionProps, ActionType } from '.';
 
-export enum CurrentUserActionType {
-  SET_CURRENT_USER = 'SET_CURRENT_USER',
-  CLEAR_CURRENT_USER = 'CLEAR_CURRENT_USER',
-  SET_LOADING = 'SET_LOADING'
-}
-
 export interface CurrentUserState {
   currentUser: User;
   loading: boolean;

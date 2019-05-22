@@ -14,9 +14,9 @@ export async function onAuthenticationSuccess(req: any, res: any) {
   const redirectUrl = req.query.state;
   const tokens = await access.grantAccess(user, req, user.passwordHash);
   if (redirectUrl) {
-    res.redirect(redirectUrl + (isEmpty(tokens) ? '?data=' + JSON.stringify({ tokens }) : ''));
+    res.redirect(redirectUrl + (!isEmpty(tokens) ? '?data=' + JSON.stringify({ tokens }) : ''));
   } else {
-    res.redirect(`/login${isEmpty(tokens) ? '?data=' + JSON.stringify({ tokens }) : ''}`);
+    res.redirect(`/login${!isEmpty(tokens) ? '?data=' + JSON.stringify({ tokens }) : ''}`);
   }
 }
 
