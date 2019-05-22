@@ -6,7 +6,7 @@ import ServerModule, { RestMethod } from '@restapp/module-server-ts';
 import { user, users, currentUser, addUser, editUser, deleteUser } from './controllers';
 import password from './password';
 import social from './social';
-import UserDAO, { UserShape, UserShapePassword } from './sql';
+import UserDAO, { UserShapePassword } from './sql';
 import settings from '../../../settings';
 import resources from './locales';
 
@@ -20,11 +20,10 @@ const getIdentity = (id: number) => {
   return UserDAO.getUser(id);
 };
 
-const getHash = async (id: number) =>
-  ((await UserDAO.getUserWithPassword(id)) as UserShape & UserShapePassword).passwordHash || '';
+const getHash = async (id: number) => ((await UserDAO.getUserWithPassword(id)) as UserShapePassword).passwordHash || '';
 
 const validateLogin = async (usernameOrEmail: string, pswd: string) => {
-  const identity = (await UserDAO.getUserByUsernameOrEmail(usernameOrEmail)) as UserShape & UserShapePassword;
+  const identity = (await UserDAO.getUserByUsernameOrEmail(usernameOrEmail)) as UserShapePassword;
 
   if (!identity || !identity.passwordHash) {
     return { message: i18n.t('user:auth.password.validPasswordEmail') };

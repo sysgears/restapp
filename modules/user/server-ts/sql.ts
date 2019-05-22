@@ -18,7 +18,7 @@ export interface Profile {
   lastName?: string;
 }
 
-export interface UserShapePassword {
+export interface UserShapePassword extends UserShape {
   passwordHash?: string;
 }
 
