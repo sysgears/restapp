@@ -10,6 +10,7 @@ import settings from '../../../settings';
 import { ValidationErrors } from '.';
 import { createPasswordHash } from './password';
 import emailTemplate from './emailTemplate';
+import { InputItem } from '@restapp/look-client-react-native';
 
 const {
   auth: { password, secret },
@@ -152,7 +153,7 @@ export const editUser = async ({ user: identity, body, t }: any, res: any) => {
 
   const userInfo = !isSelf() && isAdmin() ? body : pick(body, ['id', 'username', 'email', 'password']);
 
-  const passwordHash = await createPasswordHash(body.password);
+  const passwordHash = !!body.password && (await createPasswordHash(body.password));
 
   const trx = await createTransaction();
   try {
