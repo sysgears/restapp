@@ -37,9 +37,7 @@ const withUser = (Component: React.ComponentType<any>) => {
     public async componentDidMount() {
       const { currentUser, getCurrentUser } = this.props;
       if (currentUser === undefined && ((await getItem('refreshToken')) || setting.auth.session.enabled)) {
-        try {
-          await getCurrentUser();
-        } catch (e) {}
+        await getCurrentUser();
       }
     }
 

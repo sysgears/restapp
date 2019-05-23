@@ -19,9 +19,7 @@ const DataRootComponent: React.FunctionComponent<DataRootComponent> = ({ current
   React.useEffect(() => {
     (async () => {
       if (!ready && !currentUser && ((await getItem('refreshToken')) || setting.auth.session.enabled)) {
-        try {
-          await getCurrentUser();
-        } catch (e) {}
+        await getCurrentUser();
       }
       setReady(true);
     })();
