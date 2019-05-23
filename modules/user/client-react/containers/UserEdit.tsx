@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { pick } from 'lodash';
 import { translate } from '@restapp/i18n-client-react';
@@ -17,19 +17,21 @@ interface UserEditProps extends CommonProps {
   getUser?: (id: number) => void;
 }
 
-class UserEdit extends React.Component<UserEditProps> {
-  public state = { ready: false };
-  public async componentDidMount() {
-    let id = 0;
-    if (this.props.match) {
-      id = this.props.match.params.id;
-    }
-    await this.props.getUser(Number(id));
-    this.setState({ ready: true });
-  }
-  public onSubmit = async (values: User) => {
-    const { user, editUser, t, history } = this.props;
+const UserEdit: React.FunctionComponent<UserEditProps> = props => {
+  const { user, editUser, t, history, match, getUser } = props;
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    (async () => {
+      let id = 0;
+      if (match) {
+        id = match.params.id;
+      }
+      await getUser(Number(id));
+      setReady(true);
+    })();
+  }, []);
 
+  const onSubmit = async (values: User) => {
     let userValues = pick(values, ['username', 'email', 'role', 'isActive', 'password', 'firstName', 'lastName']);
 
     userValues = UserFormatter.trimExtraSpaces(userValues);
@@ -46,12 +48,10 @@ class UserEdit extends React.Component<UserEditProps> {
     }
   };
 
-  public render() {
-    return this.state.ready ? <UserEditView onSubmit={this.onSubmit} {...this.props} /> : null;
-  }
-}
+  return ready ? <UserEditView onSubmit={onSubmit} {...props} /> : null;
+};
 
-export default connect<{}, {}, UserEditProps>(
+export default connect(
   ({ users: { user } }: any) => ({
     user
   }),
