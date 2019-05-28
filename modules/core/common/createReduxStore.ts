@@ -8,11 +8,21 @@ export const getStoreReducer = (reducers: any) =>
     ...reducers
   });
 
-const createReduxStore = (reducers: Reducer, initialState: DeepPartial<any>, routerMiddleware?: Middleware): Store => {
+const createReduxStore = (
+  reducers: Reducer,
+  initialState: DeepPartial<any>,
+  routerMiddleware?: Middleware,
+  requestMiddleware?: Middleware
+): Store => {
+  const middleware: () => Middleware[] = () => {
+    const routerMiddlewares = routerMiddleware ? [routerMiddleware] : [];
+    const requestMiddlewares = requestMiddleware ? [requestMiddleware] : [];
+    return [...routerMiddlewares, ...requestMiddlewares];
+  };
   return createStore(
     getStoreReducer(reducers),
-    initialState, // initial state
-    routerMiddleware ? composeWithDevTools(applyMiddleware(routerMiddleware)) : undefined
+    initialState, // initial state,
+    composeWithDevTools(applyMiddleware(...middleware()))
   );
 };
 
