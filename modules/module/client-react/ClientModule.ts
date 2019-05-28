@@ -17,7 +17,7 @@ export interface ClientModuleShape extends BaseModuleShape {
   // URL list to 3rd party js scripts
   scriptsInsert?: string[];
   // Http client is provided by modules
-  requestMiddleware?: Middleware;
+  reduxMiddleware?: Middleware[];
 }
 
 interface ClientModule extends ClientModuleShape {}
@@ -89,8 +89,8 @@ class ClientModule extends BaseModule {
   /**
    * @returns Http client is provided by modules
    */
-  get requestMiddlewares() {
-    return this.requestMiddleware;
+  get reduxMiddlewares() {
+    return this.reduxMiddleware;
   }
 }
 
