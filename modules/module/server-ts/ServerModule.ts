@@ -1,4 +1,5 @@
-import { Express } from 'express';
+import { isEmpty } from 'lodash';
+import { Express, Request, Response } from 'express';
 import CommonModule, { CommonModuleShape } from '@restapp/module-common';
 
 /**
@@ -12,6 +13,15 @@ interface CreateContextFuncProps {
   // Feature modules shared context
   appContext: { [key: string]: any };
 }
+
+/**
+ * A function with reuqest.
+ *
+ * @param req HTTP request
+ * @param res HTTP response
+ * @param next following handler
+ */
+type RequestHandler = (req: Request, res: Response, next: any) => void;
 
 /**
  * A function to create GraphQL context
@@ -40,6 +50,14 @@ export interface ServerModuleShape extends CommonModuleShape {
   beforeware?: MiddlewareFunc[];
   // A list of functions to register normal-priority middlewares
   middleware?: MiddlewareFunc[];
+  accessMiddleware?: RequestHandler;
+  apiRouteParams?: Array<{
+    method: RestMethod;
+    route: string;
+    middleware?: RequestHandler[];
+    controller: RequestHandler;
+    isAuthRoute?: boolean;
+  }>;
 }
 
 interface ServerModule extends ServerModuleShape {}
@@ -53,6 +71,32 @@ class ServerModule extends CommonModule {
    */
   constructor(...modules: ServerModuleShape[]) {
     super(...modules);
+  }
+
+  /**
+   * Creates context for this module
+   *
+   * @returns context
+   */
+  get apiRoutes() {
+    return (
+      this.apiRouteParams &&
+      this.apiRouteParams.map(({ method, route, controller, isAuthRoute, middleware }) => {
+        return (app: Express, modules: ServerModule) => {
+          const handlers = [];
+
+          if (isAuthRoute) {
+            handlers.push(modules.accessMiddleware);
+          }
+          if (!isEmpty(middleware)) {
+            handlers.push(...middleware);
+          }
+          handlers.push(controller);
+
+          app[method](`/api/${route}`, ...handlers);
+        };
+      })
+    );
   }
 
   /**
@@ -72,6 +116,13 @@ class ServerModule extends CommonModule {
     }
     return context;
   }
+}
+
+export enum RestMethod {
+  POST = 'post',
+  GET = 'get',
+  PUT = 'put',
+  DELETE = 'delete'
 }
 
 export default ServerModule;
