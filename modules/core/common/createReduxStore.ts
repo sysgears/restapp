@@ -22,9 +22,6 @@ const requestMiddleware: Middleware = _state => next => action => {
     try {
       const result = await APICall();
       const data = result && result.data;
-      if (data.errors) {
-        throw { response: result };
-      }
       next({
         ...rest,
         type: SUCCESS || null,
@@ -55,16 +52,15 @@ const createReduxStore = (
   routerMiddleware?: Middleware,
   reduxMiddlewares?: Middleware[]
 ): Store => {
-  const middleware: () => Middleware[] = () => {
+  const middlewares: () => Middleware[] = () => {
     const routerMiddlewares = routerMiddleware ? [routerMiddleware] : [];
-    const reduxMiddleware = reduxMiddlewares && reduxMiddlewares.length ? reduxMiddlewares : [];
 
-    return [...routerMiddlewares, requestMiddleware, ...reduxMiddleware];
+    return [...routerMiddlewares, requestMiddleware, ...(reduxMiddlewares || [])];
   };
   return createStore(
     getStoreReducer(reducers),
     initialState, // initial state,
-    composeWithDevTools(applyMiddleware(...middleware()))
+    composeWithDevTools(applyMiddleware(...middlewares()))
   );
 };
 
