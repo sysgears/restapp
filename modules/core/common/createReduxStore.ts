@@ -22,9 +22,6 @@ const requestMiddleware: Middleware = _state => next => action => {
     try {
       const result = await APICall();
       const data = result && result.data;
-      if (data.errors) {
-        throw { response: result };
-      }
       next({
         ...rest,
         type: SUCCESS || null,
@@ -33,10 +30,11 @@ const requestMiddleware: Middleware = _state => next => action => {
 
       return data;
     } catch (e) {
-      if (e.response && e.response.data && e.response.data.status === 401) {
-        return next({ ...action, type: null, status: e.response.data.status });
-      }
       const data = e.response && e.response.data;
+      if (data && e.response.status === 401) {
+        return next({ ...action, type: null, status: e.response.status });
+      }
+
       next({
         ...rest,
         type: FAIL || null,

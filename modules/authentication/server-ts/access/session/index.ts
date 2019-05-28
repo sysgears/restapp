@@ -32,8 +32,7 @@ const beforeware = (app: Express) => {
 const accessMiddleware = (req: Request, res: Response, next: any) =>
   req.isAuthenticated()
     ? next()
-    : res.send({
-        status: 401,
+    : res.status(401).send({
         errors: {
           message: 'unauthorized'
         }

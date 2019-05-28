@@ -31,8 +31,7 @@ const checkAuthentication = (req: Request, res: Response, next: NextFunction) =>
   if (req.user) {
     return next();
   }
-  return res.send({
-    status: 401,
+  return res.status(401).send({
     errors: {
       message: res.locals.error ? res.locals.error.message : 'unauthorized'
     }
