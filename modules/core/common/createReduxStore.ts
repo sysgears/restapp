@@ -30,11 +30,10 @@ const requestMiddleware: Middleware = _state => next => action => {
 
       return data;
     } catch (e) {
-      const data = e.response && e.response.data;
-      if (data && e.response.status === 401) {
+      if (e.response && e.response.status === 401) {
         return next({ ...action, type: null, status: e.response.status });
       }
-
+      const data = e.response && e.response.data;
       next({
         ...rest,
         type: FAIL || null,
