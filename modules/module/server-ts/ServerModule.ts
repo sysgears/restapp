@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash';
+import { isEmpty, merge } from 'lodash';
 import { Express, Request, Response } from 'express';
 import CommonModule, { CommonModuleShape } from '@restapp/module-common';
 
@@ -106,7 +106,7 @@ class ServerModule extends CommonModule {
     let context = {};
 
     for (const createContextFunc of this.createContextFunc) {
-      context = await createContextFunc({ req, res, appContext });
+      context = merge(context, await createContextFunc({ req, res, appContext }));
     }
     return context;
   }
