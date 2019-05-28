@@ -2,7 +2,7 @@ import http from 'http';
 import { serverPort, log } from '@restapp/core-common';
 import ServerModule from '@restapp/module-server-ts';
 
-import { createServerApp } from './app';
+import createServerApp from './app';
 
 let server: http.Server;
 
