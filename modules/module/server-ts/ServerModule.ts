@@ -83,15 +83,9 @@ class ServerModule extends CommonModule {
       this.apiRouteParams &&
       this.apiRouteParams.map(({ method, route, controller, isAuthRoute, middleware }) => {
         return (app: Express, modules: ServerModule) => {
-          const handlers = [];
-
-          if (isAuthRoute) {
-            handlers.push(modules.accessMiddleware);
-          }
-          if (!isEmpty(middleware)) {
-            handlers.push(...middleware);
-          }
-          handlers.push(controller);
+          const handlers = [controller]
+            .concat(!isEmpty(middleware) ? middleware : [])
+            .concat(isAuthRoute ? [modules.accessMiddleware] : []);
 
           app[method](`/api/${route}`, ...handlers);
         };
