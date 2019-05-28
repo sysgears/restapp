@@ -25,11 +25,7 @@ export default class Main extends React.Component<MainProps> {
         : __API_URL__;
 
     const store = createReduxStore(
-      Object.keys(modules.reducers).length > 0
-        ? {
-            ...modules.reducers
-          }
-        : state => state,
+      Object.keys(modules.reducers).length > 0 ? modules.reducers : state => state,
       {}, // initial state
       null,
       modules.reduxMiddlewares
