@@ -1,4 +1,5 @@
-import { Express } from 'express';
+import { isEmpty, merge } from 'lodash';
+import { Express, Request, Response } from 'express';
 import CommonModule, { CommonModuleShape } from '@restapp/module-common';
 
 /**
@@ -12,6 +13,15 @@ interface CreateContextFuncProps {
   // Feature modules shared context
   appContext: { [key: string]: any };
 }
+
+/**
+ * A function with reuqest.
+ *
+ * @param req HTTP request
+ * @param res HTTP response
+ * @param next following handler
+ */
+type RequestHandler = (req: Request, res: Response, next: any) => void;
 
 /**
  * A function to create GraphQL context
@@ -40,6 +50,14 @@ export interface ServerModuleShape extends CommonModuleShape {
   beforeware?: MiddlewareFunc[];
   // A list of functions to register normal-priority middlewares
   middleware?: MiddlewareFunc[];
+  accessMiddleware?: RequestHandler;
+  apiRouteParams?: Array<{
+    method: RestMethod;
+    route: string;
+    middleware?: RequestHandler[];
+    controller: RequestHandler;
+    isAuthRoute?: boolean;
+  }>;
 }
 
 interface ServerModule extends ServerModuleShape {}
@@ -58,6 +76,26 @@ class ServerModule extends CommonModule {
   /**
    * Creates context for this module
    *
+   * @returns context
+   */
+  get apiRoutes() {
+    return (
+      this.apiRouteParams &&
+      this.apiRouteParams.map(({ method, route, controller, isAuthRoute, middleware }) => {
+        return (app: Express, modules: ServerModule) => {
+          const handlers = [controller]
+            .concat(!isEmpty(middleware) ? middleware : [])
+            .concat(isAuthRoute ? [modules.accessMiddleware] : []);
+
+          app[method](`/api/${route}`, ...handlers);
+        };
+      })
+    );
+  }
+
+  /**
+   * Creates context for this module
+   *
    * @param req HTTP request
    * @param res HTTP response
    *
@@ -68,10 +106,17 @@ class ServerModule extends CommonModule {
     let context = {};
 
     for (const createContextFunc of this.createContextFunc) {
-      context = await createContextFunc({ req, res, appContext });
+      context = merge(context, await createContextFunc({ req, res, appContext }));
     }
     return context;
   }
+}
+
+export enum RestMethod {
+  POST = 'post',
+  GET = 'get',
+  PUT = 'put',
+  DELETE = 'delete'
 }
 
 export default ServerModule;
