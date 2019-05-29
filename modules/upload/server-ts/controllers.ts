@@ -27,7 +27,7 @@ export const uploadFiles = async ({ files }: any, res: any) => {
 
     // save files data into DB
     await uploadDAO.saveFiles(uploadedFiles);
-    res.send(true);
+    res.send();
   } catch (e) {
     res.status(500).json({
       errors: {
