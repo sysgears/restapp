@@ -1,6 +1,6 @@
 import { knex } from '@restapp/database-server-ts';
 
-export default class ReportsDAO {
+class ReportsDAO {
   public getReportData() {
     return knex
       .select('id', 'name', 'phone', 'email')
@@ -8,3 +8,7 @@ export default class ReportsDAO {
       .orderBy('id', 'asc');
   }
 }
+
+const reportsDAO = new ReportsDAO();
+
+export default reportsDAO;
