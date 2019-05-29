@@ -43,7 +43,9 @@ const withUser = (Component: React.ComponentType<any>) => {
 
     public render() {
       const { currentUserLoading, currentUser, getCurrentUser, ...rest } = this.props;
-      return currentUserLoading ? null : <Component currentUser={currentUser} currentUserLoading {...rest} />;
+      return currentUserLoading ? null : (
+        <Component currentUser={currentUser} currentUserLoading={currentUserLoading} {...rest} />
+      );
     }
   }
   return connect(

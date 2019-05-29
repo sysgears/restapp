@@ -23,7 +23,7 @@ export default function(state = defaultState, action: UserModuleActionProps) {
       return {
         ...state,
         currentUser: null,
-        loading: false
+        loading: !state.loading
       };
 
     case ActionType.SET_CURRENT_USER:
