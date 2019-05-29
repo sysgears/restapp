@@ -30,7 +30,7 @@ describe('Upload API works', () => {
     status.should.be.eql(200);
   });
 
-  step('Remove file img', async () => {
+  step('Remove file', async () => {
     await chai
       .request(server)
       .post('/api/uploadFiles')
