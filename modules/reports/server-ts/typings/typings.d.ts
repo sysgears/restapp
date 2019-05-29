@@ -244,3 +244,6 @@ declare namespace Excel4Node {
 declare module 'excel4node' {
   export = Excel4Node
 }
+
+//packages without types
+declare module 'pdfmake';

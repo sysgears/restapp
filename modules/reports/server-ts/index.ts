@@ -1,6 +1,7 @@
 import ServerModule, { RestMethod } from '@restapp/module-server-ts';
 
-import { excel } from './exel/controllers';
+import excel from './exel';
+import pdf from './pdf';
 import { report } from './controllers';
 import resources from './locales';
 
@@ -18,6 +19,12 @@ export default new ServerModule({
       route: 'excel',
       isAuthRoute: false,
       controller: excel
+    },
+    {
+      method: RestMethod.GET,
+      route: 'pdf',
+      isAuthRoute: false,
+      controller: pdf
     }
   ]
 });
