@@ -9,7 +9,7 @@ import websiteMiddleware from './middleware/website';
 import errorMiddleware from './middleware/error';
 import contextMiddleware from './middleware/context';
 
-export const createServerApp = (modules: ServerModule) => {
+const createServerApp = (modules: ServerModule) => {
   const app = express();
   // Don't rate limit heroku
   app.enable('trust proxy');
@@ -45,3 +45,5 @@ export const createServerApp = (modules: ServerModule) => {
   }
   return app;
 };
+
+export default createServerApp;

@@ -1,6 +1,6 @@
-import { isEmpty } from 'lodash';
-import CommonModule, { CommonModuleShape } from '@restapp/module-common';
+import { isEmpty, merge } from 'lodash';
 import { Express, Request, Response } from 'express';
+import CommonModule, { CommonModuleShape } from '@restapp/module-common';
 
 /**
  * Create GraphQL context function params
@@ -13,6 +13,15 @@ interface CreateContextFuncProps {
   // Feature modules shared context
   appContext: { [key: string]: any };
 }
+
+/**
+ * A function with reqest.
+ *
+ * @param req HTTP request
+ * @param res HTTP response
+ * @param next following handler
+ */
+type RequestHandler = (req: Request, res: Response, next: any) => void;
 
 /**
  * A function to create GraphQL context
@@ -30,15 +39,6 @@ type CreateContextFunc = (props: CreateContextFuncProps) => { [key: string]: any
  * @param appContext application context
  */
 type MiddlewareFunc = (app: Express, appContext: { [key: string]: any }) => void;
-
-/**
- * A function with reuqest.
- *
- * @param req HTTP request
- * @param res HTTP response
- * @param next following handler
- */
-type RequestHandler = (req: Request, res: Response, next: any) => void;
 
 export enum RestMethod {
   POST = 'post',
@@ -83,6 +83,27 @@ class ServerModule extends CommonModule {
   /**
    * Creates context for this module
    *
+   * @returns context
+   */
+  get apiRoutes() {
+    return (
+      this.apiRouteParams &&
+      this.apiRouteParams.map(({ method, route, controller, isAuthRoute, middleware }) => {
+        return (app: Express, modules: ServerModule) => {
+          const handlers = []
+            .concat(!isEmpty(middleware) ? middleware : [])
+            .concat(isAuthRoute ? [...modules.accessMiddleware] : []);
+
+          handlers.push(controller);
+
+          app[method](`/api/${route}`, ...handlers);
+        };
+      })
+    );
+  }
+  /**
+   * Creates context for this module
+   *
    * @param req HTTP request
    * @param res HTTP response
    *
@@ -93,27 +114,9 @@ class ServerModule extends CommonModule {
     let context = {};
 
     for (const createContextFunc of this.createContextFunc) {
-      context = await createContextFunc({ req, res, appContext });
+      context = merge(context, await createContextFunc({ req, res, appContext }));
     }
     return context;
-  }
-
-  public get apiRoutes() {
-    return this.apiRouteParams.map(({ method, route, controller, isAuthRoute, middleware }) => {
-      return (app: Express, modules: ServerModule) => {
-        const handlers = [];
-
-        if (isAuthRoute && modules.accessMiddleware && modules.accessMiddleware.length) {
-          handlers.push(...modules.accessMiddleware);
-        }
-        if (!isEmpty(middleware)) {
-          handlers.push(...middleware);
-        }
-        handlers.push(controller);
-
-        app[method](`/api/${route}`, ...handlers);
-      };
-    });
   }
 }
 

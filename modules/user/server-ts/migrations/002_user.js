@@ -74,7 +74,6 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   return Promise.all([
-    knex.schema.dropTable('auth_certificate'),
     knex.schema.dropTable('auth_facebook'),
     knex.schema.dropTable('auth_google'),
     knex.schema.dropTable('auth_github'),

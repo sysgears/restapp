@@ -3,8 +3,8 @@ import { Provider } from 'react-redux';
 import url from 'url';
 
 import ClientModule from '@restapp/module-client-react-native';
-import log from '../../../packages/common/log';
 import createReduxStore from '../../../packages/common/createReduxStore';
+import log from '../../../packages/common/log';
 const { protocol, pathname, port } = url.parse(__API_URL__);
 
 interface MainProps {
@@ -24,11 +24,7 @@ export default class Main extends React.Component<MainProps> {
         : __API_URL__;
 
     const store = createReduxStore(
-      Object.keys(modules.reducers).length > 0
-        ? {
-            ...modules.reducers
-          }
-        : state => state,
+      Object.keys(modules.reducers).length > 0 ? modules.reducers : state => state,
       {}, // initial state
       null,
       modules.reduxMiddlewares
