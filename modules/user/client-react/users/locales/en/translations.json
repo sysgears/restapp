@@ -1,0 +1,78 @@
+{
+  "loading": "App is loading...",
+  "navLink": {
+    "users": "Users",
+    "editUser": "Edit user"
+  },
+  "userEdit": {
+    "title": "Edit User",
+    "meta": "An Edit User page example",
+    "errorMsg": "User editing failed!",
+    "loadMsg": "Loading...",
+    "form": {
+      "title": "User",
+      "titleEdit": "Edit",
+      "titleCreate": "Create",
+      "field": {
+        "name": "Username",
+        "email": "Email",
+        "role": {
+          "label": "Role",
+          "user": "user",
+          "admin": "admin"
+        },
+        "active": "Is Active",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "pass": "Password",
+        "passConf": "Password Confirmation"
+      },
+      "btnSubmit": "Save"
+    },
+    "select": {
+      "okText": "Done",
+      "dismissText": "Cancel"
+    },
+    "btnBack": "Back"
+  },
+  "userAdd": {
+    "errorMsg": "Add user failed!"
+  },
+  "users": {
+    "title": "Users",
+    "meta": "A User List page example",
+    "loadMsg": "Loading...",
+    "list": {
+      "title": "Users",
+      "item": {
+        "filter": "Filter",
+        "search": "Search ...",
+        "role": {
+          "label": "Role",
+          "all": "All",
+          "user": "user",
+          "admin": "admin"
+        },
+        "active": "Is Active"
+      }
+    },
+    "select": {
+      "okText": "Done",
+      "dismissText": "Cancel"
+    },
+    "btnModalSubmit": "Submit",
+    "btnModalClose": "Close",
+    "orderByText": "Order by",
+    "column": {
+      "name": "Username",
+      "email": "Email",
+      "role": "Role",
+      "active": "Is Active",
+      "actions": "Actions"
+    },
+    "btn": {
+      "add": "Add user",
+      "delete": "Delete"
+    }
+  }
+}

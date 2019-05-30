@@ -1,0 +1,91 @@
+{
+  "loading": "App is loading...",
+  "navLink": {
+    "signIn": "Sign In",
+    "logout": "Log out",
+    "forgotPassword": "Forgot password",
+    "register": "Register",
+    "resetPassword": "Reset password"
+  },
+  "login": {
+    "title": "Login",
+    "meta": "A Login page example",
+    "errorMsg": "Login failed!",
+    "cardTitle": "Available logins",
+    "notRegText": "Not registered yet?",
+    "fbBtn": "Log in with Facebook",
+    "googleBtn": "Log in with Google",
+    "githubBtn": "Log in with GitHub",
+    "linkedinBtn": "Log in with LinkedIn",
+    "form": {
+      "title": "Sign In",
+      "field": {
+        "usernameOrEmail": "Username or Email",
+        "pass": "Password"
+      },
+      "btnSubmit": "Login"
+    },
+    "btn": {
+      "forgotPass": "Forgot your password?",
+      "notReg": "Not registered yet?",
+      "sign": "Sign Up"
+    }
+  },
+  "reg": {
+    "title": "Register",
+    "meta": "A Registration page example",
+    "errorMsg": "Registration failed!",
+    "form": {
+      "title": "Sign Up",
+      "field": {
+        "name": "Username",
+        "email": "Email",
+        "pass": "Password",
+        "passConf": "Password Confirmation"
+      },
+      "btnSubmit": "Register"
+    },
+    "confirmationMsgTitle": "Verify Your Email Address",
+    "confirmationMsgBody": "We now need to verify your email address. We've sent you the email. Please click the link in that email to continue. ",
+    "confirmationBtn": "Go back to Login page",
+    "successRegTitle": "Email Has Been Verified Successfully",
+    "successRegBody": "Your email has been verified successfully. You can sign in using your login and password."
+  },
+  "resetPass": {
+    "title": "Reset password",
+    "meta": "A Reset Password page example",
+    "errorMsg": "Password reset failed!",
+    "form": {
+      "title": "Reset Password",
+      "field": {
+        "pass": "Password",
+        "passConf": "Password Confirmation"
+      },
+      "btnSubmit": "Reset password"
+    }
+  },
+  "forgotPass": {
+    "title": "Forgot password",
+    "meta": "A Forgot Password page example",
+    "errorMsg": "Reset password failed!",
+    "form": {
+      "title": "Password Reset",
+      "submitMsg": "Instructions for resetting your password were emailed to you.",
+      "fldEmail": "Email",
+      "btnSubmit": "Send instructions"
+    }
+  },
+  "mobile": {
+    "login": {
+      "usernameOrEmail": {
+        "label": "Username or Email",
+        "placeholder": "Enter Your Username or Email"
+      },
+      "pass": {
+        "label": "Password",
+        "placeholder": "Enter Your Password"
+      }
+    },
+    "logout": "Log out"
+  }
+}

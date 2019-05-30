@@ -1,5 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
+
 import { getItem } from '@restapp/core-common/clientStorage';
 
 import Loading from '../components/Loading.native';
@@ -31,7 +32,7 @@ class DataRootComponent extends React.Component<DataRootComponent> {
 }
 
 export default connect(
-  ({ currentUser: { currentUser } }: any) => ({
+  ({ signUpReducer: { currentUser } }: any) => ({
     currentUser
   }),
   { getCurrentUser: CURRENT_USER }
