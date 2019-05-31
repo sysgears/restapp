@@ -1,6 +1,6 @@
 import ServerModule, { RestMethod } from '@restapp/module-server-ts';
 
-import excel from './exel';
+import excel from './excel';
 import pdf from './pdf';
 import { report } from './controllers';
 import resources from './locales';

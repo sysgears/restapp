@@ -1,6 +1,6 @@
 import * as xl from 'excel4node';
 
-interface UserContact {
+interface Data {
   id: number;
   name: string;
   phone: string;
@@ -20,9 +20,9 @@ const style = wb.createStyle({
   }
 });
 
-export default function generateBufferExcel(contacts: UserContact[]) {
+export default function generateBufferExcel(data: Data[]) {
   const ws = wb.addWorksheet('Report', options);
-  const titles = Object.keys(contacts[0]);
+  const titles = Object.keys(data[0]);
 
   titles.forEach((title, i) => {
     const capitalized = title[0].toUpperCase() + title.slice(1);
@@ -31,7 +31,7 @@ export default function generateBufferExcel(contacts: UserContact[]) {
       .style(style);
   });
 
-  contacts.forEach((item, i) => {
+  data.forEach((item, i) => {
     const values = Object.values(item);
     values.forEach((value, j) => {
       ws.cell(i + 2, j + 1)
