@@ -10,5 +10,17 @@
     },
     "btnDel": "Delete"
   },
-  "nativeMock": "Hello, Upload!"
+  "nativeMock": "Hello, Upload!",
+  "loading": "Loading...",
+  "download": {
+    "successMsg": "The file was downloaded to the gallery",
+    "errorMsg": "Access error!"
+  },
+  "upload": {
+    "btn": "Upload",
+    "errorMsg": "This file type is not supported",
+    "media": "Upload from media",
+    "documents": "Upload from documents",
+    "cancel": "Cancel"
+  }
 }

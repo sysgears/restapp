@@ -43,6 +43,7 @@
   "author": "SysGears INC",
   "license": "MIT",
   "dependencies": {
+    "@expo/react-native-action-sheet": "^2.1.0",
     "@expo/vector-icons": "^9.0.0",
     "@restapp/welcome-client-react": "^0.1.0",
     "antd-mobile-rn": "^2.2.1",

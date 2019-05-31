@@ -9,6 +9,6 @@ import uploadReducer from './reducers';
 
 export default new ClientModule({
   reducer: [{ uploadReducer }],
-  route: [<Route exact path="/upload" component={Upload} />],
+  route: [<Route exact path="/" component={Upload} />],
   localization: [{ ns: 'upload', resources }]
 });

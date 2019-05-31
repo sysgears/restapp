@@ -2,26 +2,26 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import ClientModule from '@restapp/module-client-react-native';
 import { translate } from '@restapp/i18n-client-react';
-import { HeaderTitle, IconButton } from '../../../packages/client/src/modules/common/components/native';
-import Welcome from './containers/Welcome';
+import { HeaderTitle, IconButton } from '@restapp/look-client-react-native';
+import Upload from './containers/Upload';
 import resources from './locales';
+import uploadReducer from './reducers';
 
-const HeaderTitleWithI18n = translate('welcome')(HeaderTitle);
+const HeaderTitleWithI18n = translate('upload')(HeaderTitle);
 
 export default new ClientModule({
   drawerItem: [
     {
-      Welcome: {
+      Upload: {
         screen: createStackNavigator({
-          Welcome: {
-            screen: Welcome,
-            navigationOptions: ({ navigation }: any) => ({
-              headerTitle: <HeaderTitleWithI18n style="subTitle" />,
+          Upload: {
+            screen: Upload,
+            navigationOptions: ({ navigation }: { [key: string]: any }) => ({
+              headerTitle: <HeaderTitleWithI18n i18nKey="title" style="subTitle" />,
               headerLeft: (
                 <IconButton iconName="menu" iconSize={32} iconColor="#0275d8" onPress={() => navigation.openDrawer()} />
               ),
-              headerStyle: { backgroundColor: '#fff' },
-              headerForceInset: {}
+              headerStyle: { backgroundColor: '#fff' }
             })
           }
         }),
@@ -31,5 +31,6 @@ export default new ClientModule({
       }
     }
   ],
-  localization: [{ ns: 'welcome', resources }]
+  reducer: [{ uploadReducer }],
+  localization: [{ ns: 'upload', resources }]
 });
