@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { translate } from '@restapp/i18n-client-react';
 import { Table, Button } from '@restapp/look-client-react';
 
-import { User, CommonProps } from '../..';
+import { User, CommonProps } from '../../types/typings';
 import { OrderBy } from '..';
 
 export interface UsersViewProps extends CommonProps {

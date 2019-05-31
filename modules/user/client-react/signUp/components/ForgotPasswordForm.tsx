@@ -6,7 +6,7 @@ import { translate } from '@restapp/i18n-client-react';
 import { Form, RenderField, Button, Alert } from '@restapp/look-client-react';
 import { required, email, validate } from '@restapp/validation-common-react';
 
-import { CommonProps, FormProps } from '../..';
+import { CommonProps, FormProps } from '../../types/typings';
 import { ForgotPasswordSubmitProps } from '..';
 
 interface ForgotPasswordFormProps extends CommonProps, FormProps<ForgotPasswordSubmitProps> {

@@ -7,11 +7,10 @@ import { FormError } from '@restapp/forms-client-react';
 
 import UserAddView from '../components/UserAddView';
 import UserFormatter from '../../helpers/UserFormatter';
-import { CommonProps as RNCommonProps } from '../../index.native';
-import { User, CommonProps } from '../..';
+import { User, CommonProps } from '../../types/typings';
 import { ADD_USER } from '../actions';
 
-interface UserAddProps extends CommonProps, RNCommonProps {
+interface UserAddProps extends CommonProps {
   addUser?: (values: User) => any;
 }
 

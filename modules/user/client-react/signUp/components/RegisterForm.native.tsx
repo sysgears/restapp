@@ -11,7 +11,7 @@ import { match, email, minLength, required, validate } from '@restapp/validation
 
 import settings from '../../../../../settings';
 
-import { FormProps } from '../../index.native';
+import { FormProps } from '../../types/typings';
 import { RegisterSubmitProps } from '../index.native';
 
 interface RegisterProps extends FormProps<RegisterSubmitProps> {

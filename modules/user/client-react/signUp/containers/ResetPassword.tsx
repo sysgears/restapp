@@ -5,9 +5,10 @@ import { translate } from '@restapp/i18n-client-react';
 import { FormError } from '@restapp/forms-client-react';
 
 import ResetPasswordView from '../components/ResetPasswordView';
-import { CommonProps } from '../..';
+
 import { ResetPasswordSubmitProps } from '..';
 import { RESET_PASSWORD } from '../actions';
+import { CommonProps } from '../../types/typings';
 
 interface Token {
   token: string;

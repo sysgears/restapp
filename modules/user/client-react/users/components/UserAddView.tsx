@@ -5,7 +5,7 @@ import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { PageLayout } from '@restapp/look-client-react';
 
 import UserForm from './UserForm';
-import { User } from '../..';
+import { User } from '../../types/typings';
 import MetaData from '../../components/MetaData';
 
 interface FormValues extends User {

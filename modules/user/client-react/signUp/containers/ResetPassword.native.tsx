@@ -6,7 +6,7 @@ import { FormError } from '@restapp/forms-client-react';
 
 import ResetPasswordView from '../components/ResetPasswordView.native';
 import { RESET_PASSWORD } from '../actions';
-import { CommonProps } from '../../index.native';
+import { CommonProps } from '../../types/typings';
 import { ResetPasswordSubmitProps } from '../index.native';
 
 interface Token {

@@ -10,7 +10,7 @@ import { LinkedInButton, GoogleButton, GitHubButton, FacebookButton } from '@res
 
 import settings from '../../../../../settings';
 import { LoginSubmitProps } from '..';
-import { FormProps } from '../..';
+import { FormProps } from '../../types/typings';
 
 interface SocialButtons {
   buttonsLength: number;

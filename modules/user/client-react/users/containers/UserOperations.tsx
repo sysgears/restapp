@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { USERS, DELETE_USER } from '../actions';
-import { UserRole } from '../..';
+import { UserRole } from '../../types/typings';
 import { OrderBy } from '..';
 
 const withUsers = (Component: React.ComponentType<any>) => {

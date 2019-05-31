@@ -7,7 +7,7 @@ import { required, minLength, validate, match } from '@restapp/validation-common
 import { Form, RenderField, Button, Alert } from '@restapp/look-client-react';
 
 import settings from '../../../../../settings';
-import { CommonProps, FormProps } from '../..';
+import { CommonProps, FormProps } from '../../types/typings';
 import { ResetPasswordSubmitProps } from '..';
 
 interface ResetPasswordFormProps extends CommonProps, FormProps<ResetPasswordSubmitProps> {}

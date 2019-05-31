@@ -6,7 +6,7 @@ import UsersList from '../components/UsersListView.native';
 import UsersFilter from '../components/UsersFilterView.native';
 import { withSortAndFilter, withUsers, withUsersDeleting } from './UserOperations';
 
-import { NavigationOptionsProps } from '../../index.native';
+import { NavigationOptionsProps } from '../../types/typings';
 
 interface UsersProps extends NavigationOptionsProps {
   loading: boolean;

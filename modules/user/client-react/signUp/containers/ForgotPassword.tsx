@@ -5,7 +5,7 @@ import { translate } from '@restapp/i18n-client-react';
 import { FormError } from '@restapp/forms-client-react';
 
 import ForgotPasswordView from '../components/ForgotPasswordView';
-import { CommonProps } from '../..';
+import { CommonProps } from '../../types/typings';
 import { ForgotPasswordSubmitProps } from '..';
 import { FORGOT_PASSWORD } from '../actions';
 

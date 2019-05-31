@@ -9,7 +9,7 @@ import { RenderField, Button, RenderSelect, RenderSwitch, FormView, primary } fr
 import { placeholderColor, submit } from '@restapp/look-client-react-native/styles';
 import { email as emailRule, minLength, required, match, validate } from '@restapp/validation-common-react';
 
-import { FormProps, User, UserRole } from '../../index.native';
+import { FormProps, User, UserRole } from '../../types/typings';
 import settings from '../../../../../settings';
 
 interface FormikFormProps extends FormProps<FormValues> {

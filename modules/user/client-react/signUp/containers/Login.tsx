@@ -7,7 +7,7 @@ import { FormError } from '@restapp/forms-client-react';
 import { setItem } from '@restapp/core-common/clientStorage';
 
 import LoginView from '../components/LoginView';
-import { CommonProps } from '../..';
+import { CommonProps } from '../../types/typings';
 import { LoginSubmitProps } from '..';
 import { LOGIN } from '../actions';
 

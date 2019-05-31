@@ -7,7 +7,7 @@ import { FormError } from '@restapp/forms-client-react';
 
 import UserEditView from '../components/UserEditView.native';
 import UserFormatter from '../../helpers/UserFormatter';
-import { CommonProps, User } from '../../index.native';
+import { CommonProps, User } from '../../types/typings';
 import { USER, EDIT_USER } from '../actions';
 
 interface UserEditProps extends CommonProps {

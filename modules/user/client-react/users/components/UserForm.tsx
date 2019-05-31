@@ -8,7 +8,7 @@ import { email as emailRule, minLength, required, match, validate } from '@resta
 import { Form, RenderField, RenderSelect, RenderCheckBox, Option, Button, Alert } from '@restapp/look-client-react';
 
 import settings from '../../../../../settings';
-import { CommonProps, FormProps, User, UserRole } from '../..';
+import { CommonProps, FormProps, User, UserRole } from '../../types/typings';
 
 interface FormikFormProps extends FormProps<FormValues> {
   initialValues: FormValues;

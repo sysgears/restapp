@@ -4,7 +4,7 @@ import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { Loading } from '@restapp/look-client-react-native';
 
 import UserForm from './ProfileEditForm.native';
-import { User } from '../../index.native';
+import { User } from '../../types/typings';
 
 interface FormValues extends User {
   password: string;

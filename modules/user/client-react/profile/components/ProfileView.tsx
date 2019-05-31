@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { LayoutCenter, Card, CardGroup, CardTitle, CardText, PageLayout } from '@restapp/look-client-react';
 
-import { User } from '../..';
+import { User } from '../../types/typings';
 import MetaData from '../../components/MetaData';
 
 interface ProfileViewProps {

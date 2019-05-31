@@ -3,7 +3,7 @@ import React from 'react';
 import { LayoutCenter, PageLayout } from '@restapp/look-client-react';
 
 import ForgotPasswordForm from './ForgotPasswordForm';
-import { CommonProps } from '../..';
+import { CommonProps } from '../../types/typings';
 import { ForgotPasswordSubmitProps } from '..';
 import MetaData from '../../components/MetaData';
 

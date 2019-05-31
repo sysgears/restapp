@@ -3,7 +3,7 @@ import React from 'react';
 import { PageLayout } from '@restapp/look-client-react';
 
 import ResetPasswordForm from './ResetPasswordForm';
-import { CommonProps } from '../..';
+import { CommonProps } from '../../types/typings';
 import { ResetPasswordSubmitProps } from '..';
 import MetaData from '../../components/MetaData';
 

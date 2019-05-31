@@ -10,7 +10,7 @@ import { placeholderColor, submit } from '@restapp/look-client-react-native/styl
 import { required, minLength, validate, match } from '@restapp/validation-common-react';
 
 import settings from '../../../../../settings';
-import { CommonProps, FormProps } from '../../index.native';
+import { CommonProps, FormProps } from '../../types/typings';
 import { ResetPasswordSubmitProps } from '../index.native';
 
 interface ResetPasswordFormProps extends CommonProps, FormProps<ResetPasswordSubmitProps> {}

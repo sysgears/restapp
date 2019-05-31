@@ -7,7 +7,7 @@ import { FormError } from '@restapp/forms-client-react';
 import RegisterView from '../components/RegisterView.native';
 import settings from '../../../../../settings';
 import { REGISTER } from '../actions';
-import { CommonProps } from '../../index.native';
+import { CommonProps } from '../../types/typings';
 import { RegisterSubmitProps } from '../index.native';
 
 interface RegisterProps extends CommonProps {

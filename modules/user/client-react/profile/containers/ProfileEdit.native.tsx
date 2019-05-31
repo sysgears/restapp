@@ -7,7 +7,7 @@ import { FormError } from '@restapp/forms-client-react';
 
 import ProfileEditView from '../components/ProfileEditView.native';
 import UserFormatter from '../../helpers/UserFormatter';
-import { User, CommonProps } from '../../index.native';
+import { User, CommonProps } from '../../types/typings';
 import { USER, EDIT_USER } from '../actions';
 
 interface ProfileEditProps extends CommonProps {
