@@ -10,8 +10,8 @@ import { placeholderColor, submit } from '@restapp/look-client-react-native/styl
 import { required, minLength, validate } from '@restapp/validation-common-react';
 import { LinkedInButton, GoogleButton, GitHubButton, FacebookButton } from '@restapp/authentication-client-react';
 
-import { FormProps, NavigationOptionsProps } from '../../types/typings';
-import { LoginSubmitProps } from '../index.native';
+import { FormProps, NavigationOptionsProps } from '../../types';
+import { LoginSubmitProps } from '../types';
 import settings from '../../../../../settings';
 
 interface SocialButtons {

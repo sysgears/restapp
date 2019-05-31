@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ActionType, ActionFunction } from '.';
-import { User } from '../..';
+import { User } from '../../types';
 
 const EDIT_USER: ActionFunction<ActionType, User> = user => ({
   types: {},

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ActionType, ActionFunction } from '.';
-import { OrderBy, Filter } from '..';
+import { OrderBy, Filter } from '../types';
 
 const USERS: ActionFunction<ActionType, OrderBy, Filter, ActionType> = (
   orderBy: OrderBy,

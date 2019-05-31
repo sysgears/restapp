@@ -3,7 +3,7 @@ import React from 'react';
 import { translate } from '@restapp/i18n-client-react';
 import { LayoutCenter } from '@restapp/look-client-react';
 
-import { CommonProps } from '..';
+import { CommonProps } from '../types';
 
 interface LoadingProps extends CommonProps {}
 

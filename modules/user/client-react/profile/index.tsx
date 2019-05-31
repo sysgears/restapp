@@ -7,11 +7,7 @@ import ClientModule from '@restapp/module-client-react';
 import resources from './locales';
 import Profile from './containers/Profile';
 import { AuthRoute, IfLoggedIn, withUser } from '../containers/Auth';
-
-export enum UserRole {
-  admin = 'admin',
-  user = 'user'
-}
+import { UserRole } from '../types';
 
 const ProfileName = withUser(({ currentUser }) => (
   <>{currentUser ? currentUser.fullName || currentUser.username : null}</>

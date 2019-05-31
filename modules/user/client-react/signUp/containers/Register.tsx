@@ -5,8 +5,8 @@ import { translate } from '@restapp/i18n-client-react';
 import { FormError } from '@restapp/forms-client-react';
 
 import RegisterView from '../components/RegisterView';
-import { CommonProps } from '../../types/typings';
-import { RegisterSubmitProps } from '..';
+import { CommonProps } from '../../types';
+import { RegisterSubmitProps } from '../types';
 import { REGISTER } from '../actions';
 import settings from '../../../../../settings';
 

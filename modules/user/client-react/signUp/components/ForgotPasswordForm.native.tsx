@@ -10,8 +10,8 @@ import { placeholderColor, submit } from '@restapp/look-client-react-native/styl
 import { required, email, validate } from '@restapp/validation-common-react';
 import { translate } from '@restapp/i18n-client-react';
 
-import { CommonProps, FormProps } from '../../types/typings';
-import { ForgotPasswordSubmitProps } from '../index.native';
+import { CommonProps, FormProps } from '../../types';
+import { ForgotPasswordSubmitProps } from '../types';
 
 interface ForgotPasswordFormProps extends CommonProps, FormProps<ForgotPasswordSubmitProps> {
   sent: boolean;

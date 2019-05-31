@@ -10,7 +10,7 @@ import authentication from '@restapp/authentication-client-react';
 import LoginForm from './LoginForm.native';
 import { LoginProps } from '../containers/Login.native';
 
-import { LoginSubmitProps } from '../index.native';
+import { LoginSubmitProps } from '../types';
 
 interface LoginViewProps extends LoginProps {
   onSubmit: (values: LoginSubmitProps) => void;

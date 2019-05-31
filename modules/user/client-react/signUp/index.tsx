@@ -1,7 +1,5 @@
 import React from 'react';
-import { NavLink, withRouter } from 'react-router-dom';
 
-import { translate } from '@restapp/i18n-client-react';
 import { MenuItem } from '@restapp/look-client-react';
 import ClientModule from '@restapp/module-client-react';
 
@@ -9,52 +7,12 @@ import Login from './containers/Login';
 import Register from './containers/Register';
 import ForgotPassword from './containers/ForgotPassword';
 import ResetPassword from './containers/ResetPassword';
+import Logout from './containers/Logout';
+import NavLinkLoginWithI18n from './containers/NavLoginLink';
 import signUpReducer from './reducers';
 import resources from './locales';
 
-import { AuthRoute, IfLoggedIn, IfNotLoggedIn, withLogout, WithLogoutProps } from '../containers/Auth';
-
-export interface LoginSubmitProps {
-  usernameOrEmail: string;
-  password: string;
-}
-
-export interface RegisterSubmitProps {
-  username: string;
-  email: string;
-  password: string;
-  passwordConfirmation: string;
-}
-
-export interface ResetPasswordSubmitProps {
-  password: string;
-  passwordConfirmation: string;
-}
-export interface ForgotPasswordSubmitProps {
-  email: string;
-}
-
-const LogoutLink = withRouter(withLogout(({ logout, history }: WithLogoutProps) => (
-  <a
-    href="javascript:void(0)"
-    onClick={e => {
-      e.preventDefault();
-      (async () => {
-        await logout();
-        history.push('/');
-      })();
-    }}
-    className="nav-link"
-  >
-    Logout
-  </a>
-)) as any);
-
-const NavLinkLoginWithI18n = translate('userSignUp')(({ t }: any) => (
-  <NavLink to="/login" className="nav-link" activeClassName="active">
-    {t('navLink.signIn')}
-  </NavLink>
-));
+import { AuthRoute, IfLoggedIn, IfNotLoggedIn } from '../containers/Auth';
 
 export default new ClientModule({
   route: [
@@ -66,7 +24,7 @@ export default new ClientModule({
   navItemRight: [
     <IfLoggedIn key="/logout">
       <MenuItem>
-        <LogoutLink />
+        <Logout />
       </MenuItem>
     </IfLoggedIn>,
     <IfNotLoggedIn key="/login">

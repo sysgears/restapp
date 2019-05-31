@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { User } from '../..';
+import { User } from '../../types';
 import { ActionType, ActionFunction } from '.';
 
 const ADD_USER: ActionFunction<ActionType, User> = user => ({

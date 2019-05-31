@@ -6,8 +6,8 @@ import { translate } from '@restapp/i18n-client-react';
 import { match, email, minLength, required, validate } from '@restapp/validation-common-react';
 import { Form, RenderField, Button, Alert } from '@restapp/look-client-react';
 
-import { FormProps } from '../../types/typings';
-import { RegisterSubmitProps } from '..';
+import { FormProps } from '../../types';
+import { RegisterSubmitProps } from '../types';
 import settings from '../../../../../settings';
 
 const registerFormSchema = {

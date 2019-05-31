@@ -5,8 +5,8 @@ import { translate } from '@restapp/i18n-client-react';
 import { FormError } from '@restapp/forms-client-react';
 
 import ForgotPasswordView from '../components/ForgotPasswordView.native';
-import { CommonProps, User } from '../../types/typings';
-import { ForgotPasswordSubmitProps } from '../index.native';
+import { CommonProps, User } from '../../types';
+import { ForgotPasswordSubmitProps } from '../types';
 import { FORGOT_PASSWORD } from '../actions';
 
 interface ForgotPasswordProps extends CommonProps {

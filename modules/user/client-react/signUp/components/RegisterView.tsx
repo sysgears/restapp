@@ -5,7 +5,7 @@ import { LayoutCenter, PageLayout, Card, CardGroup, CardTitle, CardText } from '
 
 import RegisterForm from './RegisterForm';
 import settings from '../../../../../settings';
-import { RegisterSubmitProps } from '..';
+import { RegisterSubmitProps } from '../types';
 import MetaData from '../../components/MetaData';
 
 interface RegisterViewProps {

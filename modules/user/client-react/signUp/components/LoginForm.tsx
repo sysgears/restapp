@@ -9,8 +9,8 @@ import { Form, RenderField, Alert, Button } from '@restapp/look-client-react';
 import { LinkedInButton, GoogleButton, GitHubButton, FacebookButton } from '@restapp/authentication-client-react';
 
 import settings from '../../../../../settings';
-import { LoginSubmitProps } from '..';
-import { FormProps } from '../../types/typings';
+import { LoginSubmitProps } from '../types';
+import { FormProps } from '../../types';
 
 interface SocialButtons {
   buttonsLength: number;

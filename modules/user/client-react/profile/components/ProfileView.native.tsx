@@ -5,7 +5,7 @@ import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { Card, CardItem, CardText, CardHeader, CardLabel, Loading } from '@restapp/look-client-react-native';
 import { linkText } from '@restapp/look-client-react-native/styles';
 
-import { NavigationOptionsProps, User } from '../../types/typings';
+import { NavigationOptionsProps, User } from '../../types';
 
 interface ProfileViewProps extends NavigationOptionsProps {
   currentUserLoading: boolean;

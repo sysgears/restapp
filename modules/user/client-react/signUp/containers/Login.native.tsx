@@ -6,8 +6,8 @@ import { translate } from '@restapp/i18n-client-react';
 import authentication from '@restapp/authentication-client-react';
 
 import LoginView from '../components/LoginView.native';
-import { CommonProps } from '../../types/typings';
-import { LoginSubmitProps } from '../index.native';
+import { CommonProps } from '../../types';
+import { LoginSubmitProps } from '../types';
 import { LOGIN } from '../actions';
 
 export interface LoginProps extends CommonProps {

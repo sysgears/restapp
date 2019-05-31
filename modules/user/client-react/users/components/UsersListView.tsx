@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { translate } from '@restapp/i18n-client-react';
 import { Table, Button } from '@restapp/look-client-react';
 
-import { User, CommonProps } from '../../types/typings';
-import { OrderBy } from '..';
+import { User, CommonProps } from '../../types';
+import { OrderBy } from '../types';
 
 export interface UsersViewProps extends CommonProps {
   loading: boolean;

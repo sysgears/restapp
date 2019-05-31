@@ -7,7 +7,7 @@ import { FormError } from '@restapp/forms-client-react';
 
 import UserAddView from '../components/UserAddView';
 import UserFormatter from '../../helpers/UserFormatter';
-import { User, CommonProps } from '../../types/typings';
+import { User, CommonProps } from '../../types';
 import { ADD_USER } from '../actions';
 
 interface UserAddProps extends CommonProps {

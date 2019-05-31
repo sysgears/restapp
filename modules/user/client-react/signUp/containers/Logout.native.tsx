@@ -5,7 +5,7 @@ import { HeaderTitle } from '@restapp/look-client-react-native';
 import { translate } from '@restapp/i18n-client-react';
 
 import { withLogout } from '../../containers/Auth';
-import { CommonProps } from '../../types/typings';
+import { CommonProps } from '../../types';
 
 interface LogoutViewProps extends CommonProps {
   logout: () => void;

@@ -6,7 +6,7 @@ import { PageLayout } from '@restapp/look-client-react';
 
 import UserForm from './UserForm';
 import MetaData from '../../components/MetaData';
-import { User } from '../../types/typings';
+import { User } from '../../types';
 
 interface FormValues extends User {
   password: string;

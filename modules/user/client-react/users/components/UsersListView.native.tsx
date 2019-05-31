@@ -15,7 +15,7 @@ import {
   primary
 } from '@restapp/look-client-react-native';
 
-import { NavigationOptionsProps, User } from '../../types/typings';
+import { NavigationOptionsProps, User } from '../../types';
 
 interface UsersListViewProps extends NavigationOptionsProps {
   users: User[];

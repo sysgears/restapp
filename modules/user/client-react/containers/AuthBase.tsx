@@ -1,12 +1,11 @@
 import React from 'react';
 import { RouteProps } from 'react-router';
-import { History } from 'history';
 import { connect } from 'react-redux';
 
 import authentication from '@restapp/authentication-client-react';
 import { getItem } from '@restapp/core-common/clientStorage';
 
-import { User, UserRole } from '..';
+import { User, UserRole, CommonProps } from '../types';
 import CLEAR_USER from '../signUp/actions/clearUser';
 import { CURRENT_USER } from '../actions';
 import setting from '../../../../settings';
@@ -27,9 +26,8 @@ interface IfLoggedInComponent {
   children?: Element | any;
 }
 
-export interface WithLogoutProps extends WithUserProps {
+export interface WithLogoutProps extends WithUserProps, CommonProps {
   logout?: () => void;
-  history?: History;
   clearUser?: () => void;
 }
 

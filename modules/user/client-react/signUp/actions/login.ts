@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ActionFunction, ActionType } from '.';
-import { LoginSubmitProps } from '..';
+import { LoginSubmitProps } from '../types';
 
 const LOGIN: ActionFunction<ActionType, LoginSubmitProps> = value => ({
   types: {

@@ -2,7 +2,7 @@ import React, { ComponentType, FunctionComponent } from 'react';
 import { Route, Redirect, RouteComponentProps } from 'react-router-dom';
 
 import { withUser } from './AuthBase';
-import { UserRole, User } from '..';
+import { UserRole, User } from '../types';
 import { WithUserProps } from './AuthBase';
 
 interface AuthRouteProps extends WithUserProps {

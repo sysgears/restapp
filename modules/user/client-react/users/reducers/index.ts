@@ -1,5 +1,5 @@
-import { User } from '../..';
-import { OrderBy, Filter } from '..';
+import { User } from '../../types';
+import { OrderBy, Filter } from '../types';
 
 export enum ActionType {
   SET_LOADING = 'SET_LOADING',

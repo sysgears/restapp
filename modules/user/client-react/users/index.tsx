@@ -1,7 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
-import { translate } from '@restapp/i18n-client-react';
 import { MenuItem } from '@restapp/look-client-react';
 import ClientModule from '@restapp/module-client-react';
 
@@ -9,32 +7,10 @@ import resources from './locales';
 import Users from './containers/Users';
 import UserEdit from './containers/UserEdit';
 import UserAdd from './containers/UserAdd';
+import NavLinkUsersWithI18n from './containers/NavLink';
 import { AuthRoute, IfLoggedIn } from '../containers/Auth';
 import usersReducer from './reducers';
-
-export enum UserRole {
-  admin = 'admin',
-  user = 'user'
-}
-
-export interface OrderBy {
-  column: string;
-  order: string;
-}
-
-export interface Filter {
-  searchText: string;
-  role: string;
-  isActive: boolean;
-}
-
-export * from '../containers/Auth';
-
-const NavLinkUsersWithI18n = translate('userUsers')(({ t }: any) => (
-  <NavLink to="/users" className="nav-link" activeClassName="active">
-    {t('navLink.users')}
-  </NavLink>
-));
+import { UserRole } from '../types';
 
 export default new ClientModule({
   route: [

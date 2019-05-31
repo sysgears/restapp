@@ -5,7 +5,7 @@ import { getItem } from '@restapp/core-common/clientStorage';
 
 import Loading from '../components/Loading';
 import { CURRENT_USER } from '../actions';
-import { User } from '..';
+import { User } from '../types';
 import setting from '../../../../settings';
 
 interface DataRootComponent {

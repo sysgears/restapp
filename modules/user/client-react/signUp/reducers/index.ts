@@ -1,4 +1,4 @@
-import { User } from '../..';
+import { User } from '../../types';
 
 export interface SignUpActionProps {
   type: ActionType | ActionType[];

@@ -6,9 +6,9 @@ import { FormError } from '@restapp/forms-client-react';
 
 import ResetPasswordView from '../components/ResetPasswordView';
 
-import { ResetPasswordSubmitProps } from '..';
+import { ResetPasswordSubmitProps } from '../types';
 import { RESET_PASSWORD } from '../actions';
-import { CommonProps } from '../../types/typings';
+import { CommonProps } from '../../types';
 
 interface Token {
   token: string;

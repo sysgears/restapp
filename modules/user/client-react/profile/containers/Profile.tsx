@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ProfileView from '../components/ProfileView';
-import { User, CommonProps } from '../../types/typings';
+import { User, CommonProps } from '../../types';
 
 interface ProfileProps extends CommonProps {
   currentUser?: User;

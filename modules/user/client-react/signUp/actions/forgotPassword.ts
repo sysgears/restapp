@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ActionFunction, ActionType } from '.';
-import { ForgotPasswordSubmitProps } from '..';
+import { ForgotPasswordSubmitProps } from '../types';
 
 const FORGOT_PASSWORD: ActionFunction<ActionType, ForgotPasswordSubmitProps> = value => ({
   types: {},

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import ResetPasswordForm from './ResetPasswordForm.native';
-import { ResetPasswordSubmitProps } from '../index.native';
+import { ResetPasswordSubmitProps } from '../types';
 
 interface ResetPasswordViewProps {
   onSubmit: (values: ResetPasswordSubmitProps) => void;

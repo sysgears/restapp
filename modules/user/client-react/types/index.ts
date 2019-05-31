@@ -36,7 +36,6 @@ export interface User extends UserProfile, Auth {
 
 export interface CommonProps extends HistoryProp, NavigationOptionsProps {
   t?: TranslateFunction;
-  
 }
 
 export interface HistoryProp {
@@ -64,4 +63,3 @@ interface HandleSubmitProps<P> {
 interface Errors {
   message?: string;
 }
-

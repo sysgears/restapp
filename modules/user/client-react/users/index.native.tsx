@@ -9,19 +9,8 @@ import resources from './locales';
 import Users from './containers/Users.native';
 import UserEdit from './containers/UserEdit.native';
 import UserAdd from './containers/UserAdd';
-import { NavigationOptionsProps } from '../index.native';
+import { NavigationOptionsProps } from '../types';
 import usersReducer from './reducers';
-
-export interface OrderBy {
-  column: string;
-  order: string;
-}
-
-export interface Filter {
-  searchText: string;
-  role: string;
-  isActive: boolean;
-}
 
 class UsersListScreen extends React.Component<NavigationOptionsProps> {
   public render() {

@@ -7,8 +7,8 @@ import { FormError } from '@restapp/forms-client-react';
 import { setItem } from '@restapp/core-common/clientStorage';
 
 import LoginView from '../components/LoginView';
-import { CommonProps } from '../../types/typings';
-import { LoginSubmitProps } from '..';
+import { CommonProps } from '../../types';
+import { LoginSubmitProps } from '../types';
 import { LOGIN } from '../actions';
 
 export interface LoginProps extends CommonProps {

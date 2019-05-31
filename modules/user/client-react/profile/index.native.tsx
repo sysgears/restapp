@@ -7,14 +7,9 @@ import { HeaderTitle, IconButton } from '@restapp/look-client-react-native';
 import ClientModule from '@restapp/module-client-react-native';
 
 import resources from './locales';
-
+import { UserRole } from '../types';
 import Profile from './containers/Profile.native';
 import ProfileEdit from './containers/ProfileEdit.native';
-
-export enum UserRole {
-  admin = 'admin',
-  user = 'user'
-}
 
 interface Auth {
   lnDisplayName: string;

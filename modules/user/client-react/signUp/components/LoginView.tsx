@@ -4,7 +4,7 @@ import { LayoutCenter, PageLayout, Card, CardGroup, CardTitle, CardText, Button 
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 
 import LoginForm from './LoginForm';
-import { LoginSubmitProps } from '..';
+import { LoginSubmitProps } from '../types';
 import { LoginProps } from '../containers/Login';
 import MetaData from '../../components/MetaData';
 

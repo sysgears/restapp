@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import ForgotPasswordForm from './ForgotPasswordForm.native';
-import { ForgotPasswordSubmitProps } from '../index.native';
+import { ForgotPasswordSubmitProps } from '../types';
 
 interface ForgotPasswordViewProps {
   onSubmit: (values: ForgotPasswordSubmitProps) => void;

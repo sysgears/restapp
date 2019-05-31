@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ActionFunction, ActionType } from '.';
-import { ResetPasswordSubmitProps } from '..';
+import { ResetPasswordSubmitProps } from '../types';
 
 interface ResetPasswordProps extends ResetPasswordSubmitProps {
   token: string;

@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 
 import UserForm from './UserForm';
-import { User } from '../../types/typings';
+import { User } from '../../types';
 
 interface FormValues extends User {
   password: string;

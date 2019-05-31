@@ -11,28 +11,8 @@ import Logout from './containers/Logout.native';
 import Register from './containers/Register.native';
 import ForgotPassword from './containers/ForgotPassword.native';
 import ResetPassword from './containers/ResetPassword.native';
-import { NavigationOptionsProps } from '../index.native';
+import { NavigationOptionsProps } from '../types';
 import signUpReducer from './reducers';
-
-export interface LoginSubmitProps {
-  usernameOrEmail: string;
-  password: string;
-}
-export interface ResetPasswordSubmitProps {
-  password: string;
-  passwordConfirmation: string;
-}
-
-export interface ForgotPasswordSubmitProps {
-  email: string;
-}
-
-export interface RegisterSubmitProps {
-  username: string;
-  email: string;
-  password: string;
-  passwordConfirmation: string;
-}
 
 class LoginScreen extends React.Component<NavigationOptionsProps> {
   public static navigationOptions = ({ navigation }: NavigationOptionsProps) => ({

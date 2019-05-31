@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ActionFunction, ActionType } from '.';
-import { RegisterSubmitProps } from '..';
+import { RegisterSubmitProps } from '../types';
 
 const REGISTER: ActionFunction<ActionType, RegisterSubmitProps> = value => ({
   types: {},

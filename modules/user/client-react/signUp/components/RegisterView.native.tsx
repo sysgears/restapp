@@ -5,7 +5,7 @@ import { Button, primary } from '@restapp/look-client-react-native';
 import { TranslateFunction, translate } from '@restapp/i18n-client-react';
 
 import RegisterForm from './RegisterForm.native';
-import { RegisterSubmitProps } from '../index.native';
+import { RegisterSubmitProps } from '../types';
 
 interface RegisterViewProps {
   t: TranslateFunction;

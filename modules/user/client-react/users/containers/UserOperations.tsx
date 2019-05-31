@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { USERS, DELETE_USER } from '../actions';
-import { UserRole } from '../../types/typings';
-import { OrderBy } from '..';
+import { UserRole } from '../../types';
+import { OrderBy } from '../types';
 
 const withUsers = (Component: React.ComponentType<any>) => {
   class WithUsers extends React.Component<any> {
