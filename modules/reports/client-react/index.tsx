@@ -2,8 +2,9 @@ import React from 'react';
 import { Route, NavLink } from 'react-router-dom';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { MenuItem } from '@restapp/look-client-react';
-import ClientModule from '@restapp/module-client-react';
 
+import ReportModule from './ReportModule';
+import excel from './excel';
 import Report from './containers/Report';
 import resources from './locales';
 
@@ -13,7 +14,7 @@ const NavLinkWithI18n = translate('report')(({ t }: { t: TranslateFunction }) =>
   </NavLink>
 ));
 
-export default new ClientModule({
+export default new ReportModule(excel, {
   route: [<Route exact path="/report" component={Report} />],
   navItem: [
     <MenuItem key="/report">

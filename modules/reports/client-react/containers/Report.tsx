@@ -5,7 +5,7 @@ import { PageLayout } from '@restapp/look-client-react';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import settings from '../../../../settings';
 
-import reports from '../reports';
+import reports from '../index';
 
 interface ReportProps {
   t: TranslateFunction;
