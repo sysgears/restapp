@@ -1,12 +1,11 @@
 import React from 'react';
-import Helmet from 'react-helmet';
 import { Link } from 'react-router-dom';
 
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { PageLayout } from '@restapp/look-client-react';
 
 import UserForm from './UserForm';
-import settings from '../../../../../settings';
+import MetaData from '../../components/MetaData';
 import { User } from '../..';
 
 interface FormValues extends User {
@@ -25,21 +24,9 @@ interface UserEditViewProps {
 const UserEditView: React.FunctionComponent<UserEditViewProps> = ({ loading, user, t, currentUser, onSubmit }) => {
   const isNotSelf = !user || (user && user.id !== currentUser.id);
 
-  const renderMetaData = () => (
-    <Helmet
-      title={`${settings.app.name} - ${t('userEdit.title')}`}
-      meta={[
-        {
-          name: 'description',
-          content: `${settings.app.name} - ${t('userEdit.meta')}`
-        }
-      ]}
-    />
-  );
-
   return (
     <PageLayout>
-      {renderMetaData()}
+      <MetaData title={t('userEdit.title')} meta={t('userEdit.meta')} />
       {loading && !user ? (
         <div className="text-center">{t('userEdit.loadMsg')}</div>
       ) : (

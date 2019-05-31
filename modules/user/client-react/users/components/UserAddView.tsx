@@ -1,13 +1,12 @@
 import React from 'react';
-import Helmet from 'react-helmet';
 import { Link } from 'react-router-dom';
 
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { PageLayout } from '@restapp/look-client-react';
 
 import UserForm from './UserForm';
-import settings from '../../../../../settings';
 import { User } from '../..';
+import MetaData from '../../components/MetaData';
 
 interface FormValues extends User {
   password: string;
@@ -20,21 +19,9 @@ interface UserAddViewProps {
 }
 
 const UserAddView = ({ t, onSubmit }: UserAddViewProps) => {
-  const renderMetaData = () => (
-    <Helmet
-      title={`${settings.app.name} - ${t('userEdit.title')}`}
-      meta={[
-        {
-          name: 'description',
-          content: `${settings.app.name} - ${t('userEdit.meta')}`
-        }
-      ]}
-    />
-  );
-
   return (
     <PageLayout>
-      {renderMetaData()}
+      <MetaData title={t('userEdit.title')} meta={t('userEdit.meta')} />
       <Link id="back-button" to="/users">
         Back
       </Link>

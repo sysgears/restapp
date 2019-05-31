@@ -1,5 +1,4 @@
 import React from 'react';
-import Helmet from 'react-helmet';
 
 import { LayoutCenter, PageLayout, Card, CardGroup, CardTitle, CardText, Button } from '@restapp/look-client-react';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
@@ -7,8 +6,7 @@ import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import LoginForm from './LoginForm';
 import { LoginSubmitProps } from '..';
 import { LoginProps } from '../containers/Login';
-
-import settings from '../../../../../settings';
+import MetaData from '../../components/MetaData';
 
 interface LoginViewProps extends LoginProps {
   onSubmit: (values: LoginSubmitProps) => void;
@@ -18,18 +16,6 @@ interface LoginViewProps extends LoginProps {
 }
 
 const LoginView = ({ onSubmit, t, isRegistered, hideModal }: LoginViewProps) => {
-  const renderMetaData = () => (
-    <Helmet
-      title={`${settings.app.name} - ${t('login.title')}`}
-      meta={[
-        {
-          name: 'description',
-          content: `${settings.app.name} - ${t('login.meta')}`
-        }
-      ]}
-    />
-  );
-
   const renderConfirmationModal = () => (
     <Card>
       <CardGroup style={{ textAlign: 'center' }}>
@@ -46,7 +32,7 @@ const LoginView = ({ onSubmit, t, isRegistered, hideModal }: LoginViewProps) => 
 
   return (
     <PageLayout>
-      {renderMetaData()}
+      <MetaData title={t('login.title')} meta={t('login.meta')} />
       <LayoutCenter>
         {isRegistered ? (
           renderConfirmationModal()

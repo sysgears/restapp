@@ -1,44 +1,30 @@
 import React from 'react';
-import Helmet from 'react-helmet';
 import { Link } from 'react-router-dom';
 
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { LayoutCenter, Card, CardGroup, CardTitle, CardText, PageLayout } from '@restapp/look-client-react';
 
 import { User } from '../..';
-import settings from '../../../../../settings';
+import MetaData from '../../components/MetaData';
 
 interface ProfileViewProps {
   currentUserLoading: boolean;
   currentUser: User;
   t: TranslateFunction;
 }
-const renderMetaData = (t: TranslateFunction) => {
-  return (
-    <Helmet
-      title={`${settings.app.name} - ${t('profile.title')}`}
-      meta={[
-        {
-          name: 'description',
-          content: `${settings.app.name} - ${t('profile.meta')}`
-        }
-      ]}
-    />
-  );
-};
 
 const ProfileView: React.FunctionComponent<ProfileViewProps> = ({ currentUserLoading, currentUser, t }) => {
   if (currentUserLoading && !currentUser) {
     return (
       <PageLayout>
-        {renderMetaData(t)}
+        <MetaData title={t('profile.title')} meta={t('profile.meta')} />
         <div className="text-center">{t('profile.loadMsg')}</div>
       </PageLayout>
     );
   } else if (currentUser) {
     return (
       <PageLayout>
-        {renderMetaData(t)}
+        <MetaData title={t('profile.title')} meta={t('profile.meta')} />
         <LayoutCenter>
           <h1 className="text-center">{t('profile.card.title')}</h1>
           <Card>
@@ -70,7 +56,7 @@ const ProfileView: React.FunctionComponent<ProfileViewProps> = ({ currentUserLoa
   } else {
     return (
       <PageLayout>
-        {renderMetaData(t)}
+        <MetaData title={t('profile.title')} meta={t('profile.meta')} />
         <h2>{t('profile.errorMsg')}</h2>
       </PageLayout>
     );

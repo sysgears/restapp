@@ -1,5 +1,4 @@
 import React from 'react';
-import Helmet from 'react-helmet';
 
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { LayoutCenter, PageLayout, Card, CardGroup, CardTitle, CardText } from '@restapp/look-client-react';
@@ -7,6 +6,7 @@ import { LayoutCenter, PageLayout, Card, CardGroup, CardTitle, CardText } from '
 import RegisterForm from './RegisterForm';
 import settings from '../../../../../settings';
 import { RegisterSubmitProps } from '..';
+import MetaData from '../../components/MetaData';
 
 interface RegisterViewProps {
   t: TranslateFunction;
@@ -15,18 +15,6 @@ interface RegisterViewProps {
 }
 
 const RegisterView = ({ t, onSubmit, isRegistered }: RegisterViewProps) => {
-  const renderMetaData = () => (
-    <Helmet
-      title={`${settings.app.name} - ${t('reg.title')}`}
-      meta={[
-        {
-          name: 'description',
-          content: `${settings.app.name} - ${t('reg.meta')}`
-        }
-      ]}
-    />
-  );
-
   const renderConfirmationModal = () => (
     <Card>
       <CardGroup style={{ textAlign: 'center' }}>
@@ -38,7 +26,7 @@ const RegisterView = ({ t, onSubmit, isRegistered }: RegisterViewProps) => {
 
   return (
     <PageLayout>
-      {renderMetaData()}
+      <MetaData title={t('reg.title')} meta={t('reg.meta')} />
       <LayoutCenter>
         <h1 className="text-center">{t('reg.form.title')}</h1>
         {isRegistered && settings.auth.password.requireEmailConfirmation ? (
