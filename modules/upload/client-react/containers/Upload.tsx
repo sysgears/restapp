@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { ImageFile } from 'react-dropzone';
 import { ActionFunction, getFiles, removeFile, uploadFiles } from '../actions';
-import UploadView from '../components/UploadView';
+import FileOperations from './FileOperations';
 
 export interface UploadCommonProps {
   t: TranslateFunction;
@@ -14,14 +13,14 @@ export interface UploadCommonProps {
   loading: boolean;
 }
 
-interface UploadProps extends UploadCommonProps {
+export interface UploadProps extends UploadCommonProps {
   getFiles: ActionFunction;
   removeFile: (id: number) => ActionFunction;
   uploadFiles: (filesList: ImageFile[]) => ActionFunction;
 }
 
 const Upload = (props: UploadProps) => {
-  const { getFiles: getAllFiles, files, removeFile: removeFileById, uploadFiles: upload } = props;
+  const { getFiles: getAllFiles, files } = props;
 
   useEffect(() => {
     if (!files) {
@@ -29,19 +28,7 @@ const Upload = (props: UploadProps) => {
     }
   }, []);
 
-  const handleUploadFiles = async (filesList: ImageFile[]) => {
-    await upload(filesList);
-    await getAllFiles();
-  };
-
-  const handleRemoveFile = async (id: number) => {
-    await removeFileById(id);
-    await getAllFiles();
-  };
-
-  return (
-    <UploadView {...props} files={files} handleUploadFiles={handleUploadFiles} handleRemoveFile={handleRemoveFile} />
-  );
+  return <FileOperations {...props} files={files} />;
 };
 
 const mapState = ({ uploadReducer: { files, loadingUpload: loading, errorUpload: error } }: any) => ({
