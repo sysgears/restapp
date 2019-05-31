@@ -22,6 +22,7 @@ export interface UploadFileData {
 export class FileSystemStorage {
   public save(uploadFileData: UploadFileData, location: string, shouldGenerateId = true): Promise<UploadedFile> {
     const { data, name, mimetype, size } = uploadFileData;
+
     const id = shouldGenerateId ? `${shortid.generate()}-` : '';
     const sanitizedFilename = name.replace(/[^a-z0-9_.\-]/gi, '_').toLowerCase();
     const path = `${location}/${id}${sanitizedFilename}`;
