@@ -1,12 +1,10 @@
-import { ImageFile } from 'react-dropzone';
-
 interface Action {
   type: string;
   payload: any;
 }
 
 interface InitialState {
-  files: ImageFile[];
+  files: any;
   errorUpload: { [key: string]: any };
   loadingUpload: boolean;
 }

@@ -3,26 +3,13 @@ import path from 'path';
 import { DocumentPicker, MediaLibrary, ImagePicker, Constants, FileSystem, Permissions } from 'expo';
 import { compose } from 'redux';
 import { Alert } from 'react-native';
-// @ts-ignore TODO
+
 import { contentType } from 'react-native-mime-types';
-import { ActionSheetProvider, connectActionSheet, ActionSheetProps } from '@expo/react-native-action-sheet';
+import { ActionSheetProvider, connectActionSheet } from '@expo/react-native-action-sheet';
 import url from 'url';
-import { ImageFile } from 'react-dropzone';
-import { TranslateFunction } from '@restapp/i18n-client-react';
 import uploadConfig from '../../../../config/upload';
-import UploadView from '../components/UploadView';
-import { ActionFunction } from '../actions';
-
-interface FileOperationsProps extends ActionSheetProps {
-  t: TranslateFunction;
-  getFiles: ActionFunction;
-  removeFile: (id: number) => ActionFunction;
-  uploadFiles: (filesList: ImageFile[]) => ActionFunction;
-}
-
-interface FileOperationsState {
-  downloadingFiles: { [key: string]: any };
-}
+import UploadView from '../components/UploadView.native';
+import { FileOperationsProps, FileNativeOperationsState } from '../types';
 
 const {
   manifest: { bundleUrl }
@@ -42,8 +29,8 @@ const withActionSheetProvider = (Component: ComponentType) => {
   };
   return ActionSheet;
 };
-/*TODO*/
-class FileOperations extends React.Component<FileOperationsProps, FileOperationsState> {
+
+class FileOperations extends React.Component<FileOperationsProps, FileNativeOperationsState> {
   constructor(props: FileOperationsProps) {
     super(props);
 
@@ -51,7 +38,7 @@ class FileOperations extends React.Component<FileOperationsProps, FileOperations
       downloadingFiles: []
     };
   }
-  // @ts-ignore TODO
+
   public handleRemoveFile = async (id: number) => {
     const { removeFile, getFiles } = this.props;
     await removeFile(id);
@@ -95,8 +82,7 @@ class FileOperations extends React.Component<FileOperationsProps, FileOperations
 
     const type = contentType(path.extname(name));
     if (type) {
-      // @ts-ignore TODO
-      await uploadFiles([{ uri, type, name }]);
+      await uploadFiles([{ uri, type, name } as any]);
     } else {
       Alert.alert(t('upload.errorMsg'));
     }
@@ -107,7 +93,6 @@ class FileOperations extends React.Component<FileOperationsProps, FileOperations
     const { t } = this.props;
     const { downloadingFiles } = this.state;
 
-    // @ts-ignore TODO
     this.setState({ downloadingFiles: [...downloadingFiles, id] });
     (await this.checkPermission(Permissions.CAMERA_ROLL))
       ? await this.downloadFile(downloadPath, name)
@@ -146,11 +131,10 @@ class FileOperations extends React.Component<FileOperationsProps, FileOperations
 
   public render() {
     return (
-      // @ts-ignore TODO
       <UploadView
         {...this.props}
         handleRemoveFile={this.handleRemoveFile}
-        handleUploadFile={this.handleUploadFile}
+        handleUploadNativeFiles={this.handleUploadFile}
         handleDownloadFile={this.handleDownloadFile}
         downloadingFiles={this.state.downloadingFiles}
       />

@@ -1,23 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { translate, TranslateFunction } from '@restapp/i18n-client-react';
-import { ImageFile } from 'react-dropzone';
-import { ActionFunction, getFiles, removeFile, uploadFiles } from '../actions';
+import { translate } from '@restapp/i18n-client-react';
+import { getFiles, removeFile, uploadFiles } from '../actions';
 import FileOperations from './FileOperations';
-
-export interface UploadCommonProps {
-  t: TranslateFunction;
-  files: ImageFile[];
-  error: { [key: string]: any };
-  loading: boolean;
-}
-
-export interface UploadProps extends UploadCommonProps {
-  getFiles: ActionFunction;
-  removeFile: (id: number) => ActionFunction;
-  uploadFiles: (filesList: ImageFile[]) => ActionFunction;
-}
+import { UploadProps } from '../types';
 
 class Upload extends Component<UploadProps> {
   public componentDidMount() {

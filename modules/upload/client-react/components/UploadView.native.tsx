@@ -3,17 +3,9 @@ import { FontAwesome } from '@expo/vector-icons';
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
 import { Loading } from '@restapp/look-client-react-native';
 import filesize from 'filesize';
-// import { UploadCommonProps } from '../containers/Upload';
-/*TODO*/
-// interface UploadViewProps extends UploadCommonProps {
-//     handleRemoveFile: (id: number) => Promise<void>;
-//     handleUploadFile: (event: GestureResponderEvent) => Promise<void>;
-//     handleDownloadFile: (path: string, name: string, id: number) => Promise<void>;
-//     downloadingFiles: number[];
-// }
+import { UploadNativeViewProps } from '../types';
 
-export default class UploadView extends React.Component<any> {
-  /*TODO*/
+export default class UploadView extends React.Component<UploadNativeViewProps> {
   public renderFileInfo = ({ item: { id, name, path, size } }: any) => {
     const { handleRemoveFile, handleDownloadFile, downloadingFiles } = this.props;
     const icon = downloadingFiles.some((fileId: number) => fileId === id) ? (
@@ -40,7 +32,7 @@ export default class UploadView extends React.Component<any> {
   };
 
   public render() {
-    const { files, t, loading, handleUploadFile, downloadingFiles, error } = this.props;
+    const { files, t, loading, handleUploadNativeFiles, downloadingFiles, error } = this.props;
     if (loading) {
       return <Loading text={t('loading')} />;
     }
@@ -56,7 +48,7 @@ export default class UploadView extends React.Component<any> {
     return files ? (
       <View style={styles.container}>
         <View style={styles.btnContainer}>
-          <TouchableOpacity style={styles.btn} onPress={handleUploadFile}>
+          <TouchableOpacity style={styles.btn} onPress={handleUploadNativeFiles}>
             <Text style={styles.btnText}>{t('upload.btn')}</Text>
           </TouchableOpacity>
         </View>

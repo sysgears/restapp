@@ -1,18 +1,12 @@
 import React from 'react';
 import Helmet from 'react-helmet';
-import Dropzone, { DropFilesEventHandler } from 'react-dropzone';
+import Dropzone from 'react-dropzone';
 import filesize from 'filesize';
 import { PageLayout, Row, Col, Table, Button, Alert } from '@restapp/look-client-react';
-import { UploadCommonProps } from '../containers/Upload';
-
+import { UploadViewProps } from '../types';
 import settings from '../../../../settings';
 
-interface UploadViewProps extends UploadCommonProps {
-  handleUploadFiles: DropFilesEventHandler;
-  handleRemoveFile: (id: number) => Promise<void>;
-}
-
-const UploadView = ({ files, error, loading, handleUploadFiles, handleRemoveFile, t }: UploadViewProps) => {
+const UploadView = ({ files, error, loading, onUploadFiles, handleRemoveFile, t }: UploadViewProps) => {
   const renderMetaData = () => {
     return (
       <Helmet
@@ -60,7 +54,7 @@ const UploadView = ({ files, error, loading, handleUploadFiles, handleRemoveFile
       <div className="text-center">
         <Row>
           <Col xs={4}>
-            <Dropzone onDrop={handleUploadFiles}>
+            <Dropzone onDrop={onUploadFiles}>
               <p>{t('message')}</p>
             </Dropzone>
           </Col>

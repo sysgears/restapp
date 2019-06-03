@@ -1,8 +1,7 @@
 import React from 'react';
 import { ImageFile } from 'react-dropzone';
-
 import UploadView from '../components/UploadView';
-import { UploadProps } from './Upload';
+import { UploadProps } from '../types';
 
 const FileOperations = (props: UploadProps) => {
   const { getFiles: getAllFiles, removeFile: removeFileById, uploadFiles: upload } = props;
@@ -16,7 +15,7 @@ const FileOperations = (props: UploadProps) => {
     await getAllFiles();
   };
 
-  return <UploadView {...props} handleRemoveFile={handleRemoveFile} handleUploadFiles={handleUploadFiles} />;
+  return <UploadView {...props} handleRemoveFile={handleRemoveFile} onUploadFiles={handleUploadFiles} />;
 };
 
 export default FileOperations;
