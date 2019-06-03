@@ -5,6 +5,8 @@ import { MenuItem } from '@restapp/look-client-react';
 
 import ReportModule from './ReportModule';
 import excel from './excel';
+import pdf from './pdf';
+import print from './print';
 import Report from './containers/Report';
 import resources from './locales';
 
@@ -14,7 +16,7 @@ const NavLinkWithI18n = translate('report')(({ t }: { t: TranslateFunction }) =>
   </NavLink>
 ));
 
-export default new ReportModule(excel, {
+export default new ReportModule(excel, pdf, print, {
   route: [<Route exact path="/report" component={Report} />],
   navItem: [
     <MenuItem key="/report">

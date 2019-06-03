@@ -45,7 +45,7 @@ export default function generator(contacts: UserContact[], t: TranslationFunctio
     chunks.push(chunk);
   });
 
-  const buffer = new Promise(res => {
+  const buffer: Promise<Buffer> = new Promise(res => {
     doc.on('end', () => {
       res(Buffer.concat(chunks));
     });

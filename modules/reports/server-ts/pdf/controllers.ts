@@ -10,7 +10,7 @@ export const pdf = async (_req: Request, res: Response) => {
   try {
     const reportsData = await reportsDAO.getReportData();
     const pdfFile = await generator(reportsData, t);
-    res.send(pdfFile);
+    res.send(Array.from(new Uint8Array(pdfFile)));
   } catch (e) {
     res.status(500);
   }
