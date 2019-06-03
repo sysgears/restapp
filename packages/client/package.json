@@ -12,7 +12,7 @@
     "clean": "rimraf build .tmp",
     "tests": "jest",
     "tests:watch": "jest --watch",
-    "test": "yarn jest && yarn lint",
+    "test": "yarn tests && yarn lint",
     "eslint": "eslint --fix --ext js --ext jsx --ext json .",
     "tslint": "tslint --fix -p tsconfig.json -c ../../tslint.json",
     "lint": "yarn eslint && yarn tslint",

@@ -17,7 +17,7 @@ Object.assign(global, {
   __SSR__: false,
   __FRONTEND_BUILD_DIR__: __dirname + '/../client/build',
   __DLL_BUILD_DIR__: __dirname + '/../../.cache/dll',
-  __API_URL__: '/graphql'
+  __API_URL__: '/api'
 });
 
 const { setup } = require('@restapp/testing-server-ts');
