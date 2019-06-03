@@ -16,7 +16,7 @@ const NavLinkWithI18n = translate('report')(({ t }: { t: TranslateFunction }) =>
   </NavLink>
 ));
 
-export default new ReportModule(excel, pdf, print, {
+export default new ReportModule(print, pdf, excel, {
   route: [<Route exact path="/report" component={Report} />],
   navItem: [
     <MenuItem key="/report">
