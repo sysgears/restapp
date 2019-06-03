@@ -23,10 +23,8 @@
     "rollback": "lerna run --scope=server rollback",
     "exp": "yarn --cwd packages/mobile exp",
     "exp-publish": "lerna run --scope=mobile exp-publish --stream",
-    "jest": "lerna run jest --stream",
-    "test": "yarn tests && yarn lint",
-    "tests": "lerna run tests --stream",
-    "tests:watch": "lerna run tests:watch --stream",
+    "tests": "jest",
+    "tests:watch": "jest --watch",
     "lint": "yarn eslint && yarn tslint",
     "eslint": "eslint --fix --ext js --ext jsx --ext json .",
     "tslint": "tslint --fix -p tsconfig.json -c tslint.json",
@@ -147,7 +145,11 @@
     "whatwg-fetch": "^2.0.4"
   },
   "dependencies": {
-    "lodash": "^4.17.11"
+    "babel-jest": "^24.8.0",
+    "jest": "^24.8.0",
+    "jest-transform-stub": "^2.0.0",
+    "lodash": "^4.17.11",
+    "ts-jest": "^24.0.2"
   },
   "resolutions": {
     "immutability-helper": "2.8.1",

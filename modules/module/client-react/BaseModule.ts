@@ -44,7 +44,7 @@ class BaseModule extends CommonModule {
    * @returns Redux reducers
    */
   get reducers() {
-    return merge({}, ...this.reducer);
+    return merge({}, ...(this.reducer || []));
   }
 
   /**
