@@ -1,4 +1,5 @@
 import welcome from '@restapp/welcome-client-react';
+import reports from '@restapp/reports-client-react';
 import core from '@restapp/core-client-react';
 import look from '@restapp/look-client-react';
 import i18n from '@restapp/i18n-client-react';
@@ -9,6 +10,6 @@ import '@restapp/favicon-common';
 
 const pageNotFound = require('@restapp/page-not-found-client-react').default;
 
-const modules = new ClientModule(welcome, look, validation, defaultRouter, i18n, pageNotFound, core);
+const modules = new ClientModule(reports, welcome, look, validation, defaultRouter, i18n, pageNotFound, core);
 
 export default modules;
