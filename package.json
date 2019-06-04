@@ -151,8 +151,7 @@
     "whatwg-fetch": "^2.0.4"
   },
   "dependencies": {
-    "lodash": "^4.17.11",
-    "watchpack": "https://github.com/Globegitter/watchpack"
+    "lodash": "^4.17.11"
   },
   "resolutions": {
     "immutability-helper": "2.8.1",

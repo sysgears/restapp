@@ -22,20 +22,15 @@ module.exports = api => {
   } else {
     return {
       compact: false,
-      presets: ['module:metro-react-native-babel-preset'],
+      presets: ['@babel/preset-react', ['@babel/preset-env', { modules: false }]],
       plugins: [
-        'haul/src/utils/fixRequireIssues',
-        ['styled-components', { ssr: true }],
-        ['import', { libraryName: 'antd-mobile' }],
-        [
-          'babel-plugin-module-resolver',
-          {
-            alias: {
-              'react-native-vector-icons': '@expo/vector-icons'
-            }
-          }
-        ],
-        ['@babel/plugin-proposal-decorators', { legacy: true }]
+        '@babel/plugin-transform-destructuring',
+        '@babel/plugin-transform-regenerator',
+        '@babel/plugin-transform-runtime',
+        ['@babel/plugin-proposal-decorators', { legacy: true }],
+        ['@babel/plugin-proposal-class-properties', { loose: true }],
+        '@babel/plugin-proposal-object-rest-spread',
+        ['styled-components', { ssr: true }]
       ],
       env: {
         production: {
