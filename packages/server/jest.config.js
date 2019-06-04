@@ -11,7 +11,6 @@ module.exports = {
     '.*': 'babel-jest'
   },
   moduleNameMapper: {
-    backend_reload: 'jest-transform-stub',
     '^.+\\.(css|less|scss)$': 'babel-jest'
   },
   globals: {

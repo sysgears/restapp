@@ -51,7 +51,7 @@
     "filesize": "^3.5.11",
     "i18next": "^11.2.3",
     "immutability-helper": "^2.6.2",
-    "jest-expo": "^31.0.0",
+    "jest-expo": "^32.0.0",
     "lodash": "^4.17.4",
     "minilog": "^3.1.0",
     "native-base": "^2.3.5",
@@ -74,7 +74,7 @@
   "devDependencies": {
     "@types/expo": "^30.0.0",
     "@types/expo__vector-icons": "^6.2.3",
-    "@types/jest": "^23.3.1",
+    "@types/jest": "^24.0.13",
     "@types/react-native-keyboard-spacer": "^0.4.1",
     "@types/react-test-renderer": "^16.0.2",
     "apollo-utilities": "^1.0.3",
@@ -106,39 +106,5 @@
   },
   "peerDependencies": {
     "@larix/zen": "^0.1.0"
-  },
-  "jest": {
-    "verbose": true,
-    "preset": "jest-expo",
-    "testPathIgnorePatterns": [
-      "node_modules",
-      ".history"
-    ],
-    "testMatch": ["**/__tests__/**/*\\.jest\\.(js|jsx|ts|tsx)"],
-    "rootDir": "../../modules",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx"
-    ],
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest",
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "modulePathIgnorePatterns": [
-      "<rootDir>/node_modules/react-native/Libraries/react-native/",
-      "<rootDir>/node_modules/react-native/jest/",
-      "<rootDir>/node_modules/haul/",
-      "<rootDir>/packages/mobile/.expo/"
-    ],
-    "globals": {
-      "__CLIENT__": true,
-      "__SERVER__": false,
-      "__TEST__": true,
-      "ts-jest": {
-        "tsConfig": "tsconfig.jest.json"
-      }
-    }
   }
 }
