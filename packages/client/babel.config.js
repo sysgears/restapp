@@ -4,11 +4,7 @@ module.exports = api => {
   if (isTest) {
     return {
       compact: false,
-      presets: [
-        '@babel/preset-typescript',
-        'module:metro-react-native-babel-preset',
-        ['@babel/preset-env', { modules: 'commonjs' }]
-      ],
+      presets: ['@babel/preset-typescript', '@babel/preset-react', ['@babel/preset-env', { modules: 'commonjs' }]],
       plugins: [
         '@babel/plugin-transform-destructuring',
         '@babel/plugin-transform-regenerator',

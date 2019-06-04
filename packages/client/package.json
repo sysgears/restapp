@@ -16,7 +16,7 @@
     "eslint": "eslint --fix --ext js --ext jsx --ext json .",
     "tslint": "tslint --fix -p tsconfig.json -c ../../tslint.json",
     "lint": "yarn eslint && yarn tslint",
-    "watch": "zen -v watch",
+    "watch": "zen watch -v",
     "heroku-postbuild": "yarn build",
     "cli": "node ../../tools/cli"
   },

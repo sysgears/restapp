@@ -1390,7 +1390,7 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^12.0.9"
 
-"@larix/zen@^0.1.9":
+"@larix/zen@^0.1.18":
   version "0.1.18"
   resolved "https://registry.yarnpkg.com/@larix/zen/-/zen-0.1.18.tgz#e15e00a13305fea985e230fd0b5079fb6d6717fd"
   integrity sha512-NWckLh8jTGqQzmG6Vi4PM/NjXMpL0KAfCeQ1Y0VV42Ik9kY/XRveLxd+/20rgtOby/vf/RmjxFta9fC2QKGMDw==
