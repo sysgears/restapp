@@ -1390,10 +1390,10 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^12.0.9"
 
-"@larix/zen@^0.1.18":
-  version "0.1.18"
-  resolved "https://registry.yarnpkg.com/@larix/zen/-/zen-0.1.18.tgz#e15e00a13305fea985e230fd0b5079fb6d6717fd"
-  integrity sha512-NWckLh8jTGqQzmG6Vi4PM/NjXMpL0KAfCeQ1Y0VV42Ik9kY/XRveLxd+/20rgtOby/vf/RmjxFta9fC2QKGMDw==
+"@larix/zen@^0.1.20":
+  version "0.1.20"
+  resolved "https://registry.yarnpkg.com/@larix/zen/-/zen-0.1.20.tgz#d0d35eb0ecb83d7b923b6ef626d881612674659d"
+  integrity sha512-X7qZkBAmYc4LHpESRrMX5jG/HvZVeYCAk46sGfGR883UXiNplICqPTSYfv8aAf5lJJKzZTcnbyj3PAFG8AJ1CA==
   dependencies:
     connect-cors "^0.5.6"
     debug "^3.1.0"
