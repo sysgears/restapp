@@ -67,4 +67,6 @@ export class FileSystemStorage {
   }
 }
 
-export default new FileSystemStorage();
+const fileSystemStorage = new FileSystemStorage();
+
+export default fileSystemStorage;
