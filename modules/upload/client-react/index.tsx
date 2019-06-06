@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { MenuItem, NavLink } from '@restapp/look-client-react';
+import { MenuItem } from '@restapp/look-client-react';
 import ClientModule from '@restapp/module-client-react';
-import { translate } from '@restapp/i18n-client-react';
+import { translate, NavLinkWithTranslate } from '@restapp/i18n-client-react';
 import Upload from './containers/Upload';
 import resources from './locales';
 import uploadReducer from './reducers';
 
-const NavLinkWithI18n = translate('upload')(NavLink);
+const NavLinkWithI18n = translate('upload')(NavLinkWithTranslate);
 
 export default new ClientModule({
   reducer: [{ uploadReducer }],
