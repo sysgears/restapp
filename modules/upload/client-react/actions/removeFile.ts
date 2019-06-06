@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ActionType } from '../reducers';
 import { ActionFunction } from '.';
 
-const REMOVE_FILES: ActionFunction = id => ({
+const removeFile: ActionFunction = id => ({
   types: {
     REQUEST: ActionType.UPLOAD_SET_LOADING,
     SUCCESS: ActionType.REMOVE_FILES_SUCCESS,
@@ -10,4 +10,4 @@ const REMOVE_FILES: ActionFunction = id => ({
   },
   APICall: () => axios.delete(`${__API_URL__}/removeFile`, { data: { id } })
 });
-export default REMOVE_FILES;
+export default removeFile;

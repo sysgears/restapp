@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ActionType } from '../reducers';
 import { ActionFunction } from '.';
 
-const UPLOAD_FILES: ActionFunction = (files: any) => ({
+const uploadFiles: ActionFunction = (files: any) => ({
   types: {
     REQUEST: ActionType.UPLOAD_SET_LOADING,
     SUCCESS: ActionType.UPLOAD_FILES_SUCCESS,
@@ -20,4 +20,4 @@ const UPLOAD_FILES: ActionFunction = (files: any) => ({
     });
   }
 });
-export default UPLOAD_FILES;
+export default uploadFiles;
