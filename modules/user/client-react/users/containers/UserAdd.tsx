@@ -8,14 +8,14 @@ import { FormError } from '@restapp/forms-client-react';
 import UserAddView from '../components/UserAddView';
 import UserFormatter from '../../helpers/UserFormatter';
 import { User, CommonProps } from '../../types';
-import { ADD_USER } from '../actions';
+import { addUser } from '../actions';
 
 interface UserAddProps extends CommonProps {
   addUser?: (values: User) => any;
 }
 
 const UserAdd: React.FunctionComponent<UserAddProps> = props => {
-  const { addUser, t, history, navigation } = props;
+  const { addUser: actionAddUser, t, history, navigation } = props;
 
   const onSubmit = async (values: User) => {
     let userValues = pick(values, ['username', 'email', 'role', 'isActive', 'password', 'firstName', 'lastName']);
@@ -23,7 +23,7 @@ const UserAdd: React.FunctionComponent<UserAddProps> = props => {
     userValues = UserFormatter.trimExtraSpaces(userValues);
 
     try {
-      await addUser(userValues as User);
+      await actionAddUser(userValues as User);
     } catch (e) {
       const data = e.response && e.response.data;
       throw new FormError(t('userAdd.errorMsg'), data);
@@ -42,5 +42,5 @@ const UserAdd: React.FunctionComponent<UserAddProps> = props => {
 
 export default connect<{}, {}, UserAddProps>(
   null,
-  { addUser: ADD_USER }
+  { addUser }
 )(translate('userUsers')(UserAdd));

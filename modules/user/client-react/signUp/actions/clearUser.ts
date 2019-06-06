@@ -1,7 +1,7 @@
 import { ActionFunction, ActionType } from '.';
 
-const CLEAR_USER: ActionFunction<ActionType> = () => ({
+const clearUser: ActionFunction<ActionType> = () => ({
   type: ActionType.CLEAR_CURRENT_USER
 });
 
-export default CLEAR_USER;
+export default clearUser;

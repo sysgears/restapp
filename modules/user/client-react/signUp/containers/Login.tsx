@@ -9,14 +9,14 @@ import { setItem } from '@restapp/core-common/clientStorage';
 import LoginView from '../components/LoginView';
 import { CommonProps } from '../../types';
 import { LoginSubmitProps } from '../types';
-import { LOGIN } from '../actions';
+import { login } from '../actions';
 
 export interface LoginProps extends CommonProps {
   login?: (values: LoginSubmitProps) => any;
 }
 
 const Login: React.FunctionComponent<LoginProps> = props => {
-  const { t, history, login } = props;
+  const { t, history, login: actionLogin } = props;
   const {
     location: { search }
   } = history;
@@ -60,7 +60,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
 
   const onSubmit = async (values: LoginSubmitProps) => {
     try {
-      await login(values);
+      await actionLogin(values);
     } catch (e) {
       const data = e.response && e.response.data;
 
@@ -76,5 +76,5 @@ const Login: React.FunctionComponent<LoginProps> = props => {
 
 export default connect(
   null,
-  { login: LOGIN }
+  { login }
 )(translate('userSignUp')(Login));

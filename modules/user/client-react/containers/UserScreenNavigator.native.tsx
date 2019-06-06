@@ -4,7 +4,7 @@ import { pickBy } from 'lodash';
 import { compose } from 'redux';
 import { DrawerComponent } from '@restapp/look-client-react-native';
 
-import { UserRole } from '../index.native';
+import { UserRole } from '../types';
 import { withUser } from './Auth.native';
 
 interface User {

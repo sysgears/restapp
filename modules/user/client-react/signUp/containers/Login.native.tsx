@@ -8,7 +8,7 @@ import authentication from '@restapp/authentication-client-react';
 import LoginView from '../components/LoginView.native';
 import { CommonProps } from '../../types';
 import { LoginSubmitProps } from '../types';
-import { LOGIN } from '../actions';
+import { login } from '../actions';
 
 export interface LoginProps extends CommonProps {
   login?: (values: LoginSubmitProps) => Promise<void> | any;
@@ -16,10 +16,10 @@ export interface LoginProps extends CommonProps {
 
 class Login extends React.Component<LoginProps> {
   public onSubmit = async (values: LoginSubmitProps) => {
-    const { t, login } = this.props;
+    const { t, login: actionLogin } = this.props;
 
     try {
-      await login(values);
+      await actionLogin(values);
     } catch (e) {
       const data = e.response && e.response.data;
       throw new FormError(t('reg.errorMsg'), data);
@@ -34,5 +34,5 @@ class Login extends React.Component<LoginProps> {
 
 export default connect<{}, {}, LoginProps>(
   null,
-  { login: LOGIN }
+  { login }
 )(translate('userSignUp')(Login));

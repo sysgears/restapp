@@ -6,9 +6,9 @@ interface ResetPasswordProps extends ResetPasswordSubmitProps {
   token: string;
 }
 
-const RESET_PASSWORD: ActionFunction<ActionType, ResetPasswordProps> = value => ({
+const resetPassword: ActionFunction<ActionType, ResetPasswordProps> = value => ({
   types: {},
   APICall: () => axios.post(`${__API_URL__}/resetPassword`, { ...value })
 });
 
-export default RESET_PASSWORD;
+export default resetPassword;

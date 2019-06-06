@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { USERS, DELETE_USER } from '../actions';
+import { users, deleteUser } from '../actions';
 import { UserRole } from '../../types';
 import { OrderBy } from '../types';
 
@@ -25,18 +25,18 @@ const withUsers = (Component: React.ComponentType<any>) => {
     }
   }
   return connect(
-    ({ usersReducer: { usersLoading, users } }: any) => ({
+    ({ usersReducer: { usersLoading, users: usersList } }: any) => ({
       loading: usersLoading,
-      users
+      users: usersList
     }),
-    { getUsers: USERS }
+    { getUsers: users }
   )(WithUsers);
 };
 
 const withUsersDeleting = (Component: React.ComponentType<any>) =>
   connect(
     null,
-    { deleteUser: DELETE_USER }
+    { deleteUser }
   )(Component);
 
 const withSortAndFilter = (Component: React.ComponentType<any>) => {
@@ -64,7 +64,7 @@ const withSortAndFilter = (Component: React.ComponentType<any>) => {
       orderBy,
       filter
     }),
-    { sortAndFilter: USERS }
+    { sortAndFilter: users }
   )(WithFilterUpdating);
 };
 

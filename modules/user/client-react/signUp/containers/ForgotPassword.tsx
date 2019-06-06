@@ -7,21 +7,21 @@ import { FormError } from '@restapp/forms-client-react';
 import ForgotPasswordView from '../components/ForgotPasswordView';
 import { CommonProps } from '../../types';
 import { ForgotPasswordSubmitProps } from '../types';
-import { FORGOT_PASSWORD } from '../actions';
+import { forgotPassword } from '../actions';
 
 interface ForgotPasswordProps extends CommonProps {
   forgotPassword: (values: ForgotPasswordSubmitProps) => any;
 }
 
 const ForgotPassword: React.FunctionComponent<ForgotPasswordProps> = props => {
-  const { t, forgotPassword } = props;
+  const { t, forgotPassword: actionForgotPassword } = props;
 
   const [sent, setSent] = useState(false);
 
   const onSubmit = async (values: ForgotPasswordSubmitProps) => {
     setSent(true);
     try {
-      await forgotPassword(values);
+      await actionForgotPassword(values);
     } catch (e) {
       throw new FormError(t('forgotPass.errorMsg'), e);
     }
@@ -32,5 +32,5 @@ const ForgotPassword: React.FunctionComponent<ForgotPasswordProps> = props => {
 
 export default connect(
   null,
-  { forgotPassword: FORGOT_PASSWORD }
+  { forgotPassword }
 )(translate('userSignUp')(ForgotPassword));

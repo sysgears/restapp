@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { getItem } from '@restapp/core-common/clientStorage';
 
 import Loading from '../components/Loading.native';
-import { CURRENT_USER } from '../actions';
-import { User } from '..';
+import { getCurrentUser } from '../actions';
+import { User } from '../types';
 import setting from '../../../../settings';
 
 interface DataRootComponent {
@@ -19,9 +19,9 @@ class DataRootComponent extends React.Component<DataRootComponent> {
   };
 
   public async componentDidMount() {
-    const { currentUser, getCurrentUser } = this.props;
+    const { currentUser, getCurrentUser: actionGetCurrentUser } = this.props;
     if (!this.state.ready && !currentUser && ((await getItem('refreshToken')) || setting.auth.session.enabled)) {
-      await getCurrentUser();
+      await actionGetCurrentUser();
     }
     this.setState({ ready: true });
   }
@@ -35,5 +35,5 @@ export default connect(
   ({ signUpReducer: { currentUser } }: any) => ({
     currentUser
   }),
-  { getCurrentUser: CURRENT_USER }
+  { getCurrentUser }
 )(DataRootComponent);

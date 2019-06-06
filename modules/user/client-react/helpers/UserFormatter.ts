@@ -8,14 +8,6 @@ export default class UserFormatter {
         if (propsForTrim.includes(prop) && userValues[prop]) {
           userValues[prop] = userValues[prop].trim();
         }
-
-        if (prop === 'profile') {
-          for (const profileProp in userValues.profile) {
-            if (propsForTrim.includes(profileProp) && userValues.profile[profileProp]) {
-              userValues.profile[profileProp] = userValues.profile[profileProp].trim();
-            }
-          }
-        }
       }
     }
 

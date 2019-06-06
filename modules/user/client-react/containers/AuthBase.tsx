@@ -6,8 +6,8 @@ import authentication from '@restapp/authentication-client-react';
 import { getItem } from '@restapp/core-common/clientStorage';
 
 import { User, UserRole, CommonProps } from '../types';
-import CLEAR_USER from '../signUp/actions/clearUser';
-import { CURRENT_USER } from '../actions';
+import { clearUser } from '../signUp/actions';
+import { getCurrentUser } from '../actions';
 import setting from '../../../../settings';
 
 export interface WithUserProps extends RouteProps {
@@ -34,14 +34,14 @@ export interface WithLogoutProps extends WithUserProps, CommonProps {
 const withUser = (Component: React.ComponentType<any>) => {
   class WithUser extends React.Component<WithUserProps> {
     public async componentDidMount() {
-      const { currentUser, getCurrentUser } = this.props;
+      const { currentUser, getCurrentUser: actionGetCurrentUser } = this.props;
       if (currentUser === undefined && ((await getItem('refreshToken')) || setting.auth.session.enabled)) {
-        await getCurrentUser();
+        await actionGetCurrentUser();
       }
     }
 
     public render() {
-      const { currentUserLoading, currentUser, getCurrentUser, ...rest } = this.props;
+      const { currentUserLoading, currentUser, getCurrentUser: actionGetCurrentUser, ...rest } = this.props;
       return currentUserLoading ? null : (
         <Component currentUser={currentUser} currentUserLoading={currentUserLoading} {...rest} />
       );
@@ -52,7 +52,7 @@ const withUser = (Component: React.ComponentType<any>) => {
       currentUserLoading: loading,
       currentUser
     }),
-    { getCurrentUser: CURRENT_USER }
+    { getCurrentUser }
   )(WithUser);
 };
 
@@ -76,17 +76,17 @@ const IfNotLoggedInComponent: React.FunctionComponent<IfLoggedInComponent> = ({ 
 const IfNotLoggedIn: React.ComponentType<IfLoggedInComponent> = withUser(IfNotLoggedInComponent);
 
 const withLogout = (Component: React.ComponentType<any>) => {
-  const WithLogout = ({ clearUser, ...props }: WithLogoutProps) => {
+  const WithLogout = ({ clearUser: dispatchClearUser, ...props }: WithLogoutProps) => {
     const newProps = {
       ...props,
-      logout: () => authentication.doLogout(clearUser)
+      logout: () => authentication.doLogout(dispatchClearUser)
     };
     return <Component {...newProps} />;
   };
 
   return connect(
     null,
-    { clearUser: CLEAR_USER }
+    { clearUser }
   )(WithLogout);
 };
 

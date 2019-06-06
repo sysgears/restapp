@@ -8,10 +8,10 @@ import { FormError } from '@restapp/forms-client-react';
 import ProfileEditView from '../components/ProfileEditView.native';
 import UserFormatter from '../../helpers/UserFormatter';
 import { User, CommonProps } from '../../types';
-import { USER, EDIT_USER } from '../actions';
+import { user, editUser } from '../actions';
 
 interface ProfileEditProps extends CommonProps {
-  user?: User;
+  editableUser?: User;
   editUser?: (value: User) => any;
   location?: any;
   match?: any;
@@ -19,7 +19,7 @@ interface ProfileEditProps extends CommonProps {
 }
 
 const UserEdit: React.FunctionComponent<ProfileEditProps> = props => {
-  const { user, editUser, t, match, getUser } = props;
+  const { editableUser, editUser: actionEditUser, t, match, getUser } = props;
   const [ready, setReady] = useState(false);
   useEffect(() => {
     (async () => {
@@ -38,19 +38,19 @@ const UserEdit: React.FunctionComponent<ProfileEditProps> = props => {
     userValues = UserFormatter.trimExtraSpaces(userValues);
 
     try {
-      await editUser({ id: user.id, ...userValues } as any);
+      await actionEditUser({ id: editableUser.id, ...userValues } as any);
     } catch (e) {
       const data = e.response && e.response.data;
       throw new FormError(t('userEdit.errorMsg'), data);
     }
   };
 
-  return ready ? <ProfileEditView onSubmit={onSubmit} {...props} /> : null;
+  return ready ? <ProfileEditView onSubmit={onSubmit} {...props} user={editableUser} /> : null;
 };
 
 export default connect<{}, {}, ProfileEditProps>(
-  ({ usersReducer: { user } }: any) => ({
-    user
+  ({ usersReducer: { user: editableUser } }: any) => ({
+    editableUser
   }),
-  { getUser: USER, editUser: EDIT_USER }
+  { getUser: user, editUser }
 )(translate('userUsers')(UserEdit));

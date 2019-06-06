@@ -7,7 +7,7 @@ import { FormError } from '@restapp/forms-client-react';
 import ResetPasswordView from '../components/ResetPasswordView';
 
 import { ResetPasswordSubmitProps } from '../types';
-import { RESET_PASSWORD } from '../actions';
+import { resetPassword } from '../actions';
 import { CommonProps } from '../../types';
 
 interface Token {
@@ -20,11 +20,11 @@ interface ResetPasswordProps extends CommonProps {
 }
 
 const ResetPassword: React.FunctionComponent<ResetPasswordProps> = props => {
-  const { t, resetPassword, history, match } = props;
+  const { t, resetPassword: actionResetPassword, history, match } = props;
 
   const onSubmit = async (values: ResetPasswordSubmitProps) => {
     try {
-      await resetPassword({ ...values, token: match.params.token });
+      await actionResetPassword({ ...values, token: match.params.token });
     } catch (e) {
       throw new FormError(t('resetPass.errorMsg'), e);
     }
@@ -36,5 +36,5 @@ const ResetPassword: React.FunctionComponent<ResetPasswordProps> = props => {
 
 export default connect(
   null,
-  { resetPassword: RESET_PASSWORD }
+  { resetPassword }
 )(translate('userSignUp')(ResetPassword));

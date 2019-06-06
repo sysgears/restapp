@@ -7,7 +7,7 @@ import { FormError } from '@restapp/forms-client-react';
 import ForgotPasswordView from '../components/ForgotPasswordView.native';
 import { CommonProps, User } from '../../types';
 import { ForgotPasswordSubmitProps } from '../types';
-import { FORGOT_PASSWORD } from '../actions';
+import { forgotPassword } from '../actions';
 
 interface ForgotPasswordProps extends CommonProps {
   forgotPassword?: (values: ForgotPasswordSubmitProps) => any;
@@ -19,11 +19,11 @@ class ForgotPassword extends React.Component<ForgotPasswordProps> {
   };
 
   public onSubmit = async (values: User) => {
-    const { t, forgotPassword } = this.props;
+    const { t, forgotPassword: actionForgotPassword } = this.props;
 
     this.setState({ sent: true });
     try {
-      await forgotPassword(values);
+      await actionForgotPassword(values);
     } catch (e) {
       throw new FormError(t('forgotPass.errorMsg'), e);
     }
@@ -38,5 +38,5 @@ class ForgotPassword extends React.Component<ForgotPasswordProps> {
 
 export default connect<{}, {}, ForgotPasswordProps>(
   null,
-  { forgotPassword: FORGOT_PASSWORD }
+  { forgotPassword }
 )(translate('userSignUp')(ForgotPassword));

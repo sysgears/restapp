@@ -7,7 +7,7 @@ import { FormError } from '@restapp/forms-client-react';
 import RegisterView from '../components/RegisterView';
 import { CommonProps } from '../../types';
 import { RegisterSubmitProps } from '../types';
-import { REGISTER } from '../actions';
+import { register } from '../actions';
 import settings from '../../../../../settings';
 
 interface RegisterProps extends CommonProps {
@@ -15,13 +15,13 @@ interface RegisterProps extends CommonProps {
 }
 
 const Register: React.FunctionComponent<RegisterProps> = props => {
-  const { t, register, history } = props;
+  const { t, register: actionRegister, history } = props;
 
   const [isRegistered, setIsRegistered] = React.useState(false);
 
   const onSubmit = async (values: RegisterSubmitProps) => {
     try {
-      await await register(values);
+      await await actionRegister(values);
     } catch (e) {
       const data = e.response && e.response.data;
       throw new FormError(t('reg.errorMsg'), data);
@@ -39,5 +39,5 @@ const Register: React.FunctionComponent<RegisterProps> = props => {
 
 export default connect(
   null,
-  { register: REGISTER }
+  { register }
 )(translate('userSignUp')(Register));

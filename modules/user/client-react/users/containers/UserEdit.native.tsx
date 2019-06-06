@@ -8,10 +8,10 @@ import { FormError } from '@restapp/forms-client-react';
 import UserEditView from '../components/UserEditView.native';
 import UserFormatter from '../../helpers/UserFormatter';
 import { CommonProps, User } from '../../types/';
-import { USER, EDIT_USER } from '../actions';
+import { user, editUser } from '../actions';
 
 interface UserEditProps extends CommonProps {
-  user?: User;
+  editableUser?: User;
   currentUser?: User;
   loading?: boolean;
   editUser?: (value: User) => any;
@@ -29,14 +29,14 @@ class UserEdit extends React.Component<UserEditProps> {
     this.setState({ ready: true });
   }
   public onSubmit = async (values: User) => {
-    const { user, editUser, t, navigation } = this.props;
+    const { editableUser, editUser: actionEditUser, t, navigation } = this.props;
 
     let userValues = pick(values, ['username', 'email', 'role', 'isActive', 'password', 'firstName', 'lastName']);
 
     userValues = UserFormatter.trimExtraSpaces(userValues);
 
     try {
-      await editUser({ id: user.id, ...userValues } as any);
+      await actionEditUser({ id: editableUser.id, ...userValues } as any);
     } catch (e) {
       const data = e.response && e.response.data;
       throw new FormError(t('userEdit.errorMsg'), data);
@@ -48,15 +48,17 @@ class UserEdit extends React.Component<UserEditProps> {
   };
 
   public render() {
-    return this.state.ready ? <UserEditView onSubmit={this.onSubmit} {...this.props} /> : null;
+    return this.state.ready ? (
+      <UserEditView onSubmit={this.onSubmit} {...this.props} user={this.props.editableUser} />
+    ) : null;
   }
 }
 
 export default connect<{}, {}, UserEditProps>(
-  ({ usersReducer: { user }, signUpReducer: { currentUser, loading } }: any) => ({
-    user,
+  ({ usersReducer: { user: editableUser }, signUpReducer: { currentUser, loading } }: any) => ({
+    editableUser,
     currentUser,
     loading
   }),
-  { getUser: USER, editUser: EDIT_USER }
+  { getUser: user, editUser }
 )(translate('userUsers')(UserEdit));

@@ -1,4 +1,4 @@
-export { default as CURRENT_USER } from './currentUser';
+export { default as getCurrentUser } from './currentUser';
 import { ActionType } from '../reducers';
 
 interface Types<AT> {
