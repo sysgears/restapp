@@ -3,12 +3,7 @@ import React from 'react';
 import { MenuItem } from '@restapp/look-client-react';
 import ClientModule from '@restapp/module-client-react';
 
-import Login from './containers/Login';
-import Register from './containers/Register';
-import ForgotPassword from './containers/ForgotPassword';
-import ResetPassword from './containers/ResetPassword';
-import Logout from './containers/Logout';
-import NavLinkLoginWithI18n from './containers/NavLoginLink';
+import { Login, Register, ForgotPassword, ResetPassword, Logout, NavLoginLink } from './containers';
 import signUpReducer from './reducers';
 import resources from './locales';
 
@@ -29,7 +24,7 @@ export default new ClientModule({
     </IfLoggedIn>,
     <IfNotLoggedIn key="/login">
       <MenuItem>
-        <NavLinkLoginWithI18n />
+        <NavLoginLink />
       </MenuItem>
     </IfNotLoggedIn>
   ],
