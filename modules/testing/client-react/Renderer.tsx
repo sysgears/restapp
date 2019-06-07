@@ -2,10 +2,12 @@ import React from 'react';
 import { Router, Switch } from 'react-router-dom';
 import createHistory, { MemoryHistory } from 'history/createMemoryHistory';
 import { JSDOM } from 'jsdom';
-import { combineReducers, createStore, Store } from 'redux';
+import { Store } from 'redux';
 import { Provider } from 'react-redux';
 
 import ClientModule from '@restapp/module-client-react';
+import { createReduxStore } from '@restapp/core-common';
+import { routerMiddleware } from 'react-router-redux';
 
 if (!process.env.JEST_WORKER_ID) {
   const dom = new JSDOM('<!doctype html><html><body><div id="root"><div></body></html>');
@@ -33,16 +35,15 @@ export class Renderer {
   public history: MemoryHistory<any>;
 
   constructor(reduxState?: any) {
-    const store = createStore(
-      combineReducers({
-        ...ref.clientModules.reducers
-      }),
-      reduxState || {}
-    );
-
     const history = createHistory();
 
-    this.store = store;
+    this.store = createReduxStore(
+      ref.clientModules.reducers,
+      reduxState || {},
+      routerMiddleware(history),
+      ref.clientModules.reduxMiddlewares
+    );
+
     this.history = history;
   }
 
