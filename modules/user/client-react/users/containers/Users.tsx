@@ -3,12 +3,11 @@ import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 
 import { translate } from '@restapp/i18n-client-react';
-import { Button, PageLayout } from '@restapp/look-client-react';
+import { Button, PageLayout, MetaData } from '@restapp/look-client-react';
 
 import UsersFilterView, { UsersFilterViewProps } from '../components/UsersFilterView';
 import UsersListView, { UsersViewProps } from '../components/UsersListView';
 import { withSortAndFilter, withUsers, withUsersDeleting } from './UserOperations';
-import MetaData from '../../components/MetaData';
 
 interface UsersProps extends UsersViewProps, UsersFilterViewProps {}
 

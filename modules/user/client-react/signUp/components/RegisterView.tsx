@@ -1,12 +1,11 @@
 import React from 'react';
 
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
-import { LayoutCenter, PageLayout, Card, CardGroup, CardTitle, CardText } from '@restapp/look-client-react';
+import { LayoutCenter, PageLayout, Card, CardGroup, CardTitle, CardText, MetaData } from '@restapp/look-client-react';
 
 import RegisterForm from './RegisterForm';
 import settings from '../../../../../settings';
 import { RegisterSubmitProps } from '../types';
-import MetaData from '../../components/MetaData';
 
 interface RegisterViewProps {
   t: TranslateFunction;

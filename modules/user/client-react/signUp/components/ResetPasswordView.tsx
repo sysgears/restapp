@@ -1,11 +1,10 @@
 import React from 'react';
 
-import { PageLayout } from '@restapp/look-client-react';
+import { PageLayout, MetaData } from '@restapp/look-client-react';
 
 import ResetPasswordForm from './ResetPasswordForm';
 import { CommonProps } from '../../types';
 import { ResetPasswordSubmitProps } from '../types';
-import MetaData from '../../components/MetaData';
 
 interface ResetPasswordViewProps extends CommonProps {
   onSubmit: (values: ResetPasswordSubmitProps) => void;

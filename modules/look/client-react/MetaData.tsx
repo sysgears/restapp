@@ -1,7 +1,7 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 
-import settings from '../../../../settings';
+import settings from '../../../settings';
 
 interface MetaDataProps {
   title: string;

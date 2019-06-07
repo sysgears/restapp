@@ -2,11 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
-import { PageLayout } from '@restapp/look-client-react';
+import { PageLayout, MetaData } from '@restapp/look-client-react';
 
 import UserForm from './UserForm';
 import { User } from '../../types';
-import MetaData from '../../components/MetaData';
 
 interface FormValues extends User {
   password: string;

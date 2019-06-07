@@ -1,12 +1,20 @@
 import React from 'react';
 
-import { LayoutCenter, PageLayout, Card, CardGroup, CardTitle, CardText, Button } from '@restapp/look-client-react';
+import {
+  LayoutCenter,
+  PageLayout,
+  Card,
+  CardGroup,
+  CardTitle,
+  CardText,
+  Button,
+  MetaData
+} from '@restapp/look-client-react';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 
 import LoginForm from './LoginForm';
 import { LoginSubmitProps } from '../types';
 import { LoginProps } from '../containers/Login';
-import MetaData from '../../components/MetaData';
 
 interface LoginViewProps extends LoginProps {
   onSubmit: (values: LoginSubmitProps) => void;

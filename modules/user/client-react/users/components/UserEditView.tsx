@@ -2,10 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
-import { PageLayout } from '@restapp/look-client-react';
+import { PageLayout, MetaData } from '@restapp/look-client-react';
 
 import UserForm from './UserForm';
-import MetaData from '../../components/MetaData';
 import { User } from '../../types';
 
 interface FormValues extends User {

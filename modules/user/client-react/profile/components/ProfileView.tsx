@@ -2,10 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
-import { LayoutCenter, Card, CardGroup, CardTitle, CardText, PageLayout } from '@restapp/look-client-react';
+import { LayoutCenter, Card, CardGroup, CardTitle, CardText, PageLayout, MetaData } from '@restapp/look-client-react';
 
 import { User } from '../../types';
-import MetaData from '../../components/MetaData';
 
 interface ProfileViewProps {
   currentUserLoading: boolean;
