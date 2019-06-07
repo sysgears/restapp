@@ -113,7 +113,7 @@ class ServerModule extends CommonModule {
     const appContext = this.appContext;
     let context = {};
 
-    for (const createContextFunc of this.createContextFunc) {
+    for (const createContextFunc of this.createContextFunc || []) {
       context = merge(context, await createContextFunc({ req, res, appContext }));
     }
     return context;
