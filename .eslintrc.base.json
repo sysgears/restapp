@@ -31,7 +31,7 @@
     ]
   },
   "env": {
-    "jest": true
+    "mocha": true
   },
   "globals": {
     "fetch": true,

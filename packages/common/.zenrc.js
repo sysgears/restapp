@@ -1,6 +1,18 @@
 const config = {
+  builders: {
+    test: {
+      stack: ['server'],
+      roles: ['test'],
+      defines: {
+        __DEV__: false,
+        __API_URL__: '"/api"',
+        __TEST__: true
+      }
+    }
+  },
   options: {
-    cache: '../../.cache'
+    cache: '../../.cache',
+    stack: ['ts', 'webpack', 'i18next'],
   }
 };
 

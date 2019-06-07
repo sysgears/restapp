@@ -4,13 +4,13 @@ import ClientModule from '@restapp/module-client-react';
 
 // Virtual module, generated in-memory by @larix/zen, contains count of backend rebuilds
 // tslint:disable-next-line
-import 'backend_reload';
+import "backend_reload";
 
 import log from '../../../packages/common/log';
 import { onAppCreate as onCreateMain, Main, onAppDispose } from './Main';
 
 const renderFunc = __SSR__ ? hydrate : render;
-const root = __TEST__ ? document.createElement('div') : document.getElementById('root');
+const root = document.getElementById('root');
 
 let frontendReloadCount = 0;
 

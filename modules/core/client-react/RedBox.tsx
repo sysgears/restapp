@@ -23,7 +23,7 @@ export default class RedBox extends React.Component<RedBoxProps, RedBoxState> {
   }
 
   public componentDidMount() {
-    if (!this.state.mapped && !__TEST__) {
+    if (!this.state.mapped) {
       mapStackTrace(this.props.error.stack, (mappedStack: string[]) => {
         const processStack = __DEV__
           ? fetch('/servdir')

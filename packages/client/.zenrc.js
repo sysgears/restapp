@@ -3,6 +3,7 @@ const url = require('url');
 const config = {
   builders: {
     web: {
+      openBrowser: true,
       dllExcludes: ['bootstrap'],
       dllBuildDir: '../../.cache/dll',
       defines: {

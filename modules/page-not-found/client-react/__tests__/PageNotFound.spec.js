@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { step } from 'mocha-steps';
 import { Renderer, updateContent } from '@restapp/testing-client-react';
 
 describe('Page not found example UI works', () => {
@@ -6,7 +7,7 @@ describe('Page not found example UI works', () => {
   let app;
   let content;
 
-  it('404 page renders with sample text', () => {
+  step('404 page renders with sample text', () => {
     app = renderer.mount();
     renderer.history.push('/non-existing-page');
     content = updateContent(app.container);

@@ -7,20 +7,19 @@ import { Provider } from 'react-redux';
 
 import ClientModule from '@restapp/module-client-react';
 
-if (!process.env.JEST_WORKER_ID) {
-  const dom = new JSDOM('<!doctype html><html><body><div id="root"><div></body></html>');
-  (global as any).document = dom.window.document;
-  (global as any).window = dom.window;
-  // Needed by Formik >= 1.x
-  (global as any).HTMLButtonElement = dom.window.HTMLButtonElement;
-  (global as any).navigator = dom.window.navigator;
-  process.on('uncaughtException', ex => {
-    console.error('Uncaught error', ex.stack);
-  });
-}
+const dom = new JSDOM('<!doctype html><html><body><div id="root"><div></body></html>');
+(global as any).document = dom.window.document;
+(global as any).window = dom.window;
+// Needed by Formik >= 1.x
+(global as any).HTMLButtonElement = dom.window.HTMLButtonElement;
+(global as any).navigator = dom.window.navigator;
 
 // tslint:disable-next-line
 const { render } = require('./testUtils');
+
+process.on('uncaughtException', ex => {
+  console.error('Uncaught error', ex.stack);
+});
 
 const ref: { clientModules: ClientModule } = { clientModules: null };
 

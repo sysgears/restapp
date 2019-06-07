@@ -1,8 +1,9 @@
 // tslint:disable:no-unused-expression
 import { expect } from 'chai';
+import { step } from 'mocha-steps';
+import i18next from 'i18next';
 import CommonModule from '@restapp/module-common';
 import i18n from '@restapp/i18n-common-react';
-import i18next from 'i18next';
 import validation from '..';
 
 import {
@@ -20,33 +21,31 @@ import {
   Schema
 } from '../validation';
 
-(async () => {
-  await new CommonModule(i18n, validation).createApp(module);
-})();
+new CommonModule(i18n, validation).createApp(module);
 
 describe('Check if validation works', () => {
-  it('Validator "required"  works correctly', () => {
+  step('Validator "required"  works correctly', () => {
     expect(required('')).to.be.a('string');
     expect(required('work')).to.be.equal(undefined);
   });
 
-  it('Validator "match" works correctly', () => {
+  step('Validator "match" works correctly', () => {
     expect(match('name')('Login', { name: 'Login' })).to.be.an('undefined');
     expect(match('name')('Login', { name: 'Loginnn' })).to.be.a('string');
     expect(match('name')('Login', {})).to.be.a('string');
   });
 
-  it('Validator "maxLength" works correctly', () => {
+  step('Validator "maxLength" works correctly', () => {
     expect(maxLength(5)('Login')).to.be.an('undefined');
     expect(maxLength(5)('Loginn')).to.be.a('string');
   });
 
-  it('Validator "maxLength" works correctly', () => {
+  step('Validator "maxLength" works correctly', () => {
     expect(minLength(5)('Login')).to.be.an('undefined');
     expect(minLength(5)('Logi')).to.be.a('string');
   });
 
-  it('Validator "number" works correctly', () => {
+  step('Validator "number" works correctly', () => {
     expect(number(5)).to.be.an('undefined');
     expect(number('5')).to.be.an('undefined');
     expect(number('0')).to.be.an('undefined');
@@ -55,7 +54,7 @@ describe('Check if validation works', () => {
     expect(number('..11')).to.be.a('string');
   });
 
-  it('Validator "string" works correctly', () => {
+  step('Validator "string" works correctly', () => {
     expect(string('string')).to.be.an('undefined');
     expect(string('&*(&*(')).to.be.an('undefined');
     expect(string('!')).to.be.an('undefined');
@@ -66,19 +65,19 @@ describe('Check if validation works', () => {
     expect(string(/^[A-Z0-9._%+-]{2,4}$/)).to.be.a('string');
   });
 
-  it('Validator "minValue" works correctly', () => {
+  step('Validator "minValue" works correctly', () => {
     expect(minValue(5)(5)).to.be.an('undefined');
     expect(minValue(5)(4)).to.be.a('string');
   });
 
-  it('Validator "email" works correctly', () => {
+  step('Validator "email" works correctly', () => {
     expect(email('test@test.ru')).to.be.an('undefined');
     expect(email('te234st@te32st.com')).to.be.an('undefined');
     expect(email('te-234st@te32st.c')).to.be.a('string');
     expect(email('test*@te32st.com')).to.be.a('string');
   });
 
-  it('Validator "alphaNumeric" works correctly', () => {
+  step('Validator "alphaNumeric" works correctly', () => {
     expect(alphaNumeric('d')).to.be.an('undefined');
     expect(alphaNumeric('2')).to.be.an('undefined');
     expect(alphaNumeric('*')).to.be.a('string');
@@ -86,14 +85,14 @@ describe('Check if validation works', () => {
     expect(alphaNumeric('`')).to.be.a('string');
   });
 
-  it('Validator "phoneNumber" works correctly', () => {
+  step('Validator "phoneNumber" works correctly', () => {
     expect(phoneNumber('0639991122')).to.be.an('undefined');
     expect(phoneNumber('+380639991122')).to.be.an('undefined');
     expect(phoneNumber('+38 063 999 11 22')).to.be.an('undefined');
     expect(phoneNumber('639991122')).to.be.a('string');
   });
 
-  it('"validate" should compare the simple input object to input schema ', () => {
+  step('"validate" should compare the simple input object to input schema ', () => {
     let schema: Schema = { name: [required, minLength(5), maxLength(7)] };
     let dataToValidate: { [key: string]: any } = { name: 'login' };
     expect(validate(dataToValidate, schema)).to.be.an('undefined');
@@ -132,7 +131,7 @@ describe('Check if validation works', () => {
       .to.be.a('string');
   });
 
-  it('"validate" should compare the input object with nested objects to the input schema', () => {
+  step('"validate" should compare the input object with nested objects to the input schema', () => {
     let schema: Schema = { name: { firstName: [required, minLength(5), maxLength(8)] } };
     let dataToValidate: { [key: string]: any } = { name: { firstName: 'GoodName' } };
     expect(validate(dataToValidate, schema)).to.be.an('undefined');
@@ -145,7 +144,7 @@ describe('Check if validation works', () => {
       .to.be.a('string');
   });
 
-  it('Should change the language of the validation message from English to Russian and vice versa', () => {
+  step('Should change the language of the validation message from English to Russian and vice versa', () => {
     expect(required('')).to.match(/[a-zA-Z]/g);
     i18next.changeLanguage('ru-RU');
     expect(required('')).to.match(/[а-яА-Я]/g);
