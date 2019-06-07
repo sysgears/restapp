@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import url from 'url';
 
 import ClientModule from '@restapp/module-client-react-native';
+import settings from '../../../settings';
 import createReduxStore from '../../../packages/common/createReduxStore';
 import log from '../../../packages/common/log';
 const { protocol, pathname, port } = url.parse(__API_URL__);
@@ -30,7 +31,9 @@ export default class Main extends React.Component<MainProps> {
       modules.reduxMiddlewares
     );
 
-    log.info(`Connecting to REST backend at: ${apiUrl}`);
+    if (!__TEST__ || settings.app.logging.level === 'debug') {
+      log.info(`Connecting to REST backend at: ${apiUrl}`);
+    }
 
     return modules.getWrappedRoot(<Provider store={store}>{modules.getDataRoot(modules.router)}</Provider>);
   }
