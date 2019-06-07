@@ -1,7 +1,5 @@
 import chai from 'chai';
 import fs from 'fs';
-import { step } from 'mocha-steps';
-
 import { getServer } from '@restapp/testing-server-ts';
 
 describe('Upload API works', () => {
@@ -9,11 +7,11 @@ describe('Upload API works', () => {
   const file2 = fs.readFileSync(`${__dirname}/testFiles/test.png`);
   let server: any;
 
-  before(() => {
+  beforeAll(() => {
     server = getServer();
   });
 
-  step('Get all files', async () => {
+  it('Get all files', async () => {
     const { status } = await chai
       .request(server)
       .get('/api/getFiles')
@@ -21,7 +19,7 @@ describe('Upload API works', () => {
     status.should.be.eql(200);
   });
 
-  step('Upload files', async () => {
+  it('Upload files', async () => {
     const { status } = await chai
       .request(server)
       .post('/api/uploadFiles')
@@ -30,7 +28,7 @@ describe('Upload API works', () => {
     status.should.be.eql(200);
   });
 
-  step('Remove file', async () => {
+  it('Remove file', async () => {
     await chai
       .request(server)
       .post('/api/uploadFiles')
