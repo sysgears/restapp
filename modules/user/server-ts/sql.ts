@@ -186,7 +186,7 @@ class UserDAO {
       .where({ id });
   }
 
-  public updateActive(id: number, isActive: number) {
+  public updateActive(id: number, isActive: boolean) {
     return knex('user')
       .update({ is_active: isActive })
       .where({ id });
