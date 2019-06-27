@@ -22,7 +22,9 @@ const confirmEmail = (url: string, user: UserShape) =>
    <p>Below are your login information</p>
    <p>Your email is: ${user.email}</p>`;
 
-const passwordReset = (url: string) => `Please click this link to reset your password: <a href="${url}">${url}</a>`;
+const passwordReset = (url: string) => `
+  <p>Please click this link to reset your password: <a href="${url}">reset</a>.</p>
+`;
 
 export default {
   accountCreated,
