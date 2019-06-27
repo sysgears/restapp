@@ -65,7 +65,7 @@ export const register = async ({ body, t }: any, res: any) => {
     // async email
     jwt.sign({ identity: pick(user, 'id') }, secret, { expiresIn: '1d' }, (err, emailToken) => {
       const encodedToken = Buffer.from(emailToken).toString('base64');
-      const url = `${__WEBSITE_URL__}/confirmation/${encodedToken}`;
+      const url = `${__WEBSITE_URL__}/api/confirmation/${encodedToken}`;
       mailer.sendMail({
         from: `${app.name} <${process.env.EMAIL_USER}>`,
         to: user.email,
