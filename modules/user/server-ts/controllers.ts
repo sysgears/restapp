@@ -98,7 +98,7 @@ export const addUser = async ({ body, user: identity, t }: any, res: any) => {
       // async email
       jwt.sign({ identity: pick(createdUser, 'id') }, secret, { expiresIn: '1d' }, (err: any, emailToken: string) => {
         const encodedToken = Buffer.from(emailToken).toString('base64');
-        const url = `${__WEBSITE_URL__}/confirmation/${encodedToken}`;
+        const url = `${__WEBSITE_URL__}/api/confirmation/${encodedToken}`;
         mailer.sendMail({
           from: `${app.name} <${process.env.EMAIL_USER}>`,
           to: createdUser.email,
@@ -209,5 +209,20 @@ export const deleteUser = async ({ user: identity, body: { id }, t }: any, res: 
     res.json(userData);
   } else {
     res.send(t('user:userCouldNotDeleted'));
+  }
+};
+
+export const confirmEmail = async ({ params, t }: any, res: any) => {
+  try {
+    const token = Buffer.from(params.token, 'base64').toString();
+    const {
+      identity: { id }
+    }: any = jwt.verify(token, settings.auth.secret);
+
+    await userDAO.updateActive(id, true);
+
+    res.redirect('/login/?email-verified');
+  } catch (e) {
+    throw e;
   }
 };

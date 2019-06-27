@@ -3,7 +3,7 @@ import i18n from 'i18next';
 
 import ServerModule, { RestMethod } from '@restapp/module-server-ts';
 
-import { user, users, currentUser, addUser, editUser, deleteUser } from './controllers';
+import { user, users, currentUser, addUser, editUser, deleteUser, confirmEmail } from './controllers';
 import password from './password';
 import social from './social';
 import UserDAO, { UserShapePassword } from './sql';
@@ -88,6 +88,14 @@ export default new ServerModule(password, social, {
       route: 'deleteUser',
       isAuthRoute: true,
       controller: deleteUser
+    },
+    {
+      ...(settings.auth.password.requireEmailConfirmation && {
+        method: RestMethod.GET,
+        route: 'confirmation/:token',
+        isAuthRoute: false,
+        controller: confirmEmail
+      })
     }
   ]
 });
