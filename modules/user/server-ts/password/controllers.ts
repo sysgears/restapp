@@ -81,7 +81,7 @@ export const register = async ({ body, t }: any, res: any) => {
 
 export const forgotPassword = async ({ body, t }: any, res: any) => {
   try {
-    const localAuth = pick(body, 'email');
+    const localAuth = pick(body.value, 'email');
     const identity = (await userDAO.getUserByEmail(localAuth.email)) as UserShapePassword;
 
     if (identity && mailer) {
@@ -106,7 +106,8 @@ export const forgotPassword = async ({ body, t }: any, res: any) => {
       res.send(t('user:auth.password.forgotPassword'));
     }
   } catch (e) {
-    res.send(e);
+    res.status(500);
+    res.end();
   }
 };
 
