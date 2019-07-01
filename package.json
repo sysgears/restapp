@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "engines": {
-    "node": ">= 6.11.1 <= 13",
+    "node": ">= 6.11.1 <= 10",
     "yarn": ">= 1.0.0"
   },
   "cacheDirectories": [
