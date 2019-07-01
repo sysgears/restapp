@@ -1,5 +1,5 @@
 import { groupBy } from 'lodash';
-import settings from '../../../../settings';
+import settings from '@restapp/config';
 
 export const returnId = knexTable => (settings.db.client === 'sqlite3' ? knexTable : knexTable.returning('id'));
 

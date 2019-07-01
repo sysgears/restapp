@@ -3,7 +3,7 @@ import ServerModule from '@restapp/module-server-ts';
 import i18n from 'i18next';
 import i18nMiddleware from 'i18next-express-middleware';
 
-import settings from '../../../settings';
+import settings from '@restapp/config';
 import commonI18n from '@restapp/i18n-common-react';
 
 const beforeware = (app: Express) => {

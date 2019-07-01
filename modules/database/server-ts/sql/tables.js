@@ -1,4 +1,4 @@
-import settings from '../../../../settings';
+import settings from '@restapp/config';
 
 const truncateTables = async (knex, Promise, tables) => {
   if (settings.db.client === 'sqlite3') {

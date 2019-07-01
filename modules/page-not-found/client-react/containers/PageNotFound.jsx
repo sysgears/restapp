@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { translate } from '@restapp/i18n-client-react';
 import { PageLayout, Button } from '@restapp/look-client-react';
-import settings from '../../../../settings';
+import settings from '@restapp/config';
 
 const Section = styled.section`
   text-align: center;

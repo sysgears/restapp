@@ -2,7 +2,7 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import { PageLayout } from '@restapp/look-client-react';
 import { TranslateFunction } from '@restapp/i18n-client-react';
-import settings from '../../../../settings';
+import settings from '@restapp/config';
 
 interface WelcomeViewProps {
   t: TranslateFunction;

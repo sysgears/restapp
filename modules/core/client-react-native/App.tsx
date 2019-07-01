@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import url from 'url';
 
 import ClientModule from '@restapp/module-client-react-native';
-import settings from '../../../settings';
+import settings from '@restapp/config';
 import createReduxStore from '../../../packages/common/createReduxStore';
 import log from '../../../packages/common/log';
 

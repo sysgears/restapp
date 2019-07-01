@@ -10,7 +10,7 @@ import ClientModule from '@restapp/module-client-react';
 import RedBox from './RedBox';
 import createReduxStore, { getStoreReducer } from '../../../packages/common/createReduxStore';
 import log from '../../../packages/common/log';
-import settings from '../../../settings';
+import settings from '@restapp/config';
 
 if (!__TEST__ || settings.app.logging.level === 'debug') {
   log.info(`Connecting to REST backend at: ${apiUrl}`);

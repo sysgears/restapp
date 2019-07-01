@@ -1,6 +1,6 @@
 import * as glob from 'glob';
 import * as path from 'path';
-import settings from '../../../settings';
+import settings from '@restapp/config';
 
 // This code gathers migrations and seeds from all modules into two fake directories
 // /module-migrations - contains all the migrations from all modules

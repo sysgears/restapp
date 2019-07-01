@@ -1,5 +1,5 @@
 import React from 'react';
-import settings from '../../../settings';
+import settings from '@restapp/config';
 
 // tslint:disable-next-line
 const reactI18next = settings.i18n.enabled ? require('react-i18next') : null;

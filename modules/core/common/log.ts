@@ -1,5 +1,5 @@
 import minilog from 'minilog';
-import settings from '../../../settings';
+import settings from '@restapp/config';
 
 minilog.enable();
 

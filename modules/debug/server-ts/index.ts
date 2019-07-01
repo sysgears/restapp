@@ -1,7 +1,7 @@
 import now from 'performance-now';
 import { knex } from '@restapp/database-server-ts';
 import { log } from '@restapp/core-common';
-import settings from '../../../settings';
+import settings from '@restapp/config';
 
 interface EventQuery {
   __knexQueryUid: string;

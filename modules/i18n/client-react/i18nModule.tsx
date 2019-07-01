@@ -5,7 +5,7 @@ import ClientModule from '@restapp/module-client-react';
 import commonI18n from '@restapp/i18n-common-react';
 
 import { MenuItem, LanguagePicker } from '@restapp/look-client-react';
-import settings from '../../../settings';
+import settings from '@restapp/config';
 
 const I18nProvider = ({ i18n, children }: any) => {
   return <I18nextProvider i18n={i18n}>{children}</I18nextProvider>;
@@ -41,10 +41,10 @@ class RootComponent extends React.Component<Props> {
   }
 }
 
-export default (settings.i18n.enabled
+export default settings.i18n.enabled
   ? new ClientModule(commonI18n, langPicker, {
       appContext: { i18n: true },
       // eslint-disable-next-line react/display-name
       rootComponentFactory: [req => <RootComponent req={req} />]
     })
-  : undefined);
+  : undefined;
