@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "engines": {
-    "node": ">= 6.11.1 <= 10",
+    "node": ">= 6.11.1 <= 13",
     "yarn": ">= 1.0.0"
   },
   "cacheDirectories": [
@@ -60,6 +60,7 @@
   "author": "SysGears INC",
   "license": "MIT",
   "workspaces": [
+    "config",
     "packages/*",
     "modules/**/client-react",
     "modules/**/client-react-native",
