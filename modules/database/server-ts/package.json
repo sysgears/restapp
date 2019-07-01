@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@restapp/core-common": "^0.1.0",
+    "@restapp/config": "^0.1.0",
     "glob": "^7.1.3"
   }
 }

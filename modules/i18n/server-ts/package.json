@@ -1,5 +1,8 @@
 {
   "name": "@restapp/i18n-server-ts",
   "version": "0.1.0",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@restapp/config": "^0.1.0"
+  }
 }
