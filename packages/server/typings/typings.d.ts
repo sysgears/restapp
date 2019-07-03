@@ -14,5 +14,6 @@ declare namespace NodeJS {
 declare var global: Global;
 
 // packages without types
+declare module 'stripe-local';
 declare module 'universal-cookie-express';
 declare module '@sokratis/passport-linkedin-oauth2';
