@@ -4,6 +4,8 @@ import ClientModule from '@restapp/module-client-react';
 import { MenuItem } from '@restapp/look-client-react';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 
+import locales from './locales';
+
 const NavLinkWithI18n = translate('stripeSubscription')(({ t }: { t: TranslateFunction }) => (
   <NavLink to="/subscriber-page" className="nav-link" activeClassName="active">
     {t('navLink')}
@@ -15,5 +17,6 @@ export default new ClientModule({
     <MenuItem key="/subscriber-page">
       <NavLinkWithI18n />
     </MenuItem>
-  ]
+  ],
+  localization: [{ ns: 'stripeSubscription', resources: locales }]
 });
