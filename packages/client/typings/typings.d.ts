@@ -12,5 +12,6 @@ interface Window {
 // packages without types
 declare module 'react-native-credit-card-input';
 declare module 'sourcemapped-stacktrace';
+declare module 'react-stripe-elements';
 declare module 'minilog';
 declare module 'reactstrap';
