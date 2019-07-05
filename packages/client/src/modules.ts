@@ -20,9 +20,9 @@ const modules = new ClientModule(
   validation,
   defaultRouter,
   i18n,
-  pageNotFound,
   core,
-  payments
+  payments,
+  pageNotFound
 );
 
 export default modules;
