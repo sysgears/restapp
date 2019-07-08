@@ -3,7 +3,7 @@ import Helmet from 'react-helmet';
 import { Elements } from 'react-stripe-elements';
 
 import { TranslateFunction } from '@restapp/i18n-client-react';
-import { PageLayout, LayoutCenter, Table, Row, Col } from '@restapp/look-client-react';
+import { LayoutCenter, Table, Row, Col } from '@restapp/look-client-react';
 import { clientOnly } from '@restapp/core-client-react';
 import settings from '../../../../../../settings';
 
@@ -11,6 +11,7 @@ import SubscriptionCardForm from './SubscriptionCardFormView';
 import { CreditCardInput } from '../types';
 
 const ElementsClientOnly = clientOnly(Elements);
+const COINS_IN_DOLLAR = 100;
 
 interface AddSubscriptionViewProps {
   t: TranslateFunction;
@@ -18,46 +19,6 @@ interface AddSubscriptionViewProps {
   onSubmit: (subscriptionInput: CreditCardInput, stripe: any) => void;
 }
 
-export default (props: AddSubscriptionViewProps) => {
-  const { t } = props;
-
-  return (
-    <PageLayout>
-      <Helmet title={`${settings.app.name} - ${t('title')}`} />
-      <h1 className="text-center">{t('title')}</h1>
-      <Row style={{ justifyContent: 'center' }}>
-        <Col xs={12} md={10}>
-          <p className="text-center">{t('add.description')}</p>
-          <p className="text-center">{t('add.product')}</p>
-          <p className="text-center">
-            {t('add.price')}
-            {settings.stripe.subscription.plan.amount / 100}
-          </p>
-        </Col>
-        <Col xs={12} md={12}>
-          <LayoutCenter>
-            <h3 className="text-center"> {t('add.creditCard')}</h3>
-            <ElementsClientOnly>
-              <SubscriptionCardForm {...props} buttonName={t('add.btn')} />
-            </ElementsClientOnly>
-          </LayoutCenter>
-        </Col>
-        <Col xs={12} md={8}>
-          <hr />
-          {/* Displays testing credit cards when stripe test keys are used!!!*/}
-          {settings.stripe.subscription.publicKey.includes('test') && renderTestingCards(t)}
-        </Col>
-      </Row>
-    </PageLayout>
-  );
-};
-
-/**
- * Renders test credit cards table.
- *
- * @param t - The translate function.
- * @return Returns header and table with test credit cards
- */
 const renderTestingCards = (t: TranslateFunction) => {
   const testCreditCard = [
     {
@@ -136,3 +97,39 @@ const renderTestingCards = (t: TranslateFunction) => {
     </div>
   );
 };
+
+const AddSubscriptionView = (props: AddSubscriptionViewProps) => {
+  const { t } = props;
+
+  return (
+    <>
+      <Helmet title={`${settings.app.name} - ${t('title')}`} />
+      <h1 className="text-center">{t('title')}</h1>
+      <Row style={{ justifyContent: 'center' }}>
+        <Col xs={12} md={10}>
+          <p className="text-center">{t('add.description')}</p>
+          <p className="text-center">{t('add.product')}</p>
+          <p className="text-center">
+            {t('add.price')}
+            {settings.stripe.subscription.plan.amount / COINS_IN_DOLLAR}
+          </p>
+        </Col>
+        <Col xs={12} md={12}>
+          <LayoutCenter>
+            <h3 className="text-center"> {t('add.creditCard')}</h3>
+            <ElementsClientOnly>
+              <SubscriptionCardForm {...props} buttonName={t('add.btn')} />
+            </ElementsClientOnly>
+          </LayoutCenter>
+        </Col>
+        <Col xs={12} md={8}>
+          <hr />
+          {/* Displays testing credit cards when stripe test keys are used!!!*/}
+          {settings.stripe.subscription.publicKey.includes('test') && renderTestingCards(t)}
+        </Col>
+      </Row>
+    </>
+  );
+};
+
+export default AddSubscriptionView;
