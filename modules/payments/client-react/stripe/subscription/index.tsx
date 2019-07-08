@@ -4,6 +4,7 @@ import ClientModule from '@restapp/module-client-react';
 import { MenuItem } from '@restapp/look-client-react';
 import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { AuthRoute, IfLoggedIn } from '@restapp/user-client-react/containers/Auth';
+import { UserRole } from '@restapp/user-client-react/types';
 
 import AddSubscription from './containers/AddSubscription';
 import locales from './locales';
@@ -15,9 +16,9 @@ const NavLinkWithI18n = translate('stripeSubscription')(({ t }: { t: TranslateFu
 ));
 
 export default new ClientModule({
-  route: [<AuthRoute exact role="user" path="/add-subscription" component={AddSubscription} />],
+  route: [<AuthRoute exact path="/add-subscription" role={UserRole.user} component={AddSubscription} />],
   navItem: [
-    <IfLoggedIn role="user">
+    <IfLoggedIn role={UserRole.user}>
       <MenuItem key="/subscriber-page">
         <NavLinkWithI18n />
       </MenuItem>
