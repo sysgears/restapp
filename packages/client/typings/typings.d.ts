@@ -7,6 +7,7 @@ declare var __WEBSITE_URL__: string;
 
 interface Window {
   __SERVER_ERROR__?: any;
+  Stripe?: any;
 }
 
 // packages without types
