@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Helmet from 'react-helmet';
 
 import { PageLayout } from '@restapp/look-client-react';
@@ -6,8 +6,8 @@ import { PageLayout } from '@restapp/look-client-react';
 const LoadStripeSDK = ({ children, t }: { [key: string]: any }) => {
   const [isLoading, setLoading] = useState(!window.Stripe);
 
-  useEffect(() => {
-    if (isLoading) {
+  const catchStripe = (newState: any, { scriptTags }: any): void => {
+    if (scriptTags && isLoading) {
       const script = document.getElementById('stripe-js');
       const onLoading = () => {
         script.removeEventListener('load', onLoading);
@@ -16,11 +16,11 @@ const LoadStripeSDK = ({ children, t }: { [key: string]: any }) => {
 
       script.addEventListener('load', onLoading);
     }
-  }, []);
+  };
 
   return (
     <>
-      <Helmet>
+      <Helmet onChangeClientState={catchStripe}>
         <script id="stripe-js" src="https://js.stripe.com/v3/" type="text/javascript" async />
       </Helmet>
       <PageLayout>{isLoading ? t('loading') : children}</PageLayout>
