@@ -18,7 +18,7 @@ interface SubscriptionProps {
   [key: string]: any;
 }
 
-export default class StripeSubscriptionDAO {
+class StripeSubscriptionDAO {
   public async editSubscription({ userId, ...subscription }: SubscriptionProps) {
     const subscriptionId = await knex('stripe_subscription')
       .select('id')
@@ -74,3 +74,5 @@ export default class StripeSubscriptionDAO {
     );
   }
 }
+
+export default new StripeSubscriptionDAO();
