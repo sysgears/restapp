@@ -16,3 +16,17 @@ declare module 'sourcemapped-stacktrace';
 declare module 'react-stripe-elements';
 declare module 'minilog';
 declare module 'reactstrap';
+declare module 'react-helmet' {
+  import { HelmetProps } from 'react-helmet';
+  
+  export interface NewHelmetProps extends HelmetProps {
+    onChangeClientState?: (newState: any, addedTags: any, removedTags: any) => void;
+  }
+
+  export default class Helmet extends React.Component<NewHelmetProps> {
+    static peek(): HelmetData;
+    static rewind(): HelmetData;
+    static renderStatic(): HelmetData;
+    static canUseDOM: boolean;
+  }
+}
