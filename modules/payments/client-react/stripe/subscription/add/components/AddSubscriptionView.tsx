@@ -5,7 +5,7 @@ import { Elements } from 'react-stripe-elements';
 import { TranslateFunction } from '@restapp/i18n-client-react';
 import { LayoutCenter, Table, Row, Col } from '@restapp/look-client-react';
 import { clientOnly } from '@restapp/core-client-react';
-import settings from '../../../../../../settings';
+import settings from '../../../../../../../settings';
 
 import SubscriptionCardForm from './SubscriptionCardFormView';
 import { CreditCardInput } from '../types';

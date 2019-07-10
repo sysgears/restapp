@@ -1,4 +1,4 @@
-import settings from '../../../../../settings';
+import settings from '../../../../../../settings';
 import { CreditCardInput } from './types';
 
 export const createToken = (creditCardInput: CreditCardInput) => {
@@ -26,7 +26,7 @@ export const createCreditCardToken = async (creditCardInput: CreditCardInput, st
   const { name } = creditCardInput;
   const { token, error } = await stripe.createToken({ name });
 
-  if (Object.keys(error).length) {
+  if (error && Object.keys(error).length) {
     throw error;
   }
 
