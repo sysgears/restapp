@@ -7,11 +7,11 @@ import { translate } from '@restapp/i18n-client-react';
 import settings from '../../../../settings';
 
 import PaginationDemoView from '../components/PaginationDemoView.web';
-import { withDataProvider } from './DataProvider';
+import { useDataProvider } from './DataProvider';
 
-const PaginationDemo = ({ t, loadData, items }) => {
+const PaginationDemo = ({ t }) => {
   const [pagination, setPagination] = useState('standard');
-
+  const { items, loadData } = useDataProvider();
   const renderMetaData = () => {
     return (
       <Helmet
@@ -53,9 +53,7 @@ const PaginationDemo = ({ t, loadData, items }) => {
 };
 
 PaginationDemo.propTypes = {
-  t: PropTypes.func,
-  loadData: PropTypes.func,
-  items: PropTypes.object
+  t: PropTypes.func
 };
 
-export default translate('pagination')(withDataProvider(PaginationDemo));
+export default translate('pagination')(PaginationDemo);
