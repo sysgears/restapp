@@ -43,24 +43,20 @@ export const useDataProvider = () => {
   return { items, loadData };
 };
 
-export default function withDataProvider(WrappedComponent) {
-  return class PaginationDemoWithData extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = { items: null };
-    }
+export const withDataProvider = WrappedComponent => {
+  const PaginationDemoWithData = props => {
+    const [items, setItems] = useState(null);
 
-    componentDidMount() {
-      this.loadData(0, 'replace');
-    }
+    useEffect(() => {
+      loadData(0, 'replace');
+    }, []);
 
-    loadData = (offset, dataDelivery) => {
-      const { items } = this.state;
+    const loadData = (offset, dataDelivery) => {
       const newEdges = allEdges.slice(offset, offset + itemsNumber);
       const edges = dataDelivery === 'add' ? (!items ? newEdges : [...items.edges, ...newEdges]) : newEdges;
       const endCursor = edges[edges.length - 1].cursor;
       const hasNextPage = endCursor < allEdges[allEdges.length - 1].cursor;
-      this.setState({
+      setItems({
         items: {
           totalCount: allEdges.length,
           pageInfo: {
@@ -73,9 +69,8 @@ export default function withDataProvider(WrappedComponent) {
         }
       });
     };
-
-    render() {
-      return <WrappedComponent items={this.state.items} loadData={this.loadData} />;
-    }
+    return <WrappedComponent items={items} {...props} loadData={loadData} />;
   };
-}
+
+  return PaginationDemoWithData;
+};
