@@ -44,31 +44,38 @@ export const useDataProvider = () => {
 };
 
 export const withDataProvider = Component => {
-  const PaginationDemoWithData = props => {
-    const [items, setItems] = useState(null);
+  return class PaginationDemoWithData extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = { items: null };
+    }
 
-    useEffect(() => {
-      loadData(0, 'replace');
-    }, []);
+    componentDidMount() {
+      this.loadData(0, 'replace');
+    }
 
-    const loadData = (offset, dataDelivery) => {
+    loadData = (offset, dataDelivery) => {
+      const { items } = this.state;
       const newEdges = allEdges.slice(offset, offset + itemsNumber);
       const edges = dataDelivery === 'add' ? (!items ? newEdges : [...items.edges, ...newEdges]) : newEdges;
       const endCursor = edges[edges.length - 1].cursor;
       const hasNextPage = endCursor < allEdges[allEdges.length - 1].cursor;
-      setItems({
-        totalCount: allEdges.length,
-        pageInfo: {
-          endCursor: endCursor,
-          hasNextPage: hasNextPage
-        },
-        edges: edges,
-        offset: offset,
-        limit: itemsNumber
+      this.setState({
+        items: {
+          totalCount: allEdges.length,
+          pageInfo: {
+            endCursor: endCursor,
+            hasNextPage: hasNextPage
+          },
+          edges: edges,
+          offset: offset,
+          limit: itemsNumber
+        }
       });
     };
-    return <Component items={items} {...props} loadData={loadData} />;
-  };
 
-  return PaginationDemoWithData;
+    render() {
+      return <Component items={this.state.items} {...this.props} loadData={this.loadData} />;
+    }
+  };
 };
