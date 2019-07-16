@@ -26,6 +26,7 @@ export default class Pagination extends React.Component {
 
   onItemClick = pageNumber => {
     const { handlePageChange, pagination } = this.props;
+    console.log('asdasd');
     this.setState({ pageNumber: pageNumber }, handlePageChange(pagination, pageNumber));
   };
 

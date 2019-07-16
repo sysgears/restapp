@@ -18,7 +18,7 @@ export const useDataProvider = () => {
 
   useEffect(() => {
     loadData(0, 'replace');
-  });
+  }, []);
 
   const loadData = useCallback(
     (offset, dataDelivery) => {
@@ -43,7 +43,7 @@ export const useDataProvider = () => {
   return { items, loadData };
 };
 
-export const withDataProvider = WrappedComponent => {
+export const withDataProvider = Component => {
   const PaginationDemoWithData = props => {
     const [items, setItems] = useState(null);
 
@@ -57,19 +57,17 @@ export const withDataProvider = WrappedComponent => {
       const endCursor = edges[edges.length - 1].cursor;
       const hasNextPage = endCursor < allEdges[allEdges.length - 1].cursor;
       setItems({
-        items: {
-          totalCount: allEdges.length,
-          pageInfo: {
-            endCursor: endCursor,
-            hasNextPage: hasNextPage
-          },
-          edges: edges,
-          offset: offset,
-          limit: itemsNumber
-        }
+        totalCount: allEdges.length,
+        pageInfo: {
+          endCursor: endCursor,
+          hasNextPage: hasNextPage
+        },
+        edges: edges,
+        offset: offset,
+        limit: itemsNumber
       });
     };
-    return <WrappedComponent items={items} {...props} loadData={loadData} />;
+    return <Component items={items} {...props} loadData={loadData} />;
   };
 
   return PaginationDemoWithData;
