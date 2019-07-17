@@ -16,6 +16,23 @@ const {
 
 const allEdges = generateEdgesArray(47);
 
+const createLoadData = (offset, dataDelivery, items) => {
+  const newEdges = allEdges.slice(offset, offset + limit);
+  const edges = dataDelivery === 'add' ? (!items ? newEdges : [...items.edges, ...newEdges]) : newEdges;
+  const endCursor = edges[edges.length - 1].cursor;
+  const hasNextPage = endCursor < allEdges[allEdges.length - 1].cursor;
+  return {
+    totalCount: allEdges.length,
+    pageInfo: {
+      endCursor,
+      hasNextPage
+    },
+    edges,
+    offset,
+    limit
+  };
+};
+
 export const useDataProvider = () => {
   const [items, setItems] = useState(null);
 
@@ -25,20 +42,7 @@ export const useDataProvider = () => {
 
   const loadData = useCallback(
     (offset, dataDelivery) => {
-      const newEdges = allEdges.slice(offset, offset + limit);
-      const edges = dataDelivery === 'add' ? (!items ? newEdges : [...items.edges, ...newEdges]) : newEdges;
-      const endCursor = edges[edges.length - 1].cursor;
-      const hasNextPage = endCursor < allEdges[allEdges.length - 1].cursor;
-      setItems({
-        totalCount: allEdges.length,
-        pageInfo: {
-          endCursor,
-          hasNextPage
-        },
-        edges,
-        offset,
-        limit
-      });
+      setItems(createLoadData(offset, dataDelivery, items));
     },
     [items]
   );
@@ -59,20 +63,9 @@ export const withDataProvider = Component => {
 
     loadData = (offset, dataDelivery) => {
       const { items } = this.state;
-      const newEdges = allEdges.slice(offset, offset + limit);
-      const edges = dataDelivery === 'add' ? (!items ? newEdges : [...items.edges, ...newEdges]) : newEdges;
-      const endCursor = edges[edges.length - 1].cursor;
-      const hasNextPage = endCursor < allEdges[allEdges.length - 1].cursor;
       this.setState({
         items: {
-          totalCount: allEdges.length,
-          pageInfo: {
-            endCursor,
-            hasNextPage
-          },
-          edges,
-          offset,
-          limit
+          ...createLoadData(offset, dataDelivery, items)
         }
       });
     };
