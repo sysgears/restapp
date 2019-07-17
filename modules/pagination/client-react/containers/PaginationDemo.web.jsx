@@ -11,7 +11,7 @@ import { useDataProvider } from './DataProvider';
 
 const PaginationDemo = ({ t }) => {
   const [pagination, setPagination] = useState('standard');
-  const { items, loadData } = useDataProvider();
+  const { items, loadData } = useDataProvider(10);
   const renderMetaData = () => {
     return (
       <Helmet

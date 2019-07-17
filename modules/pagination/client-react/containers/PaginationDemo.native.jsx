@@ -8,7 +8,7 @@ import { withDataProvider } from './DataProvider';
 import { stylesContainers as styles } from '../styles';
 
 @translate('pagination')
-@withDataProvider
+@withDataProvider(10)
 class PaginationDemo extends Component {
   static propTypes = {
     t: PropTypes.func,

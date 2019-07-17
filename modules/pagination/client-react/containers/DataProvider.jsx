@@ -11,14 +11,12 @@ const generateEdgesArray = quantity => {
 };
 
 const {
-  pagination: {
-    web: { limit, type }
-  }
+  pagination: { type }
 } = settings;
 
 const allEdges = generateEdgesArray(47);
 
-const createLoadData = (offset, dataDelivery, items) => {
+const createData = ({ offset, dataDelivery, items, limit }) => {
   const newEdges = allEdges.slice(offset, offset + limit);
   const edges = dataDelivery === 'add' ? (!items ? newEdges : [...items.edges, ...newEdges]) : newEdges;
   const endCursor = edges[edges.length - 1].cursor;
@@ -35,7 +33,7 @@ const createLoadData = (offset, dataDelivery, items) => {
   };
 };
 
-export const useDataProvider = () => {
+export const useDataProvider = limit => {
   const [items, setItems] = useState(null);
 
   useEffect(() => {
@@ -44,7 +42,7 @@ export const useDataProvider = () => {
 
   const loadData = useCallback(
     (offset, dataDelivery) => {
-      setItems(createLoadData(offset, dataDelivery, items));
+      setItems(createData({ offset, dataDelivery, items, limit }));
     },
     [items]
   );
@@ -52,28 +50,29 @@ export const useDataProvider = () => {
   return { items, loadData };
 };
 
-export const withDataProvider = Component => {
-  return class PaginationDemoWithData extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = { items: null };
-    }
+export const withDataProvider = limit => {
+  return Component =>
+    class PaginationDemoWithData extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = { items: null };
+      }
 
-    componentDidMount() {
-      this.loadData(0, type);
-    }
+      componentDidMount() {
+        this.loadData(0, type);
+      }
 
-    loadData = (offset, dataDelivery) => {
-      const { items } = this.state;
-      this.setState({
-        items: {
-          ...createLoadData(offset, dataDelivery, items)
-        }
-      });
+      loadData = (offset, dataDelivery) => {
+        const { items } = this.state;
+        this.setState({
+          items: {
+            ...createData({ offset, dataDelivery, items, limit })
+          }
+        });
+      };
+
+      render() {
+        return <Component items={this.state.items} {...this.props} loadData={this.loadData} />;
+      }
     };
-
-    render() {
-      return <Component items={this.state.items} {...this.props} loadData={this.loadData} />;
-    }
-  };
 };
