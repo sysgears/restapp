@@ -17,13 +17,14 @@ class PaginationDemo extends Component {
   };
 
   state = {
-    pagination: 'standard',
-    options: [
-      { value: 'standard', label: this.props.t('list.title.standard') },
-      { value: 'relay', label: this.props.t('list.title.relay') },
-      { value: 'scroll', label: this.props.t('list.title.scroll') }
-    ]
+    pagination: 'standard'
   };
+
+  options = [
+    { value: 'standard', label: this.props.t('list.title.standard') },
+    { value: 'relay', label: this.props.t('list.title.relay') },
+    { value: 'scroll', label: this.props.t('list.title.scroll') }
+  ];
 
   onPaginationTypeChange = itemValue => {
     const { loadData, items } = this.props;
@@ -53,7 +54,7 @@ class PaginationDemo extends Component {
 
   render() {
     const { t, items } = this.props;
-    const { pagination, options } = this.state;
+    const { pagination } = this.state;
 
     return (
       <View style={styles.container}>
@@ -63,7 +64,7 @@ class PaginationDemo extends Component {
               icon
               iconName="caret-down"
               mode="dropdown"
-              data={options}
+              data={this.options}
               selectedValue={pagination}
               onChange={this.onPaginationTypeChange}
               okText={t('list.select.ok')}
