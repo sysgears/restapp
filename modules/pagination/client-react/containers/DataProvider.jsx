@@ -11,7 +11,9 @@ const generateEdgesArray = quantity => {
 };
 
 const {
-  pagination: { web: limit, type }
+  pagination: {
+    web: { limit, type }
+  }
 } = settings;
 
 const allEdges = generateEdgesArray(47);
