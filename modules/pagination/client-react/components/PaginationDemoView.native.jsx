@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { View, ScrollView, FlatList, Text } from 'react-native';
 import { Pagination } from '@restapp/look-client-react-native';
 import { translate } from '@restapp/i18n-client-react';
-import styles from './styles';
+import { stylesView as styles } from '../styles';
 
 @translate('pagination')
 class PaginationDemoView extends Component {

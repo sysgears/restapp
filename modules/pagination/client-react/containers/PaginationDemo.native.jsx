@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { translate } from '@restapp/i18n-client-react';
-import { styles as lookStyles, Select } from '@restapp/look-client-react-native';
+import { Select } from '@restapp/look-client-react-native';
 import PaginationDemoView from '../components/PaginationDemoView.native';
 import { withDataProvider } from './DataProvider';
+import { stylesContainers as styles } from '../styles';
 
 @translate('pagination')
 @withDataProvider
@@ -83,34 +84,5 @@ class PaginationDemo extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingHorizontal: 7
-  },
-  text: {
-    fontSize: 16
-  },
-  postWrapper: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderBottomColor: '#000',
-    borderBottomWidth: 0.3,
-    height: 48
-  },
-  itemContainer: {
-    flex: 0.1
-  },
-  itemAction: lookStyles.itemAction,
-  itemTitle: lookStyles.itemTitle,
-  itemSelect: {
-    flex: 25
-  }
-});
 
 export default PaginationDemo;
