@@ -15,7 +15,14 @@ class PaginationDemo extends Component {
     loadData: PropTypes.func
   };
 
-  state = { pagination: 'standard' };
+  state = {
+    pagination: 'standard',
+    options: [
+      { value: 'standard', label: this.props.t('list.title.standard') },
+      { value: 'relay', label: this.props.t('list.title.relay') },
+      { value: 'scroll', label: this.props.t('list.title.scroll') }
+    ]
+  };
 
   onPaginationTypeChange = itemValue => {
     const { loadData, items } = this.props;
@@ -45,12 +52,8 @@ class PaginationDemo extends Component {
 
   render() {
     const { t, items } = this.props;
-    const { pagination } = this.state;
-    const options = [
-      { value: 'standard', label: t('list.title.standard') },
-      { value: 'relay', label: t('list.title.relay') },
-      { value: 'scroll', label: t('list.title.scroll') }
-    ];
+    const { pagination, options } = this.state;
+
     return (
       <View style={styles.container}>
         <View style={styles.itemContainer}>
