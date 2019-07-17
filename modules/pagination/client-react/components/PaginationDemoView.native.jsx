@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView, FlatList, StyleSheet, Text } from 'react-native';
+import { View, ScrollView, FlatList, Text } from 'react-native';
 import { Pagination } from '@restapp/look-client-react-native';
 import { translate } from '@restapp/i18n-client-react';
+import styles from './styles';
 
 @translate('pagination')
 class PaginationDemoView extends Component {
@@ -88,32 +89,5 @@ PaginationDemoView.propTypes = {
   renderItem: PropTypes.func,
   pagination: PropTypes.string
 };
-
-const styles = StyleSheet.create({
-  list: {
-    marginTop: 5
-  },
-  title: {
-    marginTop: 5,
-    paddingTop: 10,
-    paddingBottom: 10,
-    fontSize: 16,
-    borderBottomColor: '#000',
-    borderBottomWidth: 0.3,
-    borderTopColor: '#000',
-    borderTopWidth: 0.3
-  },
-  pagination: {
-    flex: 0.15,
-    marginTop: 5
-  },
-  container: {
-    flex: 1,
-    paddingHorizontal: 15
-  },
-  listContainer: {
-    flex: 1
-  }
-});
 
 export default PaginationDemoView;
