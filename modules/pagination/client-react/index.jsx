@@ -7,7 +7,7 @@ import PaginationDemo from './containers/PaginationDemo';
 
 import resources from './locales';
 
-const NavLinkWithI18n = translate()(({ t }) => (
+const NavLinkWithI18n = translate('pagination')(({ t }) => (
   <NavLink to="/pagination" className="nav-link" activeClassName="active">
     {t('pagination:navLink')}
   </NavLink>
