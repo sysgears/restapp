@@ -10,7 +10,7 @@ const generateEdgesArray = quantity => {
   return arr;
 };
 
-const itemsNumber = settings.pagination.web.itemsNumber;
+const limit = settings.pagination.web.limit;
 const allEdges = generateEdgesArray(47);
 
 export const useDataProvider = () => {
@@ -22,7 +22,7 @@ export const useDataProvider = () => {
 
   const loadData = useCallback(
     (offset, dataDelivery) => {
-      const newEdges = allEdges.slice(offset, offset + itemsNumber);
+      const newEdges = allEdges.slice(offset, offset + limit);
       const edges = dataDelivery === 'add' ? (!items ? newEdges : [...items.edges, ...newEdges]) : newEdges;
       const endCursor = edges[edges.length - 1].cursor;
       const hasNextPage = endCursor < allEdges[allEdges.length - 1].cursor;
@@ -34,7 +34,7 @@ export const useDataProvider = () => {
         },
         edges,
         offset,
-        limit: itemsNumber
+        limit
       });
     },
     [items]
@@ -56,7 +56,7 @@ export const withDataProvider = Component => {
 
     loadData = (offset, dataDelivery) => {
       const { items } = this.state;
-      const newEdges = allEdges.slice(offset, offset + itemsNumber);
+      const newEdges = allEdges.slice(offset, offset + limit);
       const edges = dataDelivery === 'add' ? (!items ? newEdges : [...items.edges, ...newEdges]) : newEdges;
       const endCursor = edges[edges.length - 1].cursor;
       const hasNextPage = endCursor < allEdges[allEdges.length - 1].cursor;
@@ -69,7 +69,7 @@ export const withDataProvider = Component => {
           },
           edges,
           offset,
-          limit: itemsNumber
+          limit
         }
       });
     };
