@@ -29,11 +29,11 @@ export const useDataProvider = () => {
       setItems({
         totalCount: allEdges.length,
         pageInfo: {
-          endCursor: endCursor,
-          hasNextPage: hasNextPage
+          endCursor,
+          hasNextPage
         },
-        edges: edges,
-        offset: offset,
+        edges,
+        offset,
         limit: itemsNumber
       });
     },
@@ -64,11 +64,11 @@ export const withDataProvider = Component => {
         items: {
           totalCount: allEdges.length,
           pageInfo: {
-            endCursor: endCursor,
-            hasNextPage: hasNextPage
+            endCursor,
+            hasNextPage
           },
-          edges: edges,
-          offset: offset,
+          edges,
+          offset,
           limit: itemsNumber
         }
       });
