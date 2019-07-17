@@ -10,14 +10,17 @@ const generateEdgesArray = quantity => {
   return arr;
 };
 
-const limit = settings.pagination.web.limit;
+const {
+  pagination: { web: limit, type }
+} = settings;
+
 const allEdges = generateEdgesArray(47);
 
 export const useDataProvider = () => {
   const [items, setItems] = useState(null);
 
   useEffect(() => {
-    loadData(0, 'replace');
+    loadData(0, type);
   }, []);
 
   const loadData = useCallback(
@@ -51,7 +54,7 @@ export const withDataProvider = Component => {
     }
 
     componentDidMount() {
-      this.loadData(0, 'replace');
+      this.loadData(0, type);
     }
 
     loadData = (offset, dataDelivery) => {
