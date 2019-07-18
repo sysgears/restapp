@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export const Types = {
   STANDARD: 'standard',
@@ -25,8 +25,7 @@ const fetchData = ({ offset, limit }) => {
       hasNextPage
     },
     edges,
-    offset,
-    limit
+    offset
   };
 };
 
@@ -35,20 +34,17 @@ export const useDataProvider = (limit, initialType) => {
   const [type, setType] = useState(initialType);
 
   useEffect(() => {
-    loadData(0, type);
-  }, []);
+    loadData(0);
+  }, [type]);
 
-  const loadData = useCallback(
-    offset => {
-      const fetchedItems = fetchData({ offset, limit });
-      const newItems =
-        type === Types.RELAY && items
-          ? { ...fetchedItems, edges: items.edges.concat(fetchedItems.edges) }
-          : fetchedItems;
-      setItems(newItems);
-    },
-    [items]
-  );
+  const loadData = offset => {
+    const fetchedItems = fetchData({ offset, limit });
+    const newItems =
+      type === Types.RELAY && offset > 0
+        ? { ...fetchedItems, edges: items.edges.concat(fetchedItems.edges) }
+        : fetchedItems;
+    setItems(newItems);
+  };
 
   const updateType = newType => setType(newType);
 
@@ -65,14 +61,14 @@ export const withDataProvider = (limit, type) => {
       }
 
       componentDidMount() {
-        this.loadData(0, type);
+        this.loadData(0);
       }
 
       loadData = offset => {
         const { items } = this.state;
         const fetchedItems = fetchData({ offset, limit });
         const newItems =
-          type === Types.RELAY && items
+          type === Types.RELAY && offset > 0
             ? { ...fetchedItems, edges: items.edges.concat(fetchedItems.edges) }
             : fetchedItems;
 

@@ -9,8 +9,11 @@ import settings from '../../../../settings';
 import PaginationDemoView from '../components/PaginationDemoView';
 import { useDataProvider, Types } from './DataProvider';
 
+const limit = 10;
+
 const PaginationDemo = ({ t }) => {
-  const { items, loadData, updateType, type } = useDataProvider(10, Types.STANDARD);
+  const { items, loadData, updateType, type } = useDataProvider(limit, Types.STANDARD);
+
   const renderMetaData = () => {
     return (
       <Helmet
@@ -25,17 +28,12 @@ const PaginationDemo = ({ t }) => {
     );
   };
 
-  const handlePageChange = (pagination, pageNumber) => {
-    if (pagination === Types.RELAY) {
-      loadData(items.pageInfo.endCursor);
-    } else {
-      loadData((pageNumber - 1) * items.limit);
-    }
+  const handlePageChange = (_, pageNumber) => {
+    loadData(pageNumber ? (pageNumber - 1) * limit : items.pageInfo.endCursor);
   };
 
   const onPaginationTypeChange = e => {
     updateType(e.target.value);
-    loadData(0, items.limit);
   };
 
   return (
@@ -45,7 +43,7 @@ const PaginationDemo = ({ t }) => {
         <Option value="standard">{t('list.title.standard')}</Option>
         <Option value="relay">{t('list.title.relay')}</Option>
       </Select>
-      {items && <PaginationDemoView items={items} handlePageChange={handlePageChange} type={type} />}
+      {items && <PaginationDemoView items={items} handlePageChange={handlePageChange} type={type} pageSize={limit} />}
     </PageLayout>
   );
 };

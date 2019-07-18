@@ -10,7 +10,7 @@ const titleColumn = t => ({
   displayName: 'MyComponent'
 });
 
-const PaginationDemoView = ({ items, handlePageChange, type, t }) => {
+const PaginationDemoView = ({ items, handlePageChange, type, t, pageSize }) => {
   const dataSource = useMemo(() => {
     return items.edges.map(({ node }) => node);
   }, [items]);
@@ -27,7 +27,7 @@ const PaginationDemoView = ({ items, handlePageChange, type, t }) => {
         pagination={type}
         total={items.totalCount}
         loadMoreText={t('list.btn.more')}
-        defaultPageSize={items.limit}
+        defaultPageSize={pageSize}
       />
     </div>
   );
@@ -37,7 +37,8 @@ PaginationDemoView.propTypes = {
   items: PropTypes.object,
   handlePageChange: PropTypes.func,
   t: PropTypes.func,
-  type: PropTypes.string
+  type: PropTypes.string,
+  pageSize: PropTypes.number.isRequired
 };
 
 export default translate('pagination')(PaginationDemoView);

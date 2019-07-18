@@ -8,8 +8,10 @@ import PaginationDemoView from '../components/PaginationDemoView.native';
 import { containerStyles as styles } from '../styles';
 import { withDataProvider, Types } from './DataProvider';
 
+const limit = 10;
+
 @translate('pagination')
-@withDataProvider(10, Types.STANDARD)
+@withDataProvider(limit, Types.STANDARD)
 class PaginationDemo extends Component {
   static propTypes = {
     t: PropTypes.func,
@@ -26,18 +28,14 @@ class PaginationDemo extends Component {
   ];
 
   onPaginationTypeChange = itemValue => {
-    const { loadData, items, updateType } = this.props;
+    const { loadData, updateType } = this.props;
     updateType(itemValue);
-    this.setState(loadData(0, items.limit));
+    this.setState(loadData(0));
   };
 
-  handlePageChange = (pagination, pageNumber) => {
-    const { loadData, items } = this.props;
-    if (pagination === Types.RELAY) {
-      loadData(items.pageInfo.endCursor);
-    } else {
-      loadData((pageNumber - 1) * items.limit);
-    }
+  handlePageChange = (_, pageNumber) => {
+    const { items, loadData } = this.props;
+    loadData(pageNumber ? (pageNumber - 1) * limit : items.pageInfo.endCursor);
   };
 
   renderItem = ({
@@ -78,6 +76,7 @@ class PaginationDemo extends Component {
             handlePageChange={this.handlePageChange}
             renderItem={this.renderItem}
             type={type}
+            pageSize={limit}
           />
         )}
       </View>

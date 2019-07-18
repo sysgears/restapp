@@ -10,7 +10,7 @@ import { viewStyles as styles } from '../styles';
 @translate('pagination')
 class PaginationDemoView extends Component {
   render() {
-    const { items, handlePageChange, renderItem, type, t } = this.props;
+    const { items, handlePageChange, renderItem, type, t, pageSize } = this.props;
 
     const renderHeader = t => {
       return <Text style={styles.title}>{t}</Text>;
@@ -41,7 +41,7 @@ class PaginationDemoView extends Component {
         </View>
         <View style={styles.pagination}>
           <Pagination
-            totalPages={Math.ceil(items.totalCount / items.limit)}
+            totalPages={Math.ceil(items.totalCount / pageSize)}
             handlePageChange={handlePageChange}
             pagination={type}
             loadMoreText={t('list.btn.more')}
@@ -60,7 +60,7 @@ class PaginationDemoView extends Component {
             ListHeaderComponent={renderHeader(titleText)}
           />
           <Pagination
-            totalPages={Math.ceil(items.totalCount / items.limit)}
+            totalPages={Math.ceil(items.totalCount / pageSize)}
             handlePageChange={handlePageChange}
             pagination={type}
             loadMoreText={t('list.btn.more')}
@@ -90,7 +90,8 @@ PaginationDemoView.propTypes = {
   items: PropTypes.object,
   handlePageChange: PropTypes.func,
   renderItem: PropTypes.func,
-  type: PropTypes.string
+  type: PropTypes.string,
+  pageSize: PropTypes.number.isRequired
 };
 
 export default PaginationDemoView;
