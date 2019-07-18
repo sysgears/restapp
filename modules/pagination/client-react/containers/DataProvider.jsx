@@ -6,23 +6,21 @@ export const Types = {
   SCROLL: 'scroll'
 };
 
-const generateEdgesArray = quantity => {
-  const arr = [];
-  for (let i = 1; i <= quantity; i++) {
-    arr.push({ cursor: i, node: { id: i, title: 'Item ' + i } });
-  }
-  return arr;
-};
+const generateDataSet = total =>
+  Array.from(Array(total), (_, idx) => {
+    const id = idx + 1;
+    return { cursor: idx, node: { id, title: 'Item ' + id } };
+  });
 
-const allEdges = generateEdgesArray(47);
+const data = generateDataSet(47);
 
 const fetchData = ({ offset, dataDelivery, items, limit }) => {
-  const newEdges = allEdges.slice(offset, offset + limit);
+  const newEdges = data.slice(offset, offset + limit);
   const edges = dataDelivery === 'add' ? (!items ? newEdges : [...items.edges, ...newEdges]) : newEdges;
   const endCursor = edges[edges.length - 1].cursor;
-  const hasNextPage = endCursor < allEdges[allEdges.length - 1].cursor;
+  const hasNextPage = endCursor < data[data.length - 1].cursor;
   return {
-    totalCount: allEdges.length,
+    totalCount: data.length,
     pageInfo: {
       endCursor,
       hasNextPage
