@@ -5,36 +5,35 @@ import { translate } from '@restapp/i18n-client-react';
 import { Select } from '@restapp/look-client-react-native';
 
 import PaginationDemoView from '../components/PaginationDemoView.native';
-import { withDataProvider } from './DataProvider';
 import { containerStyles as styles } from '../styles';
+import { withDataProvider, Types } from './DataProvider';
 
 @translate('pagination')
-@withDataProvider(10)
+@withDataProvider(10, Types.STANDARD)
 class PaginationDemo extends Component {
   static propTypes = {
     t: PropTypes.func,
     items: PropTypes.object,
-    loadData: PropTypes.func
-  };
-
-  state = {
-    pagination: 'standard'
+    loadData: PropTypes.func,
+    type: PropTypes.string.isRequired,
+    updateType: PropTypes.func.isRequired
   };
 
   options = [
-    { value: 'standard', label: this.props.t('list.title.standard') },
-    { value: 'relay', label: this.props.t('list.title.relay') },
-    { value: 'scroll', label: this.props.t('list.title.scroll') }
+    { value: Types.STANDARD, label: this.props.t('list.title.standard') },
+    { value: Types.RELAY, label: this.props.t('list.title.relay') },
+    { value: Types.SCROLL, label: this.props.t('list.title.scroll') }
   ];
 
   onPaginationTypeChange = itemValue => {
-    const { loadData, items } = this.props;
-    this.setState({ pagination: itemValue }, loadData(0, items.limit));
+    const { loadData, items, updateType } = this.props;
+    updateType(itemValue);
+    this.setState(loadData(0, items.limit));
   };
 
   handlePageChange = (pagination, pageNumber) => {
     const { loadData, items } = this.props;
-    if (pagination === 'relay') {
+    if (pagination === Types.RELAY) {
       loadData(items.pageInfo.endCursor, 'add');
     } else {
       loadData((pageNumber - 1) * items.limit, 'replace');
@@ -54,8 +53,7 @@ class PaginationDemo extends Component {
   };
 
   render() {
-    const { t, items } = this.props;
-    const { pagination } = this.state;
+    const { t, items, type } = this.props;
 
     return (
       <View style={styles.container}>
@@ -66,7 +64,7 @@ class PaginationDemo extends Component {
               iconName="caret-down"
               mode="dropdown"
               data={this.options}
-              selectedValue={pagination}
+              selectedValue={type}
               onChange={this.onPaginationTypeChange}
               okText={t('list.select.ok')}
               dismissText={t('list.select.dismiss')}
@@ -79,7 +77,7 @@ class PaginationDemo extends Component {
             items={items}
             handlePageChange={this.handlePageChange}
             renderItem={this.renderItem}
-            pagination={pagination}
+            pagination={type}
           />
         )}
       </View>

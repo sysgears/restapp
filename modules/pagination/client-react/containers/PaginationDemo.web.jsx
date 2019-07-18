@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 
@@ -6,12 +6,11 @@ import { PageLayout, Select, Option } from '@restapp/look-client-react';
 import { translate } from '@restapp/i18n-client-react';
 import settings from '../../../../settings';
 
-import PaginationDemoView from '../components/PaginationDemoView.web';
-import { useDataProvider } from './DataProvider';
+import PaginationDemoView from '../components/PaginationDemoView';
+import { useDataProvider, Types } from './DataProvider';
 
 const PaginationDemo = ({ t }) => {
-  const [pagination, setPagination] = useState('standard');
-  const { items, loadData } = useDataProvider(10);
+  const { items, loadData, updateType, type } = useDataProvider(10, Types.STANDARD);
   const renderMetaData = () => {
     return (
       <Helmet
@@ -35,8 +34,7 @@ const PaginationDemo = ({ t }) => {
   };
 
   const onPaginationTypeChange = e => {
-    const paginationType = e.target.value;
-    setPagination(paginationType);
+    updateType(e.target.value);
     loadData(0, items.limit);
   };
 
@@ -47,7 +45,7 @@ const PaginationDemo = ({ t }) => {
         <Option value="standard">{t('list.title.standard')}</Option>
         <Option value="relay">{t('list.title.relay')}</Option>
       </Select>
-      {items && <PaginationDemoView items={items} handlePageChange={handlePageChange} pagination={pagination} />}
+      {items && <PaginationDemoView items={items} handlePageChange={handlePageChange} pagination={type} />}
     </PageLayout>
   );
 };

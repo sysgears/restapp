@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import settings from '../../../../settings';
+export const Types = {
+  STANDARD: 'standard',
+  RELAY: 'relay',
+  SCROLL: 'scroll'
+};
 
 const generateEdgesArray = quantity => {
   const arr = [];
@@ -10,13 +14,9 @@ const generateEdgesArray = quantity => {
   return arr;
 };
 
-const {
-  pagination: { type }
-} = settings;
-
 const allEdges = generateEdgesArray(47);
 
-const createData = ({ offset, dataDelivery, items, limit }) => {
+const fetchData = ({ offset, dataDelivery, items, limit }) => {
   const newEdges = allEdges.slice(offset, offset + limit);
   const edges = dataDelivery === 'add' ? (!items ? newEdges : [...items.edges, ...newEdges]) : newEdges;
   const endCursor = edges[edges.length - 1].cursor;
@@ -33,8 +33,9 @@ const createData = ({ offset, dataDelivery, items, limit }) => {
   };
 };
 
-export const useDataProvider = limit => {
+export const useDataProvider = (limit, initialType) => {
   const [items, setItems] = useState(null);
+  const [type, setType] = useState(initialType);
 
   useEffect(() => {
     loadData(0, type);
@@ -42,20 +43,22 @@ export const useDataProvider = limit => {
 
   const loadData = useCallback(
     (offset, dataDelivery) => {
-      setItems(createData({ offset, dataDelivery, items, limit }));
+      setItems(fetchData({ offset, dataDelivery, items, limit }));
     },
     [items]
   );
 
-  return { items, loadData };
+  const updateType = newType => setType(newType);
+
+  return { items, loadData, updateType, type };
 };
 
-export const withDataProvider = limit => {
+export const withDataProvider = (limit, type) => {
   return Component =>
     class PaginationDemoWithData extends React.Component {
       constructor(props) {
         super(props);
-        this.state = { items: null };
+        this.state = { items: null, type: type };
       }
 
       componentDidMount() {
@@ -65,14 +68,22 @@ export const withDataProvider = limit => {
       loadData = (offset, dataDelivery) => {
         const { items } = this.state;
         this.setState({
-          items: {
-            ...createData({ offset, dataDelivery, items, limit })
-          }
+          items: fetchData({ offset, dataDelivery, items, limit })
         });
       };
 
+      updateType = newType => this.setState({ ...this.state, type: newType });
+
       render() {
-        return <Component items={this.state.items} {...this.props} loadData={this.loadData} />;
+        return (
+          <Component
+            {...this.props}
+            items={this.state.items}
+            loadData={this.loadData}
+            updateType={this.updateType}
+            type={type}
+          />
+        );
       }
     };
 };
