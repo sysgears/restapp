@@ -24,7 +24,7 @@ class PaginationDemo extends Component {
   onPaginationTypeChange = itemValue => {
     const { loadData, updateType } = this.props;
     updateType(itemValue);
-    this.setState(loadData(0));
+    loadData(0);
   };
 
   handlePageChange = (_, pageNumber) => {
