@@ -14,9 +14,8 @@ const generateDataSet = total =>
 
 const data = generateDataSet(47);
 
-const fetchData = ({ offset, dataDelivery, items, limit }) => {
-  const newEdges = data.slice(offset, offset + limit);
-  const edges = dataDelivery === 'add' ? (!items ? newEdges : [...items.edges, ...newEdges]) : newEdges;
+const fetchData = ({ offset, limit }) => {
+  const edges = data.slice(offset, offset + limit);
   const endCursor = offset + limit;
   const hasNextPage = endCursor < data.length;
   return {
@@ -40,8 +39,13 @@ export const useDataProvider = (limit, initialType) => {
   }, []);
 
   const loadData = useCallback(
-    (offset, dataDelivery) => {
-      setItems(fetchData({ offset, dataDelivery, items, limit }));
+    offset => {
+      const fetchedItems = fetchData({ offset, limit });
+      const newItems =
+        type === Types.RELAY && items
+          ? { ...fetchedItems, edges: items.edges.concat(fetchedItems.edges) }
+          : fetchedItems;
+      setItems(newItems);
     },
     [items]
   );
@@ -51,6 +55,7 @@ export const useDataProvider = (limit, initialType) => {
   return { items, loadData, updateType, type };
 };
 
+/* This HOC is going to be removed once Expo version supports Hooks */
 export const withDataProvider = (limit, type) => {
   return Component =>
     class PaginationDemoWithData extends React.Component {
@@ -63,11 +68,15 @@ export const withDataProvider = (limit, type) => {
         this.loadData(0, type);
       }
 
-      loadData = (offset, dataDelivery) => {
+      loadData = offset => {
         const { items } = this.state;
-        this.setState({
-          items: fetchData({ offset, dataDelivery, items, limit })
-        });
+        const fetchedItems = fetchData({ offset, limit });
+        const newItems =
+          type === Types.RELAY && items
+            ? { ...fetchedItems, edges: items.edges.concat(fetchedItems.edges) }
+            : fetchedItems;
+
+        this.setState({ items: newItems });
       };
 
       updateType = newType => this.setState({ ...this.state, type: newType });

@@ -20,7 +20,7 @@ class PaginationDemoView extends Component {
       if (this.allowDataLoad) {
         if (items.pageInfo.hasNextPage) {
           this.allowDataLoad = false;
-          return handlePageChange('relay', null);
+          handlePageChange(Types.RELAY, null);
         }
       }
     };

@@ -26,10 +26,10 @@ const PaginationDemo = ({ t }) => {
   };
 
   const handlePageChange = (pagination, pageNumber) => {
-    if (pagination === 'relay') {
-      loadData(items.pageInfo.endCursor, 'add');
+    if (pagination === Types.RELAY) {
+      loadData(items.pageInfo.endCursor);
     } else {
-      loadData((pageNumber - 1) * items.limit, 'replace');
+      loadData((pageNumber - 1) * items.limit);
     }
   };
 

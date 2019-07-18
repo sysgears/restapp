@@ -34,9 +34,9 @@ class PaginationDemo extends Component {
   handlePageChange = (pagination, pageNumber) => {
     const { loadData, items } = this.props;
     if (pagination === Types.RELAY) {
-      loadData(items.pageInfo.endCursor, 'add');
+      loadData(items.pageInfo.endCursor);
     } else {
-      loadData((pageNumber - 1) * items.limit, 'replace');
+      loadData((pageNumber - 1) * items.limit);
     }
   };
 
