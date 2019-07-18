@@ -21,12 +21,6 @@ class PaginationDemo extends Component {
     updateType: PropTypes.func.isRequired
   };
 
-  options = [
-    { value: Types.STANDARD, label: this.props.t('list.title.standard') },
-    { value: Types.RELAY, label: this.props.t('list.title.relay') },
-    { value: Types.SCROLL, label: this.props.t('list.title.scroll') }
-  ];
-
   onPaginationTypeChange = itemValue => {
     const { loadData, updateType } = this.props;
     updateType(itemValue);
@@ -50,6 +44,12 @@ class PaginationDemo extends Component {
     );
   };
 
+  getOptions = () => [
+    { value: Types.STANDARD, label: this.props.t('list.title.standard') },
+    { value: Types.RELAY, label: this.props.t('list.title.relay') },
+    { value: Types.SCROLL, label: this.props.t('list.title.scroll') }
+  ];
+
   render() {
     const { t, items, type } = this.props;
 
@@ -61,7 +61,7 @@ class PaginationDemo extends Component {
               icon
               iconName="caret-down"
               mode="dropdown"
-              data={this.options}
+              data={this.getOptions()}
               selectedValue={type}
               onChange={this.onPaginationTypeChange}
               okText={t('list.select.ok')}
