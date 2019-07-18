@@ -75,7 +75,7 @@ export const withDataProvider = (limit, type) => {
         this.setState({ items: newItems });
       };
 
-      updateType = newType => this.setState({ ...this.state, type: newType });
+      updateType = newType => this.setState({ type: newType });
 
       render() {
         return (
@@ -84,7 +84,7 @@ export const withDataProvider = (limit, type) => {
             items={this.state.items}
             loadData={this.loadData}
             updateType={this.updateType}
-            type={type}
+            type={this.state.type}
           />
         );
       }
