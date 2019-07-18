@@ -68,7 +68,7 @@ export const withDataProvider = (limit, type) => {
         const { items, type } = this.state;
         const fetchedItems = fetchData({ offset, limit });
         const newItems =
-          type === Types.RELAY && offset > 0
+          [Types.RELAY, Types.SCROLL].includes(type) && offset > 0
             ? { ...fetchedItems, edges: items.edges.concat(fetchedItems.edges) }
             : fetchedItems;
 
