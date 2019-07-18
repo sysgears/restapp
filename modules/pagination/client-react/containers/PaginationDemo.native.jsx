@@ -77,7 +77,7 @@ class PaginationDemo extends Component {
             items={items}
             handlePageChange={this.handlePageChange}
             renderItem={this.renderItem}
-            pagination={type}
+            type={type}
           />
         )}
       </View>

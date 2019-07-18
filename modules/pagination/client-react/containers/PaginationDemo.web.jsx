@@ -45,7 +45,7 @@ const PaginationDemo = ({ t }) => {
         <Option value="standard">{t('list.title.standard')}</Option>
         <Option value="relay">{t('list.title.relay')}</Option>
       </Select>
-      {items && <PaginationDemoView items={items} handlePageChange={handlePageChange} pagination={type} />}
+      {items && <PaginationDemoView items={items} handlePageChange={handlePageChange} type={type} />}
     </PageLayout>
   );
 };

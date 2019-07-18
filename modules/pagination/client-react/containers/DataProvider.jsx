@@ -17,8 +17,8 @@ const data = generateDataSet(47);
 const fetchData = ({ offset, dataDelivery, items, limit }) => {
   const newEdges = data.slice(offset, offset + limit);
   const edges = dataDelivery === 'add' ? (!items ? newEdges : [...items.edges, ...newEdges]) : newEdges;
-  const endCursor = edges[edges.length - 1].cursor;
-  const hasNextPage = endCursor < data[data.length - 1].cursor;
+  const endCursor = offset + limit;
+  const hasNextPage = endCursor < data.length;
   return {
     totalCount: data.length,
     pageInfo: {

@@ -4,12 +4,13 @@ import { View, ScrollView, FlatList, Text } from 'react-native';
 import { Pagination } from '@restapp/look-client-react-native';
 import { translate } from '@restapp/i18n-client-react';
 
+import { Types } from '../containers/DataProvider';
 import { viewStyles as styles } from '../styles';
 
 @translate('pagination')
 class PaginationDemoView extends Component {
   render() {
-    const { items, handlePageChange, renderItem, pagination, t } = this.props;
+    const { items, handlePageChange, renderItem, type, t } = this.props;
 
     const renderHeader = t => {
       return <Text style={styles.title}>{t}</Text>;
@@ -24,9 +25,10 @@ class PaginationDemoView extends Component {
       }
     };
 
-    const titleTexti18n = t('list.column.title');
+    const titleText = t('list.column.title');
     this.allowDataLoad = true;
-    return pagination === 'standard' ? (
+
+    return type === Types.STANDARD ? (
       <View style={styles.container}>
         <View style={styles.listContainer}>
           <FlatList
@@ -34,20 +36,20 @@ class PaginationDemoView extends Component {
             style={styles.list}
             keyExtractor={item => `${item.node.id}`}
             renderItem={renderItem}
-            ListHeaderComponent={renderHeader(titleTexti18n)}
+            ListHeaderComponent={renderHeader(titleText)}
           />
         </View>
         <View style={styles.pagination}>
           <Pagination
             totalPages={Math.ceil(items.totalCount / items.limit)}
             handlePageChange={handlePageChange}
-            pagination={pagination}
+            pagination={type}
             loadMoreText={t('list.btn.more')}
             hasNextPage={items.pageInfo.hasNextPage}
           />
         </View>
       </View>
-    ) : pagination === 'relay' ? (
+    ) : type === Types.RELAY ? (
       <View style={styles.container}>
         <ScrollView>
           <FlatList
@@ -55,12 +57,12 @@ class PaginationDemoView extends Component {
             style={styles.list}
             keyExtractor={item => `${item.node.id}`}
             renderItem={renderItem}
-            ListHeaderComponent={renderHeader(titleTexti18n)}
+            ListHeaderComponent={renderHeader(titleText)}
           />
           <Pagination
             totalPages={Math.ceil(items.totalCount / items.limit)}
             handlePageChange={handlePageChange}
-            pagination={pagination}
+            pagination={type}
             loadMoreText={t('list.btn.more')}
             hasNextPage={items.pageInfo.hasNextPage}
           />
@@ -74,7 +76,7 @@ class PaginationDemoView extends Component {
           style={styles.list}
           keyExtractor={item => `${item.node.id}`}
           renderItem={renderItem}
-          ListHeaderComponent={renderHeader(titleTexti18n)}
+          ListHeaderComponent={renderHeader(titleText)}
           onEndReachedThreshold={0.5}
           onEndReached={handleScrollEvent}
         />
@@ -88,7 +90,7 @@ PaginationDemoView.propTypes = {
   items: PropTypes.object,
   handlePageChange: PropTypes.func,
   renderItem: PropTypes.func,
-  pagination: PropTypes.string
+  type: PropTypes.string
 };
 
 export default PaginationDemoView;
