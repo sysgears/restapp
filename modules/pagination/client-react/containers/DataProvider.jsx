@@ -65,7 +65,7 @@ export const withDataProvider = (limit, type) => {
       }
 
       loadData = offset => {
-        const { items } = this.state;
+        const { items, type } = this.state;
         const fetchedItems = fetchData({ offset, limit });
         const newItems =
           type === Types.RELAY && offset > 0
