@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { translate } from '@restapp/i18n-client-react';
 import { Select } from '@restapp/look-client-react-native';
+
 import PaginationDemoView from '../components/PaginationDemoView.native';
 import { withDataProvider } from './DataProvider';
-import { stylesContainers as styles } from '../styles';
+import { containerStyles as styles } from '../styles';
 
 @translate('pagination')
 @withDataProvider(10)
