@@ -1,22 +1,25 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Table, Pagination } from '@restapp/look-client-react';
 import { translate } from '@restapp/i18n-client-react';
 
+const titleColumn = t => ({
+  title: t('list.column.title'),
+  dataIndex: 'title',
+  key: 'title',
+  displayName: 'MyComponent'
+});
+
 const PaginationDemoView = ({ items, handlePageChange, pagination, t }) => {
-  const renderFunc = text => <span>{text}</span>;
-  const columns = [
-    {
-      title: t('list.column.title'),
-      dataIndex: 'title',
-      key: 'title',
-      displayName: 'MyComponent',
-      render: renderFunc
-    }
-  ];
+  const dataSource = useMemo(() => {
+    return items.edges.map(({ node }) => node);
+  }, [items]);
+
+  const columns = [titleColumn(t)];
+
   return (
     <div>
-      <Table dataSource={items.edges.map(({ node }) => node)} columns={columns} />
+      <Table dataSource={dataSource} columns={columns} />
       <Pagination
         itemsPerPage={items.edges.length}
         handlePageChange={handlePageChange}
