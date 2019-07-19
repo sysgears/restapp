@@ -1,0 +1,6 @@
+export default {
+  pickerTitle: 'Choose language',
+  pickerMenu: 'Change language',
+  btnCancel: 'Cancel',
+  btnConfirm: 'Confirm'
+};
