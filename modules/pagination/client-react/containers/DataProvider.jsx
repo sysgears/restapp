@@ -15,8 +15,8 @@ const generateDataSet = total =>
 const data = generateDataSet(47);
 
 const fetchData = ({ offset, limit }) => {
-  const edges = data.slice(offset, offset + limit);
   const endCursor = offset + limit;
+  const edges = data.slice(offset, endCursor);
   const hasNextPage = endCursor < data.length;
   return {
     totalCount: data.length,
@@ -37,11 +37,11 @@ export const useDataProvider = (limit, initialType) => {
   }, [type]);
 
   const loadData = offset => {
-    const fetchedItems = fetchData({ offset, limit });
+    const dataItems = fetchData({ offset, limit });
     const newItems =
-      type === Types.RELAY && offset > 0
-        ? { ...fetchedItems, edges: items.edges.concat(fetchedItems.edges) }
-        : fetchedItems;
+      [Types.RELAY, Types.SCROLL].includes(type) && offset > 0
+        ? { ...dataItems, edges: items.edges.concat(dataItems.edges) }
+        : dataItems;
     setItems(newItems);
   };
 
