@@ -9,10 +9,8 @@ import settings from '../../../../settings';
 import PaginationDemoView from '../components/PaginationDemoView';
 import { useDataProvider, Types } from './DataProvider';
 
-const limit = 10;
-
 const PaginationDemo = ({ t }) => {
-  const { items, loadData, updateType, type } = useDataProvider(limit, Types.STANDARD);
+  const { items, updateOffset, updateType, type, limit } = useDataProvider(10, Types.STANDARD);
 
   const renderMetaData = () => {
     return (
@@ -29,7 +27,7 @@ const PaginationDemo = ({ t }) => {
   };
 
   const handlePageChange = (_, pageNumber) => {
-    loadData(pageNumber ? (pageNumber - 1) * limit : items.pageInfo.endCursor);
+    updateOffset(pageNumber ? (pageNumber - 1) * limit : items.pageInfo.endCursor);
   };
 
   const onPaginationTypeChange = e => {

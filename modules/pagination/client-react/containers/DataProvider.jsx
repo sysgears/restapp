@@ -28,13 +28,15 @@ const fetchData = ({ offset, limit }) => {
   };
 };
 
-export const useDataProvider = (limit, initialType) => {
+export const useDataProvider = (initialLimit = 20, initialType = Types.STANDARD) => {
   const [items, setItems] = useState(null);
   const [type, setType] = useState(initialType);
+  const [offset, setOffset] = useState(0);
+  const [limit] = useState(initialLimit);
 
   useEffect(() => {
-    loadData(0);
-  }, [type]);
+    loadData(offset);
+  }, [offset]);
 
   const loadData = offset => {
     const dataItems = fetchData({ offset, limit });
@@ -45,9 +47,16 @@ export const useDataProvider = (limit, initialType) => {
     setItems(newItems);
   };
 
-  const updateType = newType => setType(newType);
+  const updateType = newType => {
+    setType(newType);
+    setOffset(0);
+  };
 
-  return { items, loadData, updateType, type };
+  const updateOffset = newOffset => {
+    setOffset(newOffset);
+  };
+
+  return { items, updateType, type, limit, updateOffset };
 };
 
 /* This HOC is going to be removed once Expo version supports Hooks */
