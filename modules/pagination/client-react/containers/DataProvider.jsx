@@ -24,8 +24,7 @@ const fetchData = ({ offset, limit }) => {
       endCursor,
       hasNextPage
     },
-    edges,
-    offset
+    edges
   };
 };
 
