@@ -1,42 +1,38 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component, ReactElement } from 'react';
+import { compose } from 'redux';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { translate } from '@restapp/i18n-client-react';
+import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { Select } from '@restapp/look-client-react-native';
 
 import PaginationDemoView from '../components/PaginationDemoView.native';
 import { containerStyles as styles } from '../styles';
-import { withDataProvider, Types } from './DataProvider';
+import { withDataProvider, Types, ComponentWrapper } from './DataProvider';
+
+interface PaginationComponent extends ComponentWrapper {
+  t: TranslateFunction;
+}
 
 const limit = 10;
 
-@translate('pagination')
-@withDataProvider(limit, Types.STANDARD)
-class PaginationDemo extends Component {
-  static propTypes = {
-    t: PropTypes.func,
-    items: PropTypes.object,
-    loadData: PropTypes.func,
-    type: PropTypes.string.isRequired,
-    updateType: PropTypes.func.isRequired
-  };
-
-  onPaginationTypeChange = itemValue => {
+class PaginationDemo extends Component<PaginationComponent> {
+  public onPaginationTypeChange = (itemValue: string) => {
     const { loadData, updateType } = this.props;
     updateType(itemValue);
     loadData(0);
   };
 
-  handlePageChange = (_, pageNumber) => {
+  public handlePageChange = (_: string, pageNumber: number) => {
     const { items, loadData } = this.props;
     loadData(pageNumber ? (pageNumber - 1) * limit : items.pageInfo.endCursor);
   };
 
-  renderItem = ({
+  public renderItem = ({
     item: {
       node: { title }
     }
-  }) => {
+  }: {
+    item: { node: { id: number; title: string } };
+  }): ReactElement => {
     return (
       <TouchableOpacity style={styles.postWrapper}>
         <Text style={styles.text}>{title}</Text>
@@ -44,13 +40,13 @@ class PaginationDemo extends Component {
     );
   };
 
-  getOptions = () => [
+  public getOptions = () => [
     { value: Types.STANDARD, label: this.props.t('list.title.standard') },
     { value: Types.RELAY, label: this.props.t('list.title.relay') },
     { value: Types.SCROLL, label: this.props.t('list.title.scroll') }
   ];
 
-  render() {
+  public render() {
     const { t, items, type } = this.props;
 
     return (
@@ -84,4 +80,7 @@ class PaginationDemo extends Component {
   }
 }
 
-export default PaginationDemo;
+export default compose(
+  translate('pagination'),
+  withDataProvider(limit, Types.STANDARD)
+)(PaginationDemo);

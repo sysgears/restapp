@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { View, ScrollView, FlatList, Text } from 'react-native';
+import { View, ScrollView, FlatList, Text, ListRenderItem } from 'react-native';
 import { Pagination } from '@restapp/look-client-react-native';
-import { translate } from '@restapp/i18n-client-react';
+import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 
-import { Types } from '../containers/DataProvider';
+import { Types, Items } from '../containers/DataProvider';
 import { viewStyles as styles } from '../styles';
 
-@translate('pagination')
-class PaginationDemoView extends Component {
-  render() {
+interface PaginationDemo {
+  items: Items;
+  handlePageChange: (type: string, pageNumber: number) => void;
+  renderItem: ListRenderItem<{ cursor: number; node: { id: number; title: string } }>;
+  type: string;
+  pageSize: number;
+  t: TranslateFunction;
+}
+
+class PaginationDemoView extends Component<PaginationDemo> {
+  public allowDataLoad: boolean = true;
+  public render() {
     const { items, handlePageChange, renderItem, type, t, pageSize } = this.props;
 
-    const renderHeader = t => {
-      return <Text style={styles.title}>{t}</Text>;
+    const renderHeader = (text: string) => {
+      return <Text style={styles.title}>{text}</Text>;
     };
 
     const handleScrollEvent = () => {
@@ -26,8 +34,6 @@ class PaginationDemoView extends Component {
     };
 
     const titleText = t('list.column.title');
-    this.allowDataLoad = true;
-
     return type === Types.STANDARD ? (
       <View style={styles.container}>
         <View style={styles.listContainer}>
@@ -85,13 +91,4 @@ class PaginationDemoView extends Component {
   }
 }
 
-PaginationDemoView.propTypes = {
-  t: PropTypes.func,
-  items: PropTypes.object,
-  handlePageChange: PropTypes.func,
-  renderItem: PropTypes.func,
-  type: PropTypes.string,
-  pageSize: PropTypes.number.isRequired
-};
-
-export default PaginationDemoView;
+export default translate('pagination')(PaginationDemoView);

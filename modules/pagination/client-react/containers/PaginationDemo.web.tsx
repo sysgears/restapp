@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 
 import { PageLayout, Select, Option } from '@restapp/look-client-react';
-import { translate } from '@restapp/i18n-client-react';
+import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import settings from '../../../../settings';
-
-import PaginationDemoView from '../components/PaginationDemoView';
 import { useDataProvider, Types } from './DataProvider';
+import PaginationDemoView from '../components/PaginationDemoView.web';
 
-const PaginationDemo = ({ t }) => {
+const PaginationDemo = ({ t }: { [key: string]: TranslateFunction }) => {
   const { items, updateOffset, updateType, type, limit } = useDataProvider(10, Types.STANDARD);
 
   const renderMetaData = () => {
@@ -26,11 +25,11 @@ const PaginationDemo = ({ t }) => {
     );
   };
 
-  const handlePageChange = (_, pageNumber) => {
+  const handlePageChange = (_: any, pageNumber: number) => {
     updateOffset(pageNumber ? (pageNumber - 1) * limit : items.pageInfo.endCursor);
   };
 
-  const onPaginationTypeChange = e => {
+  const onPaginationTypeChange = (e: { target: { name: string; value: string } }) => {
     updateType(e.target.value);
   };
 

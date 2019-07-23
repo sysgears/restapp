@@ -1,13 +1,13 @@
 import React from 'react';
 import { NavLink, Route } from 'react-router-dom';
-import { translate } from '@restapp/i18n-client-react';
+import { translate, TranslateFunction } from '@restapp/i18n-client-react';
 import { MenuItem } from '@restapp/look-client-react';
 import ClientModule from '@restapp/module-client-react';
-import PaginationDemo from './containers/PaginationDemo';
+import PaginationDemo from './containers/PaginationDemo.web';
 
 import resources from './locales';
 
-const NavLinkWithI18n = translate('pagination')(({ t }) => (
+const NavLinkWithI18n = translate('pagination')(({ t }: { [key: string]: TranslateFunction }) => (
   <NavLink to="/pagination" className="nav-link" activeClassName="active">
     {t('pagination:navLink')}
   </NavLink>

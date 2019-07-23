@@ -16,7 +16,7 @@ export default new ClientModule({
         screen: createStackNavigator({
           Pagination: {
             screen: PaginationDemo,
-            navigationOptions: ({ navigation }) => ({
+            navigationOptions: ({ navigation }: any) => ({
               headerTitle: <HeaderTitleWithI18n style="subTitle" />,
               headerLeft: (
                 <IconButton iconName="menu" iconSize={32} iconColor="#0275d8" onPress={() => navigation.openDrawer()} />

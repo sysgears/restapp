@@ -1,18 +1,27 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Table, Pagination } from '@restapp/look-client-react';
-import { translate } from '@restapp/i18n-client-react';
+import { translate, TranslateFunction } from '@restapp/i18n-client-react';
+import { Items } from '../containers/DataProvider';
 
-const titleColumn = t => ({
+interface PaginationDemo {
+  type: string;
+  t: TranslateFunction;
+  pageSize: number;
+  handlePageChange: (_: any, pageNumber: number) => void;
+  items: Items | null;
+}
+
+const titleColumn = (t: TranslateFunction) => ({
   title: t('list.column.title'),
   dataIndex: 'title',
   key: 'title',
   displayName: 'MyComponent'
 });
 
-const PaginationDemoView = ({ items, handlePageChange, type, t, pageSize }) => {
+const PaginationDemoView = ({ items, handlePageChange, type, t, pageSize }: PaginationDemo) => {
   const dataSource = useMemo(() => {
-    return items.edges.map(({ node }) => node);
+    return items.edges.map(({ node }: { node: { id: number; title: string } }) => node);
   }, [items]);
 
   const columns = [titleColumn(t)];
