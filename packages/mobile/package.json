@@ -72,6 +72,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@alienfast/i18next-loader": "^1.0.16",
     "@types/expo": "^30.0.0",
     "@types/expo__vector-icons": "^6.2.3",
     "@types/jest": "^24.0.13",
