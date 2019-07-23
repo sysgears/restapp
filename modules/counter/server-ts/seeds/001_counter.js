@@ -2,7 +2,7 @@ import { returnId, truncateTables } from '@restapp/database-server-ts';
 
 const initialAmount = 5;
 
-export default async function seed(knex) {
+export async function seed(knex) {
   await truncateTables(knex, Promise, ['counter']);
 
   return returnId(knex('counter')).insert({ amount: initialAmount });
