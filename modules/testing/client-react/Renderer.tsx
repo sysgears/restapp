@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Router, Switch } from 'react-router-dom';
 import createHistory, { MemoryHistory } from 'history/createMemoryHistory';
 import { JSDOM } from 'jsdom';
@@ -44,6 +44,10 @@ export class Renderer {
 
     this.store = store;
     this.history = history;
+  }
+
+  public withRedux(component: ReactElement<any>) {
+    return ref.clientModules.getWrappedRoot(<Provider store={this.store}>{component}</Provider>);
   }
 
   public mount() {
