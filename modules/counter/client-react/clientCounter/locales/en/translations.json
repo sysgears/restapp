@@ -1,0 +1,4 @@
+{
+    "text": "The current counter value is {{counterAmount}}. It's stored on the client.",
+    "btnLabel": "Increase user counter"
+}
