@@ -1,4 +1,9 @@
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+
 import { ActionType } from '../reducers';
+
+export const mock = new MockAdapter(axios);
 
 interface Types<AT> {
   REQUEST?: AT;
