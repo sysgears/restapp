@@ -28,4 +28,4 @@ export const cleanup = () => {
   }
 };
 
-export const getServer = () => server;
+export const getServer = () => server || `http://localhost:${process.env.PORT}`;

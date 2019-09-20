@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Router, Switch } from 'react-router-dom';
 import createHistory, { MemoryHistory } from 'history/createMemoryHistory';
 import { JSDOM } from 'jsdom';
-import { combineReducers, createStore, Store } from 'redux';
+import { Store } from 'redux';
 import { Provider } from 'react-redux';
-
+import { createReduxStore } from '@restapp/core-common';
 import ClientModule from '@restapp/module-client-react';
 
 if (!process.env.JEST_WORKER_ID) {
@@ -32,18 +32,22 @@ export class Renderer {
   private store: Store;
   public history: MemoryHistory<any>;
 
-  constructor(reduxState?: any) {
-    const store = createStore(
-      combineReducers({
-        ...ref.clientModules.reducers
-      }),
-      reduxState || {}
+  constructor() {
+    const store = createReduxStore(
+      Object.keys(ref.clientModules.reducers).length > 0 ? ref.clientModules.reducers : state => state,
+      {}, // initial state
+      null,
+      ref.clientModules.reduxMiddlewares
     );
 
     const history = createHistory();
 
     this.store = store;
     this.history = history;
+  }
+
+  public withRedux(component: ReactElement<any>) {
+    return ref.clientModules.getWrappedRoot(<Provider store={this.store}>{component}</Provider>);
   }
 
   public mount() {
