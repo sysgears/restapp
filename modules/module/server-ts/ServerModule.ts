@@ -15,7 +15,7 @@ interface CreateContextFuncProps {
 }
 
 /**
- * A function with reuqest.
+ * A function with reqest.
  *
  * @param req HTTP request
  * @param res HTTP response
@@ -40,6 +40,13 @@ type CreateContextFunc = (props: CreateContextFuncProps) => { [key: string]: any
  */
 type MiddlewareFunc = (app: Express, appContext: { [key: string]: any }) => void;
 
+export enum RestMethod {
+  POST = 'post',
+  GET = 'get',
+  PUT = 'put',
+  DELETE = 'delete'
+}
+
 /**
  * Server feature modules interface
  */
@@ -50,7 +57,7 @@ export interface ServerModuleShape extends CommonModuleShape {
   beforeware?: MiddlewareFunc[];
   // A list of functions to register normal-priority middlewares
   middleware?: MiddlewareFunc[];
-  accessMiddleware?: RequestHandler;
+  accessMiddleware?: RequestHandler[];
   apiRouteParams?: Array<{
     method: RestMethod;
     route: string;
@@ -83,16 +90,17 @@ class ServerModule extends CommonModule {
       this.apiRouteParams &&
       this.apiRouteParams.map(({ method, route, controller, isAuthRoute, middleware }) => {
         return (app: Express, modules: ServerModule) => {
-          const handlers = [controller]
+          const handlers = []
             .concat(!isEmpty(middleware) ? middleware : [])
-            .concat(isAuthRoute ? [modules.accessMiddleware] : []);
+            .concat(isAuthRoute ? [...modules.accessMiddleware] : []);
+
+          handlers.push(controller);
 
           app[method](`/api/${route}`, ...handlers);
         };
       })
     );
   }
-
   /**
    * Creates context for this module
    *
@@ -110,13 +118,6 @@ class ServerModule extends CommonModule {
     }
     return context;
   }
-}
-
-export enum RestMethod {
-  POST = 'post',
-  GET = 'get',
-  PUT = 'put',
-  DELETE = 'delete'
 }
 
 export default ServerModule;

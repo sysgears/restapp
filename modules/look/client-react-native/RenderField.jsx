@@ -13,9 +13,7 @@ const RenderField = ({ input, label, meta: { touched, error }, ...inputProps }) 
       onFocus={input.onFocus}
       {...inputProps}
       error={touched && error ? error : ''}
-    >
-      {label}
-    </InputItem>
+    />
   );
 };
 

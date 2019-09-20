@@ -1,13 +1,11 @@
-export const isFormError = (err: any) => err instanceof FormError;
-
 export class FormError {
   private readonly _errors: { [key: string]: any };
 
-  constructor(errorMsg: string, err?: any) {
+  constructor(message: string, err?: any) {
     if (err) {
       throw err;
     } else {
-      this._errors = { errorMsg };
+      this._errors = { message };
     }
   }
 

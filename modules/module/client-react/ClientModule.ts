@@ -1,6 +1,6 @@
 import React from 'react';
-import { Middleware } from 'redux';
 import BaseModule, { BaseModuleShape } from './BaseModule';
+import { Middleware } from 'redux';
 
 /**
  * React client feature modules interface.

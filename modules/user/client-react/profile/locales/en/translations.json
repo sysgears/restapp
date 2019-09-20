@@ -1,0 +1,25 @@
+{
+  "navLink": {
+    "profile": "Profile",
+    "editProfile": "Edit profile"
+  },
+  "profile": {
+    "title": "Profile",
+    "headerText": "Profile info",
+    "meta": "A Profile page example",
+    "loadMsg": "Loading...",
+    "errorMsg": "No current user is logged in",
+    "editProfileText": "Edit Profile",
+    "card": {
+      "title": "Profile",
+      "group": {
+        "name": "User Name",
+        "email": "Email",
+        "role": "Role",
+        "full": "Full Name"
+      },
+      "fldEmail": "Email",
+      "btnSubmit": "Send instructions"
+    }
+  }
+}

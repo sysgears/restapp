@@ -4,10 +4,12 @@ import i18n from '@restapp/i18n-server-ts';
 import validation from '@restapp/validation-common-react';
 import cookies from '@restapp/cookies-server-ts';
 import mailer from '@restapp/mailer-server-ts';
+import user from '@restapp/user-server-ts';
+import authentication from '@restapp/authentication-server-ts';
 import '@restapp/debug-server-ts';
 
 import ServerModule from '@restapp/module-server-ts';
 
-const modules: ServerModule = new ServerModule(welcome, cookies, i18n, validation, mailer, core);
+const modules: ServerModule = new ServerModule(authentication, welcome, cookies, i18n, validation, mailer, core, user);
 
 export default modules;

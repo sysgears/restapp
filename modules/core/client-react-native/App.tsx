@@ -6,7 +6,6 @@ import ClientModule from '@restapp/module-client-react-native';
 import settings from '../../../settings';
 import createReduxStore from '../../../packages/common/createReduxStore';
 import log from '../../../packages/common/log';
-
 const { protocol, pathname, port } = url.parse(__API_URL__);
 
 interface MainProps {

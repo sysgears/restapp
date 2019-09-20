@@ -1,6 +1,6 @@
 import express from 'express';
-import path from 'path';
 import bodyParser from 'body-parser';
+import path from 'path';
 
 import { isApiExternal } from '@restapp/core-common';
 import ServerModule from '@restapp/module-server-ts';
@@ -30,8 +30,7 @@ const createServerApp = (modules: ServerModule) => {
     if (modules.apiRoutes) {
       modules.apiRoutes.forEach(applyMiddleware => applyMiddleware(app, modules));
     }
-
-    app.get('/api', (req, res) => res.json({ message: 'REST API: Success' }));
+    app.get('/api', (req, res, next) => res.json({ message: 'REST API: Success' }));
   }
 
   app.use(websiteMiddleware(modules));
