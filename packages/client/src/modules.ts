@@ -8,7 +8,8 @@ import defaultRouter from '@restapp/router-client-react';
 import '@restapp/favicon-common';
 
 const pageNotFound = require('@restapp/page-not-found-client-react').default;
+const pagination = require('@restapp/pagination-client-react').default;
 
-const modules = new ClientModule(welcome, look, validation, defaultRouter, i18n, pageNotFound, core);
+const modules = new ClientModule(pagination, welcome, look, validation, defaultRouter, i18n, pageNotFound, core);
 
 export default modules;
