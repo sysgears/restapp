@@ -1,0 +1,26 @@
+{
+  "navLink": "Upload",
+  "title": "Upload",
+  "meta": "An Upload page example",
+  "message": "Drag and drop some files here or click to select files for upload.",
+  "table": {
+    "column": {
+      "name": "File name",
+      "actions": "Actions"
+    },
+    "btnDel": "Delete"
+  },
+  "nativeMock": "Hello, Upload!",
+  "loading": "Loading...",
+  "download": {
+    "successMsg": "The file was downloaded to the gallery",
+    "errorMsg": "Access error!"
+  },
+  "upload": {
+    "btn": "Upload",
+    "errorMsg": "This file type is not supported",
+    "media": "Upload from media",
+    "documents": "Upload from documents",
+    "cancel": "Cancel"
+  }
+}
